@@ -1,7 +1,7 @@
 # Requirements — Cyber Incident Investigation Intelligence
 
 **Phase 1 of Spec → Design → Tasks → Implement → Validate.**
-Status: **draft — blocked on 18 open questions (§12.1).** Date: 2026-09-22.
+Status: **draft — blocked on 20 open questions (§12.1).** Date: 2026-09-22.
 Incident under investigation: `INC-2026-0610-001`.
 
 This document says *what* the system must do and *how we will know it did it*. It deliberately
@@ -218,7 +218,11 @@ narrative. Whether they are produced as repository artifacts or prepared separat
 | **Attack-attributed** | An event the system has concluded is part of the intrusion, reached by applying correlation rules to observations — never by reading a leak field (§7.3) |
 | **Coverage gap** | A question the ingested logs structurally cannot answer |
 | **Leak field** | A dataset artifact that reveals the answer without investigative reasoning (§7.3) |
-| **Answer record** | The persisted trace of one question: the question, the answer, the versions in play, the steps taken and the citations returned |
+| **Answer record** | The persisted trace of one question, containing exactly: the question as asked, the answer as rendered, the software and ATT&CK catalogue versions, the ordered list of investigative steps taken, and every citation returned |
+| **Temporal adjacency** | Two events falling within a defined correlation window of one another. The window value is not ratified — **Q-R-19** |
+| **Contradicting evidence** | Two or more events asserting mutually exclusive facts about the same entity over overlapping time — an account authenticating interactively from two hosts at one moment, a file deleted before it was created, a process exiting before its child starts. Which contradictions are detectable is a design matter (**Q-D-07**); that they must be reported is R-COR-09 |
+| **Citation support** | A citation supports a statement when the cited event contains the field values the statement asserts. A statement spanning several events is supported only when every asserted value appears in at least one cited event |
+| **Ambiguous resolution** | An entity resolution returning more than one candidate (R-ENT-02) |
 
 ---
 
@@ -255,7 +259,7 @@ likelihood and confidence are separate and are never combined in one sentence.
 
 | Confidence | Assigned when |
 |---|---|
-| **High** | ≥2 independent source types corroborate, and no ingested event contradicts |
+| **High** | ≥2 independent source types corroborate, and no contradicting evidence (§4) exists |
 | **Moderate** | A single source type (any number of events), or a required entity resolution had exactly one candidate |
 | **Low** | The inference depends on absence of evidence, **or** on an entity resolution with >1 candidate, **or** on a single event |
 
@@ -351,7 +355,7 @@ The sections above describe the contract; these requirements make it testable.
 - **R-COR-03** The system SHALL correlate events across source types using at minimum: shared
   account, shared host, shared IP address (subject to R-ENT-02), process lineage
   (`parent_process` → `process_name`), exact equality of file name **and** file size, and
-  temporal adjacency.
+  temporal adjacency as defined in §4. → **Q-R-19** (correlation window unratified)
 - **R-COR-04** WHEN an `endpoint` file-creation event and a `cloud_storage` upload event share both
   file name and file size exactly, the system SHALL emit a staged-then-exfiltrated correlation
   linking the two events.
@@ -513,8 +517,9 @@ precedence over every requirement in §6: **a suppressed answer is preferable to
   SHALL withhold the answer and SHALL report which statement failed.
 - **R-UB-02** IF a citation references an `event_id` not present in the dataset, THEN the system SHALL
   withhold the answer and SHALL report a citation-integrity failure.
-- **R-UB-03** IF a citation references a real event that does not support the statement made, THEN the
-  system SHALL treat this as a citation-integrity failure.
+- **R-UB-03** IF a citation references a real event that does not support the statement made, in the
+  sense defined by **citation support** in §4, THEN the system SHALL treat this as a
+  citation-integrity failure.
 - **R-UB-04** IF the evidence required for a conclusion is absent, THEN the system SHALL state the
   limitation explicitly and SHALL NOT substitute inference for the missing evidence.
 - **R-UB-05** IF a rendered sentence would contain both a likelihood term and a confidence level,
@@ -565,8 +570,9 @@ prototype as a demonstration.
   a human-readable form so that each pipeline stage can be examined independently.
 - **R-NFR-06 (Bounded cost)** The number of language-model invocations per user question SHALL be
   bounded and reported.
-- **R-NFR-07 (Reviewability)** No module SHALL be so large that its behaviour cannot be reviewed
-  against the requirement it implements.
+- **R-NFR-07 (Reviewability)** Every source file SHALL stay within a stated line-count ceiling, and
+  any file exceeding it SHALL be reported by the build. Proposed ceiling: 400 lines.
+  → **Q-R-20** (ceiling unratified)
 - **R-NFR-08 (Secrets)** Credentials SHALL be supplied by environment and SHALL NOT be committed.
 - **R-NFR-09 (Startup)** The system SHALL start from a documented single command.
 - **R-NFR-10 (Demo resilience)** The demonstrable path SHALL NOT depend on network access to any
@@ -574,9 +580,8 @@ prototype as a demonstration.
 - **R-NFR-11 (Data egress)** The system SHALL document precisely what log content leaves the local
   machine, and SHALL NOT transmit log content to any third party other than as documented.
   → **Q-R-07**
-- **R-NFR-12 (Chain of custody)** The system SHALL persist an answer record (§4) for every answer it
-  produces, sufficient for a third party to reconstruct how the conclusion was reached.
-  → **Q-R-10**
+- **R-NFR-12 (Chain of custody)** The system SHALL persist an answer record, containing every
+  element enumerated in the §4 definition, for every answer it produces. → **Q-R-10**
 - **R-NFR-13 (Testability)** Every requirement in §6 and §7 SHALL be verifiable by an automated test
   or a documented manual procedure (measured by R-VAL-07).
 - **R-NFR-14 (Error transparency)** IF any pipeline stage fails, THEN the system SHALL report which
@@ -740,6 +745,8 @@ Nothing below has been decided. Requirements that depend on these carry a `→ Q
 | **Q-R-16** | Should the system surface the suspicious-but-benign events it considered and dismissed? It builds analyst trust; it also adds noise | R-COR-10 | Could-have |
 | **Q-R-17** | When two events support incompatible conclusions, report both with reduced confidence, or decline to conclude? | R-COR-09 | Report both |
 | **Q-R-18** | Are assignment deliverables 2 (walkthrough) and 3 (trust / agentic-design / product discussion) produced as repository artifacts in `docs/writeup/` and `docs/architecture/`, or prepared separately outside this spec? Both are graded | §3.8 | Repository artifacts — they reuse §11 and §12.2 directly |
+| **Q-R-19** | What correlation window defines temporal adjacency? Too wide and unrelated background events join the chain; too narrow and the 3-hour gap between staging and upload breaks the exfiltration correlation. The attack's own inter-event gaps range from 2 seconds to 2h27m | §4, R-COR-03 | Unresolved — needs a value, or a per-rule window rather than one global figure |
+| **Q-R-20** | What per-file line-count ceiling, and is a build-time check worth the setup at this scale? | R-NFR-07 | 400 lines |
 
 ### 12.2 Design-level — deferred to Phase 2, not blocking
 
@@ -779,7 +786,7 @@ These are mechanism. Recorded here so they are not lost.
 
 ## 14. Review
 
-Phase 1 is complete when **all 18 questions in §12.1 are answered** and the reviewer confirms:
+Phase 1 is complete when **all 20 questions in §12.1 are answered** and the reviewer confirms:
 
 - [ ] The success criteria in §1.1 are the right criteria
 - [ ] The system boundary in §3.1 draws the line in the right place
