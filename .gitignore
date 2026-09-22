@@ -1,0 +1,64 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+.eggs/
+MANIFEST
+
+# ---- Virtual environments ----
+.venv/
+venv/
+env/
+ENV/
+
+# ---- Testing / type checking / linting ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ---- Notebooks ----
+.ipynb_checkpoints/
+
+# ---- Secrets / local config ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# ---- Editors / OS ----
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Streamlit local state ----
+.streamlit/secrets.toml
+
+# ---- Generated artifacts ----
+outputs/*
+!outputs/.gitkeep
+*.log
+
+# ---- Data: intentionally NOT ignored ----
+# The SIEM dataset in data/ ships with this assignment and is part of the repo.
+# Do not add data/ here. Committed on purpose:
+#   data/raw/      provided synthetic dataset (siem_logs.json)
+#   data/attack/   cached MITRE ATT&CK catalogue (reproducibility of the mapping)
+#   data/derived/  structured intermediate representations the pipeline emits

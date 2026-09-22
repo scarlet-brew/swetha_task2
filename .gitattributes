@@ -1,0 +1,13 @@
+# Line endings: LF in the repository and in the working tree.
+# Keeps a Windows checkout byte-identical to a Linux one.
+* text=auto eol=lf
+
+# Binary assets - git must never apply EOL conversion to these.
+# The assignment PDF is small enough that git guessed "text" without this.
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.zip   binary
+*.xlsx  binary
+*.docx  binary
+*.pptx  binary
