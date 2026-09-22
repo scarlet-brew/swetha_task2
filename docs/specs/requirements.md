@@ -1,16 +1,23 @@
 # Requirements — Cyber Incident Investigation Intelligence
 
 **Phase 1 of Spec → Design → Tasks → Implement → Validate.**
-Status: **draft for review.** Date: 2026-09-22. Incident under investigation: `INC-2026-0610-001`.
+Status: **draft — blocked on 17 open questions (§12.1).** Date: 2026-09-22.
+Incident under investigation: `INC-2026-0610-001`.
 
 This document says *what* the system must do and *how we will know it did it*. It deliberately
 contains no architecture, no technology choices, and no mechanism. Those belong in
 [design.md](design.md).
 
 Requirements use [EARS](https://alistairmavin.com/ears/) syntax — a fixed clause order and a
-small keyword set (`WHEN`, `WHILE`, `WHERE`, `IF/THEN`, `SHALL`) chosen because it makes each
+small keyword set (`WHEN`, `WHILE`, `WHERE`, `IF`/`THEN`, `SHALL`) chosen because it makes each
 requirement independently testable. Requirement IDs are stable and are referenced by
 `tasks.md` and by the validation harness.
+
+**Nothing in this document is settled by assumption.** Where a value or a policy has not been
+ratified, the requirement carries a proposed value *and* a pointer to an open question —
+`→ Q-R-nn`. Those questions are listed in §12.1 and every one of them blocks Phase 1 sign-off.
+Proposed values are written in full rather than left as `TBD` so that the requirement stays
+testable while the number is being argued about.
 
 ---
 
@@ -74,7 +81,8 @@ operator of it.
 All four source types are retained deliberately: dropping any one severs the chain. `network`
 carries the only command-and-control evidence, `auth` carries the only lateral-movement
 authentication evidence, and the exfiltration conclusion requires joining `endpoint` to
-`cloud_storage`.
+`cloud_storage`. This is a derivation from the data, not a preference — but it is still a scope
+decision a reviewer should ratify (§14).
 
 ### 3.2 Out of scope
 
@@ -97,6 +105,7 @@ See §11 for each cut and its rationale.
 | **Attack-attributed** | An event the system has concluded is part of the intrusion, reached by applying correlation rules to observations — never by reading a leak field (§7.3) |
 | **Coverage gap** | A question the ingested logs structurally cannot answer |
 | **Leak field** | A dataset artifact that reveals the answer without investigative reasoning (§7.3) |
+| **Answer record** | The persisted trace of one question: the question, the answer, the versions in play, the steps taken and the citations returned |
 
 ---
 
@@ -111,17 +120,18 @@ Every statement the system makes is exactly one of two classes.
 
 | Class | Definition | Must carry | Must not carry |
 |---|---|---|---|
-| **Observation** | Directly recorded in ≥1 event | ≥1 citation | Likelihood or confidence markers |
+| **Observation** | Directly recorded in ≥1 event | ≥1 citation | Likelihood or confidence markers → **Q-R-02** |
 | **Inference** | Derived by correlating ≥2 observations, or by reasoning over absence | ≥1 citation, a likelihood term, a confidence level, and the **name of the correlation rule applied** | — |
 
-Observations carry no estimative language because they are not estimates. "`EVT-0238` records a
-2,473,829,122-byte upload to bucket `ext-drop-xf9q2`" is a line in a log, not a judgement.
-Prefixing it with "almost certainly" would be false precision.
+The proposal is that observations carry no estimative language, because they are not estimates:
+"`EVT-0238` records a 2,473,829,122-byte upload to bucket `ext-drop-xf9q2`" is a line in a log,
+not a judgement, and prefixing it with "almost certainly" would be false precision. **This is
+not ratified — see Q-R-02.**
 
-### 5.2 Two axes of uncertainty
+### 5.2 Two axes of uncertainty → **Q-R-01**, **Q-R-03**
 
-Following [ICD 203](https://github.com/wesinator/ICD203-intel-analysis), likelihood and
-confidence are separate and are never combined in one sentence.
+The proposed model follows [ICD 203](https://github.com/wesinator/ICD203-intel-analysis):
+likelihood and confidence are separate and are never combined in one sentence.
 
 - **Likelihood** — how probable the proposition is. Controlled vocabulary:
   `almost no chance` (01–05%), `very unlikely` (05–20%), `unlikely` (20–45%),
@@ -136,17 +146,15 @@ confidence are separate and are never combined in one sentence.
 | **Moderate** | A single source type (any number of events), or a required entity resolution had exactly one candidate |
 | **Low** | The inference depends on absence of evidence, **or** on an entity resolution with >1 candidate, **or** on a single event |
 
-> **ASSUMPTION — confirm or correct.** §5.1 and §5.2 encode a recommendation that was proposed
-> but not explicitly ratified. The two open points: (a) whether observations should carry no
-> likelihood marker, as written, or whether every line should carry one for visual consistency;
-> (b) whether the confidence rules above are defensible as stated. If the schedule tightens, the
-> documented fallback is the same two-class taxonomy with a three-tier scale
-> (`Confirmed`/`Probable`/`Unconfirmed`) and no percentage bands — the two-axis separation
-> survives, the vocabulary simplifies.
+The documented fallback, should this prove too much machinery for the schedule, is the same
+two-class taxonomy with a three-tier scale (`Confirmed`/`Probable`/`Unconfirmed`) and no
+percentage bands: the two-axis separation survives and the vocabulary simplifies. **Neither the
+vocabulary (Q-R-01) nor the corroboration thresholds (Q-R-03) are ratified.**
 
 ### 5.3 Worked examples from this dataset
 
-These are normative: the system's output for these five claims is checked against this table.
+Normative once §5.2 is ratified: the system's output for these five claims is checked against
+this table.
 
 | Claim | Class | Corroborating source types | Likelihood | Confidence |
 |---|---|---|---|---|
@@ -175,7 +183,7 @@ The sections above describe the contract; these requirements make it testable.
 - **R-CLM-04** The system SHALL derive confidence levels mechanically from the corroboration rules in
   §5.2, and SHALL NOT permit a language model to assign or alter a confidence level.
 - **R-CLM-05** IF the system asserts an observation, THEN it SHALL NOT attach a likelihood term or a
-  confidence level to it.
+  confidence level to it. → **Q-R-02**
 
 ---
 
@@ -199,6 +207,12 @@ The sections above describe the contract; these requirements make it testable.
 - **R-ING-07** The system SHALL classify every IP address as internal or external using the
   subnets declared in the dataset `metadata`, and SHALL NOT hardcode a subnet list independently
   of that metadata.
+- **R-ING-08** IF the source dataset cannot be parsed, or does not contain the expected top-level
+  structure, THEN the system SHALL abort with a diagnostic naming the failure and SHALL NOT emit a
+  partial reconstruction.
+- **R-ING-09** The system SHALL treat the source dataset as read-only and SHALL NOT modify it.
+- **R-ING-10** WHEN two events carry identical timestamps, the system SHALL apply a documented,
+  deterministic tie-break that does not depend on `event_id` ordinal value (R-UB-13).
 
 ### 6.2 Entity resolution — `R-ENT`
 
@@ -237,12 +251,19 @@ The sections above describe the contract; these requirements make it testable.
 - **R-COR-08** WHEN privilege level changes across the timeline, the system SHALL attribute the
   change to the mechanism evidenced by events, and SHALL NOT assert an exploitation or bypass
   mechanism that no event evidences.
+- **R-COR-09** IF two or more ingested events support mutually incompatible conclusions, THEN the
+  system SHALL report the conflict, cite every event involved, and SHALL NOT silently prefer one.
+  → **Q-R-17**
+- **R-COR-10** The system SHALL record every event it evaluated as potentially attack-related and
+  did not attribute to the attack, together with the reason for rejection. → **Q-R-16**
 
 > R-COR-06 is what separates "not present in the environment" from "not looked for" — the
 > distinction the previous tool collapsed when it missed lateral movement. R-COR-08 exists because
 > this intrusion escalates `medium → high → SYSTEM` entirely through stolen credentials and service
 > execution; there is no exploit event, and a system asked for "privilege escalation" will
-> otherwise invent one.
+> otherwise invent one. R-COR-10 exists because the dataset is deliberately baited — 14 scattered
+> authentication failures, benign outbound SSH, benign file-sharing — and an analyst's trust
+> depends on seeing what was dismissed, not only what was flagged.
 
 ### 6.4 MITRE ATT&CK enrichment — `R-ATK`
 
@@ -257,6 +278,12 @@ The sections above describe the contract; these requirements make it testable.
 - **R-ATK-05** IF an observed behaviour has no technique that its evidence supports, THEN the system
   SHALL report the behaviour as **unmapped** rather than assigning the nearest-matching technique.
 - **R-ATK-06** The system SHALL associate each asserted technique with its ATT&CK tactic.
+- **R-ATK-07** The system SHALL record the version of the ATT&CK catalogue in use and SHALL include
+  it in every output that asserts techniques.
+
+> R-ATK-07 is a traceability requirement, not bookkeeping: technique IDs are deprecated, renamed
+> and re-parented between ATT&CK releases. A mapping handed to a legal team is meaningless without
+> the catalogue version it was made against.
 
 ### 6.5 Blast radius — `R-BLR`
 
@@ -298,6 +325,17 @@ The sections above describe the contract; these requirements make it testable.
 - **R-QRY-06** WHEN asked for an executive summary, the system SHALL produce one whose every
   assertion is traceable to the reconstruction, within the length the user requested.
 - **R-QRY-07** The system SHALL answer a question about the incident within 60 seconds.
+  → **Q-R-04** (threshold unratified)
+- **R-QRY-08** WHEN asked about a specific entity — an account, host, IP address, file or bucket —
+  the system SHALL return every attack-attributed event referencing that entity, with citations.
+- **R-QRY-09** WHEN a question scopes a time range, the system SHALL restrict its answer to events
+  within that range and SHALL state the range it applied.
+- **R-QRY-10** WHEN a question refers to the preceding exchange, the system SHALL resolve the
+  reference against the conversation and SHALL state what it resolved it to. → **Q-R-09**
+
+> R-QRY-08 is the analyst's actual working motion: pivot on an entity, see everything touching it.
+> R-QRY-10 is how follow-up questions work at all ("and what about that host?"), but whether
+> conversational memory is in scope is unratified.
 
 ### 6.8 Interface — `R-UI`
 
@@ -311,11 +349,24 @@ The sections above describe the contract; these requirements make it testable.
   reachable without asking a question.
 - **R-UI-05** WHILE an answer is being generated, the system SHALL display the investigative steps
   taken, including which tools were invoked.
+- **R-UI-06** WHEN displaying any timestamp, the system SHALL include an explicit timezone
+  designator. → **Q-R-13**
 
 > R-UI-05 is a trust requirement, not a progress indicator: an analyst who can see the steps can
 > judge whether the reasoning was sound.
 
-### 6.9 Validation harness — `R-VAL`
+### 6.9 Reporting and handover — `R-RPT` → **Q-R-08**
+
+The assignment's framing is that the output goes to a board and a legal team. That implies a
+handover artifact rather than a screen. Whether one is in scope, and in what form, is unratified.
+
+- **R-RPT-01** The system SHALL produce a self-contained report of the reconstruction containing the
+  timeline, the asserted techniques, the blast radius, the coverage gaps, and every citation.
+- **R-RPT-02** The report SHALL state the dataset identifier, the ATT&CK catalogue version
+  (R-ATK-07), the software version, and the time of generation.
+- **R-RPT-03** The report SHALL be readable without access to the running system.
+
+### 6.10 Validation harness — `R-VAL`
 
 - **R-VAL-01** The harness SHALL score the system's attack-event identification against the dataset's
   `note` annotations as ground truth, reporting precision and recall overall and per attack phase.
@@ -330,6 +381,8 @@ The sections above describe the contract; these requirements make it testable.
 - **R-VAL-05** The harness SHALL verify that no rendered sentence contains both a likelihood term
   and a confidence term (§5.2).
 - **R-VAL-06** WHERE the `note` field is read, it SHALL be read only by the validation harness.
+- **R-VAL-07** The harness SHALL verify that every requirement in §6 and §7 is exercised by at least
+  one automated test or a documented manual procedure, and SHALL report any that is not.
 
 > R-VAL-04 is the single most valuable test in this document. It is the only way to *prove* rather
 > than assert that the reconstruction came from investigative reasoning.
@@ -381,7 +434,7 @@ prototype as a demonstration.
 |---|---|---|
 | `note` field beginning `ATTACK:` | **R-UB-11** The system SHALL remove the `note` field from every event before that event is available to any ingest, correlation, enrichment or answer-generation step. | R-VAL-06 |
 | Timestamp sub-second precision (all 22 attack events have whole-second timestamps; all 220 benign events carry microseconds) | **R-UB-12** The system SHALL NOT use timestamp sub-second precision as a discriminating feature. | R-VAL-04 |
-| `event_id` ordinal value (attack events occupy the final 22 IDs, contiguously) | **R-UB-13** The system SHALL NOT use the ordinal value of `event_id` as a discriminating feature. | R-VAL-04 |
+| `event_id` ordinal value (attack events occupy the final 22 IDs, contiguously) | **R-UB-13** The system SHALL NOT use the ordinal value of `event_id` as a discriminating feature. | R-VAL-04, R-ING-10 |
 
 ---
 
@@ -393,8 +446,8 @@ prototype as a demonstration.
   derived from.
 - **R-NFR-03 (Graceful degradation)** WHILE no language-model service is reachable, the system SHALL
   still produce the timeline, ATT&CK mapping, blast radius and coverage gaps.
-- **R-NFR-04 (Latency)** The deterministic reconstruction SHALL complete within 10 seconds on the
-  provided dataset.
+- **R-NFR-04 (Latency — reconstruction)** The deterministic reconstruction SHALL complete within
+  10 seconds on the provided dataset. → **Q-R-05** (threshold unratified)
 - **R-NFR-05 (Inspectability)** Structured intermediate representations SHALL be persisted to disk in
   a human-readable form so that each pipeline stage can be examined independently.
 - **R-NFR-06 (Bounded cost)** The number of language-model invocations per user question SHALL be
@@ -402,12 +455,54 @@ prototype as a demonstration.
 - **R-NFR-07 (Reviewability)** No module SHALL be so large that its behaviour cannot be reviewed
   against the requirement it implements.
 - **R-NFR-08 (Secrets)** Credentials SHALL be supplied by environment and SHALL NOT be committed.
-- **R-NFR-09 (Startup)** The system SHALL start from a documented single command on Windows.
+- **R-NFR-09 (Startup)** The system SHALL start from a documented single command.
 - **R-NFR-10 (Demo resilience)** The demonstrable path SHALL NOT depend on network access to any
   third-party service at demo time.
+- **R-NFR-11 (Data egress)** The system SHALL document precisely what log content leaves the local
+  machine, and SHALL NOT transmit log content to any third party other than as documented.
+  → **Q-R-07**
+- **R-NFR-12 (Chain of custody)** The system SHALL persist an answer record (§4) for every answer it
+  produces, sufficient for a third party to reconstruct how the conclusion was reached.
+  → **Q-R-10**
+- **R-NFR-13 (Testability)** Every requirement in §6 and §7 SHALL be verifiable by an automated test
+  or a documented manual procedure (measured by R-VAL-07).
+- **R-NFR-14 (Error transparency)** IF any pipeline stage fails, THEN the system SHALL report which
+  stage failed and SHALL NOT present a partial reconstruction as though it were complete.
+- **R-NFR-15 (Capacity)** The system's behaviour beyond the provided dataset size SHALL be stated:
+  either a supported bound with evidence, or an explicit declaration that scale is untested.
+  → **Q-R-11**
+- **R-NFR-16 (Portability)** The platforms on which the system is supported SHALL be documented and
+  verified on each. → **Q-R-12**
+- **R-NFR-17 (Synthesis reproducibility)** The reproducibility expected of language-model-generated
+  prose SHALL be stated, and the system SHALL meet whatever is stated. → **Q-R-14**
+- **R-NFR-18 (Versioning)** Every output SHALL identify the software version that produced it.
 
-> R-NFR-10 is a product of walking into a room with this. The ATT&CK catalogue is cached in
-> `data/attack/` for exactly this reason.
+### 8.1 Coverage against ISO/IEC 25010
+
+Recorded so that the NFR set is demonstrably systematic rather than whatever came to mind.
+
+| Quality characteristic | Covered by | Notes |
+|---|---|---|
+| Functional suitability | §6, §7, §9 | Acceptance suite is the measure |
+| Performance efficiency — time behaviour | R-NFR-04, R-QRY-07 | Both thresholds unratified |
+| Performance efficiency — capacity | R-NFR-15 | Scope of the claim is Q-R-11 |
+| Performance efficiency — resource use | R-NFR-06 | Language-model cost only |
+| Reliability — fault tolerance | R-NFR-03, R-NFR-14, R-ING-08 | |
+| Reliability — maturity | R-NFR-01, R-NFR-17 | Deterministic core vs prose split |
+| Reliability — recoverability | — | **Deliberate gap: §11, single-user prototype with no persistent state to recover** |
+| Security — confidentiality | R-NFR-08, R-NFR-11 | Egress policy is Q-R-07 |
+| Security — integrity | R-ING-09 | Source dataset is read-only |
+| Security — accountability / non-repudiation | R-NFR-02, R-NFR-12, R-ATK-07, R-NFR-18 | The chain-of-custody group |
+| Security — authenticity | — | **Deliberate cut: §11, no authentication** |
+| Maintainability — modularity | R-NFR-07 | |
+| Maintainability — analysability | R-NFR-05, R-CLM-03 | Rule naming is what makes reasoning analysable |
+| Maintainability — testability | R-NFR-13, R-VAL-07 | |
+| Portability — installability | R-NFR-09, R-NFR-16 | Platform set is Q-R-12 |
+| Portability — adaptability | — | **Deferred: additional source types are a design property, Q-D-01, not a requirement here** |
+| Usability — operability | R-UI-01..06 | |
+| Usability — error protection | R-UB-01..05, R-NFR-14 | |
+| Usability — accessibility | — | **Deliberate cut: §11** |
+| Compatibility — interoperability | R-RPT-01..03, Q-D-04 | Handover format is Q-R-08 |
 
 ---
 
@@ -418,13 +513,14 @@ pass **both** its specific criteria below **and** the universal criteria.
 
 **Universal criteria (every query):** every factual statement carries ≥1 resolvable citation
 (R-QRY-02, R-UB-01, R-UB-02); no leak field influenced the answer (R-UB-11..13); confidence and
-likelihood are not mixed in a sentence (R-UB-05).
+likelihood are not mixed in a sentence (R-UB-05); the answer is produced within the R-QRY-07
+threshold.
 
 | # | Query | Specific acceptance criteria |
 |---|---|---|
 | **AC-01** | "Walk me through the full attack timeline from initial access to last observed activity." | Chronologically ordered; covers initial access, execution, C2, credential access, discovery, lateral movement, collection, exfiltration and defence evasion; identifies the correct first and last observed activity with citations; every entry cited |
 | **AC-02** | "What was the initial access vector and what evidence supports that conclusion?" | Names the document-application-spawning-shell process lineage as the evidence, cites the event; **states that no email or mail-gateway source exists** and does not name a sender, subject or attachment (R-UB-06); assigns Low confidence per §5.3 |
-| **AC-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Each technique given as ID + official name + tactic + citation; recall ≥ 80% of the ground-truth technique set (R-VAL-02); **no privilege-escalation exploitation technique asserted** (R-COR-08); any unmapped behaviour reported as unmapped |
+| **AC-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Each technique given as ID + official name + tactic + citation; catalogue version stated (R-ATK-07); recall ≥ 80% of the ground-truth technique set (R-VAL-02); **no privilege-escalation exploitation technique asserted** (R-COR-08); any unmapped behaviour reported as unmapped |
 | **AC-04** | "Which user accounts were compromised or used by the attacker?" | Identifies the single compromised account with citations; separates confirmed-compromised from merely-observed (R-BLR-03); states that the account has no benign baseline activity in the window |
 | **AC-05** | "Which internal hosts did the attacker move to after the initial foothold?" | Identifies both post-foothold hosts in order with citations; names the authentication event and the service-execution event that evidence the movement; **does not rely on the IP-to-host mapping without flagging it** where used (R-ENT-02) |
 | **AC-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answers yes; names file, exact byte count, destination bucket, external ownership, client, timestamp; **cites the two events that join on exact name-and-size equality** (R-COR-04); labels the claim single-sourced and states that no firewall record corroborates the egress (R-GAP-02) |
@@ -433,9 +529,9 @@ likelihood are not mixed in a sentence (R-UB-05).
 | **AC-09** | "Give me a 3-sentence executive summary suitable for a board briefing." | Exactly three sentences; every assertion traceable to the reconstruction; states residual uncertainty; contains no claim the evidence does not support |
 | **AC-10** | "What should the incident response team do in the next 2 hours to contain this?" | Each action tied to specific evidenced compromise with citation; each labelled short-term containment / eradication / recovery (R-QRY-05); prioritised; includes at least one action addressing a coverage gap rather than only the confirmed chain |
 
-### 9.1 Quantitative gates
+### 9.1 Quantitative gates → **Q-R-06** (all thresholds unratified)
 
-Measured by the harness (§6.9) against the `note` ground truth:
+Measured by the harness (§6.10) against the `note` ground truth.
 
 | Metric | Must | Should |
 |---|---|---|
@@ -444,37 +540,41 @@ Measured by the harness (§6.9) against the `note` ground truth:
 | ATT&CK technique recall | ≥ 0.80 | 1.00 |
 | Citation resolution rate | 1.00 | 1.00 |
 | Leak-independence (R-VAL-04) | pass | pass |
+| Requirements exercised by a test (R-VAL-07) | 1.00 | 1.00 |
 
 Citation resolution must be **exactly** 1.00. A single unresolvable citation is a correctness
-failure, not a quality metric.
+failure, not a quality metric. The same applies to R-VAL-07: a requirement with no test is an
+untested requirement, not a lower-quality one.
 
 ---
 
-## 10. Priorities
+## 10. Priorities → **Q-R-15** (allocation unratified)
 
 MoSCoW against the stated **3–5 day** budget with Claude API access available.
 
 ### Must
 
-Claim contract enforcement (`R-CLM-01..05`) · ingest and normalisation (`R-ING-01..07`) · entity
-resolution with ambiguity
-(`R-ENT-01..04`) · correlation and timeline (`R-COR-01..08`) · ATT&CK mapping from the real
-catalogue (`R-ATK-01..06`) · blast radius (`R-BLR-01..05`) · gap analysis
-(`R-GAP-01..05`) · question answering with enforced citations (`R-QRY-01..07`) · all unwanted
-behaviour requirements (`R-UB-01..13`) · validation harness (`R-VAL-01..06`) · conversational
-interface with expandable citations and timeline view (`R-UI-01..03`) ·
-`R-NFR-01..05`, `R-NFR-08..10`.
+Claim contract enforcement (`R-CLM-01..05`) · ingest and normalisation (`R-ING-01..10`) · entity
+resolution with ambiguity (`R-ENT-01..04`) · correlation and timeline (`R-COR-01..08`) · ATT&CK
+mapping from the real catalogue (`R-ATK-01..07`) · blast radius (`R-BLR-01..05`) · gap analysis
+(`R-GAP-01..05`) · question answering (`R-QRY-01..07`) · all unwanted behaviour requirements
+(`R-UB-01..13`) · validation harness (`R-VAL-01..07`) · conversational interface with expandable
+citations and timeline view (`R-UI-01..03`) · `R-NFR-01..05`, `R-NFR-08..11`, `R-NFR-13..14`,
+`R-NFR-18`.
 
 ### Should
 
-Blast radius and coverage gaps as first-class UI views (`R-UI-04`) · visible investigative
-steps during answer generation (`R-UI-05`) · per-phase precision/recall breakdown
-(`R-VAL-01`) · bounded-cost reporting (`R-NFR-06`).
+Blast radius and coverage gaps as first-class views (`R-UI-04`) · visible investigative steps
+(`R-UI-05`) · explicit timezone display (`R-UI-06`) · entity pivot (`R-QRY-08`) · time-range
+scoping (`R-QRY-09`) · conflicting-evidence reporting (`R-COR-09`) · handover report
+(`R-RPT-01..03`) · chain of custody (`R-NFR-12`) · bounded-cost reporting (`R-NFR-06`) · stated
+capacity and portability (`R-NFR-15..17`).
 
 ### Could
 
-Export of the reconstruction in MITRE Attack Flow form · ATT&CK Navigator layer output ·
-confidence calibration measured against ground truth.
+Considered-and-rejected event log (`R-COR-10`) · conversational memory (`R-QRY-10`) · export in
+MITRE Attack Flow form · ATT&CK Navigator layer output · confidence calibration measured against
+ground truth.
 
 ### Won't (this iteration)
 
@@ -488,10 +588,12 @@ The assignment states that thoughtful cuts, declared plainly, beat silent incomp
 
 | Cut | Rationale |
 |---|---|
-| **No support for datasets other than the provided one** | Generality is untested and would be a claim we cannot back. The ingest layer's extensibility is a design property to argue in `design.md`, not a requirement to test here |
+| **No support for datasets other than the provided one** | Generality is untested and would be a claim we cannot back. Ingest extensibility is a design property to argue in `design.md` (Q-D-01), not a requirement to test here |
 | **No real-time or streaming ingest** | The assignment provides a fixed 72-hour export. Streaming would consume the budget that correlation quality needs |
 | **No multi-incident support** | One incident (`INC-2026-0610-001`). Incident scoping is a different product |
-| **No authentication, multi-user state or persistence beyond files** | A prototype for one analyst at one desk. Adds no evaluated value |
+| **No authentication or multi-user state** | A prototype for one analyst at one desk. Covers the 25010 authenticity gap in §8.1 |
+| **No recoverability guarantees** | No persistent mutable state exists to recover; the source dataset is read-only (R-ING-09) |
+| **No accessibility conformance** | Not evaluated by the assignment, and a conformance claim would take budget from correlation quality. Stated rather than silently skipped |
 | **No threat-intelligence enrichment of external indicators** | Reputation lookup for the C2 address would require a live third-party service, violating R-NFR-10, and the conclusion does not depend on it |
 | **No detection-rule authoring or Sigma output** | Downstream of investigation; out of the assignment's stated scope |
 | **No automated containment actions** | The system recommends; a human acts. Acting on a possibly-wrong reconstruction is the failure mode this whole document guards against |
@@ -499,26 +601,46 @@ The assignment states that thoughtful cuts, declared plainly, beat silent incomp
 
 ---
 
-## 12. Open questions deferred to Phase 2
+## 12. Open questions
 
-These are mechanism, not requirement. Recorded here so they are not lost.
+Nothing below has been decided. Requirements that depend on these carry a `→ Q-…` pointer.
 
-1. **Ingest generality.** Hand-written parsers for four known schemas, versus declarative field
-   mapping, versus mapping to OCSF or ECS classes. Trade-off: mapping-table effort against the
-   correlation quality that is actually being evaluated.
-2. **Where reasoning lives.** How much of the investigation is deterministic code and how much is
-   agent reasoning, and where the boundary is drawn. Relevant evidence: extractive question
-   answering hallucinates on 3–8% of responses, while multi-step agent tool-call chains hallucinate
-   on 20–40%. This choice must be argued, not assumed.
-3. **ATT&CK catalogue access.** Full STIX feed versus MITRE's `mitreattack-python` versus a
-   curated subset cached locally. Constrained by R-NFR-10.
-4. **Timeline representation.** Whether to adopt the MITRE Attack Flow object model
-   (`attack-action` / `attack-asset` / `attack-condition` / `attack-operator`) as the internal
-   representation or only as an export format.
-5. **Correlation data structure.** At 242 events, a graph library may be over-engineering. To be
-   decided explicitly rather than by reflex.
-6. **UI framework.** Constrained by R-UI-02 (expandable raw events) and R-UI-05 (visible steps).
-7. **Uncertainty vocabulary ratification.** §5.2 versus the three-tier fallback.
+### 12.1 Requirements-level — these block Phase 1 sign-off
+
+| # | Question | Affects | Proposed |
+|---|---|---|---|
+| **Q-R-01** | Two-axis ICD 203 likelihood + confidence, or the three-tier `Confirmed`/`Probable`/`Unconfirmed` fallback? | §5.2, R-CLM-02, R-VAL-05 | Two-axis |
+| **Q-R-02** | Do observations carry no uncertainty marker at all, or should every line carry one for visual consistency? | §5.1, R-CLM-05 | No marker on observations |
+| **Q-R-03** | Are the High/Moderate/Low corroboration rules defensible as written? Specifically: is "single source type" always Moderate, even when it is a direct audit-log record of the act itself? | §5.2 | As written |
+| **Q-R-04** | What is the acceptable ceiling on answering one question? | R-QRY-07 | 60 s |
+| **Q-R-05** | What is the acceptable ceiling on the deterministic reconstruction? | R-NFR-04 | 10 s |
+| **Q-R-06** | Are the quantitative gates set at defensible levels, and is precision ≥ 0.70 too lenient given a baited dataset? | §9.1 | recall ≥ 0.80, precision ≥ 0.70 |
+| **Q-R-07** | May raw log content be transmitted to a third-party language-model API? The client is a healthcare organisation; the dataset is synthetic. Does the prototype need a redaction boundary, or is unredacted egress acceptable if documented? | R-NFR-11, and the whole trust discussion | Unresolved — has architectural consequences |
+| **Q-R-08** | Is a handover report artifact in scope, and in what form? The assignment's framing is a board and a legal team, who do not operate a chat UI | §6.9 `R-RPT-01..03` | In scope, form undecided |
+| **Q-R-09** | Does the interface need conversational memory for follow-up questions, or is each question standalone? | R-QRY-10 | Could-have |
+| **Q-R-10** | Must the system persist a chain-of-custody record of its own reasoning, or is on-screen transparency (R-UI-05) sufficient? | R-NFR-12 | Should-have |
+| **Q-R-11** | Is any behaviour beyond 242 events in scope, or is scale explicitly declared untested? | R-NFR-15 | Declare untested |
+| **Q-R-12** | Which platforms must this run on? Windows is the development machine; the interviewer's is unknown | R-NFR-09, R-NFR-16 | Unresolved |
+| **Q-R-13** | Display timestamps in UTC only, or offer local time? The dataset is entirely UTC | R-UI-06 | UTC with explicit designator |
+| **Q-R-14** | Must language-model prose be reproducible run to run, or is variability acceptable provided the underlying claims are stable? | R-NFR-17, R-NFR-01 | Unresolved |
+| **Q-R-15** | Is the MoSCoW allocation in §10 right? In particular: are `R-UI-04`, `R-UI-05` and `R-NFR-12` correctly Should rather than Must? | §10 | As written |
+| **Q-R-16** | Should the system surface the suspicious-but-benign events it considered and dismissed? It builds analyst trust; it also adds noise | R-COR-10 | Could-have |
+| **Q-R-17** | When two events support incompatible conclusions, report both with reduced confidence, or decline to conclude? | R-COR-09 | Report both |
+
+### 12.2 Design-level — deferred to Phase 2, not blocking
+
+These are mechanism. Recorded here so they are not lost.
+
+| # | Question |
+|---|---|
+| **Q-D-01** | Ingest generality: hand-written parsers for four known schemas, declarative field mapping, or mapping to OCSF or ECS classes |
+| **Q-D-02** | Where reasoning lives — how much is deterministic code, how much is agent reasoning, and where the boundary sits. Relevant evidence: extractive question answering hallucinates on 3–8% of responses; multi-step agent tool-call chains on 20–40%. To be argued, not assumed |
+| **Q-D-03** | ATT&CK catalogue access: full STIX feed, MITRE's `mitreattack-python`, or a curated locally-cached subset. Constrained by R-NFR-10 |
+| **Q-D-04** | Timeline representation: adopt the MITRE Attack Flow object model internally, or only as an export format |
+| **Q-D-05** | Correlation data structure: at 242 events a graph library may be over-engineering. To be decided explicitly rather than by reflex |
+| **Q-D-06** | UI framework, constrained by R-UI-02 and R-UI-05 |
+| **Q-D-07** | How citation validation is implemented, and at which layer it sits |
+| **Q-D-08** | How the agent's tool surface is defined and bounded |
 
 ---
 
@@ -526,27 +648,30 @@ These are mechanism, not requirement. Recorded here so they are not lost.
 
 | Assignment requirement | Requirements satisfying it |
 |---|---|
-| Multi-source log correlation | `R-ING-01..07`, `R-ENT-01..04`, `R-COR-03..04` |
-| Attack timeline reconstruction | `R-COR-01..08`, `R-UI-03`, `AC-01` |
-| MITRE ATT&CK TTP mapping with cited technique IDs | `R-ATK-01..06`, `AC-03` |
+| Multi-source log correlation | `R-ING-01..10`, `R-ENT-01..04`, `R-COR-03..04` |
+| Attack timeline reconstruction | `R-COR-01..10`, `R-UI-03`, `AC-01` |
+| MITRE ATT&CK TTP mapping with cited technique IDs | `R-ATK-01..07`, `AC-03` |
 | Blast radius assessment | `R-BLR-01..05`, `AC-07` |
 | Flag gaps and uncertainty | `R-GAP-01..05`, `R-CLM-01..05`, `R-UB-04..10`, `AC-08` |
-| Full traceability — cite source, timestamp, event ID | `R-ING-02`, `R-QRY-02`, `R-UB-01..03`, `R-VAL-03`, `R-UI-02` |
+| Full traceability — cite source, timestamp, event ID | `R-ING-02`, `R-QRY-02`, `R-UB-01..03`, `R-VAL-03`, `R-UI-02`, `R-NFR-02` |
 | Prefer honest non-confirmation over fabrication | §1.2, `R-UB-04..10`, `AC-02`, `AC-06` |
-| Demonstrate an agentic workflow | `R-QRY-01`, `R-UI-05`, `R-NFR-05..06`, and Phase 2 question 2 |
+| Demonstrate an agentic workflow | `R-QRY-01`, `R-QRY-08..10`, `R-UI-05`, `R-NFR-05..06`, and `Q-D-02` |
 | Structured intermediate representations | `R-NFR-05`, `R-ING-03..04` |
-| Verification passes | `R-UB-01..05`, `R-VAL-01..06` |
+| Verification passes | `R-UB-01..05`, `R-VAL-01..07` |
+| Hand output to a board and a legal team | `R-RPT-01..03`, `R-NFR-12`, `R-ATK-07`, `R-NFR-18`, `AC-09` |
 | Explicit scope reductions | §11 |
 
 ---
 
 ## 14. Review
 
-Phase 1 is complete when the reviewer confirms:
+Phase 1 is complete when **all 17 questions in §12.1 are answered** and the reviewer confirms:
 
 - [ ] The success criteria in §1.1 are the right criteria
-- [ ] The claim taxonomy and uncertainty model in §5 are ratified or corrected
+- [ ] Retaining all four source types (§3.1) is the right scope decision
+- [ ] The claim taxonomy in §5.1 and the uncertainty model in §5.2 are ratified or corrected
 - [ ] The acceptance criteria in §9 are what the system should be judged against
 - [ ] The quantitative gates in §9.1 are set at defensible levels
-- [ ] The scope cuts in §11 are the right cuts
-- [ ] Nothing in §12 was decided here by accident
+- [ ] The MoSCoW allocation in §10 is right
+- [ ] The scope cuts in §11 are the right cuts, including the three 25010 gaps in §8.1
+- [ ] Nothing in §12.2 was decided here by accident
