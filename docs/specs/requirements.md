@@ -1,7 +1,7 @@
 # Requirements — Cyber Incident Investigation Intelligence
 
 **Phase 1 of Spec → Design → Tasks → Implement → Validate.**
-Status: **draft — blocked on 17 open questions (§12.1).** Date: 2026-09-22.
+Status: **draft — blocked on 18 open questions (§12.1).** Date: 2026-09-22.
 Incident under investigation: `INC-2026-0610-001`.
 
 This document says *what* the system must do and *how we will know it did it*. It deliberately
@@ -66,17 +66,56 @@ absent" is a successful output.**
 The analyst is the user the system is designed for. The CISO is a consumer of its output, not an
 operator of it.
 
+### 2.1 Non-user stakeholders
+
+| Stakeholder | Interest |
+|---|---|
+| **Evaluating panel** | Not a user, but the audience for §3.8's deliverables. Judges applied reasoning, engineering judgment, agentic thinking, trust and traceability, communication and product intuition — explicitly **not** polish (C-07) |
+| **Legal counsel** | Never operates the system. Consumes the handover report (`R-RPT`) and depends on the chain-of-custody record (R-NFR-12) being sufficient to show how a conclusion was reached |
+
+Recorded because the panel's criteria and legal's evidentiary needs shape requirements that no
+user would ask for — `R-ATK-07`, `R-NFR-12`, `R-NFR-18` and `R-RPT-02` exist for them.
+
 ---
 
 ## 3. Scope
 
-### 3.1 In scope
+### 3.1 System boundary
 
-- All four provided source types: `endpoint`, `auth`, `network`, `cloud_storage`.
-- The single provided dataset (`data/raw/siem_logs.json`), one incident, 72-hour window.
-- MITRE ATT&CK Enterprise technique mapping with cited technique IDs and official names.
-- Free-form natural-language question answering over the reconstructed investigation.
-- The ten example queries in §9, treated as the acceptance test suite.
+The system owns the reconstruction and the answering. It owns no collection, no enforcement and
+no remediation.
+
+```
+   INPUTS (not owned)                SYSTEM UNDER SPECIFICATION           OUTPUTS (owned)
+
+   data/raw/siem_logs.json  ──►  ┌──────────────────────────────┐
+   fixed, read-only              │  ingest → correlate → enrich │ ──►  analyst Q&A with
+                                 │       ↓                      │      citations  (R-QRY)
+   ATT&CK Enterprise        ──►  │  evidence → answer → render  │
+   catalogue, cached locally     │                              │ ──►  timeline / blast radius
+                                 │  validation harness          │      / coverage gaps  (R-UI)
+   Claude API               ──►  │  (reads ground truth)        │
+   governed by Q-R-07            └──────────────────────────────┘ ──►  handover report  (R-RPT)
+
+   OUTSIDE THE BOUNDARY: SIEM collection and retention · mail gateway, DNS and EDR telemetry
+   that does not exist in this dataset · threat-intelligence services · containment execution ·
+   ticketing and case management · identity and access systems
+```
+
+The last line is the one that matters analytically: several things the investigation *needs* sit
+outside the boundary and are not merely unimplemented — they are absent from the dataset
+(§7.2). The system's job is to say so, not to substitute for them.
+
+### 3.2 Data scope
+
+| Dimension | Extent |
+|---|---|
+| Dataset | `data/raw/siem_logs.json`, one file, treated as read-only (R-ING-09) |
+| Incident | One: `INC-2026-0610-001` |
+| Window | `2026-06-10T08:00:00Z` → `2026-06-13T08:00:00Z` (72 hours) |
+| Volume | 242 events |
+| Source types | 4 — `network` (84), `endpoint` (65), `auth` (62), `cloud_storage` (31) |
+| Knowledge base | MITRE ATT&CK Enterprise, version recorded per R-ATK-07 |
 
 All four source types are retained deliberately: dropping any one severs the chain. `network`
 carries the only command-and-control evidence, `auth` carries the only lateral-movement
@@ -84,9 +123,83 @@ authentication evidence, and the exfiltration conclusion requires joining `endpo
 `cloud_storage`. This is a derivation from the data, not a preference — but it is still a scope
 decision a reviewer should ratify (§14).
 
-### 3.2 Out of scope
+### 3.3 Functional scope
 
-See §11 for each cut and its rationale.
+In scope, each expanded in §6:
+
+1. Ingest and normalise all four source types, preserving originals (`R-ING`).
+2. Resolve entities across sources, including honest handling of ambiguity (`R-ENT`).
+3. Reconstruct the attack timeline by cross-source correlation (`R-COR`).
+4. Map observed behaviour to ATT&CK techniques from the real catalogue (`R-ATK`).
+5. Assess blast radius across hosts, accounts and data (`R-BLR`).
+6. Identify and report coverage gaps unprompted (`R-GAP`).
+7. Answer free-form analyst questions with enforced citations (`R-QRY`).
+8. Present all of the above conversationally with expandable evidence (`R-UI`).
+9. Produce a handover artifact for a non-operating audience (`R-RPT`) — subject to **Q-R-08**.
+10. Score itself against ground truth and prove leak independence (`R-VAL`).
+
+### 3.4 Out of scope
+
+See §11 for each cut and its rationale, and §8.1 for the four quality characteristics
+deliberately not covered.
+
+### 3.5 Assumptions
+
+These are beliefs about the data and the world that the requirements rest on. If one is false,
+specific conclusions become unsafe — the third column says which.
+
+| # | Assumption | If false |
+|---|---|---|
+| **A-01** | The dataset `metadata` accurately describes source types, schemas and internal subnets | R-ING-07 misclassifies internal/external, corrupting C2 and exfiltration reasoning |
+| **A-02** | The `note` annotations are accurate and complete enough to serve as validation ground truth | The §9.1 metrics measure agreement with a flawed oracle rather than correctness |
+| **A-03** | Exactly one intrusion is embedded; no second, unrelated attack chain is present | A second chain would be folded into the first. R-COR-09 conflict reporting is the only safeguard |
+| **A-04** | Timestamps are accurate and consistently UTC, with no clock skew between source systems | Temporal-adjacency correlation (R-COR-03) becomes unreliable and the timeline order may be wrong |
+| **A-05** | For the source types present, the export is complete — an absence is a collection gap, not an export failure | Gap analysis (`R-GAP`) would attribute a missing event to the environment when it is an artifact of the export |
+| **A-06** | The ATT&CK Enterprise catalogue can be obtained once and cached, satisfying R-NFR-10 | R-ATK-03 cannot be met without live network access at demo time, breaking R-NFR-10 |
+| **A-07** | A single analyst uses the system on one machine at a time | The authentication and multi-user cuts in §11 become invalid |
+
+A-04 and A-05 are the two worth stating out loud in the walkthrough: both are standard
+investigative assumptions that practitioners make silently, and both are unverifiable from
+inside this dataset.
+
+### 3.6 Dependencies
+
+| # | Depends on | Owned by | Notes |
+|---|---|---|---|
+| **D-01** | The provided dataset | Assignment | Fixed; no further collection is possible |
+| **D-02** | MITRE ATT&CK Enterprise catalogue | MITRE | External; cached locally per R-NFR-10. Access method is **Q-D-03** |
+| **D-03** | Claude API | Anthropic | What content may be sent to it is **Q-R-07**; absence is handled by R-NFR-03 |
+| **D-04** | Language runtime and libraries | Phase 2 | Selected in `design.md` after build-versus-adopt comparison |
+
+### 3.7 Constraints
+
+| # | Constraint | Source |
+|---|---|---|
+| **C-01** | 3–5 calendar days, one developer | Stated budget |
+| **C-02** | The demonstrable path must not require network access to a third-party service | R-NFR-10 |
+| **C-03** | The dataset is fixed and read-only; no additional telemetry can be collected | D-01, R-ING-09 |
+| **C-04** | Development machine is Windows; the demonstration machine is not yet known | **Q-R-12** |
+| **C-05** | Claude API access is available | Confirmed |
+| **C-06** | The `note` field may not influence any behaviour outside the validation harness | R-UB-11, R-VAL-06 |
+| **C-07** | Polish is explicitly not being evaluated; budget spent on appearance is budget lost | Assignment |
+
+C-07 is a real constraint, not a note. The assignment says it is not grading on polish and
+names applied reasoning, engineering judgment, agentic thinking, trust and traceability,
+communication and product intuition as the criteria instead.
+
+### 3.8 Deliverables
+
+The assignment names three. Only the first is a software artifact.
+
+| # | Deliverable | Where it lives |
+|---|---|---|
+| **1** | Tangible artifact — the running prototype | This repository |
+| **2** | A 5–10 minute walkthrough: what was built, architectural decisions, where AI and agents were used **and where they were deliberately not**, shortcuts taken, what another day or week would add | **Q-R-18** |
+| **3** | A short written or verbal discussion of trust and hallucination, agentic workflow design, and product thinking | **Q-R-18** |
+
+Deliverables 2 and 3 are graded, and this document's §12.2 and §11 are most of their raw
+material — the design questions and the declared cuts *are* the architectural-decisions
+narrative. Whether they are produced as repository artifacts or prepared separately is **Q-R-18**.
 
 ---
 
@@ -626,6 +739,7 @@ Nothing below has been decided. Requirements that depend on these carry a `→ Q
 | **Q-R-15** | Is the MoSCoW allocation in §10 right? In particular: are `R-UI-04`, `R-UI-05` and `R-NFR-12` correctly Should rather than Must? | §10 | As written |
 | **Q-R-16** | Should the system surface the suspicious-but-benign events it considered and dismissed? It builds analyst trust; it also adds noise | R-COR-10 | Could-have |
 | **Q-R-17** | When two events support incompatible conclusions, report both with reduced confidence, or decline to conclude? | R-COR-09 | Report both |
+| **Q-R-18** | Are assignment deliverables 2 (walkthrough) and 3 (trust / agentic-design / product discussion) produced as repository artifacts in `docs/writeup/` and `docs/architecture/`, or prepared separately outside this spec? Both are graded | §3.8 | Repository artifacts — they reuse §11 and §12.2 directly |
 
 ### 12.2 Design-level — deferred to Phase 2, not blocking
 
@@ -665,13 +779,16 @@ These are mechanism. Recorded here so they are not lost.
 
 ## 14. Review
 
-Phase 1 is complete when **all 17 questions in §12.1 are answered** and the reviewer confirms:
+Phase 1 is complete when **all 18 questions in §12.1 are answered** and the reviewer confirms:
 
 - [ ] The success criteria in §1.1 are the right criteria
-- [ ] Retaining all four source types (§3.1) is the right scope decision
+- [ ] The system boundary in §3.1 draws the line in the right place
+- [ ] Retaining all four source types (§3.2) is the right scope decision
+- [ ] The seven assumptions in §3.5 are acceptable, particularly A-04 (no clock skew) and A-05 (the export is complete for the sources present) — both unverifiable from inside the dataset
+- [ ] The constraints in §3.7 are complete and correct
 - [ ] The claim taxonomy in §5.1 and the uncertainty model in §5.2 are ratified or corrected
 - [ ] The acceptance criteria in §9 are what the system should be judged against
 - [ ] The quantitative gates in §9.1 are set at defensible levels
 - [ ] The MoSCoW allocation in §10 is right
-- [ ] The scope cuts in §11 are the right cuts, including the three 25010 gaps in §8.1
+- [ ] The scope cuts in §11 are the right cuts, including the four 25010 gaps in §8.1
 - [ ] Nothing in §12.2 was decided here by accident
