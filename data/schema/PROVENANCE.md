@@ -89,6 +89,7 @@ because the registry is keyed by retrieval URI and the schema cites both spellin
 ## Re-verifying
 
 ```
+.venv/Scripts/python.exe scripts/fetch_external.py --check
 .venv/Scripts/python.exe -m unittest tests.test_external_artifacts
 ```
 

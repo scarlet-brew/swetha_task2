@@ -659,10 +659,18 @@ Catalogue derivation, the ten relation functions, the graph, the validator, inge
 serialisation are **stdlib**. The venv is frozen before any demo; `pip install` at demo time is an
 `NFR-02` failure.
 
+> **Corrected at T07 — the original grounds for both rows were wrong.** Both were dropped on the
+> claim that this machine's Application Control policy blocks `pandas._libs.join`, leaving pandas
+> "only partially functional". Re-measured in the frozen venv (Python 3.14.2, pandas 3.0.6):
+> `importlib.import_module("pandas._libs.join")` **succeeds**, and `DataFrame.merge` returns the
+> right rows. No such block exists here. Both packages stay dropped, but on the reasons below,
+> which do hold. Recorded rather than quietly rewritten, because a decision resting on a
+> measurement nobody re-ran is exactly what this document is supposed to prevent.
+
 | Dropped | Why — empirical |
 |---|---|
-| `pandera` | Its import chain touches `pandas._libs.join`, which this environment's Application Control policy **blocks**. Ingest validation is hand-written stdlib instead — consistent with the relation functions already being stdlib |
-| `streamlit-aggrid` | Declares `pandas>=1.4.0`. Since pandas is only partially functional here (plain `import pandas` succeeds; `_libs.join` does not), any dependency on it fails at *runtime* on specific operations rather than cleanly at import — the worst failure shape. `st.dataframe` over `pyarrow.Table.from_pylist` covers the need via narwhals |
+| `pandera` | It validates dataframes against a **declared schema**, and this design deliberately treats field presence as *data* rather than as a parse error. Measured: 14 logical event kinds whose shapes vary within a kind through optional fields, three distinct absence encodings for `command_line` (absent 184 / empty-string 50 / valued 8), and three key-set sizes inside `network_connection` alone (80 at 12 keys, 3 at 14, 1 at 15). A strict per-kind schema would reject the 4 richest `network_connection` records — which are the only ones naming their hosts outright, and so the only ones needing no address resolution at all. Ingest validation is hand-written stdlib, consistent with the relation functions already being stdlib |
+| `streamlit-aggrid` | A third-party Streamlit component ships a **bundled JS frontend outside the audited dependency set**, which is an `NFR-02` surface that `pip`-level review does not cover. Measured at T07: `st.dataframe` over `pyarrow.Table.from_pylist` already renders the record table via narwhals, with mixed-type and all-null columns coerced explicitly (Arrow has no `object` dtype), so the component buys nothing that needs buying |
 
 `st-link-analysis` declares no pandas dependency and remains viable, but stays a **Could** in the
 cut order.
@@ -679,6 +687,7 @@ Run before any implementation, because each could have invalidated a locked deci
 | **Offline startup** (verification 5) | **PASS — 1.5 s** to accept connections, with an unroutable proxy set (a worse case than no network, since it hangs on timeout rather than failing fast). Issue #8364's 2–5 minute hang **does not reproduce** on 1.64.0 with `gatherUsageStats = false`. `D-06` is verified, not contingent |
 | **Relation spike** (verification 7) | **CONFIRMED, and stronger than §3.6 claimed** — see below |
 | pandas | **partially blocked** — see §10.1 |
+| **Strict structured outputs** (T05) | Measured statically against the installed 0.84.0; the **live round-trip was not run — no credential exists in this environment**. Present and as assumed: `messages.parse`, which sends `output_config.format.type: "json_schema"`; `thinking={"type":"adaptive"}` (`ThinkingConfigAdaptiveParam`); `additionalProperties: false` injected at **every** object level by `anthropic.lib._parse._transform.transform_schema`. Four surface facts that differ from `D-08`'s wording: (1) that same transform **discards `enum` and `const`**, folding them into the property's `description` as prose — so a closed `Literal` passed via `output_format` reaches the API as a bare `{"type": "string"}` and is **not** structural; `scripts/probe_model.py` restores them and sends the repaired schema through `extra_body`, which the base client shallow-merges over `output_config` with the extra winning, while `output_format` still drives the typed parse on return; (2) `strict` is a field of `ToolParam` only — `JSONOutputFormatParam` is exactly `{schema, type}`, so there is no `strict: True` to set on the structured-output path; (3) `parsed_output` is a field of the **text block** (`ParsedTextBlock`), not of `ParsedMessage`; (4) `output_config.effort` is `low` / `medium` / `high` / `max` — no `xhigh`. Also: provider version is `anthropic-version: 2023-06-01`; `stop_reason` includes `refusal`, and `Message` carries no `stop_details` field on this version; the SDK sits on `httpx 0.28.1`, not `httpx2` |
 
 **The relation spike result.** The deletion pair fails on **two** independent counts, not one:
 

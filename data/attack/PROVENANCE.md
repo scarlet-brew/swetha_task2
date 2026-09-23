@@ -62,9 +62,11 @@ points at.
 
 ## Re-verifying
 
-Re-hash every artifact and compare against the table above:
+Re-hash every artifact and compare against the table above. Both of these read the table and
+recompute; neither reaches the network:
 
 ```
+.venv/Scripts/python.exe scripts/fetch_external.py --check
 .venv/Scripts/python.exe -m unittest tests.test_external_artifacts
 ```
 
@@ -86,8 +88,12 @@ Only needed if the files are lost, or to confirm upstream has not moved. A chang
 MITRE republished under the same version, which is a finding, not a routine update — the bundle is
 pinned deliberately.
 
+`scripts/fetch_external.py` is the only code in the repository that opens a socket, and it lives
+outside `src/` for exactly that reason. It fetches anything missing and leaves present files alone;
+`--force` re-fetches everything.
+
 ```
-.venv/Scripts/python.exe -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack-19.2.json', 'data/attack/enterprise-attack-19.2.json')"
+.venv/Scripts/python.exe scripts/fetch_external.py
 ```
 
 ## Licence

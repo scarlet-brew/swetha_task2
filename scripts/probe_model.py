@@ -4,23 +4,22 @@ Three model sites in design SS7 depend on native structured outputs, and D-08
 commits to `client.messages.parse` with Pydantic, `additionalProperties: false`
 and `thinking={"type": "adaptive"}`. There is **no deterministic fallback** --
 the rule registry that would have been one died as draft 3 (SS11) -- so if that
-surface does not behave as D-08 assumes, D-02 has to be reopened before any
+surface does not behave as D-08 assumes, D-02 must be reopened before any
 stage-3 code exists. This finds that out in half an hour, not on day four.
 
-It separates two questions usually conflated:
+Two questions, usually conflated, kept apart here:
 
 1.  *Is the closed enum a constraint or a validation?* D-08's argument, and
     MITRE's TRAM lesson quoted in SS4, is that a hallucinated technique id must
-    be **structurally unrepresentable**, not merely caught afterwards. That is a
-    claim about the request body, so `--structure-only` asserts it against the
-    request body -- no credential, no network. See `_restore_closed_values`:
-    what it found is not what D-08 assumed.
-2.  *Does one real call come back parsed?* That needs a credential, and is the
-    only part of this script that does.
+    be **structurally unrepresentable**, not caught afterwards. That is a claim
+    about the request body, so `--structure-only` asserts it against the request
+    body -- no credential, no network. See `_restore_closed_values`: what it
+    found is not what D-08 assumed.
+2.  *Does one real call come back parsed?* Needs a credential, and is the only
+    part of this script that does.
 
 Not here, deliberately: prompt text worth keeping, the contract-set hash, the
-egress inventory, a reusable client. Those are T06. A probe that grows a library
-around itself stops being cheap to throw away.
+egress inventory, a reusable client. Those are T06.
 
     python scripts/probe_model.py --structure-only     # offline, no credential
     python scripts/probe_model.py                      # one live round-trip
@@ -46,7 +45,7 @@ from pydantic import BaseModel, ConfigDict, Field
 # way pyarrow arrives with Streamlit. Measured: anthropic 0.84.0 sits on httpx
 # 0.28.1, not the httpx2 the 1.x line moved to, so the mock transport below is
 # version-coupled to the SDK and fails loudly, not silently, on an upgrade.
-
+#
 # The package is never installed (SS10.1 keeps setuptools out of the frozen set),
 # so the version NFR-07 stamps on every output is imported by path, as in
 # tests/_env.py.
@@ -125,17 +124,14 @@ def _restore_closed_values(pydantic_schema: Any, wire: Any) -> Any:
     `transform_schema` -- what `messages.parse` runs over an `output_format`
     type -- keeps a fixed keyword set and folds the rest into the property's
     `description` as prose. `enum` and `const` are discarded, so a closed
-    `Literal` reaches the API as
-    `{"type": "string", "description": "...{enum: ['T1059.001', ...]}"}`.
-
-    A hint, not a constraint: the model may emit T1068, the API accepts it, and
-    `TypeAdapter.validate_json` raises on the way back -- validate-then-reject,
-    the posture D-08 rejects. Restoring them here is what makes T05's claim
-    true; without it the claim is simply false.
+    `Literal` reaches the API as `{"type": "string", "description": "...{enum:
+    ['T1059.001', ...]}"}`: a hint, not a constraint. The model may emit T1068,
+    the API accepts it, and `TypeAdapter.validate_json` raises on the way back
+    -- validate-then-reject, the posture D-08 rejects. Restoring them here is
+    what makes T05's claim true; without it the claim is false.
     """
     if not isinstance(pydantic_schema, dict) or not isinstance(wire, dict):
         return wire
-
     repaired = dict(wire)
     for keyword in ("enum", "const"):
         if keyword not in pydantic_schema:
@@ -148,7 +144,6 @@ def _restore_closed_values(pydantic_schema: Any, wire: Any) -> Any:
         repaired["description"] = kept
         if not kept:
             repaired.pop("description")
-
     for container in ("properties", "$defs"):
         if container in repaired and container in pydantic_schema:
             repaired[container] = {
@@ -199,7 +194,6 @@ def enum_defects(schema: dict[str, Any]) -> list[str]:
             walk(node["items"], f"{path}[]")
 
     walk(schema, "$")
-
     allowed = schema.get("properties", {}).get("technique_id", {}).get("enum")
     if allowed is None:
         defects.append("$.technique_id: no enum -- any string is representable")
@@ -221,6 +215,12 @@ def _issue_probe_request(
     the request twice would have the capture asserting a request the probe does
     not send. `extra_headers` is the only difference and touches authentication
     alone, never the body.
+
+    `output_format` alone would send the enum-less schema, and `parse` merges it
+    over `output_config["format"]`. So the repaired schema goes via
+    `extra_body`, which the base client shallow-merges over the body with the
+    extra winning, replacing `output_config` outright -- while `output_format`
+    still drives the typed parse back, so both halves hold at once.
     """
     return client.messages.parse(
         model=model,
@@ -230,11 +230,6 @@ def _issue_probe_request(
         output_format=ProbeSelection,
         thinking={"type": "adaptive"},
         extra_headers=extra_headers,
-        # `output_format` alone would send the enum-less schema, and `parse`
-        # merges it over `output_config["format"]`. So the repaired schema goes
-        # via `extra_body`, which the base client shallow-merges over the body
-        # with the extra winning, replacing `output_config` outright.
-        # `output_format` still drives the typed parse back, so both halves hold.
         extra_body={
             "output_config": {
                 "effort": "low",
@@ -266,18 +261,17 @@ def captured_request_body(*, model: str = MODEL_ID) -> dict[str, Any]:
     # No credential at all, deliberately: NFR-10 keeps key material out of the
     # tree, a placeholder literal here is indistinguishable from a real one to
     # the scan enforcing that (tests/test_environment.py), and the capture then
-    # behaves identically whether or not a credential exists.
+    # behaves identically whether or not a credential exists. Omitting
+    # `X-Api-Key` per request is the only way the SDK builds a request with no
+    # auth resolved; `default_headers` is not consulted.
     client = anthropic.Anthropic(
         max_retries=0,
         http_client=anthropic.DefaultHttpxClient(transport=httpx.MockTransport(handler)),
     )
     try:
-        # Omitting `X-Api-Key` per request is the only way the SDK builds a
-        # request with no auth resolved; `default_headers` is not consulted.
         _issue_probe_request(client=client, model=model, extra_headers={"X-Api-Key": anthropic.Omit()})
     except anthropic.AuthenticationError:
         pass
-
     if "body" not in captured:
         raise RuntimeError("the request was never built; the transport saw nothing")
     return captured["body"]
@@ -291,7 +285,6 @@ def request_defects(body: dict[str, Any]) -> list[str]:
     fmt = output_config.get("format")
     if not isinstance(fmt, dict):
         return ["output_config.format absent"]
-
     defects: list[str] = []
     if fmt.get("type") != "json_schema":
         defects.append(f"output_config.format.type is {fmt.get('type')!r}, not 'json_schema'")
@@ -332,8 +325,7 @@ def post_hoc_rejects_out_of_enum() -> bool:
 def prompt_hash(system: str = SYSTEM_PROMPT, user: str = USER_PROMPT) -> str:
     """SHA-256 over the exact prompt pair, so two runs of one prompt agree.
 
-    T06 owns the real contract-set hash; this is the same idea at probe scale,
-    present so the record's slot for it is shown to be fillable.
+    T06 owns the real contract-set hash; this is the same idea at probe scale.
     """
     digest = hashlib.sha256()
     digest.update(system.encode("utf-8"))
@@ -405,11 +397,10 @@ def check_structure(*, verbose: bool = True) -> int:
     return 0
 
 
-#: Failure shapes of the live call, each with its own exit status so a caller can
-#: tell them apart. NFR-06 says a failure must be reported as a failure, and none
-#: of these announces itself: a refusal and a truncation both arrive as HTTP 200,
-#: and a truncated body reaches us as a Pydantic error raised inside the SDK's
-#: post-parser rather than as an API error.
+#: Failure shapes of the live call, each with its own exit status. NFR-06 says a
+#: failure must be reported as one, and none of these announces itself: a refusal
+#: and a truncation both arrive as HTTP 200, and a truncated body reaches us as a
+#: Pydantic error raised inside the SDK's post-parser, not as an API error.
 _CALL_FAILURES: tuple[tuple[type[Exception], int, str], ...] = (
     (anthropic.AuthenticationError, 3, "credential rejected by the provider"),
     (anthropic.BadRequestError, 4, "request rejected by the provider"),
@@ -425,11 +416,11 @@ def round_trip(*, model: str) -> int:
     try:
         response = _issue_probe_request(client=anthropic.Anthropic(), model=model)
     except tuple(kind for kind, _, _ in _CALL_FAILURES) as error:
-        for kind, status, message in _CALL_FAILURES:
-            if isinstance(error, kind):
-                print(f"FAIL {message}: {error}", file=sys.stderr)
-                return status
-        raise  # unreachable: the except clause is built from the same table
+        status, message = next(
+            (s, m) for kind, s, m in _CALL_FAILURES if isinstance(error, kind)
+        )
+        print(f"FAIL {message}: {error}", file=sys.stderr)
+        return status
 
     if response.stop_reason == "refusal":
         print("FAIL provider refused the request; no selection returned", file=sys.stderr)

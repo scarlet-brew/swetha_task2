@@ -6,11 +6,14 @@
 # platform's environment markers evaluated. 4 declared + 44 transitive = 48.
 #
 # NOT produced by `pip freeze`. Freezing the working venv would pin whatever
-# happens to be installed in it: it still held pandera 0.33.1, which 10.1 drops
-# on measured grounds (its import chain touches pandas._libs.join, blocked by
-# this machine's Application Control policy). A frozen set that is not derivable
-# from the declared four cannot be reviewed against the design, and a package no
-# declared dependency requires has no business being installed for a demo.
+# happens to be installed in it: it still held pandera 0.33.1, which 10.1 drops.
+# (10.1 first justified that by an Application Control block on
+# pandas._libs.join; re-measured at T07 there is no such block, and the row now
+# stands on the reason that does hold -- pandera validates against a declared
+# schema, and this design treats field presence as data, not a parse error.)
+# A frozen set that is not derivable from the declared four cannot be reviewed
+# against the design, and a package no declared dependency requires has no
+# business being installed for a demo.
 #
 # tests/test_environment.py recomputes this closure from installed metadata and
 # asserts it equals this file, so drift in either direction fails the suite.

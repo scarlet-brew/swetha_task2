@@ -1,0 +1,86 @@
+/* Print stylesheet. Design SS9.4 lists one "since the dossier framing invites
+   printing" -- the product thesis is a CISO handing this to a board and a legal
+   team, and that hand-off is frequently paper or a PDF.
+
+   What this sheet can and cannot do, stated plainly:
+
+   CAN: drop the app chrome, put ink on white paper, keep an evidence block
+   from being split across a page boundary, and print link targets.
+
+   CANNOT: open a collapsed expander. Streamlit decides at render time what is
+   in the DOM, so a citation the reader left closed on screen is not on the
+   page. That is a property of the engine, not of this file -- the reader
+   expands what they intend to print. The status badges are unaffected, because
+   SS9.1 already requires icon plus word: a greyscale print loses no support
+   state, which is the same reason the palette does not rely on colour for
+   meaning on screen.
+
+   Selectors are Streamlit's internal data-testid hooks; see chrome.css. */
+
+@media print {
+  /* App chrome is navigation, not evidence. */
+  [data-testid="stSidebar"],
+  [data-testid="stSidebarNav"],
+  [data-testid="stSidebarCollapseButton"],
+  [data-testid="stToolbar"],
+  [data-testid="stHeader"],
+  [data-testid="stDecoration"],
+  [data-testid="stStatusWidget"],
+  [data-testid="stAppDeployButton"],
+  [data-testid="stChatInput"],
+  [data-testid="stBottomBlockContainer"] {
+    display: none !important;
+  }
+
+  /* Ink on paper. The parchment plane is a screen affordance; printing it
+     would spend a page of toner on a background. */
+  html,
+  body,
+  .stApp,
+  [data-testid="stAppViewContainer"],
+  [data-testid="stMain"],
+  [data-testid="stMainBlockContainer"] {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  [data-testid="stMainBlockContainer"] {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  /* An expander is an evidence slip. Splitting one across a page break
+     separates a citation header from the record under it, which is the one
+     thing a reader checking provenance must not have to reassemble. */
+  [data-testid="stExpander"],
+  [data-testid="stDataFrame"],
+  [data-testid="stJson"],
+  [data-testid="stChatMessage"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  [data-testid="stExpander"] {
+    border: 1pt solid #000000 !important;
+    background: transparent !important;
+  }
+
+  /* A printed link is dead unless its target is on the page. */
+  a[href^="http"]::after {
+    content: " <" attr(href) ">";
+    font-size: 90%;
+  }
+
+  /* Expanded records print in full rather than scrolling to a clipped box. */
+  [data-testid="stJson"],
+  pre {
+    max-height: none !important;
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    word-break: break-word;
+  }
+
+  @page {
+    margin: 18mm 16mm;
+  }
+}
