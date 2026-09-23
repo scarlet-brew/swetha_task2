@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Phase** | 1 of Spec → Design → Tasks → Implement → Validate |
-| **Status** | Draft — 18 clarifications outstanding (§10) |
+| **Status** | Draft — 19 clarifications outstanding (§10) |
 | **Created** | 2026-09-22 |
 | **Incident** | `INC-2026-0610-001` |
 
@@ -72,9 +72,14 @@ structure or storage is implied.
 
 ## 3. Requirements
 
-Each requirement is independently testable. Priority: **P1** is the minimum viable
-investigation — without any one of these there is no product. **P2** makes it usable by the
-other roles. **P3** is desirable.
+Each requirement is independently testable.
+
+**Priority.** **P1** — the deliverable fails without it, whether because the analyst cannot work
+or because the result cannot be trusted. **P2** — needed by a role other than the primary one.
+**P3** — desirable.
+
+Requirement 7 is P1 despite the analyst never invoking it: a reconstruction nobody can show was
+earned is worth nothing to the CISO, to legal counsel, or to an evaluator.
 
 ### Requirement 1 — Reconstruct the intrusion as a sequence  `P1`
 
@@ -87,18 +92,22 @@ cross-referencing thousands of lines across separate systems.
 1. WHEN the analyst requests the reconstruction THEN THE SYSTEM SHALL present the
    intrusion-related activity as one sequence ordered by time of occurrence.
 2. WHEN presenting a step THEN THE SYSTEM SHALL identify the actor, the host and what was done.
-3. THE SYSTEM SHALL assemble the sequence from activity recorded by more than one log source
-   wherever such activity exists.
-4. WHEN two records from different log sources describe the same underlying activity THEN THE
-   SYSTEM SHALL present them as one step and identify every source that observed it.
+3. THE SYSTEM SHALL include in the sequence intrusion-related activity from every log source
+   that records any, and SHALL identify which source each step came from.
+4. WHEN two activities recorded by different log sources are related to one another THEN THE
+   SYSTEM SHALL present that relationship and cite the records on both sides of it.
 5. WHEN the sequence is presented THEN THE SYSTEM SHALL state the earliest and latest
-   intrusion-related activity found.
-6. WHERE the data evidences an intrusion stage THE SYSTEM SHALL identify that stage in the
+   intrusion-related activity found, and the period of data it examined.
+6. IF the data evidences an intrusion stage THEN THE SYSTEM SHALL identify that stage in the
    sequence.
 7. IF no record evidences a given intrusion stage THEN THE SYSTEM SHALL report that stage as not
    observed, rather than omitting it.
 8. IF no activity in the data evidences an intrusion THEN THE SYSTEM SHALL state that none is
    evidenced and SHALL NOT present a sequence.
+
+> Criterion 4 is the product. Nothing in the supplied data has two sources recording the same
+> action, so there is nothing to merge — what matters is exposing that activity in one source is
+> *related to* activity in another. The earlier tool failed precisely here.
 
 ### Requirement 2 — Show the evidence for every statement  `P1`
 
@@ -116,7 +125,7 @@ so that I can verify any conclusion myself and defend it when challenged.
 4. IF a statement has no supporting record THEN THE SYSTEM SHALL withhold the statement and
    report which statement was withheld.
 5. IF a cited record does not contain the values the statement asserts THEN THE SYSTEM SHALL
-   treat that statement as unsupported under criterion 4.
+   treat that statement as unsupported under criterion 2.4.
 6. IF a cited identifier does not exist in the data THEN THE SYSTEM SHALL withhold the answer and
    report the failure.
 
@@ -129,8 +138,8 @@ what it cannot establish, so that I never repeat a conclusion the evidence does 
 
 1. IF the available data cannot answer a question THEN THE SYSTEM SHALL state that it cannot and
    SHALL name the information that would be required.
-2. WHEN THE SYSTEM states a conclusion that no single record directly records THEN THE SYSTEM
-   SHALL indicate how strongly the evidence supports it.
+2. WHEN THE SYSTEM states a conclusion that no individual log record establishes on its own THEN
+   THE SYSTEM SHALL indicate how strongly the evidence supports it.
    `[NEEDS CLARIFICATION: NC-01 — what vocabulary expresses evidential strength]`
 3. WHEN a conclusion is supported by records from only one log source THEN THE SYSTEM SHALL say
    so.
@@ -191,8 +200,8 @@ can scope containment, notification and legal obligations.
    records.
 3. WHEN listing hosts and accounts THEN THE SYSTEM SHALL distinguish those confirmed compromised
    from those merely observed, and SHALL state the basis for that distinction.
-4. THE SYSTEM SHALL identify data observed to be read, collected or removed, with the volume
-   where records state it.
+4. THE SYSTEM SHALL identify every asset observed to be read, collected or removed, with the
+   volume where records state it.
 5. THE SYSTEM SHALL state which hosts and accounts it cannot rule out, and why.
 
 ### Requirement 6 — Ask questions in plain language  `P1`
@@ -213,6 +222,8 @@ so that I do not have to learn a query language during an incident.
    length.
 6. WHEN a question is asked THEN THE SYSTEM SHALL produce its answer within a stated time.
    `[NEEDS CLARIFICATION: NC-03 — acceptable answer time]`
+7. IF a question concerns a period the data does not cover THEN THE SYSTEM SHALL state the period
+   covered and that the question falls outside it.
 
 ### Requirement 7 — Demonstrate that conclusions came from investigation  `P1`
 
@@ -222,10 +233,11 @@ believe the approach would work on real logs.
 
 **Acceptance criteria**
 
-1. WHEN given the same data with developer annotations removed, record identifiers renumbered in
-   a different order, and the precision of recorded times altered THEN THE SYSTEM SHALL produce
-   the same set of intrusion-related activity, the same sequence order, and the same set of
-   techniques.
+1. WHEN given the same data with developer annotations removed, record identifiers reassigned in
+   a different order, and the sub-second precision of recorded times replaced, in a way that
+   leaves the true order of events unchanged, THEN THE SYSTEM SHALL produce the same set of
+   intrusion-related activity, the same sequence order, the same relationships between
+   activities, and the same set of techniques.
 2. THE SYSTEM SHALL use developer annotations for no purpose other than measuring its own
    accuracy.
 3. THE SYSTEM SHALL report its own accuracy against those annotations, stating what it found,
@@ -328,9 +340,8 @@ a user or evaluator can witness.
 | **NFR-09** | THE SYSTEM SHALL be startable by following written instructions, without modifying it. |
 | **NFR-10** | THE SYSTEM SHALL state the environments in which it has been verified to run. `[NEEDS CLARIFICATION: NC-10 — which environments must be supported]` |
 | **NFR-11** | THE SYSTEM SHALL state the volume of data at which its behaviour has been established, or state that this has not been established. `[NEEDS CLARIFICATION: NC-11]` |
-| **NFR-12** | THE SYSTEM SHALL state whether repeated answers to the same question are identical in wording, and SHALL meet whatever it states. `[NEEDS CLARIFICATION: NC-12 — is identical wording required, or only identical conclusions]` |
+| **NFR-12** | WHEN the same question is asked more than once of the same data THEN THE SYSTEM SHALL return the same conclusions and the same citations. `[NEEDS CLARIFICATION: NC-12 — must the wording be identical too, or only the conclusions and citations]` |
 | **NFR-13** | Credentials required to operate THE SYSTEM SHALL NOT be stored alongside it. |
-| **NFR-14** | Every requirement in §3 and §4 SHALL be verifiable by a repeatable procedure, and any that is not SHALL be reported. |
 
 ---
 
@@ -340,12 +351,12 @@ Measurable, and stated without reference to how the system is built.
 
 | # | Criterion |
 |---|---|
-| **SC-01** | An analyst obtains the complete reconstruction in minutes rather than the six to eight hours the manual process takes. |
+| **SC-01** | An analyst with no prior knowledge of the incident can state the initial access, every affected host and account, and whether data was removed, within a stated number of minutes of first use — against six to eight hours for the manual process. `[NEEDS CLARIFICATION: NC-19]` |
 | **SC-02** | 100% of factual statements in outputs resolve to a log record that contains the asserted values. A single failure is a defect, not a lower score. |
 | **SC-03** | The reconstruction identifies at least a stated proportion of the activity belonging to the intrusion, and wrongly includes no more than a stated proportion of unrelated activity. `[NEEDS CLARIFICATION: NC-13 — the two proportions]` |
 | **SC-04** | Across a fixed set of questions about information the data does not contain, the system fabricates nothing and names the absent source every time. |
 | **SC-05** | Findings are unchanged when developer annotations, record identifiers and time precision are altered (Requirement 7). |
-| **SC-06** | A reader who distrusts a given statement can reach the record behind it in under 30 seconds. |
+| **SC-06** | A reader who distrusts a given statement can reach the record behind it within a stated number of seconds. `[NEEDS CLARIFICATION: NC-19]` |
 | **SC-07** | All ten evaluation questions in §7 are answered to their stated criteria. |
 | **SC-08** | Every absent log source that limits a conclusion is reported without the user asking. |
 
@@ -379,13 +390,18 @@ The assignment supplies ten questions. They are adopted verbatim as the acceptan
 containing the asserted values (R2); no developer annotation, identifier ordering or time
 precision influenced the answer (R7); the answer arrives within NC-03.
 
+> **Stated honestly:** these criteria were written after reading the developer annotations, so
+> they encode the known answer. That makes them a strong test suite and weak evidence that the
+> requirements were discoverable without the answer key. Requirement 7 exists because this
+> caveat cannot be argued away — only tested around.
+
 | # | Given the supplied data is loaded, when the analyst asks… | Then the system must… |
 |---|---|---|
 | **AS-01** | "Walk me through the full attack timeline from initial access to last observed activity." | Present one time-ordered sequence covering every intrusion stage the data evidences, naming those it does not; state the earliest and latest activity; cite every step |
-| **AS-02** | "What was the initial access vector and what evidence supports that conclusion?" | Name the evidence of a document application starting a command interpreter, and cite it; **state that no mail records exist**; name no sender, subject or attachment; indicate that this conclusion is weakly supported |
+| **AS-02** | "What was the initial access vector and what evidence supports that conclusion?" | Name the evidence of a document application starting a command interpreter, and cite it; **state that no mail records exist**; name no sender, subject or attachment; indicate that only one log source supports this conclusion |
 | **AS-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Give identifier, official name, tactic and citation for each; state the catalogue version; assert no exploitation-based privilege escalation; report any behaviour it could not map |
-| **AS-04** | "Which user accounts were compromised or used by the attacker?" | Identify the account with citations; separate confirmed compromise from mere observation; state that this account has no ordinary activity in the period against which to compare |
-| **AS-05** | "Which internal hosts did the attacker move to after the initial foothold?" | Identify both subsequent hosts in order with citations; name the authentication and the remote-service-creation activity that evidence the movement; flag any host identification that rested on an ambiguous address-to-host association |
+| **AS-04** | "Which user accounts were compromised or used by the attacker?" | Identify every such account with citations; separate confirmed compromise from mere observation; state where an account has no ordinary activity in the period against which to compare |
+| **AS-05** | "Which internal hosts did the attacker move to after the initial foothold?" | Identify every subsequent host, in the order reached, with citations; name the authentication and the remote-service-creation activity that evidence the movement; flag any host identification that rested on an ambiguous address-to-host association |
 | **AS-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answer yes; name the file, the exact size, the destination, its external ownership, the client used and the time; cite the two records that match on file name and exact size; state that only one log source evidences this and that no network record corroborates it |
 | **AS-07** | "What is the blast radius — list every affected host and account." | Enumerate all hosts and accounts with first and last involvement and citations; name the data and volume; state what cannot be ruled out, including hosts no source covers |
 | **AS-08** | "Where are the gaps in our log coverage that limit your confidence in this reconstruction?" | Report the absent mail and name-resolution sources, the uncorroborated data removal, the uneven endpoint coverage, the unobserved tool transfer and the unobserved credential removal — each tied to the specific conclusion it limits |
@@ -400,7 +416,7 @@ precision influenced the answer (R7); the answer arrives within NC-03.
 |---|---|
 | A network address is associated with more than one host across the data | Report every candidate and mark the association uncertain; treat any conclusion depending on it as weakly supported (R3.2) |
 | A network address is associated with no host | Retain the activity identified by address alone; infer no host (R3.4) |
-| Two records carry identical times | Order them by a stated, repeatable rule that does not depend on record identifiers (R7.1) |
+| Two records carry identical times | Present them in a repeatable order that does not depend on their identifiers (R7.1). *Does not occur in the supplied data — the smallest gap between any two records is two seconds — so no tie-breaking behaviour needs building for it* |
 | Records support incompatible conclusions | R3.9 |
 | An entire log source is absent | R3.5, R3.6 |
 | A behaviour matches no catalogue technique | R4.5 |
@@ -457,6 +473,7 @@ adopted.
 | **NC-16** | Are the exclusions in §9 the right ones? | §9 | As written |
 | **NC-17** | How should times be presented — as recorded, or converted to the reader's local time? | R1.1, R2.1 | As recorded, with the zone stated |
 | **NC-18** | Are the walkthrough and the written discussion of trust, workflow design and product thinking — both graded — produced as artifacts in this repository, or prepared separately? | Deliverables | In this repository |
+| **NC-19** | Two human-timing targets: how many minutes may an analyst take to reach the core facts (SC-01), and how many seconds to reach the record behind a statement they doubt (SC-06)? Both were numbers invented during drafting rather than derived | SC-01, SC-06 | 10 minutes; 30 seconds |
 
 Two questions raised during Phase 1 turned out to describe *mechanism* and have been moved to
 [design.md](design.md): how close in time two activities must be to be considered related, and
