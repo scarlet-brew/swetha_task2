@@ -1,0 +1,47 @@
+/* Case-file chrome: the three things design SS9.2 asks for that
+   .streamlit/config.toml cannot express.
+
+   No colour appears in this file. The palette is declared once, in
+   config.toml, and Streamlit applies it to its own chrome from there; a hex
+   here would be a second copy and app/theme.py exists to prevent exactly that.
+
+   Selectors use Streamlit's data-testid hooks. Those are internal to
+   Streamlit, not a public API -- they are safe here because design SS10.1 pins
+   streamlit 1.64.0 and the venv is frozen before any demo, and every rule
+   below degrades to "slightly different spacing" rather than to a broken
+   layout if a future version renames one. */
+
+/* 1. Prose measure and leading. SS9.2: ~68ch, 1.55 line-height. A dossier is
+      read in order, and a full-width line of serif at 14px is not. Applied to
+      markdown prose only, so tables, code and charts keep the full width. */
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li {
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+/* 2. Tabular figures on everything that is a record identifier, a timestamp or
+      a byte count. SS9.2 puts these in the monospace stack with
+      font-variant-numeric: tabular-nums, so digits line up column-wise down a
+      citation list -- which is how a reader spots that two byte counts are the
+      same number. */
+code,
+pre,
+[data-testid="stJson"],
+[data-testid="stDataFrame"],
+[data-testid="stMetricValue"] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* 3. Citation expanders read as a stack of sibling evidence slips rather than
+      as nested boxes. SS9.4 renders them as top-level siblings of the answer
+      body, so their vertical rhythm is what communicates grouping -- there is
+      no indentation to do it. */
+[data-testid="stExpander"] {
+  margin-block: 0.15rem;
+}
+
+[data-testid="stExpander"] summary {
+  font-variant-numeric: tabular-nums;
+}

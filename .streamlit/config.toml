@@ -1,5 +1,90 @@
+# Streamlit configuration -- the single source of truth for the palette.
+#
+# Every hex below is a measured value from design 9.1. The app reads this file
+# back at runtime (app/theme.py) instead of restating the palette in CSS, and
+# tests/test_ui_render.py recomputes the WCAG contrast ratios from these exact
+# strings. So there is one copy of each colour, and a change here is caught by
+# the contrast test rather than by someone noticing later.
+#
+# Two prohibitions design 9.2 and 9.4 impose, both visible by absence:
+#   * no [[theme.fontFaces]] -- a font table pointing at a CDN would fetch from
+#     the network on first paint and break NFR-02. Only system stacks appear.
+#   * theme.base is "light", never a URL -- base accepts a remote TOML theme,
+#     which would be the same egress by another route.
+
 [browser]
 gatherUsageStats = false
 
 [server]
 headless = true
+
+# --- the parchment plane (design 9.1, light column) -------------------------
+# Ratios are against the panel surface #F0E6D2, the plane text actually sits
+# on. Primary 14.25:1, secondary 8.61:1, muted 4.85:1 -- the last of these is
+# why muted was darkened from its first candidate: it has to clear the 4.5:1
+# body-text floor, not just the 3:1 large-text one.
+[theme]
+base = "light"
+
+backgroundColor = "#E8DCC4"                 # page plane
+secondaryBackgroundColor = "#F0E6D2"        # panel / chart surface
+textColor = "#1C1814"                       # primary ink      14.25:1
+codeTextColor = "#453D34"                   # secondary ink     8.61:1
+grayColor = "#6E6152"                       # muted             4.85:1
+grayTextColor = "#6E6152"                   # muted, as drawn
+borderColor = "#D6C9AE"                     # rule / gridline   1.32:1
+dataframeBorderColor = "#BCAC8E"            # baseline / axis   1.80:1
+codeBackgroundColor = "#F0E6D2"
+dataframeHeaderBackgroundColor = "#E8DCC4"
+
+# The accent is ink, not a hue. A case file has no brand colour, and adding one
+# would put an eighth step in a seven-step palette that was measured as a whole.
+primaryColor = "#453D34"
+linkColor = "#453D34"
+
+# Typography: system stacks only (design 9.2). The serif is the case-file
+# chrome; the monospace carries record ids, timestamps and byte counts, where
+# tabular figures matter.
+font = "Georgia, 'Iowan Old Style', 'Palatino Linotype', serif"
+headingFont = "Georgia, 'Iowan Old Style', 'Palatino Linotype', serif"
+codeFont = "ui-monospace, 'Cascadia Mono', Consolas, monospace"
+
+baseRadius = "2px"
+linkUnderline = true
+showWidgetBorder = true
+
+# --- status palette, deliberately unthemed (design 9.1) ---------------------
+# The four support states are a status job, not a categorical one, so they do
+# not appear under [theme.dark]: an unset section inherits from [theme], which
+# is what "unthemed" means mechanically.
+#
+# Three of the four sit below 3:1 against parchment, so icon + word is
+# mandatory on every badge and colour never carries a state alone
+# (app/components/support_badge.py, and R3.2-R3.5 want words anyway).
+# Both *Color and *TextColor are set so the drawn value is the measured hex
+# rather than Streamlit's default 15% darkening of it.
+greenColor = "#0ca30c"                      # Corroborated    2.71:1
+greenTextColor = "#0ca30c"
+yellowColor = "#fab219"                     # Single-sourced  1.48:1
+yellowTextColor = "#fab219"
+orangeColor = "#ec835a"                     # Absence-based   2.13:1
+orangeTextColor = "#ec835a"
+redColor = "#d03b3b"                        # Conflicted      3.88:1
+redTextColor = "#d03b3b"
+
+# --- dark mode: selected, not flipped (design 9.1, dark column) ------------
+# Its own steps against its own surface. Ratios against panel #1E1A15:
+# primary 15.11:1, secondary 8.46:1, muted 4.71:1.
+[theme.dark]
+backgroundColor = "#14110D"                 # page plane
+secondaryBackgroundColor = "#1E1A15"        # panel / chart surface
+textColor = "#F5EFE3"                       # primary ink      15.11:1
+codeTextColor = "#C0B49F"                   # secondary ink     8.46:1
+grayColor = "#8F8474"                       # muted             4.71:1
+grayTextColor = "#8F8474"
+borderColor = "#2E2921"                     # rule / gridline   1.20:1
+dataframeBorderColor = "#3A3429"            # baseline / axis   1.40:1
+codeBackgroundColor = "#1E1A15"
+dataframeHeaderBackgroundColor = "#14110D"
+primaryColor = "#C0B49F"
+linkColor = "#C0B49F"

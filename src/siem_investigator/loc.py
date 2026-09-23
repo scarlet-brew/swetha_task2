@@ -42,17 +42,26 @@ CEILING = 400
 GOVERNED_ROOTS = (paths.ROOT / "src", paths.ROOT / "app")
 
 
-def _display(path: str | Path) -> str:
-    """Repository-relative where possible, absolute otherwise.
+def _display(path: str | Path, roots: Sequence[str | Path] = ()) -> str:
+    """Repository-relative where possible, else relative to the root it was found
+    under, else absolute.
 
     `paths.relative` refuses a path outside the tree, which is right for
     artifacts -- an absolute build-machine path must never become evidence -- but
-    this reporter is also pointed at scratch directories by its own tests.
+    this reporter is also pointed at directories outside it, by its own tests and
+    by anyone who names a root on the command line. A listing of absolute paths
+    is unreadable, so out of tree it falls back to the named root.
     """
+    resolved = Path(path).resolve()
     try:
-        return paths.relative(Path(path))
+        return paths.relative(resolved)
     except ValueError:
-        return Path(path).as_posix()
+        pass
+    for root in roots:
+        root_path = Path(root).resolve()
+        if resolved.is_relative_to(root_path):
+            return resolved.relative_to(root_path).as_posix()
+    return resolved.as_posix()
 
 
 def _governed(path: str | Path) -> bool:
@@ -107,7 +116,7 @@ def measure(roots: Sequence[str | Path] = paths.CODE_ROOTS) -> list[Measurement]
     """
     explicit = roots is not paths.CODE_ROOTS
     rows = [
-        Measurement(path, _display(path), count_lines(path), explicit or _governed(path))
+        Measurement(path, _display(path, roots), count_lines(path), explicit or _governed(path))
         for path in python_files(roots)
     ]
     return sorted(rows, key=lambda row: (-row.lines, row.display))

@@ -124,9 +124,11 @@ def canonical_instant(value: _dt.datetime, *, path: str = "$") -> str:
     because R7.1's perturbation test alters it deliberately, and a variable
     number of digits would make two spellings of one instant hash differently.
 
-    This is the form the supplied dataset already uses, so a record's raw
-    timestamp string and its canonicalised datetime agree character for
-    character.
+    This is the form the supplied dataset uses where it records sub-second
+    precision at all, so such a record's raw timestamp string and its
+    canonicalised datetime agree character for character. A timestamp written to
+    whole-second precision gains `.000000` -- one instant, one spelling, whatever
+    precision it arrived in.
 
     A naive datetime is refused: its instant depends on the reader's zone, and
     an ambiguous instant inside an identity field churns ids for no reason.

@@ -1,0 +1,76 @@
+{
+  "_note": "Offline resolution map for the Attack Flow schema's remote $ref closure. jsonschema 4.26.0 fetches an unregistered remote $ref over the network, so a validator built without this map egresses at validation time (NFR-02). Build a referencing.Registry from these entries, keyed by 'uri', and pass it to the validator.",
+  "retrieved": "2026-09-23T21:01:12+00:00",
+  "root": {
+    "uri": "https://center-for-threat-informed-defense.github.io/attack-flow/schema/attack-flow-schema-2.0.0.json",
+    "path": "data/schema/attack-flow-2.0.0.json",
+    "sha256": "fff896f5e1bdc39d9b387c0d3571307037cf9be1059de9cd94d066d1da2997cc"
+  },
+  "refs": [
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/binary.json",
+      "path": "data/schema/refs/stix2.1/binary.json",
+      "sha256": "18d0faef9f42579d5c7f337659ae6f72334029209035c05f21583ae2be17bf25"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/core.json",
+      "path": "data/schema/refs/stix2.1/core.json",
+      "sha256": "e8562aa1dd674249c33a640d1d972183256e491b9af81eaa78d102da1c473ffb"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/dictionary.json",
+      "path": "data/schema/refs/stix2.1/dictionary.json",
+      "sha256": "4984a232a664bd54d2fb99a49c052a38da2ce90e43995a007a9e5fa8d208c116"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/extension.json",
+      "path": "data/schema/refs/stix2.1/extension.json",
+      "sha256": "e4537cf608b709597ede2ad39027defa979df9ad79666b15643d625ac260f15d"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/external-reference.json",
+      "path": "data/schema/refs/stix2.1/external-reference.json",
+      "sha256": "ade5360f0e7b0863ad933d34a54802e7ac9e85d1e0db53cf449e43465ba81127"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/granular-marking.json",
+      "path": "data/schema/refs/stix2.1/granular-marking.json",
+      "sha256": "24c51ff9d99f1902b156e6e04e360e23ea01cded49d07a83fca709cef26884c0"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/hashes-type.json",
+      "path": "data/schema/refs/stix2.1/hashes-type.json",
+      "sha256": "6493e13b08fbf0ced26e956166e03ab37011ae1bb2c26d80a449ea7c81155c50"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/hex.json",
+      "path": "data/schema/refs/stix2.1/hex.json",
+      "sha256": "d079f4141f68615424756bd74d16b4a47b9a7388dd836845849595db6e59f253"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+      "path": "data/schema/refs/stix2.1/identifier.json",
+      "sha256": "662be3c490c8f3b2aa82100d1dc41ec1acf93c04d099c857cc2f88217d688524"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/properties.json",
+      "path": "data/schema/refs/stix2.1/properties.json",
+      "sha256": "ccb1920b6d2c9a80856d36e870163b3b298cf9c3ca42742f3f63dfbc87295754"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/timestamp.json",
+      "path": "data/schema/refs/stix2.1/timestamp.json",
+      "sha256": "e816ad77e8f46b66aaaacac6b7f5f14dcd9d320c01d992455a7958481337d4d9"
+    },
+    {
+      "uri": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/url-regex.json",
+      "path": "data/schema/refs/stix2.1/url-regex.json",
+      "sha256": "88a22341762c7b039a1ce349d808a1ed4e0b560af11dbc911532eeb580026115"
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/master/schemas/common/timestamp.json",
+      "path": "data/schema/refs/master/timestamp.json",
+      "sha256": "e816ad77e8f46b66aaaacac6b7f5f14dcd9d320c01d992455a7958481337d4d9"
+    }
+  ]
+}
