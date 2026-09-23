@@ -6,7 +6,7 @@
       "#F0E6D2",
       "#453D34"
     ],
-    "maxValue": 3,
+    "maxValue": 4,
     "minValue": 0
   },
   "name": "INC-2026-0610-001",
@@ -22,49 +22,49 @@
       "techniqueID": "T1021.004"
     },
     {
+      "comment": "Match Legitimate Resource Name or Location",
+      "score": 2,
+      "techniqueID": "T1036.005"
+    },
+    {
       "comment": "Command and Scripting Interpreter",
-      "score": 3,
+      "score": 2,
       "techniqueID": "T1059"
     },
     {
-      "comment": "Windows Command Shell",
-      "score": 2,
-      "techniqueID": "T1059.003"
-    },
-    {
       "comment": "Application Layer Protocol",
-      "score": 1,
+      "score": 4,
       "techniqueID": "T1071"
     },
     {
-      "comment": "File and Directory Discovery",
+      "comment": "Mail Protocols",
       "score": 1,
+      "techniqueID": "T1071.003"
+    },
+    {
+      "comment": "File and Directory Discovery",
+      "score": 2,
       "techniqueID": "T1083"
     },
     {
-      "comment": "Domain Fronting",
+      "comment": "Domain Account",
       "score": 1,
-      "techniqueID": "T1090.004"
+      "techniqueID": "T1087.002"
     },
     {
-      "comment": "Network Share Discovery",
-      "score": 1,
-      "techniqueID": "T1135"
-    },
-    {
-      "comment": "Exploitation for Client Execution",
-      "score": 1,
-      "techniqueID": "T1203"
-    },
-    {
-      "comment": "User Execution",
-      "score": 1,
-      "techniqueID": "T1204"
-    },
-    {
-      "comment": "Traffic Signaling",
+      "comment": "Non-Application Layer Protocol",
       "score": 2,
-      "techniqueID": "T1205"
+      "techniqueID": "T1095"
+    },
+    {
+      "comment": "Parent PID Spoofing",
+      "score": 1,
+      "techniqueID": "T1134.004"
+    },
+    {
+      "comment": "Transfer Data to Cloud Account",
+      "score": 1,
+      "techniqueID": "T1537"
     },
     {
       "comment": "Remote Service Session Hijacking",
@@ -72,19 +72,14 @@
       "techniqueID": "T1563"
     },
     {
-      "comment": "SSH Hijacking",
-      "score": 1,
-      "techniqueID": "T1563.001"
-    },
-    {
-      "comment": "Spearphishing Attachment",
-      "score": 1,
-      "techniqueID": "T1566.001"
-    },
-    {
       "comment": "Exfiltration to Cloud Storage",
-      "score": 2,
+      "score": 1,
       "techniqueID": "T1567.002"
+    },
+    {
+      "comment": "Protocol Tunneling",
+      "score": 1,
+      "techniqueID": "T1572"
     }
   ],
   "versions": {

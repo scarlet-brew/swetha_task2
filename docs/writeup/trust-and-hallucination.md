@@ -136,6 +136,39 @@ rejection diagnostic instead of discarding it.
 **Model-proposed correlation rules.** Discarded because it put interpretation
 back inside the deterministic layer, reintroducing the coverage ceiling.
 
+## A failure this design did not prevent, and what it teaches
+
+Worth stating because it is the most instructive bug in the build, and none of
+the six checks or five invariants would ever have caught it.
+
+Asked whether data was exfiltrated, the system answered that a 2.47 GB archive
+appeared in cloud storage with an identical byte count to a staged endpoint
+file, and then added that *"neither record carries a username, hostname or
+uploading principal"*. Both records carry `username: jdavis`. The upload record
+also carries `source_host: FILE-SRV-02`, `bucket_owner: EXTERNAL` and
+`user_agent: python-requests/2.28.1`. The answer was the opposite of the truth,
+and it **understated** the strongest finding in the incident.
+
+Nothing fabricated anything. Every claim cited a real observation, every edge
+re-evaluated true, no identifier was invented. The finding cited the two
+`file_size_bytes` observations that made `same_size` hold — correctly — and the
+answer stage was shown only the cited fields. So it reasoned from *"this was not
+cited"* to *"this is not in the data"*, which is invalid, and said so honestly.
+
+The lesson generalises past this one bug: **a record is the atomic unit of
+evidence.** Citing one of its fields does not make the others unknown. Any stage
+that infers what exists from what was cited will produce confident, well-cited,
+verifiable falsehoods — which is a more dangerous failure mode than an obvious
+hallucination, because every mechanism designed to catch fabrication passes it.
+
+The fix was to print the whole cited record wherever a stage reasons over
+citations, and to offer the rest of a record alongside the relations in the
+interpretive step. Both places had made the same mistake, and the class of error
+is now visible in one place rather than two.
+
+It is also a fair verdict on the test suite: 294 tests, and the bug was found by
+a person reading the output and saying *"it is attributed to a user, right?"*
+
 ## The honest limits
 
 **What none of this checks is whether an interpretation is apt.** A finding can

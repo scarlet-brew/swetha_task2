@@ -57,6 +57,17 @@ class ModelInterpreter:
         ]
         if context.get("anchor"):
             lines.append(f"  selected for review because: {'; '.join(context['anchor']['reasons'])}")
+        if neighbourhood.get("record_context"):
+            lines.append("")
+            lines.append("THE REST OF THAT RECORD (same log line, not a correlation)")
+            for row in neighbourhood["record_context"]:
+                lines.append(f"    {row['id']}  {row['field']} = {row['value']!r}")
+            lines.append(
+                "  Cite these too where they matter. The account and host on a record are "
+                "part of what it evidences, and a finding that cites only the field a "
+                "relation matched on leaves a later reader unable to tell whether the "
+                "others were absent or merely uncited."
+            )
         lines.append("")
         lines.append("FACTUAL RELATIONS AROUND IT")
         for relation, data in neighbourhood["relations"].items():

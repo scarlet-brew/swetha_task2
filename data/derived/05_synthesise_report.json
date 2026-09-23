@@ -1,14 +1,14 @@
 {
   "graph_invariants": {
     "by_layer": {
-      "edge": 1451,
-      "finding": 22,
-      "hypothesis": 20,
-      "mapping": 20,
+      "edge": 1367,
+      "finding": 25,
+      "hypothesis": 24,
+      "mapping": 21,
       "observation": 1951,
       "record": 242
     },
-    "citations": 5267,
+    "citations": 5258,
     "invariant_1_layer_order": {
       "holds": true,
       "violations": []
@@ -21,18 +21,18 @@
       "cycle_path": null,
       "holds": true
     },
-    "nodes": 3706
+    "nodes": 3630
   },
   "projections": {
-    "attack_flow_objects": 23,
-    "entities_in_scope": 53,
+    "attack_flow_objects": 26,
+    "entities_in_scope": 41,
     "gaps": {
       "hosts_with_partial_coverage": 12,
       "structural": 3,
-      "unconfirmed_or_uncoverable_hypotheses": 13
+      "unconfirmed_or_uncoverable_hypotheses": 19
     },
-    "navigator_techniques": 15,
-    "timeline_steps": 22
+    "navigator_techniques": 14,
+    "timeline_steps": 25
   },
   "verification": {
     "absence_claims_computed_after_close": true,

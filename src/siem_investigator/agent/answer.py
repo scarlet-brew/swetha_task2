@@ -75,93 +75,11 @@ def _explain(exc: Exception) -> str:
     return f"{type(exc).__name__}: {detail[:200]}"
 
 
-class Artifacts:
-    """The frozen artifacts, loaded read-only. The query tool surface."""
+# `Artifacts` lives in `artifacts.py`: reading the committed graph is a separate
+# concern from answering over it. Re-exported so callers need one import.
+from .artifacts import Artifacts  # noqa: E402
 
-    def __init__(self) -> None:
-        self.records = jsonl.index_by_id(jsonl.read(paths.RECORDS)) if paths.RECORDS.exists() else {}
-        self.observations = (
-            jsonl.index_by_id(jsonl.read(paths.OBSERVATIONS)) if paths.OBSERVATIONS.exists() else {}
-        )
-        self.edges = jsonl.index_by_id(jsonl.read(paths.EDGES)) if paths.EDGES.exists() else {}
-        self.findings = (
-            jsonl.index_by_id(jsonl.read(paths.FINDINGS)) if paths.FINDINGS.exists() else {}
-        )
-        self.mappings = (
-            jsonl.index_by_id(jsonl.read(paths.MAPPINGS)) if paths.MAPPINGS.exists() else {}
-        )
-        self.hypotheses = (
-            jsonl.index_by_id(jsonl.read(paths.HYPOTHESES)) if paths.HYPOTHESES.exists() else {}
-        )
-        self.timeline = jsonl.read_json(paths.TIMELINE) if paths.TIMELINE.exists() else {"steps": []}
-        self.scope = jsonl.read_json(paths.SCOPE) if paths.SCOPE.exists() else {"involved": []}
-        self.gaps = jsonl.read_json(paths.GAPS) if paths.GAPS.exists() else {}
-        self.privilege = jsonl.read_json(paths.PRIVILEGE) if paths.PRIVILEGE.exists() else {}
-
-    @property
-    def available(self) -> bool:
-        return bool(self.records)
-
-    def resolve(self, node_id: str) -> tuple[str, dict] | None:
-        for layer, store in (
-            ("finding", self.findings),
-            ("mapping", self.mappings),
-            ("observation", self.observations),
-            ("edge", self.edges),
-            ("record", self.records),
-            ("hypothesis", self.hypotheses),
-        ):
-            if node_id in store:
-                return layer, store[node_id]
-        return None
-
-    def context(self, question: str, *, limit: int = 40) -> str:
-        """What stage 6 is allowed to see: the closed graph, nothing computed fresh."""
-        lines = ["QUESTION", f"  {question}", "", "ACCEPTED FINDINGS"]
-        for step in self.timeline["steps"][:limit]:
-            techniques = ", ".join(t["technique_id"] for t in step["techniques"]) or "unmapped"
-            lines.append(
-                f"  {step['finding']}  [{step['stage']}]  support={step['support']['label']}  "
-                f"techniques={techniques}"
-            )
-            lines.append(f"      {step['statement']}")
-            lines.append(
-                f"      events={','.join(step['event_ids'][:8])}  sources={','.join(step['source_types'])}"
-            )
-            lines.append(f"      observations={','.join(step['cites_observations'][:8])}")
-
-        lines.append("")
-        lines.append("SCOPE OF COMPROMISE")
-        for row in self.scope["involved"][:40]:
-            lines.append(
-                f"  {row['entity_type']}:{row['value']}  findings={row['finding_count']}  "
-                f"first={row['first_involvement']}  last={row['last_involvement']}"
-            )
-
-        lines.append("")
-        lines.append("GAPS -- what the sources cannot settle")
-        for gap in self.gaps.get("structural", []):
-            lines.append(f"  {gap['statement']}  limits: {gap['limits']}")
-        for gap in self.gaps.get("from_hypotheses", [])[:10]:
-            lines.append(f"  [{gap['outcome']}] {gap['statement']}")
-
-        if self.privilege:
-            lines.append("")
-            lines.append("PRIVILEGE")
-            lines.append(
-                f"  exploit-based escalation evidenced: "
-                f"{self.privilege['exploit_based_escalation']['evidenced']}"
-            )
-            for host in self.privilege.get("per_host", [])[:6]:
-                lines.append(f"  {host['host']}: highest={host['highest']}, rises={len(host['rises'])}")
-
-        lines.append("")
-        lines.append(
-            "Answer from this material only. In the prose, reference the EVT-xxxx event "
-            "ids shown above, in square brackets. In `claims`, cite the fnd_/obs_ node "
-            "ids. An `attribution` claim must cite at least one finding id."
-        )
-        return "\n".join(lines)
+__all__ = ["Artifacts", "ask", "gate", "strip_node_ids", "to_payload"]
 
 
 def gate(answer: dict, artifacts: Artifacts) -> tuple[bool, list[str]]:

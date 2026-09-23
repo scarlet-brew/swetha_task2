@@ -1,24 +1,29 @@
 {
-  "count": 22,
+  "count": 25,
   "no_reconstruction": false,
   "steps": [
     {
       "cites_edges": [
-        "edg_3383d456f220",
-        "edg_64726cc20742",
-        "edg_6c5579b409d5",
-        "edg_89eb08339466",
-        "edg_9639bba19c52",
-        "edg_ad34574ae5ae",
-        "edg_d0f568811570",
-        "edg_d152fae28350"
+        "edg_1eca369219b6",
+        "edg_27ce5076b058",
+        "edg_8704edd21d07",
+        "edg_8ceca5ad1a50",
+        "edg_ad34574ae5ae"
       ],
       "cites_observations": [
+        "obs_02ad2645d81a",
         "obs_0ef69125c19a",
+        "obs_178b775f27c0",
         "obs_22a1c5ca6d2e",
+        "obs_2ffe65dccba5",
         "obs_316089135c54",
+        "obs_3f68ac4199e3",
         "obs_60313c3242ef",
         "obs_61b958fd9c70",
+        "obs_72159ffac0a6",
+        "obs_8344887bd498",
+        "obs_97bd2683e7af",
+        "obs_a7a225470f4d",
         "obs_cdb3a5113652",
         "obs_d3b07ec9588f",
         "obs_f7510556968d",
@@ -28,14 +33,14 @@
         "EVT-0221",
         "EVT-0222"
       ],
-      "finding": "fnd_28064fa63b48",
+      "finding": "fnd_9e56aaab7ce5",
       "first_recorded_time": "2026-06-10T08:12:33Z",
       "last_recorded_time": "2026-06-10T08:12:35Z",
       "source_types": [
         "endpoint"
       ],
       "stage": "execution",
-      "statement": "On wkstn-07, winword.exe spawned cmd.exe (EVT-0221), and two seconds later cmd.exe spawned powershell.exe (pid 5104) under user jdavis at 2026-06-10T08:12:35.000000Z with the command line 'powershell.exe -nop -w hidden -enc JABjAGwAaQBlAG4AdA...' — a document-application-to-shell chain ending in a hidden, base64-encoded PowerShell payload.",
+      "statement": "On host wkstn-07 at 2026-06-10T08:12:33.000000Z, a process recorded with parent_process 'winword.exe' launched cmd.exe (pid 4872, integrity_level 'medium') under account 'jdavis' with command line 'cmd.exe /c powershell.exe -nop -w hidden -enc JABjAGwAaQBlAG4AdA...', and 2.0 seconds later the same account on the same host ran powershell.exe (pid 5104) with parent_process 'cmd.exe' and command line 'powershell.exe -nop -w hidden -enc JABjAGwAaQBlAG4AdA...', consistent with a malicious document spawning a hidden encoded PowerShell payload.",
       "support": {
         "flags": [],
         "label": "single_sourced"
@@ -52,32 +57,33 @@
     },
     {
       "cites_edges": [
-        "edg_27ce5076b058",
-        "edg_a7c997cbdd45"
+        "edg_27ce5076b058"
       ],
       "cites_observations": [
         "obs_0ef69125c19a",
-        "obs_50462666fe77",
-        "obs_c17ec95f8881",
-        "obs_efc3a4318676",
+        "obs_22a1c5ca6d2e",
+        "obs_316089135c54",
+        "obs_3f68ac4199e3",
+        "obs_3f86cf689885",
+        "obs_61b958fd9c70",
+        "obs_cdb3a5113652",
+        "obs_d3b07ec9588f",
         "obs_f7510556968d"
       ],
       "event_ids": [
-        "EVT-0209",
         "EVT-0222"
       ],
-      "finding": "fnd_b6eade451f6b",
+      "finding": "fnd_96d390096ab2",
       "first_recorded_time": "2026-06-10T08:12:35Z",
-      "last_recorded_time": "2026-06-10T08:50:44.249433Z",
+      "last_recorded_time": "2026-06-10T08:12:35Z",
       "source_types": [
-        "cloud_storage",
         "endpoint"
       ],
       "stage": "execution",
-      "statement": "Endpoint event EVT-0222 records a process named powershell.exe (obs_f7510556968d) whose parent process is cmd.exe (obs_0ef69125c19a), i.e. PowerShell launched from a command shell rather than interactively from a shell UI. The cited observations carry no hostname, username, command line or pid, so neither the executing host/account nor what PowerShell ran is established here; an EVT-0222 field for hostname/username/command_line, or a PowerShell script-block/module logging record for the same execution, would be needed to close that gap. The nearest temporally related records are the EVT-0209 cloud_storage fields at 2026-06-10T08:50:44.249433Z (obs_c17ec95f8881) under username 'dtaylor' (obs_efc3a4318676) from source_ip 10.0.2.17 (obs_50462666fe77), 2289.249433 seconds away, a separation of roughly 38 minutes that does not by itself link the shell activity to that cloud access.",
+      "statement": "At 2026-06-10T08:12:35.000000Z on host 'wkstn-07', account 'jdavis' ran 'powershell.exe' (pid 5104, process_path 'powershell.exe', integrity_level 'medium') as a child of parent_process 'cmd.exe', with command_line 'powershell.exe -nop -w hidden -enc JABjAGwAaQBlAG4AdA...' — a hidden-window, no-profile, base64-encoded PowerShell command launched from a command shell.",
       "support": {
         "flags": [],
-        "label": "corroborated"
+        "label": "single_sourced"
       },
       "techniques": [
         {
@@ -91,78 +97,31 @@
     },
     {
       "cites_edges": [
-        "edg_33e3905f2615",
-        "edg_6ad94ac9e89f",
-        "edg_947529abb1b5",
-        "edg_b074d27f9d9f",
-        "edg_b70a2195e75b",
-        "edg_ba961da8d315",
-        "edg_dd82152f6258",
-        "edg_e42bf1e084f1"
-      ],
-      "cites_observations": [
-        "obs_0a405407e13e",
-        "obs_13a8a422418f",
-        "obs_4714251c0355",
-        "obs_82b9197671fd",
-        "obs_8ca591c0ba53",
-        "obs_9181baa33fef",
-        "obs_990ce803097c",
-        "obs_9bd880d666ae",
-        "obs_a9eb81b4cb9c",
-        "obs_d78a86f39070",
-        "obs_feedefba142b"
-      ],
-      "event_ids": [
-        "EVT-0150",
-        "EVT-0223",
-        "EVT-0224",
-        "EVT-0225"
-      ],
-      "finding": "fnd_1ce658a06f2d",
-      "first_recorded_time": "2026-06-10T09:03:17Z",
-      "last_recorded_time": "2026-06-10T09:34:21Z",
-      "source_types": [
-        "endpoint",
-        "network"
-      ],
-      "stage": "command-and-control",
-      "statement": "The nearest endpoint activity in time to the outbound flow EVT-0223 to 185.220.101.45 (obs_8ca591c0ba53) is EVT-0150, 143.279231 seconds away, on host wkstn-05 under username dtaylor: word.exe (pid 5002, process_path 'microsoft', integrity_level 'medium') spawned by parent teams.exe at 2026-06-10T09:05:40.279231Z. EVT-0223, EVT-0224 and EVT-0225 carry only the destination address 185.220.101.45 and no source host, user or process field, so this temporal adjacency does not attribute the traffic to wkstn-05 or dtaylor; a network record bearing a source host/process, or a process-to-connection correlation on wkstn-05, would be needed to close that gap.",
-      "support": {
-        "flags": [],
-        "label": "corroborated"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "stealth",
-            "persistence",
-            "command-and-control"
-          ],
-          "technique_id": "T1205",
-          "technique_name": "Traffic Signaling"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
         "edg_00c80113d038",
-        "edg_524b6248c2c5",
+        "edg_2196ee059d81",
         "edg_5bd0d03795c3",
-        "edg_6fb9838b888a",
-        "edg_b8f00337397f",
-        "edg_d6e52b1e57b5"
+        "edg_7482758df0c9",
+        "edg_e75f0c6c9e52"
       ],
       "cites_observations": [
         "obs_07db70cbe0c7",
         "obs_4714251c0355",
         "obs_4736dae95664",
+        "obs_6af0baa45939",
+        "obs_72fdf408df5d",
+        "obs_7d82ed389c2d",
         "obs_8ca591c0ba53",
+        "obs_9deca572ae62",
         "obs_a9eb81b4cb9c",
         "obs_aeb0730cd5c1",
+        "obs_aee4135e115e",
+        "obs_af082ee4aba2",
         "obs_b791737b5e85",
         "obs_e2f473d4b9dd",
+        "obs_e3d8246aa507",
         "obs_e902ea8816c8",
+        "obs_ec0fbb3f2332",
+        "obs_fda48195dbbd",
         "obs_ffbd322e2775"
       ],
       "event_ids": [
@@ -170,14 +129,14 @@
         "EVT-0224",
         "EVT-0225"
       ],
-      "finding": "fnd_270b166d0a7d",
+      "finding": "fnd_40742dae516f",
       "first_recorded_time": "2026-06-10T09:03:17Z",
       "last_recorded_time": "2026-06-10T09:34:21Z",
       "source_types": [
         "network"
       ],
       "stage": "command-and-control",
-      "statement": "Network event EVT-0225, a flow to 185.220.101.45, carries source attribution absent from the anchor: src_host 'wkstn-07' (obs_b791737b5e85) with src_ip 10.0.2.47 (obs_4736dae95664), over tcp (obs_e2f473d4b9dd) to dst_port 443 (obs_ffbd322e2775) at 2026-06-10T09:34:21.000000Z (obs_07db70cbe0c7), sending 987 bytes and receiving 3201 bytes (obs_aeb0730cd5c1, obs_e902ea8816c8); it shares the destination address 185.220.101.45 with EVT-0224 (obs_a9eb81b4cb9c) 937 seconds earlier, tying that repeated outbound contact to wkstn-07.",
+      "statement": "At 2026-06-10T09:18:44.000000Z host wkstn-07 (src_ip 10.0.2.47) opened an allowed outbound tcp session to the external address 185.220.101.45 on dst_port 443 under firewall_rule 'allow-out-443', sending 1203 bytes and receiving 4410 bytes; this record EVT-0224 falls between two other network records to the same destination address 185.220.101.45 (EVT-0223 and EVT-0225), with EVT-0225 following 937 seconds later, a pattern of small, repeated same-host callbacks to one external endpoint.",
       "support": {
         "flags": [],
         "label": "single_sourced"
@@ -198,56 +157,123 @@
         "edg_24e759ef19fa"
       ],
       "cites_observations": [
+        "obs_07db70cbe0c7",
         "obs_4714251c0355",
+        "obs_4736dae95664",
         "obs_8ca591c0ba53",
-        "obs_a9eb81b4cb9c"
+        "obs_a9eb81b4cb9c",
+        "obs_aeb0730cd5c1",
+        "obs_b791737b5e85",
+        "obs_dda3f43cceb9",
+        "obs_e2f473d4b9dd",
+        "obs_e902ea8816c8",
+        "obs_f18f60ef39e9",
+        "obs_ffbd322e2775"
       ],
       "event_ids": [
         "EVT-0223",
         "EVT-0224",
         "EVT-0225"
       ],
-      "finding": "fnd_c35f33a624af",
+      "finding": "fnd_ce7f0d436e26",
       "first_recorded_time": "2026-06-10T09:03:17Z",
       "last_recorded_time": "2026-06-10T09:34:21Z",
       "source_types": [
         "network"
       ],
       "stage": "command-and-control",
-      "statement": "Three distinct network events, EVT-0223 (obs_8ca591c0ba53), EVT-0224 (obs_a9eb81b4cb9c) and EVT-0225 (obs_4714251c0355), all record a destination address of 185.220.101.45, indicating repeated outbound contact with a single external endpoint. None of the cited observations carries a source host, user or process field, so no endpoint or account is tied to this traffic; a network record bearing a source host/process attribution, or a process-to-connection correlation on the originating host, would be needed to establish that link.",
+      "statement": "At 2026-06-10T09:34:21.000000Z host wkstn-07 (10.0.2.47) opened an allowed outbound tcp session to the external address 185.220.101.45 on dst_port 443 under firewall_rule 'allow-out-443', sending 987 bytes and receiving 3201 bytes; two further network records, EVT-0223 and EVT-0224, carry the same destination address 185.220.101.45, so this external endpoint was contacted repeatedly, and wkstn-07 is the same host on which the hidden encoded PowerShell payload was executed earlier that morning.",
       "support": {
         "flags": [],
         "label": "single_sourced"
       },
-      "techniques": []
+      "techniques": [
+        {
+          "tactics": [
+            "command-and-control"
+          ],
+          "technique_id": "T1071",
+          "technique_name": "Application Layer Protocol"
+        }
+      ]
     },
     {
       "cites_edges": [
-        "edg_052cc0dbf7e7",
-        "edg_0a6c0dc930ea",
-        "edg_0cf66b01e04b",
-        "edg_4e5ca9e2bc43",
+        "edg_33e3905f2615",
+        "edg_630d5fc6a772",
+        "edg_ba961da8d315"
+      ],
+      "cites_observations": [
+        "obs_3a66411a4357",
+        "obs_408d50813d3a",
+        "obs_4714251c0355",
+        "obs_5ac8f822d3b3",
+        "obs_8bc7b070568b",
+        "obs_8ca591c0ba53",
+        "obs_96f1afe2fab7",
+        "obs_9a83a68489c3",
+        "obs_a9eb81b4cb9c",
+        "obs_e3d4b97d0874",
+        "obs_e5df868f04cb",
+        "obs_fbea386d511e"
+      ],
+      "event_ids": [
+        "EVT-0223",
+        "EVT-0224",
+        "EVT-0225"
+      ],
+      "finding": "fnd_d96a677d3975",
+      "first_recorded_time": "2026-06-10T09:03:17Z",
+      "last_recorded_time": "2026-06-10T09:34:21Z",
+      "source_types": [
+        "network"
+      ],
+      "stage": "command-and-control",
+      "statement": "At 2026-06-10T09:03:17.000000Z host wkstn-07 (src_ip 10.0.2.47) opened an allowed outbound tcp session to the external address 185.220.101.45 on dst_port 443 under firewall_rule 'allow-out-443', sending 4821 bytes and receiving 82034 bytes; two further network records, EVT-0224 and EVT-0225, carry the same destination address 185.220.101.45, so this external endpoint was contacted repeatedly from the environment.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
+            "command-and-control"
+          ],
+          "technique_id": "T1071",
+          "technique_name": "Application Layer Protocol"
+        }
+      ]
+    },
+    {
+      "cites_edges": [
+        "edg_4ef2ac9e416b",
         "edg_5d3df43e616b",
-        "edg_7330e0988785",
-        "edg_e4293810480f",
-        "edg_f0fd2a342045"
+        "edg_64495b98ee40"
       ],
       "cites_observations": [
         "obs_0609d699aad4",
         "obs_1bfa12e5f29b",
+        "obs_1c07744f82ef",
+        "obs_29a70b3cf0ea",
         "obs_2ac0a28281d4",
         "obs_3d50340fd98d",
         "obs_46ca7e384646",
         "obs_70040b6134b9",
+        "obs_79e4024056a3",
         "obs_7c58a54a78ef",
+        "obs_84c9c328f051",
+        "obs_914c9bea02eb",
+        "obs_aa79e2df4d1c",
+        "obs_d1c070a34e85",
         "obs_d8c377fb6985",
-        "obs_e38985573038"
+        "obs_e38985573038",
+        "obs_f9a14eb1fda0"
       ],
       "event_ids": [
         "EVT-0110",
         "EVT-0230"
       ],
-      "finding": "fnd_c22ee92c8f33",
+      "finding": "fnd_ce0850514731",
       "first_recorded_time": "2026-06-10T11:28:42Z",
       "last_recorded_time": "2026-06-10T11:33:38.176114Z",
       "source_types": [
@@ -255,7 +281,7 @@
         "network"
       ],
       "stage": "discovery",
-      "statement": "Endpoint event EVT-0230 records execution of net.exe (obs_2ac0a28281d4), the built-in network/share and account enumeration utility. The cited observations for EVT-0230 carry no hostname, username, command line, pid or parent process, so neither the executing host/account nor the subcommand is established here; an EVT-0230 field for hostname/username/command_line, or a process-creation record from the same host's endpoint agent, would be needed to close that gap. Its nearest temporally related records are the EVT-0110 network fields at 2026-06-10T11:33:38.176114Z (obs_7c58a54a78ef) for a tcp (obs_0609d699aad4) flow from src_ip 10.0.1.13 (obs_1bfa12e5f29b) to dst_ip 10.0.5.19 (obs_3d50340fd98d) on dst_port 53 (obs_70040b6134b9) with bytes_sent 48795 (obs_d8c377fb6985) and bytes_recv 137177 (obs_e38985573038), action 'allowed' (obs_46ca7e384646), 296.176114 seconds away — a separation of roughly five minutes that does not by itself tie the net.exe execution to that flow, and no observation cited here names a host or process for either the 10.0.1.13 or 10.0.5.19 side.",
+      "statement": "At 2026-06-10T11:28:42.000000Z on hostname 'auth-srv-01', account 'jdavis' ran 'net.exe' (pid 2398, process_path 'net.exe') at integrity_level 'high' with parent_process 'cmd.exe' and command_line 'net user /domain' — enumeration of domain user accounts from an elevated command shell; 296 seconds later EVT-0110 records an allowed tcp flow from 10.0.1.13 to 10.0.5.19 on dst_port 53 carrying 48795 bytes sent and 137177 bytes received.",
       "support": {
         "flags": [],
         "label": "corroborated"
@@ -265,30 +291,39 @@
           "tactics": [
             "discovery"
           ],
-          "technique_id": "T1135",
-          "technique_name": "Network Share Discovery"
+          "technique_id": "T1087.002",
+          "technique_name": "Domain Account"
         }
       ]
     },
     {
       "cites_edges": [
-        "edg_1a9575355a45",
         "edg_2489d54a2c46",
         "edg_47ae60d60996",
         "edg_4faccbbb06e6",
+        "edg_778f15f16eb4",
+        "edg_8b875a888651",
         "edg_b837c5de12c8",
-        "edg_b9e3a2e74015",
-        "edg_bf615eb9846e",
-        "edg_ecf2b384fac0"
+        "edg_bf615eb9846e"
       ],
       "cites_observations": [
+        "obs_0cd74a084fba",
         "obs_184b3dbaace7",
+        "obs_3c113b3aac79",
+        "obs_408d7dbe7e4e",
         "obs_42ead5b62ef2",
         "obs_60a53547af4a",
         "obs_7d30c81f008c",
+        "obs_85729c587c6e",
         "obs_9c45b5c6189a",
         "obs_9f81d2d1d113",
+        "obs_bce9769c401d",
+        "obs_be7f17978d05",
+        "obs_c5f950c607db",
+        "obs_d7de16a9a798",
+        "obs_dab2913cdd49",
         "obs_dd24d4929cd4",
+        "obs_e21f2b79d061",
         "obs_f552866366ac",
         "obs_fe4a928be14f"
       ],
@@ -297,7 +332,7 @@
         "EVT-0232",
         "EVT-0233"
       ],
-      "finding": "fnd_ef7349648196",
+      "finding": "fnd_e5b656e78095",
       "first_recorded_time": "2026-06-10T13:11:33Z",
       "last_recorded_time": "2026-06-10T13:12:07Z",
       "source_types": [
@@ -305,7 +340,7 @@
         "network"
       ],
       "stage": "lateral-movement",
-      "statement": "The single dst_port 445 network event EVT-0231 (obs_dd24d4929cd4) precedes by 31 seconds the installation of service 'psexesvc' with service_path 'psexesvc.exe' on host file-srv-02 under username jdavis at 2026-06-10T13:12:04.000000Z (EVT-0232: obs_184b3dbaace7, obs_60a53547af4a, obs_7d30c81f008c, obs_fe4a928be14f, obs_9f81d2d1d113), and by 34 seconds the follow-on EVT-0233 activity on the same host file-srv-02 under the same username jdavis at 2026-06-10T13:12:07.000000Z (obs_9c45b5c6189a, obs_f552866366ac, obs_42ead5b62ef2) — the pattern of SMB admin-share access followed by PsExec service creation and execution. EVT-0231 carries only dst_port 445 among the cited observations, with no source or destination host, user or process field, so the SMB flow is not attributed to file-srv-02 or jdavis by these records; a network record bearing src_host/dst_host or a source process, or an authentication log for the 445 session on file-srv-02, would be required to close that gap.",
+      "statement": "At 2026-06-10T13:11:33.000000Z an allowed tcp flow (firewall_rule 'allow-int-smb', 32048 bytes sent, 8192 bytes received) ran from auth-srv-01 (10.0.1.10) to file-srv-02 (10.0.1.22) on dst_port 445; 31 seconds later EVT-0232 records service_name 'psexesvc' with service_path 'psexesvc.exe' installed on hostname 'file-srv-02' under username 'jdavis', and 34 seconds after the flow EVT-0233 records the same account on the same host, so the SMB session from auth-srv-01 is the delivery channel for the PsExec service that produced the SYSTEM shell on file-srv-02.",
       "support": {
         "flags": [],
         "label": "corroborated"
@@ -322,77 +357,60 @@
     },
     {
       "cites_edges": [
-        "edg_141bb8faa5df",
-        "edg_2546450724a7",
-        "edg_3c0f081d64f0",
-        "edg_3c315c8b9287",
-        "edg_80f188bbdfd2",
-        "edg_82d07de47352",
-        "edg_ad3b7068352a",
-        "edg_d1b40fff4d01"
+        "edg_05889b138d89"
       ],
       "cites_observations": [
-        "obs_0b8c629840a8",
-        "obs_0c0777d0de45",
-        "obs_17c320943d11",
+        "obs_301f9e56e666",
+        "obs_40c9cd6ae02b",
+        "obs_42ead5b62ef2",
         "obs_44ba24f843ab",
-        "obs_4bc6676c461d",
-        "obs_50895533f5de",
-        "obs_a6023415d341",
-        "obs_b10ca951ffa0",
-        "obs_bcb38cbba3e0"
+        "obs_56ac77b5e116",
+        "obs_9c45b5c6189a",
+        "obs_cb87031c57b2",
+        "obs_d3a7c3847452",
+        "obs_f552866366ac"
       ],
       "event_ids": [
-        "EVT-0187",
         "EVT-0233"
       ],
-      "finding": "fnd_1cfbb89f3ea3",
+      "finding": "fnd_adf87c1e5d21",
       "first_recorded_time": "2026-06-10T13:12:07Z",
-      "last_recorded_time": "2026-06-10T13:40:10.848419Z",
-      "source_types": [
-        "endpoint"
-      ],
-      "stage": "execution",
-      "statement": "Endpoint event EVT-0233 records a process named cmd.exe (obs_44ba24f843ab), a command shell. The cited EVT-0233 observation carries no hostname, username, command line, pid or parent process, so neither the executing host/account nor what the shell ran is established here; an EVT-0233 hostname/username/command_line field, or a process-creation record from the same host's endpoint agent, would be needed to attribute it. Its nearest temporally related records are the EVT-0187 endpoint fields at 2026-06-10T13:40:10.848419Z (obs_0c0777d0de45) for word.exe (obs_17c320943d11) spawned by explorer.exe (obs_0b8c629840a8), pid 4090 (obs_bcb38cbba3e0), integrity_level 'medium' (obs_50895533f5de), process_path 'microsoft' (obs_a6023415d341), under username asmith (obs_4bc6676c461d) on hostname wkstn-02 (obs_b10ca951ffa0), 1683.848419 seconds away — roughly twenty-eight minutes, and an interactively launched document application rather than a shell parent, so it does not by itself place EVT-0233 on wkstn-02 or under asmith.",
-      "support": {
-        "flags": [],
-        "label": "single_sourced"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "execution"
-          ],
-          "technique_id": "T1059.003",
-          "technique_name": "Windows Command Shell"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
-        "edg_05889b138d89",
-        "edg_38628e577468"
-      ],
-      "cites_observations": [
-        "obs_0b8c629840a8",
-        "obs_0c0777d0de45",
-        "obs_17c320943d11",
-        "obs_44ba24f843ab",
-        "obs_b10ca951ffa0",
-        "obs_cb87031c57b2"
-      ],
-      "event_ids": [
-        "EVT-0187",
-        "EVT-0233"
-      ],
-      "finding": "fnd_6731ea185dd8",
-      "first_recorded_time": "2026-06-10T13:12:07Z",
-      "last_recorded_time": "2026-06-10T13:40:10.848419Z",
+      "last_recorded_time": "2026-06-10T13:12:07Z",
       "source_types": [
         "endpoint"
       ],
       "stage": "lateral-movement",
-      "statement": "Endpoint event EVT-0233 records cmd.exe (obs_44ba24f843ab) spawned by parent process psexesvc.exe (obs_cb87031c57b2), the service-side component of PsExec, indicating a command shell launched via remote service execution rather than by a local interactive shell. The cited observations carry no hostname or username, so the executing host and account are not established here; an EVT-0233 record field for hostname/username, or an authentication/service-install log for the same event, would be needed to close that gap.",
+      "statement": "At 2026-06-10T13:12:07.000000Z on host 'file-srv-02', a cmd.exe process (pid 3871, command_line 'cmd.exe', process_path 'cmd.exe') ran at integrity_level 'system' under account 'jdavis' with parent_process 'psexesvc.exe', the service executable characteristic of PsExec-style remote execution, indicating a remotely initiated SYSTEM-level shell on that server.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": []
+    },
+    {
+      "cites_edges": [],
+      "cites_observations": [
+        "obs_301f9e56e666",
+        "obs_40c9cd6ae02b",
+        "obs_42ead5b62ef2",
+        "obs_44ba24f843ab",
+        "obs_56ac77b5e116",
+        "obs_9c45b5c6189a",
+        "obs_cb87031c57b2",
+        "obs_d3a7c3847452",
+        "obs_f552866366ac"
+      ],
+      "event_ids": [
+        "EVT-0233"
+      ],
+      "finding": "fnd_bc33270471fe",
+      "first_recorded_time": "2026-06-10T13:12:07Z",
+      "last_recorded_time": "2026-06-10T13:12:07Z",
+      "source_types": [
+        "endpoint"
+      ],
+      "stage": "lateral-movement",
+      "statement": "At 2026-06-10T13:12:07.000000Z on hostname 'file-srv-02', account 'jdavis' ran process_name 'cmd.exe' (pid 3871, process_path 'cmd.exe', command_line 'cmd.exe') at integrity_level 'system' with parent_process 'psexesvc.exe' — a command shell spawned by the PsExec service executable, i.e. remote service-based execution yielding a system-integrity shell on the file server.",
       "support": {
         "flags": [],
         "label": "single_sourced"
@@ -401,34 +419,41 @@
     },
     {
       "cites_edges": [
-        "edg_0a54cc18ca18",
-        "edg_1c1bdef3e56c",
+        "edg_59d9c3606d5a",
+        "edg_67ab68bc3b84",
         "edg_8b0c75bba2a6",
-        "edg_d302aff0dabb",
-        "edg_e4278a641e3e"
+        "edg_f9d6e9ebec2a"
       ],
       "cites_observations": [
+        "obs_0a1c4d0a7b95",
         "obs_27f847ad5fdf",
+        "obs_408fcc7004a8",
         "obs_59f1be1fe4fa",
         "obs_618ee48830b3",
+        "obs_6bcff0fe8a4c",
         "obs_8163e55a7811",
+        "obs_8e0c7447655d",
         "obs_9db3c9019c41",
+        "obs_b692d250a9cf",
+        "obs_bb0ccb9b6659",
+        "obs_dd1aee9dfaa2",
         "obs_ee39ef851987",
         "obs_f01f881129ba",
+        "obs_fc05a3c736a2",
         "obs_fefbda991563"
       ],
       "event_ids": [
         "EVT-0234",
         "EVT-0235"
       ],
-      "finding": "fnd_a03018703879",
+      "finding": "fnd_398feae2a821",
       "first_recorded_time": "2026-06-10T14:05:22Z",
       "last_recorded_time": "2026-06-10T14:07:55Z",
       "source_types": [
         "endpoint"
       ],
       "stage": "discovery",
-      "statement": "Endpoint event EVT-0234 records net.exe (obs_9db3c9019c41) spawned by parent process cmd.exe (obs_27f847ad5fdf) — the built-in network/share and account enumeration utility run from a command shell. It sits 153 seconds from endpoint event EVT-0235 at 2026-06-10T14:07:55.000000Z (obs_8163e55a7811) on hostname file-srv-02 (obs_f01f881129ba) under username jdavis (obs_618ee48830b3), where cmd.exe (obs_59f1be1fe4fa, pid 4044 obs_ee39ef851987) ran command_line 'dir /s /b \\\\FILE-SRV-02\\finance-data' (obs_fefbda991563), so the two form a short burst of shell-driven enumeration. The EVT-0234 observations cited carry no hostname, username, command line or pid, so the net.exe invocation is not itself attributed to file-srv-02 or jdavis and its subcommand is unknown; an EVT-0234 field for hostname/username/command_line, or a process-creation record from the same host's endpoint agent, would be needed to close that gap.",
+      "statement": "At 2026-06-10T14:05:22.000000Z on host 'file-srv-02', account 'jdavis' ran 'net.exe' (pid 4012, process_path 'net.exe') at integrity_level 'system' with parent_process 'cmd.exe' and command_line 'net share', enumerating the server's shared folders; 153 seconds later the same account on the same host ran 'dir /s /b \\\\FILE-SRV-02\\finance-data' (EVT-0235, pid 4044, parent_process 'cmd.exe'), so share enumeration was followed by recursive listing of one of the shares.",
       "support": {
         "flags": [],
         "label": "single_sourced"
@@ -445,30 +470,74 @@
     },
     {
       "cites_edges": [
-        "edg_34192c5c42f0",
-        "edg_6176b0eed752"
+        "edg_34192c5c42f0"
       ],
       "cites_observations": [
         "obs_0a1c4d0a7b95",
+        "obs_3f5a77306d1e",
         "obs_59f1be1fe4fa",
-        "obs_6cc207186072",
-        "obs_95eadec3eccc",
-        "obs_aa36006864c3",
-        "obs_de67c229d175"
+        "obs_618ee48830b3",
+        "obs_8163e55a7811",
+        "obs_bc2f3bba444d",
+        "obs_ee39ef851987",
+        "obs_f01f881129ba",
+        "obs_fefbda991563"
       ],
       "event_ids": [
-        "EVT-0009",
         "EVT-0235"
       ],
-      "finding": "fnd_98a77ac9b73d",
+      "finding": "fnd_6cf8bed1531b",
       "first_recorded_time": "2026-06-10T14:07:55Z",
-      "last_recorded_time": "2026-06-10T14:40:12.102241Z",
+      "last_recorded_time": "2026-06-10T14:07:55Z",
       "source_types": [
-        "auth",
         "endpoint"
       ],
-      "stage": "execution",
-      "statement": "Endpoint event EVT-0235 records a process named cmd.exe (obs_59f1be1fe4fa) whose parent process is itself cmd.exe (obs_0a1c4d0a7b95), i.e. a nested command shell spawned from another command shell. The cited observations carry no hostname, username, command line or pid, so neither the executing host/account nor what the shell ran is established here; an EVT-0235 field for hostname/username/command_line, or a matching process-creation record from the host's endpoint agent, would be needed to close that gap. The nearest temporally related records are the EVT-0009 authentication fields at 2026-06-10T14:40:12.102241Z (obs_95eadec3eccc, username 'hwalker' obs_de67c229d175, source_host 'wkstn-09' obs_6cc207186072, dest_host 'auth-srv-01' obs_aa36006864c3), 1937 seconds away, a separation that does not by itself link EVT-0235 to that logon.",
+      "stage": "discovery",
+      "statement": "At 2026-06-10T14:07:55.000000Z on host 'file-srv-02', account 'jdavis' ran cmd.exe (pid 4044, process_path 'cmd.exe') at integrity_level 'system' with parent_process 'cmd.exe', executing 'dir /s /b \\\\FILE-SRV-02\\finance-data' — a recursive enumeration of the finance-data share on that same server from a SYSTEM-level shell spawned by another cmd.exe.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
+            "discovery"
+          ],
+          "technique_id": "T1083",
+          "technique_name": "File and Directory Discovery"
+        }
+      ]
+    },
+    {
+      "cites_edges": [
+        "edg_bf998f6f6f60"
+      ],
+      "cites_observations": [
+        "obs_0fa5c6cb8f1c",
+        "obs_1019e4b08275",
+        "obs_3dfc08d5bf03",
+        "obs_403fe8aa2d9c",
+        "obs_6861e8f4de91",
+        "obs_76f6457e4f54",
+        "obs_7f38b21cfaaa",
+        "obs_8cccc7fd7c38",
+        "obs_96a8b6a380d2",
+        "obs_9ffc9c61a768",
+        "obs_f358ccf99d69"
+      ],
+      "event_ids": [
+        "EVT-0237",
+        "EVT-0238"
+      ],
+      "finding": "fnd_1ce1470ddda0",
+      "first_recorded_time": "2026-06-10T16:51:03Z",
+      "last_recorded_time": "2026-06-10T18:18:44Z",
+      "source_types": [
+        "cloud_storage",
+        "endpoint"
+      ],
+      "stage": "exfiltration",
+      "statement": "At 2026-06-10T18:18:44.000000Z account 'jdavis' on source_host 'file-srv-02' (source_ip 10.0.1.22) uploaded 'backup_archive.zip', 2,473,829,122 bytes, to bucket 'ext-drop-xf9q2' whose bucket_owner is 'external', with action 'allowed' and user_agent 'python-requests/2.28.1'; an endpoint record EVT-0237 carries a file of exactly the same size, 2,473,829,122 bytes, tying the staged local archive to a scripted transfer into externally-owned storage.",
       "support": {
         "flags": [],
         "label": "corroborated"
@@ -476,10 +545,10 @@
       "techniques": [
         {
           "tactics": [
-            "execution"
+            "exfiltration"
           ],
-          "technique_id": "T1059.003",
-          "technique_name": "Windows Command Shell"
+          "technique_id": "T1537",
+          "technique_name": "Transfer Data to Cloud Account"
         }
       ]
     },
@@ -488,14 +557,18 @@
         "edg_e411be7f60db"
       ],
       "cites_observations": [
+        "obs_049d96796e81",
         "obs_3dfc08d5bf03",
-        "obs_6861e8f4de91"
+        "obs_6861e8f4de91",
+        "obs_7592bfc9e777",
+        "obs_8226f7519e5d",
+        "obs_e838b90f7d6f"
       ],
       "event_ids": [
         "EVT-0237",
         "EVT-0238"
       ],
-      "finding": "fnd_8cf2799a2fe9",
+      "finding": "fnd_c6248621d62e",
       "first_recorded_time": "2026-06-10T16:51:03Z",
       "last_recorded_time": "2026-06-10T18:18:44Z",
       "source_types": [
@@ -503,7 +576,7 @@
         "endpoint"
       ],
       "stage": "exfiltration",
-      "statement": "An endpoint file event (EVT-0237) and a cloud_storage event (EVT-0238) both record a file_size_bytes of 2473829122, consistent with a single ~2.47 GB object staged on the endpoint and then present in cloud storage. Neither cited observation carries a user, host or destination account field here, so the actor and target account are not established; an endpoint file record with a path/user attribution or a cloud_storage record with an uploading principal would be needed to close that gap.",
+      "statement": "At 2026-06-10T16:51:03.000000Z on host 'file-srv-02', account 'jdavis' is recorded with the file 'backup_archive.zip' of 2,473,829,122 bytes, and a cloud_storage record EVT-0238 carries a file of exactly the same size, 2,473,829,122 bytes, consistent with that multi-gigabyte archive being copied to cloud storage.",
       "support": {
         "flags": [],
         "label": "corroborated"
@@ -519,234 +592,247 @@
       ]
     },
     {
-      "cites_edges": [
-        "edg_29886a9ed37d",
-        "edg_361b04b2b9c3",
-        "edg_3fbe51e2bb0f",
-        "edg_4838c3336cfb",
-        "edg_79b68b3df35a",
-        "edg_bf998f6f6f60",
-        "edg_c35b513122c2",
-        "edg_ca32d35a1e82",
-        "edg_e2f15eabfb02"
-      ],
+      "cites_edges": [],
       "cites_observations": [
-        "obs_01a53bfb7c1c",
-        "obs_0c05e2be1b53",
-        "obs_38efe08cadfa",
-        "obs_3b4d68632aee",
-        "obs_3dfc08d5bf03",
-        "obs_51db2663b964",
-        "obs_6861e8f4de91",
-        "obs_720dcdfa0265",
-        "obs_be0943a4dbfb",
-        "obs_c14cb7869990"
-      ],
-      "event_ids": [
-        "EVT-0159",
-        "EVT-0237",
-        "EVT-0238"
-      ],
-      "finding": "fnd_900fcbfd7c57",
-      "first_recorded_time": "2026-06-10T16:51:03Z",
-      "last_recorded_time": "2026-06-10T18:19:08.876335Z",
-      "source_types": [
-        "cloud_storage",
-        "endpoint"
-      ],
-      "stage": "exfiltration",
-      "statement": "The 2,473,829,122-byte cloud_storage event EVT-0238 (obs_6861e8f4de91) shares its size with endpoint file event EVT-0237 (obs_3dfc08d5bf03), but the nearest endpoint activity in time, 24.876335 seconds away, is EVT-0159 on host wkstn-01 under user jclark: teams.exe (pid 1052, process_path 'microsoft', integrity_level 'medium') started by parent explorer.exe at 2026-06-10T18:19:08.876335Z, which carries no file-size or transfer field tying it to the 2,473,829,122-byte object. Temporal adjacency alone therefore attributes the transfer to no host or account; an endpoint file or network record bearing both the size 2473829122 and a username/hostname, or a cloud_storage record naming an uploading principal, would be required.",
-      "support": {
-        "flags": [],
-        "label": "corroborated"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "exfiltration"
-          ],
-          "technique_id": "T1567.002",
-          "technique_name": "Exfiltration to Cloud Storage"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
-        "edg_3112cf3a07d3",
-        "edg_514202816726",
-        "edg_6e376656278a",
-        "edg_8c073397f723",
-        "edg_90de7878d376",
-        "edg_a8998cb4bd6a",
-        "edg_ccfd218e56ae",
-        "edg_cffd0de7fe0f"
-      ],
-      "cites_observations": [
-        "obs_090e41ee0071",
         "obs_2d12359c2a2c",
-        "obs_6636443d705c",
-        "obs_6710881279d5",
-        "obs_6c30291b25b2",
-        "obs_b69f45005968",
-        "obs_b6a5f467a5e3",
-        "obs_dd6e9ff8795a",
-        "obs_f8e91901d0a5"
+        "obs_3f68ee6e5e8c",
+        "obs_41100cfc9e77",
+        "obs_485c01a3d4ca",
+        "obs_4f9da4e3342f",
+        "obs_5dacea9c3e3e",
+        "obs_5edbcbebcb87",
+        "obs_958eb2d40213"
       ],
       "event_ids": [
-        "EVT-0088",
         "EVT-0183"
       ],
-      "finding": "fnd_e53fdea6ce54",
+      "finding": "fnd_e01f62c49779",
       "first_recorded_time": "2026-06-10T18:51:47.084315Z",
-      "last_recorded_time": "2026-06-10T19:03:40.932454Z",
-      "source_types": [
-        "endpoint",
-        "network"
-      ],
-      "stage": "execution",
-      "statement": "Endpoint event EVT-0183 records a process named outlook.exe (obs_2d12359c2a2c); the cited observations carry no hostname, username, command line, pid or parent process, so neither the executing host/account nor what the mail client did is established here. Its nearest temporally related records are the EVT-0088 network fields at 2026-06-10T19:03:40.932454Z (obs_090e41ee0071) for a udp (obs_dd6e9ff8795a) flow from src_ip 10.0.2.25 (obs_f8e91901d0a5) to dst_ip 10.0.4.23 (obs_b69f45005968) on dst_port 443 (obs_6c30291b25b2) with bytes_sent 46553 (obs_6710881279d5) and bytes_recv 144702 (obs_6636443d705c), action 'allowed' (obs_b6a5f467a5e3), 713.848139 seconds away — roughly twelve minutes, a separation that does not by itself tie outlook.exe to that flow.",
-      "support": {
-        "flags": [],
-        "label": "corroborated"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "execution"
-          ],
-          "technique_id": "T1203",
-          "technique_name": "Exploitation for Client Execution"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
-        "edg_05234d4445d2",
-        "edg_d1a5f6c56b9c"
-      ],
-      "cites_observations": [
-        "obs_1bf15406231c",
-        "obs_227453b1b214",
-        "obs_2cf9df93d8e8",
-        "obs_3bb081b1587a",
-        "obs_42f939d6e319",
-        "obs_472a48f157c7",
-        "obs_590779099318",
-        "obs_a4c1323b93cc",
-        "obs_a6d72005dae7",
-        "obs_c1a41ff9c155"
-      ],
-      "event_ids": [
-        "EVT-0156",
-        "EVT-0182"
-      ],
-      "finding": "fnd_1432ab8c9ddc",
-      "first_recorded_time": "2026-06-11T21:49:25.220591Z",
-      "last_recorded_time": "2026-06-11T22:30:09.186275Z",
+      "last_recorded_time": "2026-06-10T18:51:47.084315Z",
       "source_types": [
         "endpoint"
       ],
-      "stage": "initial-access",
-      "statement": "Endpoint event EVT-0182 records a process named word.exe (obs_227453b1b214) whose parent process is outlook.exe (obs_3bb081b1587a) — a mail client spawning a document application, the pattern of an emailed attachment being opened. The cited EVT-0182 observations carry no hostname, username, command line or pid, so neither the executing host/account nor the document involved is established here; an EVT-0182 hostname/username/command_line field, or a process-creation record from the same host's endpoint agent, would be needed to attribute it. The nearest temporally related records are the EVT-0156 endpoint fields at 2026-06-11T22:30:09.186275Z (obs_2cf9df93d8e8) for excel.exe (obs_472a48f157c7) spawned by explorer.exe (obs_c1a41ff9c155), pid 2934 (obs_a4c1323b93cc), integrity_level 'medium' (obs_a6d72005dae7), process_path 'microsoft' (obs_42f939d6e319), under username jclark (obs_1bf15406231c) on hostname wkstn-02 (obs_590779099318), 2443.965684 seconds away — roughly forty-one minutes, and an interactively launched spreadsheet rather than a mail-spawned one, so it does not by itself place EVT-0182 on wkstn-02 or under jclark.",
+      "stage": "stealth",
+      "statement": "At 2026-06-10T18:51:47.084315Z on host 'wkstn-03', account 'dtaylor' ran a process reported as process_name 'outlook.exe' (pid 8921, integrity_level 'medium') whose process_path is recorded as 'slack' and whose parent_process is 'teams.exe' — the executable name, the path it ran from, and the parent that spawned it name three different applications on the same record.",
       "support": {
         "flags": [],
         "label": "single_sourced"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "initial-access"
-          ],
-          "technique_id": "T1566.001",
-          "technique_name": "Spearphishing Attachment"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
-        "edg_d1ef109f8f81"
-      ],
-      "cites_observations": [
-        "obs_3c6afcc4c3f0",
-        "obs_d23162adddb1"
-      ],
-      "event_ids": [
-        "EVT-0075",
-        "EVT-0078"
-      ],
-      "finding": "fnd_625e7d1c3522",
-      "first_recorded_time": "2026-06-11T23:15:10.853857Z",
-      "last_recorded_time": "2026-06-13T07:41:34.251699Z",
-      "source_types": [
-        "network"
-      ],
-      "stage": "command-and-control",
-      "statement": "Two distinct network events, EVT-0075 (obs_d23162adddb1) and EVT-0078 (obs_3c6afcc4c3f0), record flows to the same destination address 151.101.65.140, indicating repeated contact with a single external endpoint. Neither cited observation carries a source host, user or process attribution, so no link to any endpoint activity is established here; a network record carrying a source host field or a process-to-connection correlation would be needed to make that link.",
-      "support": {
-        "flags": [],
-        "label": "single_sourced"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "command-and-control"
-          ],
-          "technique_id": "T1090.004",
-          "technique_name": "Domain Fronting"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
-        "edg_5567d5b40c6f",
-        "edg_681f246f07b0",
-        "edg_82ba8a5d0c91",
-        "edg_8e767fab4180",
-        "edg_a058257a7fd5",
-        "edg_d0f49218bfde",
-        "edg_d25e6b1748fc",
-        "edg_d9698d266a0a",
-        "edg_e7389fc45ae2"
-      ],
-      "cites_observations": [
-        "obs_0b00c8d81038",
-        "obs_1d1c3d0b5012",
-        "obs_3c6afcc4c3f0",
-        "obs_59ffb80c3526",
-        "obs_5ae3baed75ec",
-        "obs_a10668d2e8e7",
-        "obs_ceb6b319ab1c",
-        "obs_d23162adddb1",
-        "obs_e5b86b0b7149",
-        "obs_e920f626af47"
-      ],
-      "event_ids": [
-        "EVT-0075",
-        "EVT-0078",
-        "EVT-0163"
-      ],
-      "finding": "fnd_745612bd4358",
-      "first_recorded_time": "2026-06-11T23:15:10.853857Z",
-      "last_recorded_time": "2026-06-13T07:41:34.251699Z",
-      "source_types": [
-        "endpoint",
-        "network"
-      ],
-      "stage": "command-and-control",
-      "statement": "The nearest endpoint activity in time to the flow EVT-0075 to 151.101.65.140 (obs_d23162adddb1) is EVT-0163, 1259.720237 seconds away, on host wkstn-05 under username bwilliams: chrome.exe (pid 4775, process_path 'microsoft', integrity_level 'medium') spawned by parent explorer.exe at 2026-06-11T23:36:10.574094Z. EVT-0075 and EVT-0078 (obs_3c6afcc4c3f0) carry only the destination address 151.101.65.140 and no source host, user or process field, so this roughly 21-minute separation attributes the traffic to neither wkstn-05 nor bwilliams; a network record bearing a source host/process field, or a process-to-connection correlation on the originating host, would be needed to close that gap.",
-      "support": {
-        "flags": [],
-        "label": "corroborated"
       },
       "techniques": [
         {
           "tactics": [
             "stealth",
-            "persistence",
+            "privilege-escalation"
+          ],
+          "technique_id": "T1134.004",
+          "technique_name": "Parent PID Spoofing"
+        }
+      ]
+    },
+    {
+      "cites_edges": [
+        "edg_3709d11607cf"
+      ],
+      "cites_observations": [
+        "obs_00d366f5dfb0",
+        "obs_01388c53f14e",
+        "obs_214f7264c9d9",
+        "obs_5a12d557737a",
+        "obs_990ba13750da",
+        "obs_ac19d88d640e",
+        "obs_ac3d87a9fe18",
+        "obs_d4d215d4ddba",
+        "obs_f97c58b27fad"
+      ],
+      "event_ids": [
+        "EVT-0126"
+      ],
+      "finding": "fnd_0e8e21952649",
+      "first_recorded_time": "2026-06-11T11:16:40.019911Z",
+      "last_recorded_time": "2026-06-11T11:16:40.019911Z",
+      "source_types": [
+        "network"
+      ],
+      "stage": "command-and-control",
+      "statement": "At 2026-06-11T11:16:40.019911Z an internal host 10.0.4.20 opened an allowed outbound tcp session to the external address 8.8.8.8 on dst_port 443 under firewall_rule 'allow-out-150', sending 29936 bytes while receiving only 6734, an upload-weighted session to a public address that is not a normal HTTPS destination for a resolver IP.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
             "command-and-control"
           ],
-          "technique_id": "T1205",
-          "technique_name": "Traffic Signaling"
+          "technique_id": "T1071",
+          "technique_name": "Application Layer Protocol"
+        }
+      ]
+    },
+    {
+      "cites_edges": [
+        "edg_05234d4445d2"
+      ],
+      "cites_observations": [
+        "obs_227453b1b214",
+        "obs_3bb081b1587a",
+        "obs_3c2389be28a2",
+        "obs_4fd0d9c38693",
+        "obs_5b668838b3a9",
+        "obs_a10178a9a3b9",
+        "obs_b987fa18b7b8",
+        "obs_dcbf443b4629"
+      ],
+      "event_ids": [
+        "EVT-0182"
+      ],
+      "finding": "fnd_940a6e178ec5",
+      "first_recorded_time": "2026-06-11T21:49:25.220591Z",
+      "last_recorded_time": "2026-06-11T21:49:25.220591Z",
+      "source_types": [
+        "endpoint"
+      ],
+      "stage": "stealth",
+      "statement": "At 2026-06-11T21:49:25.220591Z on hostname 'wkstn-06', account 'jclark' ran process_name 'word.exe' (pid 1723, integrity_level 'medium') spawned by parent_process 'outlook.exe', while the record's process_path is 'slack' — the executable name, the recorded path and the spawning parent name three different applications on one endpoint record.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
+            "stealth"
+          ],
+          "technique_id": "T1036.005",
+          "technique_name": "Match Legitimate Resource Name or Location"
+        }
+      ]
+    },
+    {
+      "cites_edges": [
+        "edg_1e78893a8f23",
+        "edg_d9b20f483ca5"
+      ],
+      "cites_observations": [
+        "obs_1320d20ab903",
+        "obs_1bf15406231c",
+        "obs_23ea89a3eda7",
+        "obs_2cf9df93d8e8",
+        "obs_42f939d6e319",
+        "obs_45cbdb36c5e7",
+        "obs_472a48f157c7",
+        "obs_492e1b76686d",
+        "obs_590779099318",
+        "obs_887ce7d57f0d",
+        "obs_a4c1323b93cc",
+        "obs_a6d72005dae7",
+        "obs_a9c8949c31da",
+        "obs_c1a41ff9c155",
+        "obs_d23162adddb1",
+        "obs_e9f4bf4cac19"
+      ],
+      "event_ids": [
+        "EVT-0075",
+        "EVT-0156"
+      ],
+      "finding": "fnd_54df2bb563c0",
+      "first_recorded_time": "2026-06-11T22:30:09.186275Z",
+      "last_recorded_time": "2026-06-11T23:15:10.853857Z",
+      "source_types": [
+        "endpoint",
+        "network"
+      ],
+      "stage": "execution",
+      "statement": "At 2026-06-11T22:30:09.186275Z on hostname 'wkstn-02', account 'jclark' ran process_name 'excel.exe' (pid 2934) at integrity_level 'medium' spawned by parent_process 'explorer.exe', with the record's process_path given only as 'microsoft' rather than a full executable path; the nearest correlated record, EVT-0075, is a network flow beginning 2701 seconds later from src_ip 10.0.1.23 to dst_ip 151.101.65.140 on dst_port 443 over protocol 'udp' (844 bytes sent, 176320 received, action 'allowed'), which carries no field tying it to wkstn-02 or to pid 2934.",
+      "support": {
+        "flags": [],
+        "label": "corroborated"
+      },
+      "techniques": []
+    },
+    {
+      "cites_edges": [
+        "edg_9e8bf234b687",
+        "edg_d1ef109f8f81"
+      ],
+      "cites_observations": [
+        "obs_333494dbbaa1",
+        "obs_3c6afcc4c3f0",
+        "obs_4a35deaf610e",
+        "obs_597410be5ffe",
+        "obs_ad9cbb86de0d",
+        "obs_bdfe3b9c1bf5",
+        "obs_c6a84d51fc34",
+        "obs_d01955ffbac3",
+        "obs_d23162adddb1",
+        "obs_fc237e9a0ac8"
+      ],
+      "event_ids": [
+        "EVT-0075",
+        "EVT-0078"
+      ],
+      "finding": "fnd_1eb65b29b38a",
+      "first_recorded_time": "2026-06-11T23:15:10.853857Z",
+      "last_recorded_time": "2026-06-13T07:41:34.251699Z",
+      "source_types": [
+        "network"
+      ],
+      "stage": "command-and-control",
+      "statement": "At 2026-06-13T07:41:34.251699Z internal host 10.0.5.27 opened an allowed outbound tcp session to the external address 151.101.65.140 on dst_port 22 under firewall_rule 'allow-out-132', sending 37648 bytes and receiving 176992 bytes; the same external address 151.101.65.140 is also the destination of a separate network record EVT-0075, so this external endpoint was contacted more than once.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
+            "command-and-control"
+          ],
+          "technique_id": "T1572",
+          "technique_name": "Protocol Tunneling"
+        }
+      ]
+    },
+    {
+      "cites_edges": [
+        "edg_d0f49218bfde",
+        "edg_f5edcba27101"
+      ],
+      "cites_observations": [
+        "obs_00ce73e1d148",
+        "obs_1320d20ab903",
+        "obs_23ea89a3eda7",
+        "obs_3c6afcc4c3f0",
+        "obs_45cbdb36c5e7",
+        "obs_492e1b76686d",
+        "obs_887ce7d57f0d",
+        "obs_a9c8949c31da",
+        "obs_d23162adddb1",
+        "obs_e9f4bf4cac19"
+      ],
+      "event_ids": [
+        "EVT-0075",
+        "EVT-0078"
+      ],
+      "finding": "fnd_562f6050a1f3",
+      "first_recorded_time": "2026-06-11T23:15:10.853857Z",
+      "last_recorded_time": "2026-06-13T07:41:34.251699Z",
+      "source_types": [
+        "network"
+      ],
+      "stage": "command-and-control",
+      "statement": "At 2026-06-11T23:15:10.853857Z internal host 10.0.1.23 opened an allowed outbound udp session to the external address 151.101.65.140 on dst_port 443 under firewall_rule 'allow-out-174', sending 844 bytes and receiving 176320 bytes; a separate network record EVT-0078 carries the same destination address 151.101.65.140, so this external endpoint was the destination of more than one flow.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
+            "command-and-control"
+          ],
+          "technique_id": "T1095",
+          "technique_name": "Non-Application Layer Protocol"
         }
       ]
     },
@@ -756,19 +842,57 @@
       ],
       "cites_observations": [
         "obs_090e99f4acce",
-        "obs_f65e594e6488"
+        "obs_169ad87e53c3",
+        "obs_7108100e452d",
+        "obs_842f3a2cd570",
+        "obs_e1a2d0221baa",
+        "obs_e808c6ac34a3",
+        "obs_f65e594e6488",
+        "obs_f785fb7f1bd0"
       ],
       "event_ids": [
         "EVT-0145"
       ],
-      "finding": "fnd_01d154fca657",
+      "finding": "fnd_016a78b5c956",
       "first_recorded_time": "2026-06-12T00:44:33.219009Z",
       "last_recorded_time": "2026-06-12T00:44:33.219009Z",
       "source_types": [
         "endpoint"
       ],
-      "stage": "execution",
-      "statement": "Endpoint event EVT-0145 records word.exe (obs_f65e594e6488) created by parent process outlook.exe (obs_090e99f4acce), i.e. a document application launched directly by the mail client, the pattern of a user opening an emailed attachment. The cited observations carry no hostname, username, command line or file name, so neither the executing host/account nor the opened document is established here; an EVT-0145 field for hostname/username or command_line, or a mail-gateway record naming the attachment, would be needed to close that gap.",
+      "stage": "initial-access",
+      "statement": "At 2026-06-12T00:44:33.219009Z on host 'wkstn-10', account 'bwilliams' ran 'word.exe' (pid 6661, process_path 'google', integrity_level 'medium') as a child of parent_process 'outlook.exe', i.e. a document application launched directly by the mail client.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": []
+    },
+    {
+      "cites_edges": [
+        "edg_0aace6357301"
+      ],
+      "cites_observations": [
+        "obs_05b4a2bbbb70",
+        "obs_0f1271fa0886",
+        "obs_295d434fd1c4",
+        "obs_659763134c37",
+        "obs_750ea8939942",
+        "obs_8a0af0931dac",
+        "obs_996e4de611c6",
+        "obs_c2569a7dde27",
+        "obs_f28c6b4e56e4"
+      ],
+      "event_ids": [
+        "EVT-0105"
+      ],
+      "finding": "fnd_e122ec5b0ab5",
+      "first_recorded_time": "2026-06-12T09:37:39.772267Z",
+      "last_recorded_time": "2026-06-12T09:37:39.772267Z",
+      "source_types": [
+        "network"
+      ],
+      "stage": "command-and-control",
+      "statement": "At 2026-06-12T09:37:39.772267Z internal host 10.0.5.21 opened an allowed outbound udp flow to external address 13.107.42.14 on dst_port 25 under firewall_rule 'allow-out-152', sending 4663 bytes and receiving 42356 bytes; SMTP's port 25 carried over udp rather than tcp, together with a download-weighted transfer to an external address, is a protocol/port mismatch consistent with a channel disguised as mail traffic.",
       "support": {
         "flags": [],
         "label": "single_sourced"
@@ -776,50 +900,49 @@
       "techniques": [
         {
           "tactics": [
-            "execution"
+            "command-and-control"
           ],
-          "technique_id": "T1204",
-          "technique_name": "User Execution"
+          "technique_id": "T1071.003",
+          "technique_name": "Mail Protocols"
         }
       ]
     },
     {
       "cites_edges": [
-        "edg_689d46628ab3",
-        "edg_7149f305fcec",
-        "edg_802d89bbe615",
-        "edg_92bf00357b3c",
-        "edg_a4b16d072a0a",
-        "edg_b306467e65ce",
-        "edg_f7815aa27774",
-        "edg_fe63ba63c0d8"
+        "edg_9ca297ba334e",
+        "edg_c1de6ba4bd9b"
       ],
       "cites_observations": [
         "obs_0da7ac4d5992",
+        "obs_24214ab752d1",
         "obs_2b442d0d0510",
         "obs_82e8cab8c6b2",
+        "obs_961c07293d1c",
+        "obs_9e805d632476",
+        "obs_a55ea288e4bc",
+        "obs_b4453576fb41",
+        "obs_c65bf3f1a306",
         "obs_cae9e8a841bd",
+        "obs_cd00423e39db",
         "obs_d0408bec4eee",
-        "obs_e314aabb886d",
         "obs_e6fcadccd2dc",
+        "obs_e92417a6e768",
         "obs_ec15f21bf38e",
         "obs_fbbebd022416"
       ],
       "event_ids": [
         "EVT-0027",
-        "EVT-0083",
-        "EVT-0165"
+        "EVT-0083"
       ],
-      "finding": "fnd_299857d08455",
+      "finding": "fnd_22634fc4628a",
       "first_recorded_time": "2026-06-12T12:16:29.046088Z",
-      "last_recorded_time": "2026-06-12T12:40:49.190476Z",
+      "last_recorded_time": "2026-06-12T12:28:41.358556Z",
       "source_types": [
         "auth",
-        "endpoint",
         "network"
       ],
-      "stage": "lateral-movement",
-      "statement": "Network event EVT-0083 (obs_2b442d0d0510) records only dst_port 22, an SSH/remote-administration destination port, with no source or destination host, IP, user or process among the cited observations, so the flow is attributed to no endpoint or account here. Its nearest temporally related records are the EVT-0027 authentication fields at 2026-06-12T12:28:41.358556Z (obs_e6fcadccd2dc) for username 'hwalker' (obs_82e8cab8c6b2) from source_host 'wkstn-01' (obs_0da7ac4d5992) / source_ip 10.0.2.89 (obs_d0408bec4eee) to dest_host 'auth-srv-01' (obs_ec15f21bf38e), logon_type 'network' (obs_fbbebd022416), result 'failure' (obs_cae9e8a841bd), 732.312468 seconds away, and endpoint event EVT-0165 at 2026-06-12T12:40:49.190476Z (obs_e314aabb886d) 1460.144388 seconds away; those separations of roughly 12 and 24 minutes do not by themselves link the port-22 flow to the hwalker logon failure or to EVT-0165. A src_ip/dst_ip or src_host/dst_host field on EVT-0083, or a flow record from the firewall carrying the five-tuple, would be needed to attribute this connection.",
+      "stage": "command-and-control",
+      "statement": "At 2026-06-12T12:16:29.046088Z a flow from 10.0.2.18 to 10.0.5.16 on dst_port 22 was allowed by firewall_rule 'allow-out-159' with protocol 'udp', carrying 32624 bytes sent and 46589 bytes received — remote-administration port traffic carried over udp rather than tcp. 732 seconds later, EVT-0027 records a failed network logon for username 'hwalker' from source_host 'wkstn-01' (source_ip 10.0.2.89) to dest_host 'auth-srv-01'.",
       "support": {
         "flags": [],
         "label": "corroborated"
@@ -827,48 +950,48 @@
       "techniques": [
         {
           "tactics": [
-            "lateral-movement"
+            "command-and-control"
           ],
-          "technique_id": "T1563.001",
-          "technique_name": "SSH Hijacking"
+          "technique_id": "T1095",
+          "technique_name": "Non-Application Layer Protocol"
         }
       ]
     },
     {
       "cites_edges": [
-        "edg_1a0310c3117d",
-        "edg_21803c4d4093",
-        "edg_24d97e77cab8",
-        "edg_48f82bff1d28",
-        "edg_59e2f3ed2673",
-        "edg_8aba9cac7fd3",
-        "edg_b574091a0fe5",
-        "edg_f2206ee38de6"
+        "edg_8aba9cac7fd3"
       ],
       "cites_observations": [
+        "obs_017a5071a197",
         "obs_0e505c680707",
+        "obs_11b68a805430",
         "obs_267b7ea44e08",
         "obs_4a99959f6c04",
+        "obs_688413840eff",
+        "obs_6e7522a35b38",
+        "obs_83e55f8047eb",
+        "obs_920819dabb16",
         "obs_9cbe51be9d85",
         "obs_a456b8f58f20",
         "obs_a59459abe429",
         "obs_bc44cca9c9a6",
         "obs_c1e59e587d9a",
-        "obs_d404050eb869"
+        "obs_d404050eb869",
+        "obs_f4c2625c7943"
       ],
       "event_ids": [
         "EVT-0116",
         "EVT-0172"
       ],
-      "finding": "fnd_d1731f8ce5fa",
+      "finding": "fnd_0157c3d42dbd",
       "first_recorded_time": "2026-06-12T21:00:27.515647Z",
       "last_recorded_time": "2026-06-12T21:43:29.098438Z",
       "source_types": [
         "endpoint",
         "network"
       ],
-      "stage": "execution",
-      "statement": "Endpoint event EVT-0172 records a process named excel.exe (obs_4a99959f6c04), a spreadsheet application often abused for macro execution. The cited observation carries no hostname, username, command line, pid or parent process, so neither the executing host/account nor what excel.exe did is established here; an EVT-0172 hostname/username/command_line or parent-process field, or a process-creation record from the same host's endpoint agent, would be needed to attribute it. Its nearest temporally related records are the EVT-0116 network fields at 2026-06-12T21:43:29.098438Z (obs_0e505c680707) for a tcp (obs_d404050eb869) flow from src_ip 10.0.3.22 (obs_a456b8f58f20) to dst_ip 10.0.3.18 (obs_bc44cca9c9a6) on dst_port 25 (obs_267b7ea44e08) with bytes_sent 26049 (obs_c1e59e587d9a) and bytes_recv 133643 (obs_9cbe51be9d85), action 'allowed' (obs_a59459abe429), 2581.582791 seconds away — roughly forty-three minutes, a separation that does not by itself tie excel.exe to that mail-port flow or place it on either 10.0.3.22 or 10.0.3.18.",
+      "stage": "stealth",
+      "statement": "At 2026-06-12T21:00:27.515647Z on hostname 'wkstn-02', account 'ewhite' ran process_name 'excel.exe' (pid 7632, integrity_level 'medium') spawned by parent_process 'explorer.exe', while the same record's process_path is given as 'slack' — the executable name and the recorded path name two different applications on one endpoint record. The nearest correlated record, EVT-0116, is an allowed tcp flow 2581 seconds later from src_ip 10.0.3.22 to dst_ip 10.0.3.18 on dst_port 25 (26049 bytes sent, 133643 received), which carries no field tying it to wkstn-02, to account 'ewhite' or to pid 7632.",
       "support": {
         "flags": [],
         "label": "corroborated"
@@ -876,103 +999,42 @@
       "techniques": [
         {
           "tactics": [
-            "execution"
+            "stealth"
           ],
-          "technique_id": "T1059",
-          "technique_name": "Command and Scripting Interpreter"
+          "technique_id": "T1036.005",
+          "technique_name": "Match Legitimate Resource Name or Location"
         }
       ]
     },
     {
       "cites_edges": [
-        "edg_158b41b10755",
-        "edg_3e9f6a8df515",
-        "edg_46506f5e26e8",
-        "edg_65d76ada6da8",
-        "edg_688f7b8c3a9e",
-        "edg_7c9db53e02b5",
-        "edg_9f430cfc2c31",
-        "edg_a93ab738fb27"
+        "edg_6f0b5c971496"
       ],
       "cites_observations": [
+        "obs_2329136bafd1",
+        "obs_29b047563888",
         "obs_31001fdc5a47",
-        "obs_5be0c2ae26d1",
-        "obs_801152812f67",
-        "obs_9e579e1c1c90",
-        "obs_a9f265d709fe",
-        "obs_bc1123ec3d33",
-        "obs_d4a141bf01f8",
-        "obs_e51fbf26ac45",
-        "obs_f3c4ea75ffdc"
+        "obs_3b2f238c905a",
+        "obs_a14b94cdc9f3",
+        "obs_be90a4eca49b",
+        "obs_c8fc482d1407",
+        "obs_f5b6913c2093",
+        "obs_fbe838a42fac"
       ],
       "event_ids": [
-        "EVT-0057",
-        "EVT-0069",
-        "EVT-0211"
+        "EVT-0069"
       ],
-      "finding": "fnd_53c3e1920796",
+      "finding": "fnd_2dbf65bcaff5",
       "first_recorded_time": "2026-06-13T02:16:28.485202Z",
-      "last_recorded_time": "2026-06-13T02:42:29.565021Z",
+      "last_recorded_time": "2026-06-13T02:16:28.485202Z",
       "source_types": [
-        "auth",
-        "cloud_storage",
         "network"
       ],
       "stage": "lateral-movement",
-      "statement": "Network event EVT-0069 (obs_31001fdc5a47) records only dst_port 22, an SSH/remote-administration destination port, with no source or destination host, IP, user or process among the cited observations, so the flow is attributed to no endpoint or account here. Its nearest temporally related records are the EVT-0057 authentication fields at 2026-06-13T02:22:03.427384Z (obs_e51fbf26ac45) for username 'glee' (obs_a9f265d709fe) from source_host 'wkstn-06' (obs_5be0c2ae26d1) / source_ip 10.0.5.165 (obs_801152812f67) to dest_host 'auth-srv-01' (obs_9e579e1c1c90), logon_type 'interactive' (obs_bc1123ec3d33), result 'success' (obs_d4a141bf01f8), 334.942182 seconds away, and the EVT-0211 cloud_storage record at 2026-06-13T02:42:29.565021Z (obs_f3c4ea75ffdc) 1561.079819 seconds away; those separations of roughly six and twenty-six minutes do not by themselves link the port-22 flow to the glee logon or to EVT-0211. A src_ip/dst_ip or src_host/dst_host field on EVT-0069, or a firewall flow record carrying the five-tuple, would be needed to attribute this connection.",
+      "statement": "At 2026-06-13T02:16:28.485202Z an allowed tcp flow (firewall_rule 'allow-out-149') ran from 10.0.2.15 to 10.0.2.26 on dst_port 22, sending 3792 bytes and receiving 106187 bytes — a remote-administration SSH session in which the destination returned far more data than the client sent.",
       "support": {
         "flags": [],
-        "label": "corroborated"
-      },
-      "techniques": [
-        {
-          "tactics": [
-            "lateral-movement"
-          ],
-          "technique_id": "T1563",
-          "technique_name": "Remote Service Session Hijacking"
-        }
-      ]
-    },
-    {
-      "cites_edges": [
-        "edg_04292c7e8cfe",
-        "edg_1c4bbef177e4",
-        "edg_6de956daf2e8",
-        "edg_7d9a2e2be31b",
-        "edg_a1f7fa444b25",
-        "edg_a751fdd81281",
-        "edg_d17041e7edec",
-        "edg_ed72b8a1bafe"
-      ],
-      "cites_observations": [
-        "obs_2045376d6e35",
-        "obs_44e2b274e914",
-        "obs_6874728ed1b0",
-        "obs_9c711bb3acff",
-        "obs_b0d35611b03d",
-        "obs_e46250d79b0b",
-        "obs_f098a7c33730",
-        "obs_f3563b936dc1",
-        "obs_fcc3d6e3336f"
-      ],
-      "event_ids": [
-        "EVT-0007",
-        "EVT-0085",
-        "EVT-0103"
-      ],
-      "finding": "fnd_f1eaa8bec5ae",
-      "first_recorded_time": "2026-06-13T06:54:52.808353Z",
-      "last_recorded_time": "2026-06-13T07:24:21.751627Z",
-      "source_types": [
-        "auth",
-        "network"
-      ],
-      "stage": "lateral-movement",
-      "statement": "Network event EVT-0103 (obs_2045376d6e35) records only dst_port 22, an SSH/remote-administration destination port, with no source or destination host, IP, user or process among the cited observations, so the flow is attributed to no endpoint or account here. Its nearest temporally related records are the EVT-0007 authentication fields at 2026-06-13T07:19:39.837409Z (obs_6874728ed1b0) for username 'bwilliams' (obs_44e2b274e914) from source_host 'wkstn-02' (obs_9c711bb3acff) / source_ip 10.0.3.144 (obs_fcc3d6e3336f) to dest_host 'auth-srv-02' (obs_f3563b936dc1), logon_type 'interactive' (obs_e46250d79b0b), result 'failure' (obs_f098a7c33730), 1487.029056 seconds away, and EVT-0085 at 2026-06-13T07:24:21.751627Z (obs_b0d35611b03d) 1768.943274 seconds away; those separations of roughly 25 and 29 minutes do not by themselves link the port-22 flow to the bwilliams logon attempt.",
-      "support": {
-        "flags": [],
-        "label": "corroborated"
+        "label": "single_sourced"
       },
       "techniques": [
         {
@@ -983,10 +1045,50 @@
           "technique_name": "SSH"
         }
       ]
+    },
+    {
+      "cites_edges": [
+        "edg_df882cb18471"
+      ],
+      "cites_observations": [
+        "obs_2045376d6e35",
+        "obs_2ca331cc4e19",
+        "obs_5d094a6ac32b",
+        "obs_848f65651060",
+        "obs_8ff7618dfab9",
+        "obs_a71d71b8cdbf",
+        "obs_c56ffe5974a4",
+        "obs_f93842d0579e",
+        "obs_fce16fdcfb39"
+      ],
+      "event_ids": [
+        "EVT-0103"
+      ],
+      "finding": "fnd_4a2573d9cd87",
+      "first_recorded_time": "2026-06-13T06:54:52.808353Z",
+      "last_recorded_time": "2026-06-13T06:54:52.808353Z",
+      "source_types": [
+        "network"
+      ],
+      "stage": "lateral-movement",
+      "statement": "At 2026-06-13T06:54:52.808353Z an allowed tcp flow (firewall_rule 'allow-out-194') ran from 10.0.1.17 to 10.0.5.10 on dst_port 22, with 15613 bytes sent and 174398 bytes received — a remote-administration SSH session in which the responding host returned roughly an order of magnitude more data than the client sent.",
+      "support": {
+        "flags": [],
+        "label": "single_sourced"
+      },
+      "techniques": [
+        {
+          "tactics": [
+            "lateral-movement"
+          ],
+          "technique_id": "T1563",
+          "technique_name": "Remote Service Session Hijacking"
+        }
+      ]
     }
   ],
   "window": {
     "first": "2026-06-10T08:12:33Z",
-    "last": "2026-06-13T07:24:21.751627Z"
+    "last": "2026-06-13T06:54:52.808353Z"
   }
 }

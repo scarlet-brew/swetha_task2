@@ -5,19 +5,19 @@
     "incompatibilities": []
   },
   "counts": {
-    "edges_traversed_by_the_investigation": 122,
-    "findings_accepted": 22,
-    "hypotheses": 20,
+    "edges_traversed_by_the_investigation": 48,
+    "findings_accepted": 25,
+    "hypotheses": 24,
     "observations": 1951,
-    "proposals_rejected": 2,
+    "proposals_rejected": 8,
     "sparse_edges_materialised": 1338,
-    "trajectory_steps": 47
+    "trajectory_steps": 51
   },
   "flags": {},
   "hypothesis_outcomes": {
-    "found": 7,
-    "not_covered": 10,
-    "not_found": 3
+    "found": 5,
+    "not_covered": 13,
+    "not_found": 6
   },
   "interpreter": "model-backed",
   "leak_independence": {
@@ -44,19 +44,20 @@
     }
   },
   "rejection_reasons": {
-    "3_no_invented_identifier": 2
+    "2_edges_reevaluate": 4,
+    "3_no_invented_identifier": 4
   },
   "relations": {
     "counts_by_relation": {
       "address_resolves_to_host": 1127,
-      "flow_endpoint": 85,
-      "process_parent": 66,
-      "same_account": 1,
-      "same_address": 8,
+      "flow_endpoint": 94,
+      "process_parent": 67,
+      "same_account": 3,
+      "same_address": 9,
       "same_file": 67,
-      "same_host": 1,
+      "same_host": 5,
       "same_size": 3,
-      "temporal_within": 102
+      "temporal_within": 11
     },
     "dense_left_as_queries": [
       "same_account",
@@ -74,8 +75,8 @@
     ]
   },
   "support_distribution": {
-    "corroborated": 13,
-    "single_sourced": 9
+    "corroborated": 7,
+    "single_sourced": 18
   },
   "verification": {
     "anchors_independent_of_all_three_leaks": true,

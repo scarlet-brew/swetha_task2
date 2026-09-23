@@ -354,11 +354,30 @@ class RelationIndex:
                 ],
             }
 
+        # The rest of the anchor's own record, listed separately from the ten
+        # relations and deliberately *not* called one. Being on the same record
+        # is not a factual correlation -- it is the record. But omitting it let
+        # findings cite a file size while the account and host on the same
+        # record went unmentioned, and a later stage then read "not cited" as
+        # "not present".
+        same_record = [
+            {
+                "id": sibling["id"],
+                "field": sibling["field"],
+                "value": sibling["normalised_value"],
+                "entity_type": sibling["entity_type"],
+                "role": sibling["role"],
+            }
+            for sibling in self.by_record.get(anchor["record"], [])
+            if sibling["id"] != anchor["id"]
+        ]
+
         return {
             "observation": anchor["id"],
             "event_id": anchor["event_id"],
             "source_type": anchor["source_type"],
             "field": anchor["field"],
             "value": anchor["normalised_value"],
+            "record_context": same_record,
             "relations": found,
         }

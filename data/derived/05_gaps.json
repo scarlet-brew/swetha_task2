@@ -3,118 +3,68 @@
   "counts": {
     "hosts_with_partial_coverage": 12,
     "structural": 3,
-    "unconfirmed_or_uncoverable_hypotheses": 13
+    "unconfirmed_or_uncoverable_hypotheses": 19
   },
   "from_hypotheses": [
     {
-      "hypothesis": "hyp_e26b1bd35d33",
+      "hypothesis": "hyp_15f07f2568a0",
       "outcome": "not_covered",
       "predicted": {
-        "entity": "powershell.exe (pid 5104) on wkstn-07",
+        "entity": "powershell.exe",
+        "event_kind": "network/network_connection",
+        "source_type": "network"
+      },
+      "premised_on": [
+        "fnd_9e56aaab7ce5"
+      ],
+      "statement": "No network/network_connection record for powershell.exe was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_133ebecc8b9b",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "powershell.exe (pid 5104) on host wkstn-07",
         "event_kind": "endpoint/network_connection",
         "source_type": "endpoint"
       },
       "premised_on": [
-        "fnd_28064fa63b48"
+        "fnd_0e8e21952649",
+        "fnd_9e56aaab7ce5"
       ],
-      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on host wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
       "status": "uncoverable"
     },
     {
-      "hypothesis": "hyp_71197a4750cc",
-      "outcome": "not_found",
+      "hypothesis": "hyp_3eeaf6be4a6a",
+      "outcome": "not_covered",
       "predicted": {
         "entity": "wkstn-07",
         "event_kind": "network/connection",
-        "source_type": "network"
+        "source_type": "firewall"
       },
       "premised_on": [
-        "fnd_28064fa63b48",
-        "fnd_625e7d1c3522"
+        "fnd_9e56aaab7ce5"
       ],
-      "statement": "No network/connection record for wkstn-07 was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_c0ec9aa78529",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "powershell.exe (pid 5104) on wkstn-07",
-        "event_kind": "endpoint/network_connection",
-        "source_type": "endpoint"
-      },
-      "premised_on": [
-        "fnd_28064fa63b48",
-        "fnd_625e7d1c3522"
-      ],
-      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "statement": "No network/connection record for wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
       "status": "uncoverable"
     },
     {
-      "hypothesis": "hyp_144ff8276ee8",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "powershell.exe (pid 5104) on wkstn-07",
-        "event_kind": "endpoint/network_connection",
-        "source_type": "endpoint"
-      },
-      "premised_on": [
-        "fnd_1ce658a06f2d",
-        "fnd_28064fa63b48",
-        "fnd_c35f33a624af"
-      ],
-      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_f427570a3811",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "powershell.exe (pid 5104) on wkstn-07",
-        "event_kind": "endpoint/network_connection",
-        "source_type": "endpoint"
-      },
-      "premised_on": [
-        "fnd_270b166d0a7d",
-        "fnd_28064fa63b48",
-        "fnd_c35f33a624af"
-      ],
-      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_9bdf9750f8be",
+      "hypothesis": "hyp_24239f731d2f",
       "outcome": "not_found",
       "predicted": {
         "entity": "wkstn-07",
-        "event_kind": "network/network_flow (the EVT-0224 flow to 185.220.101.45, carrying a src_host field)",
+        "event_kind": "network/outbound_connection",
         "source_type": "network"
       },
       "premised_on": [
-        "fnd_270b166d0a7d",
-        "fnd_28064fa63b48",
-        "fnd_c35f33a624af"
+        "fnd_9e56aaab7ce5"
       ],
-      "statement": "No network/network_flow (the EVT-0224 flow to 185.220.101.45, carrying a src_host field) record for wkstn-07 was found in a source that does cover it.",
+      "statement": "No network/outbound_connection record for wkstn-07 was found in a source that does cover it.",
       "status": "unconfirmed"
     },
     {
-      "hypothesis": "hyp_599f21d4637c",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "wkstn-07",
-        "event_kind": "network/connection",
-        "source_type": "network"
-      },
-      "premised_on": [
-        "fnd_270b166d0a7d",
-        "fnd_c35f33a624af"
-      ],
-      "statement": "No network/connection record for wkstn-07 was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_270636592f2f",
+      "hypothesis": "hyp_212677dcf367",
       "outcome": "not_covered",
       "predicted": {
         "entity": "jdavis",
@@ -122,59 +72,14 @@
         "source_type": "authentication"
       },
       "premised_on": [
-        "fnd_6731ea185dd8",
-        "fnd_ef7349648196"
+        "fnd_9e56aaab7ce5",
+        "fnd_c6248621d62e"
       ],
       "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
       "status": "uncoverable"
     },
     {
-      "hypothesis": "hyp_8ad9380dadb2",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "jdavis",
-        "event_kind": "authentication/logon (network logon to host file-srv-02 preceding the 'psexesvc' service install)",
-        "source_type": "authentication"
-      },
-      "premised_on": [
-        "fnd_6731ea185dd8",
-        "fnd_ef7349648196"
-      ],
-      "statement": "No authentication/logon (network logon to host file-srv-02 preceding the 'psexesvc' service install) record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_feb98ffcaebe",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "jdavis",
-        "event_kind": "authentication/logon (network logon to file-srv-02 preceding the psexesvc service install)",
-        "source_type": "authentication"
-      },
-      "premised_on": [
-        "fnd_6731ea185dd8",
-        "fnd_ef7349648196"
-      ],
-      "statement": "No authentication/logon (network logon to file-srv-02 preceding the psexesvc service install) record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_1adb2aebfb2e",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "file-srv-02",
-        "event_kind": "authentication/logon",
-        "source_type": "authentication"
-      },
-      "premised_on": [
-        "fnd_6731ea185dd8",
-        "fnd_ef7349648196"
-      ],
-      "statement": "No authentication/logon record for file-srv-02 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_4af723cfa4ad",
+      "hypothesis": "hyp_3104cb21bc01",
       "outcome": "not_covered",
       "predicted": {
         "entity": "jdavis",
@@ -182,26 +87,219 @@
         "source_type": "authentication"
       },
       "premised_on": [
-        "fnd_6731ea185dd8",
-        "fnd_ef7349648196"
+        "fnd_9e56aaab7ce5",
+        "fnd_c6248621d62e",
+        "fnd_ce7f0d436e26"
       ],
       "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
       "status": "uncoverable"
     },
     {
-      "hypothesis": "hyp_dc6fe493a749",
+      "hypothesis": "hyp_e6050d53707b",
       "outcome": "not_covered",
       "predicted": {
         "entity": "jdavis",
-        "event_kind": "authentication/logon (network logon to dest_host file-srv-02)",
+        "event_kind": "authentication/logon",
         "source_type": "authentication"
       },
       "premised_on": [
-        "fnd_a03018703879",
-        "fnd_ef7349648196"
+        "fnd_1ce1470ddda0",
+        "fnd_9e56aaab7ce5",
+        "fnd_c6248621d62e",
+        "fnd_ce7f0d436e26"
       ],
-      "statement": "No authentication/logon (network logon to dest_host file-srv-02) record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
       "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_333bb5568bda",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_adf87c1e5d21",
+        "fnd_c6248621d62e",
+        "fnd_ce7f0d436e26"
+      ],
+      "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_ae46332dbef9",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_adf87c1e5d21",
+        "fnd_e5b656e78095"
+      ],
+      "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_58863e4bce36",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_96d390096ab2",
+        "fnd_adf87c1e5d21",
+        "fnd_e5b656e78095"
+      ],
+      "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_1fdc9f697bbe",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "auth/logon_success",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_40742dae516f",
+        "fnd_96d390096ab2",
+        "fnd_adf87c1e5d21",
+        "fnd_e5b656e78095"
+      ],
+      "statement": "No auth/logon_success record for jdavis was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_9c9551d339cd",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "auth/logon (network logon to file-srv-02 sourced from 10.0.1.10)",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_adf87c1e5d21",
+        "fnd_e5b656e78095"
+      ],
+      "statement": "No auth/logon (network logon to file-srv-02 sourced from 10.0.1.10) record for jdavis was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_37029498454b",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "auth/logon (network logon with source_host 'wkstn-07' and dest_host 'auth-srv-01')",
+        "source_type": "auth — the authentication/logon log that carries network logon records with username, source_host, source_ip and dest_host, the same source that produced EVT-0027"
+      },
+      "premised_on": [
+        "fnd_96d390096ab2",
+        "fnd_ce0850514731",
+        "fnd_e5b656e78095"
+      ],
+      "statement": "No auth/logon (network logon with source_host 'wkstn-07' and dest_host 'auth-srv-01') record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_1c22cc8e1447",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "identity/logon",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_398feae2a821",
+        "fnd_6cf8bed1531b",
+        "fnd_96d390096ab2",
+        "fnd_ce0850514731"
+      ],
+      "statement": "No identity/logon record for jdavis was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_f873b298d2b8",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "identity/logon",
+        "source_type": "identity"
+      },
+      "premised_on": [
+        "fnd_398feae2a821",
+        "fnd_6cf8bed1531b",
+        "fnd_96d390096ab2",
+        "fnd_ce0850514731"
+      ],
+      "statement": "No identity/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_3997876d68a6",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/network_logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_398feae2a821",
+        "fnd_96d390096ab2",
+        "fnd_ce0850514731"
+      ],
+      "statement": "No authentication/network_logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_1f8294249687",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon_success (network logon to dest_host 'file-srv-02')",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_398feae2a821",
+        "fnd_bc33270471fe"
+      ],
+      "statement": "No authentication/logon_success (network logon to dest_host 'file-srv-02') record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_60f19ef2a78b",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "auth/network_logon",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_398feae2a821",
+        "fnd_bc33270471fe"
+      ],
+      "statement": "No auth/network_logon record for jdavis was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_3187c96eb5fb",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "auth/network_logon",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_bc33270471fe",
+        "fnd_ce0850514731"
+      ],
+      "statement": "No auth/network_logon record for jdavis was found in a source that does cover it.",
+      "status": "unconfirmed"
     }
   ],
   "structural": [

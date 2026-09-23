@@ -14,13 +14,13 @@ committed artifacts. 292 tests pass.
 |---|---|
 | Records ingested | 242 (0 lost, 22 `note` annotations stripped at the parse boundary) |
 | Observations | 1,951, every one reproducible from its recorded transform |
-| Factual edges | 1,451 traversed and committed, from 10 atomic relations |
-| Findings accepted | 22 — 13 Corroborated, 9 Single-sourced |
-| Proposals rejected | 2, both for naming an identifier that appears in no cited observation |
-| ATT&CK techniques | 20 mapped against v19.2; `T1068` correctly mapped by nothing |
-| Hypotheses | 20 — 7 found, 3 not found, **10 not covered by any source** |
+| Factual edges | 1,367 traversed and committed, from 10 atomic relations |
+| Findings accepted | 25 |
+| Proposals rejected | 8, mostly for naming an identifier that appears in no cited observation |
+| ATT&CK techniques | 21 mapped against v19.2; `T1068` correctly mapped by nothing |
+| Hypotheses | 24, most unconfirmed or uncoverable — the coverage-gap report |
 | Graph invariants | all five hold |
-| Accuracy vs the labelled set | recall 59% (13/22), precision 34% (13/38) |
+| Accuracy vs the labelled set | recall 59% (13/22), precision 46% (13/28) |
 
 It reconstructs the real intrusion: `WINWORD.EXE` → `cmd.exe` → `powershell.exe` on `WKSTN-07`
 under `jdavis`, the C2 channel to `185.220.101.45`, `net.exe` discovery, the port-445 →

@@ -2,16 +2,19 @@
   "cannot_be_ruled_out": {
     "_note": "Observed in the data but cited by no accepted finding. Not exonerated -- endpoint coverage is uneven, so further spread cannot be ruled out.",
     "hosts_observed_but_not_implicated": [
+      "auth-srv-02",
       "wkstn-04",
-      "wkstn-08"
+      "wkstn-05",
+      "wkstn-08",
+      "wkstn-09"
     ]
   },
   "counts": {
-    "account": 10,
-    "address": 25,
-    "bucket": 2,
-    "file": 4,
-    "host": 11,
+    "account": 7,
+    "address": 22,
+    "bucket": 1,
+    "file": 2,
+    "host": 8,
     "service": 1
   },
   "involved": [
@@ -22,41 +25,15 @@
       "confirmed": true,
       "entity_type": "account",
       "event_ids": [
-        "EVT-0187"
+        "EVT-0145"
       ],
-      "finding_count": 2,
+      "finding_count": 1,
       "findings": [
-        "fnd_1cfbb89f3ea3",
-        "fnd_6731ea185dd8"
+        "fnd_016a78b5c956"
       ],
-      "first_involvement": "2026-06-10T13:40:10.848419Z",
-      "last_involvement": "2026-06-10T13:40:10.848419Z",
+      "first_involvement": "2026-06-12T00:44:33.219009Z",
+      "last_involvement": "2026-06-12T00:44:33.219009Z",
       "source_types": [
-        "endpoint"
-      ],
-      "value": "asmith"
-    },
-    {
-      "absent_from_sources": [
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "account",
-      "event_ids": [
-        "EVT-0007",
-        "EVT-0145",
-        "EVT-0163"
-      ],
-      "finding_count": 3,
-      "findings": [
-        "fnd_01d154fca657",
-        "fnd_745612bd4358",
-        "fnd_f1eaa8bec5ae"
-      ],
-      "first_involvement": "2026-06-11T23:36:10.574094Z",
-      "last_involvement": "2026-06-13T07:19:39.837409Z",
-      "source_types": [
-        "auth",
         "endpoint"
       ],
       "value": "bwilliams"
@@ -68,20 +45,15 @@
       "confirmed": true,
       "entity_type": "account",
       "event_ids": [
-        "EVT-0150",
-        "EVT-0183",
-        "EVT-0209"
+        "EVT-0183"
       ],
-      "finding_count": 3,
+      "finding_count": 1,
       "findings": [
-        "fnd_1ce658a06f2d",
-        "fnd_b6eade451f6b",
-        "fnd_e53fdea6ce54"
+        "fnd_e01f62c49779"
       ],
-      "first_involvement": "2026-06-10T08:50:44.249433Z",
+      "first_involvement": "2026-06-10T18:51:47.084315Z",
       "last_involvement": "2026-06-10T18:51:47.084315Z",
       "source_types": [
-        "cloud_storage",
         "endpoint"
       ],
       "value": "dtaylor"
@@ -93,15 +65,13 @@
       "confirmed": true,
       "entity_type": "account",
       "event_ids": [
-        "EVT-0165",
         "EVT-0172"
       ],
-      "finding_count": 2,
+      "finding_count": 1,
       "findings": [
-        "fnd_299857d08455",
-        "fnd_d1731f8ce5fa"
+        "fnd_0157c3d42dbd"
       ],
-      "first_involvement": "2026-06-12T12:40:49.190476Z",
+      "first_involvement": "2026-06-12T21:00:27.515647Z",
       "last_involvement": "2026-06-12T21:00:27.515647Z",
       "source_types": [
         "endpoint"
@@ -121,8 +91,8 @@
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_8cf2799a2fe9",
-        "fnd_900fcbfd7c57"
+        "fnd_1ce1470ddda0",
+        "fnd_c6248621d62e"
       ],
       "first_involvement": "2026-06-10T18:18:44Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -138,35 +108,13 @@
       "confirmed": true,
       "entity_type": "account",
       "event_ids": [
-        "EVT-0057"
+        "EVT-0027"
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_53c3e1920796"
+        "fnd_22634fc4628a"
       ],
-      "first_involvement": "2026-06-13T02:22:03.427384Z",
-      "last_involvement": "2026-06-13T02:22:03.427384Z",
-      "source_types": [
-        "auth"
-      ],
-      "value": "glee"
-    },
-    {
-      "absent_from_sources": [
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "account",
-      "event_ids": [
-        "EVT-0009",
-        "EVT-0027"
-      ],
-      "finding_count": 2,
-      "findings": [
-        "fnd_299857d08455",
-        "fnd_98a77ac9b73d"
-      ],
-      "first_involvement": "2026-06-10T14:40:12.102241Z",
+      "first_involvement": "2026-06-12T12:28:41.358556Z",
       "last_involvement": "2026-06-12T12:28:41.358556Z",
       "source_types": [
         "auth"
@@ -180,36 +128,15 @@
       "confirmed": true,
       "entity_type": "account",
       "event_ids": [
-        "EVT-0211"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_53c3e1920796"
-      ],
-      "first_involvement": "2026-06-13T02:42:29.565021Z",
-      "last_involvement": "2026-06-13T02:42:29.565021Z",
-      "source_types": [
-        "cloud_storage"
-      ],
-      "value": "iharris"
-    },
-    {
-      "absent_from_sources": [
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "account",
-      "event_ids": [
         "EVT-0156",
-        "EVT-0159",
         "EVT-0182"
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_1432ab8c9ddc",
-        "fnd_900fcbfd7c57"
+        "fnd_54df2bb563c0",
+        "fnd_940a6e178ec5"
       ],
-      "first_involvement": "2026-06-10T18:19:08.876335Z",
+      "first_involvement": "2026-06-11T21:49:25.220591Z",
       "last_involvement": "2026-06-11T22:30:09.186275Z",
       "source_types": [
         "endpoint"
@@ -235,16 +162,16 @@
       ],
       "finding_count": 10,
       "findings": [
-        "fnd_1cfbb89f3ea3",
-        "fnd_28064fa63b48",
-        "fnd_6731ea185dd8",
-        "fnd_8cf2799a2fe9",
-        "fnd_900fcbfd7c57",
-        "fnd_98a77ac9b73d",
-        "fnd_a03018703879",
-        "fnd_b6eade451f6b",
-        "fnd_c22ee92c8f33",
-        "fnd_ef7349648196"
+        "fnd_1ce1470ddda0",
+        "fnd_398feae2a821",
+        "fnd_6cf8bed1531b",
+        "fnd_96d390096ab2",
+        "fnd_9e56aaab7ce5",
+        "fnd_adf87c1e5d21",
+        "fnd_bc33270471fe",
+        "fnd_c6248621d62e",
+        "fnd_ce0850514731",
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T08:12:33Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -266,7 +193,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_ef7349648196"
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T13:11:33Z",
       "last_involvement": "2026-06-10T13:11:33Z",
@@ -288,7 +215,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_c22ee92c8f33"
+        "fnd_ce0850514731"
       ],
       "first_involvement": "2026-06-10T11:33:38.176114Z",
       "last_involvement": "2026-06-10T11:33:38.176114Z",
@@ -310,7 +237,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_f1eaa8bec5ae"
+        "fnd_4a2573d9cd87"
       ],
       "first_involvement": "2026-06-13T06:54:52.808353Z",
       "last_involvement": "2026-06-13T06:54:52.808353Z",
@@ -332,9 +259,9 @@
       ],
       "finding_count": 3,
       "findings": [
-        "fnd_8cf2799a2fe9",
-        "fnd_900fcbfd7c57",
-        "fnd_ef7349648196"
+        "fnd_1ce1470ddda0",
+        "fnd_c6248621d62e",
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T13:11:33Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -355,10 +282,11 @@
       "event_ids": [
         "EVT-0075"
       ],
-      "finding_count": 2,
+      "finding_count": 3,
       "findings": [
-        "fnd_625e7d1c3522",
-        "fnd_745612bd4358"
+        "fnd_1eb65b29b38a",
+        "fnd_54df2bb563c0",
+        "fnd_562f6050a1f3"
       ],
       "first_involvement": "2026-06-11T23:15:10.853857Z",
       "last_involvement": "2026-06-11T23:15:10.853857Z",
@@ -380,7 +308,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_53c3e1920796"
+        "fnd_2dbf65bcaff5"
       ],
       "first_involvement": "2026-06-13T02:16:28.485202Z",
       "last_involvement": "2026-06-13T02:16:28.485202Z",
@@ -388,27 +316,6 @@
         "network"
       ],
       "value": "10.0.2.15"
-    },
-    {
-      "absent_from_sources": [
-        "auth",
-        "endpoint"
-      ],
-      "confirmed": true,
-      "entity_type": "address",
-      "event_ids": [
-        "EVT-0209"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_b6eade451f6b"
-      ],
-      "first_involvement": "2026-06-10T08:50:44.249433Z",
-      "last_involvement": "2026-06-10T08:50:44.249433Z",
-      "source_types": [
-        "cloud_storage"
-      ],
-      "value": "10.0.2.17"
     },
     {
       "absent_from_sources": [
@@ -423,7 +330,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_299857d08455"
+        "fnd_22634fc4628a"
       ],
       "first_involvement": "2026-06-12T12:16:29.046088Z",
       "last_involvement": "2026-06-12T12:16:29.046088Z",
@@ -431,49 +338,6 @@
         "network"
       ],
       "value": "10.0.2.18"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "endpoint",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "address",
-      "event_ids": [
-        "EVT-0009"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_98a77ac9b73d"
-      ],
-      "first_involvement": "2026-06-10T14:40:12.102241Z",
-      "last_involvement": "2026-06-10T14:40:12.102241Z",
-      "source_types": [
-        "auth"
-      ],
-      "value": "10.0.2.185"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "endpoint"
-      ],
-      "confirmed": true,
-      "entity_type": "address",
-      "event_ids": [
-        "EVT-0088"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_e53fdea6ce54"
-      ],
-      "first_involvement": "2026-06-10T19:03:40.932454Z",
-      "last_involvement": "2026-06-10T19:03:40.932454Z",
-      "source_types": [
-        "network"
-      ],
-      "value": "10.0.2.25"
     },
     {
       "absent_from_sources": [
@@ -488,7 +352,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_53c3e1920796"
+        "fnd_2dbf65bcaff5"
       ],
       "first_involvement": "2026-06-13T02:16:28.485202Z",
       "last_involvement": "2026-06-13T02:16:28.485202Z",
@@ -511,9 +375,9 @@
       ],
       "finding_count": 3,
       "findings": [
-        "fnd_1ce658a06f2d",
-        "fnd_270b166d0a7d",
-        "fnd_c35f33a624af"
+        "fnd_40742dae516f",
+        "fnd_ce7f0d436e26",
+        "fnd_d96a677d3975"
       ],
       "first_involvement": "2026-06-10T09:03:17Z",
       "last_involvement": "2026-06-10T09:34:21Z",
@@ -535,7 +399,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_299857d08455"
+        "fnd_22634fc4628a"
       ],
       "first_involvement": "2026-06-12T12:28:41.358556Z",
       "last_involvement": "2026-06-12T12:28:41.358556Z",
@@ -543,28 +407,6 @@
         "auth"
       ],
       "value": "10.0.2.89"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "endpoint",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "address",
-      "event_ids": [
-        "EVT-0007"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_f1eaa8bec5ae"
-      ],
-      "first_involvement": "2026-06-13T07:19:39.837409Z",
-      "last_involvement": "2026-06-13T07:19:39.837409Z",
-      "source_types": [
-        "auth"
-      ],
-      "value": "10.0.3.144"
     },
     {
       "absent_from_sources": [
@@ -578,7 +420,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_d1731f8ce5fa"
+        "fnd_0157c3d42dbd"
       ],
       "first_involvement": "2026-06-12T21:43:29.098438Z",
       "last_involvement": "2026-06-12T21:43:29.098438Z",
@@ -599,7 +441,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_d1731f8ce5fa"
+        "fnd_0157c3d42dbd"
       ],
       "first_involvement": "2026-06-12T21:43:29.098438Z",
       "last_involvement": "2026-06-12T21:43:29.098438Z",
@@ -611,47 +453,24 @@
     {
       "absent_from_sources": [
         "auth",
+        "cloud_storage",
         "endpoint"
       ],
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
-        "EVT-0085"
+        "EVT-0126"
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_f1eaa8bec5ae"
+        "fnd_0e8e21952649"
       ],
-      "first_involvement": "2026-06-13T07:24:21.751627Z",
-      "last_involvement": "2026-06-13T07:24:21.751627Z",
+      "first_involvement": "2026-06-11T11:16:40.019911Z",
+      "last_involvement": "2026-06-11T11:16:40.019911Z",
       "source_types": [
         "network"
       ],
-      "value": "10.0.3.27"
-    },
-    {
-      "absent_from_sources": [
-        "auth",
-        "cloud_storage",
-        "endpoint"
-      ],
-      "confirmed": true,
-      "entity_type": "address",
-      "event_ids": [
-        "EVT-0085",
-        "EVT-0088"
-      ],
-      "finding_count": 2,
-      "findings": [
-        "fnd_e53fdea6ce54",
-        "fnd_f1eaa8bec5ae"
-      ],
-      "first_involvement": "2026-06-10T19:03:40.932454Z",
-      "last_involvement": "2026-06-13T07:24:21.751627Z",
-      "source_types": [
-        "network"
-      ],
-      "value": "10.0.4.23"
+      "value": "10.0.4.20"
     },
     {
       "absent_from_sources": [
@@ -661,18 +480,15 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
-        "EVT-0103",
-        "EVT-0211"
+        "EVT-0103"
       ],
-      "finding_count": 2,
+      "finding_count": 1,
       "findings": [
-        "fnd_53c3e1920796",
-        "fnd_f1eaa8bec5ae"
+        "fnd_4a2573d9cd87"
       ],
-      "first_involvement": "2026-06-13T02:42:29.565021Z",
+      "first_involvement": "2026-06-13T06:54:52.808353Z",
       "last_involvement": "2026-06-13T06:54:52.808353Z",
       "source_types": [
-        "cloud_storage",
         "network"
       ],
       "value": "10.0.5.10"
@@ -689,7 +505,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_299857d08455"
+        "fnd_22634fc4628a"
       ],
       "first_involvement": "2026-06-12T12:16:29.046088Z",
       "last_involvement": "2026-06-12T12:16:29.046088Z",
@@ -697,28 +513,6 @@
         "network"
       ],
       "value": "10.0.5.16"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "endpoint",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "address",
-      "event_ids": [
-        "EVT-0057"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_53c3e1920796"
-      ],
-      "first_involvement": "2026-06-13T02:22:03.427384Z",
-      "last_involvement": "2026-06-13T02:22:03.427384Z",
-      "source_types": [
-        "auth"
-      ],
-      "value": "10.0.5.165"
     },
     {
       "absent_from_sources": [
@@ -733,7 +527,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_c22ee92c8f33"
+        "fnd_ce0850514731"
       ],
       "first_involvement": "2026-06-10T11:33:38.176114Z",
       "last_involvement": "2026-06-10T11:33:38.176114Z",
@@ -751,12 +545,34 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0105"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_e122ec5b0ab5"
+      ],
+      "first_involvement": "2026-06-12T09:37:39.772267Z",
+      "last_involvement": "2026-06-12T09:37:39.772267Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.5.21"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
         "EVT-0078"
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_625e7d1c3522",
-        "fnd_745612bd4358"
+        "fnd_1eb65b29b38a",
+        "fnd_562f6050a1f3"
       ],
       "first_involvement": "2026-06-13T07:41:34.251699Z",
       "last_involvement": "2026-06-13T07:41:34.251699Z",
@@ -774,13 +590,36 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0105"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_e122ec5b0ab5"
+      ],
+      "first_involvement": "2026-06-12T09:37:39.772267Z",
+      "last_involvement": "2026-06-12T09:37:39.772267Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "13.107.42.14"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
         "EVT-0075",
         "EVT-0078"
       ],
-      "finding_count": 2,
+      "finding_count": 3,
       "findings": [
-        "fnd_625e7d1c3522",
-        "fnd_745612bd4358"
+        "fnd_1eb65b29b38a",
+        "fnd_54df2bb563c0",
+        "fnd_562f6050a1f3"
       ],
       "first_involvement": "2026-06-11T23:15:10.853857Z",
       "last_involvement": "2026-06-13T07:41:34.251699Z",
@@ -804,9 +643,9 @@
       ],
       "finding_count": 3,
       "findings": [
-        "fnd_1ce658a06f2d",
-        "fnd_270b166d0a7d",
-        "fnd_c35f33a624af"
+        "fnd_40742dae516f",
+        "fnd_ce7f0d436e26",
+        "fnd_d96a677d3975"
       ],
       "first_involvement": "2026-06-10T09:03:17Z",
       "last_involvement": "2026-06-10T09:34:21Z",
@@ -818,26 +657,24 @@
     {
       "absent_from_sources": [
         "auth",
-        "endpoint",
-        "network"
+        "cloud_storage",
+        "endpoint"
       ],
       "confirmed": true,
-      "entity_type": "bucket",
+      "entity_type": "address",
       "event_ids": [
-        "EVT-0209",
-        "EVT-0211"
+        "EVT-0126"
       ],
-      "finding_count": 2,
+      "finding_count": 1,
       "findings": [
-        "fnd_53c3e1920796",
-        "fnd_b6eade451f6b"
+        "fnd_0e8e21952649"
       ],
-      "first_involvement": "2026-06-10T08:50:44.249433Z",
-      "last_involvement": "2026-06-13T02:42:29.565021Z",
+      "first_involvement": "2026-06-11T11:16:40.019911Z",
+      "last_involvement": "2026-06-11T11:16:40.019911Z",
       "source_types": [
-        "cloud_storage"
+        "network"
       ],
-      "value": "corp-documents"
+      "value": "8.8.8.8"
     },
     {
       "absent_from_sources": [
@@ -852,8 +689,8 @@
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_8cf2799a2fe9",
-        "fnd_900fcbfd7c57"
+        "fnd_1ce1470ddda0",
+        "fnd_c6248621d62e"
       ],
       "first_involvement": "2026-06-10T18:18:44Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -875,8 +712,8 @@
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_8cf2799a2fe9",
-        "fnd_900fcbfd7c57"
+        "fnd_1ce1470ddda0",
+        "fnd_c6248621d62e"
       ],
       "first_involvement": "2026-06-10T16:51:03Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -885,28 +722,6 @@
         "endpoint"
       ],
       "value": "backup_archive.zip"
-    },
-    {
-      "absent_from_sources": [
-        "auth",
-        "endpoint",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "file",
-      "event_ids": [
-        "EVT-0211"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_53c3e1920796"
-      ],
-      "first_involvement": "2026-06-13T02:42:29.565021Z",
-      "last_involvement": "2026-06-13T02:42:29.565021Z",
-      "source_types": [
-        "cloud_storage"
-      ],
-      "value": "product_roadmap_v3.pptx"
     },
     {
       "absent_from_sources": [
@@ -921,7 +736,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_ef7349648196"
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T13:12:04Z",
       "last_involvement": "2026-06-10T13:12:04Z",
@@ -932,77 +747,29 @@
     },
     {
       "absent_from_sources": [
-        "auth",
-        "endpoint",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "file",
-      "event_ids": [
-        "EVT-0209"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_b6eade451f6b"
-      ],
-      "first_involvement": "2026-06-10T08:50:44.249433Z",
-      "last_involvement": "2026-06-10T08:50:44.249433Z",
-      "source_types": [
-        "cloud_storage"
-      ],
-      "value": "team_okrs_2026.xlsx"
-    },
-    {
-      "absent_from_sources": [
         "cloud_storage"
       ],
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
-        "EVT-0009",
         "EVT-0027",
-        "EVT-0057",
         "EVT-0230",
         "EVT-0231"
       ],
-      "finding_count": 5,
+      "finding_count": 3,
       "findings": [
-        "fnd_299857d08455",
-        "fnd_53c3e1920796",
-        "fnd_98a77ac9b73d",
-        "fnd_c22ee92c8f33",
-        "fnd_ef7349648196"
+        "fnd_22634fc4628a",
+        "fnd_ce0850514731",
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T11:28:42Z",
-      "last_involvement": "2026-06-13T02:22:03.427384Z",
+      "last_involvement": "2026-06-12T12:28:41.358556Z",
       "source_types": [
         "auth",
         "endpoint",
         "network"
       ],
       "value": "auth-srv-01"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "endpoint",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "host",
-      "event_ids": [
-        "EVT-0007"
-      ],
-      "finding_count": 1,
-      "findings": [
-        "fnd_f1eaa8bec5ae"
-      ],
-      "first_involvement": "2026-06-13T07:19:39.837409Z",
-      "last_involvement": "2026-06-13T07:19:39.837409Z",
-      "source_types": [
-        "auth"
-      ],
-      "value": "auth-srv-02"
     },
     {
       "absent_from_sources": [],
@@ -1019,13 +786,13 @@
       ],
       "finding_count": 7,
       "findings": [
-        "fnd_1cfbb89f3ea3",
-        "fnd_6731ea185dd8",
-        "fnd_8cf2799a2fe9",
-        "fnd_900fcbfd7c57",
-        "fnd_98a77ac9b73d",
-        "fnd_a03018703879",
-        "fnd_ef7349648196"
+        "fnd_1ce1470ddda0",
+        "fnd_398feae2a821",
+        "fnd_6cf8bed1531b",
+        "fnd_adf87c1e5d21",
+        "fnd_bc33270471fe",
+        "fnd_c6248621d62e",
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T13:11:33Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -1044,19 +811,16 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
-        "EVT-0027",
-        "EVT-0159"
+        "EVT-0027"
       ],
-      "finding_count": 2,
+      "finding_count": 1,
       "findings": [
-        "fnd_299857d08455",
-        "fnd_900fcbfd7c57"
+        "fnd_22634fc4628a"
       ],
-      "first_involvement": "2026-06-10T18:19:08.876335Z",
+      "first_involvement": "2026-06-12T12:28:41.358556Z",
       "last_involvement": "2026-06-12T12:28:41.358556Z",
       "source_types": [
-        "auth",
-        "endpoint"
+        "auth"
       ],
       "value": "wkstn-01"
     },
@@ -1068,23 +832,17 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
-        "EVT-0007",
         "EVT-0156",
-        "EVT-0172",
-        "EVT-0187"
+        "EVT-0172"
       ],
-      "finding_count": 5,
+      "finding_count": 2,
       "findings": [
-        "fnd_1432ab8c9ddc",
-        "fnd_1cfbb89f3ea3",
-        "fnd_6731ea185dd8",
-        "fnd_d1731f8ce5fa",
-        "fnd_f1eaa8bec5ae"
+        "fnd_0157c3d42dbd",
+        "fnd_54df2bb563c0"
       ],
-      "first_involvement": "2026-06-10T13:40:10.848419Z",
-      "last_involvement": "2026-06-13T07:19:39.837409Z",
+      "first_involvement": "2026-06-11T22:30:09.186275Z",
+      "last_involvement": "2026-06-12T21:00:27.515647Z",
       "source_types": [
-        "auth",
         "endpoint"
       ],
       "value": "wkstn-02"
@@ -1101,7 +859,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_e53fdea6ce54"
+        "fnd_e01f62c49779"
       ],
       "first_involvement": "2026-06-10T18:51:47.084315Z",
       "last_involvement": "2026-06-10T18:51:47.084315Z",
@@ -1118,41 +876,15 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
-        "EVT-0150",
-        "EVT-0163"
-      ],
-      "finding_count": 2,
-      "findings": [
-        "fnd_1ce658a06f2d",
-        "fnd_745612bd4358"
-      ],
-      "first_involvement": "2026-06-10T09:05:40.279231Z",
-      "last_involvement": "2026-06-11T23:36:10.574094Z",
-      "source_types": [
-        "endpoint"
-      ],
-      "value": "wkstn-05"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "host",
-      "event_ids": [
-        "EVT-0057",
         "EVT-0182"
       ],
-      "finding_count": 2,
+      "finding_count": 1,
       "findings": [
-        "fnd_1432ab8c9ddc",
-        "fnd_53c3e1920796"
+        "fnd_940a6e178ec5"
       ],
       "first_involvement": "2026-06-11T21:49:25.220591Z",
-      "last_involvement": "2026-06-13T02:22:03.427384Z",
+      "last_involvement": "2026-06-11T21:49:25.220591Z",
       "source_types": [
-        "auth",
         "endpoint"
       ],
       "value": "wkstn-06"
@@ -1172,11 +904,11 @@
       ],
       "finding_count": 5,
       "findings": [
-        "fnd_1ce658a06f2d",
-        "fnd_270b166d0a7d",
-        "fnd_28064fa63b48",
-        "fnd_b6eade451f6b",
-        "fnd_c35f33a624af"
+        "fnd_40742dae516f",
+        "fnd_96d390096ab2",
+        "fnd_9e56aaab7ce5",
+        "fnd_ce7f0d436e26",
+        "fnd_d96a677d3975"
       ],
       "first_involvement": "2026-06-10T08:12:33Z",
       "last_involvement": "2026-06-10T09:34:21Z",
@@ -1194,35 +926,11 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
-        "EVT-0009",
-        "EVT-0165"
-      ],
-      "finding_count": 2,
-      "findings": [
-        "fnd_299857d08455",
-        "fnd_98a77ac9b73d"
-      ],
-      "first_involvement": "2026-06-10T14:40:12.102241Z",
-      "last_involvement": "2026-06-12T12:40:49.190476Z",
-      "source_types": [
-        "auth",
-        "endpoint"
-      ],
-      "value": "wkstn-09"
-    },
-    {
-      "absent_from_sources": [
-        "cloud_storage",
-        "network"
-      ],
-      "confirmed": true,
-      "entity_type": "host",
-      "event_ids": [
         "EVT-0145"
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_01d154fca657"
+        "fnd_016a78b5c956"
       ],
       "first_involvement": "2026-06-12T00:44:33.219009Z",
       "last_involvement": "2026-06-12T00:44:33.219009Z",
@@ -1244,7 +952,7 @@
       ],
       "finding_count": 1,
       "findings": [
-        "fnd_ef7349648196"
+        "fnd_e5b656e78095"
       ],
       "first_involvement": "2026-06-10T13:12:04Z",
       "last_involvement": "2026-06-10T13:12:04Z",
