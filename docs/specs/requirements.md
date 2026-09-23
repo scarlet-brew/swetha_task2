@@ -78,15 +78,36 @@ while every other host shows four to nine. Both would score perfectly here and f
 **As a** SOC analyst, **I want** every statement to point at the log records behind it, **so
 that** I can verify any conclusion myself and defend it when challenged.
 
-1. WHEN THE SYSTEM states a fact about the incident THEN THE SYSTEM SHALL identify each
-   supporting record by its source, its recorded time and its identifier.
-2. WHEN a supporting record is identified THEN THE SYSTEM SHALL make the complete original record
-   available without the analyst leaving what they are reading.
-3. THE SYSTEM SHALL present original records unaltered.
-4. IF a statement has no supporting record, or a cited record does not contain the values the
-   statement asserts, THEN THE SYSTEM SHALL withhold the statement and report which one failed.
-5. IF a cited identifier does not exist in the data THEN THE SYSTEM SHALL withhold the answer and
+Statements come in two classes, and they carry different obligations:
+
+- an **atomic observation** asserts values that appear directly in one or more records;
+- a **derived finding** — movement between hosts, credential theft, data removal — asserts
+  something no single record contains, and exists only by connecting records together.
+
+1. WHEN THE SYSTEM makes a statement about the incident THEN THE SYSTEM SHALL classify it as an
+   atomic observation or a derived finding.
+2. WHEN THE SYSTEM states an atomic observation THEN THE SYSTEM SHALL cite each record whose
+   values it asserts, identified by source, recorded time and identifier.
+3. WHEN THE SYSTEM states a derived finding THEN THE SYSTEM SHALL cite the complete set of records
+   the finding rests on, and SHALL name the correlation or inference rule that connects them.
+4. WHEN a record is cited THEN THE SYSTEM SHALL make the complete original record available,
+   unaltered, without the analyst leaving what they are reading.
+5. IF an atomic observation asserts a value that appears in no cited record THEN THE SYSTEM SHALL
+   withhold the statement and report which value failed.
+6. IF a derived finding names no rule, omits a record its named rule requires, or cites a record
+   that does not fulfil the role the rule assigns it, THEN THE SYSTEM SHALL withhold the finding
+   and report which of those failed.
+7. THE SYSTEM SHALL NOT withhold a derived finding on the ground that no individual record
+   contains it in full.
+8. IF a cited identifier does not exist in the data THEN THE SYSTEM SHALL withhold the answer and
    report the failure.
+
+*Criterion 7 is why the split exists. "The attacker moved from one server to the next" appears in
+no record: it rests on a network flow between the two hosts, a service created on the second, and
+a process whose parent is that service — three records joined by a named rule. Checking a derived
+finding value-by-value against single records would withhold the system's primary output. The
+check that replaces it is stronger, not weaker: the rule is named, so a reviewer can ask whether
+the rule is sound and whether each cited record really plays the part the rule assigns it.*
 
 ### Requirement 3 — State what cannot be determined `P1`
 
@@ -95,8 +116,8 @@ cannot establish, **so that** I never repeat a conclusion the evidence does not 
 
 1. IF the data cannot answer a question THEN THE SYSTEM SHALL say so and SHALL name the
    information that would be required.
-2. WHEN THE SYSTEM states a conclusion that no individual record establishes on its own THEN THE
-   SYSTEM SHALL indicate how strongly the evidence supports it.
+2. WHEN THE SYSTEM states a derived finding THEN THE SYSTEM SHALL indicate how strongly its
+   evidence set supports it.
    `[NEEDS CLARIFICATION: Q1]`
 3. WHEN a conclusion rests on records from a single log source, or on the absence of records, THEN
    THE SYSTEM SHALL say so and SHALL NOT present it as observed fact.
@@ -227,7 +248,8 @@ that** I can begin containing this before the investigation is complete.
 judge whether the reasoning was sound instead of trusting the output.
 
 1. WHILE an answer is being produced THE SYSTEM SHALL show the steps it is taking.
-2. WHEN a conclusion is presented THEN THE SYSTEM SHALL identify which reasoning produced it.
+2. WHEN a derived finding is presented THEN THE SYSTEM SHALL make the rule named under R2.3
+   inspectable, including what the rule requires and why it applies to the cited records.
 3. WHEN an answer is complete THEN THE SYSTEM SHALL retain the question, the steps taken, the
    citations returned and the versions in use, so that another person can establish how the
    conclusion was reached.
@@ -256,8 +278,8 @@ Behaviour beyond the supplied volume of data is not established and will be stat
 NFR-02 turns entirely on this distinction, so it is defined here rather than left to judgement.
 
 A statement is a **factual conclusion** if altering it would change **which records are cited**,
-**what is asserted about them**, or **which qualifications accompany the assertion**. Factual
-conclusions are subject to R2 and R1.9.
+**what is asserted about them**, **which rule is named** as connecting them, or **which
+qualifications accompany the assertion**. Factual conclusions are subject to R2 and R1.9.
 
 Everything else is **wording**: word choice, ordering, length and tone. The test is operational —
 if an edit cannot change a citation, an assertion, or a qualification, it is wording.
@@ -289,7 +311,7 @@ NFR-02 also makes NFR-04 inexpensive: if only wording crosses the boundary, iden
 | # | Criterion |
 |---|---|
 | **SC-01** | An analyst with no prior knowledge of the incident can state the initial access, every affected host and account, and whether data was removed, within ten minutes of first use — against six to eight hours manually. |
-| **SC-02** | Citation resolution is **100%**: every factual statement in every output resolves to a log record containing the asserted values. A single failure is a defect, not a lower score. |
+| **SC-02** | Citation integrity is **100%**, measured separately by class: every value asserted by an atomic observation appears in a cited record, **and** every derived finding names a rule and cites a complete evidence set in which each record fulfils the role that rule assigns it. A single failure of either kind is a defect, not a lower score. |
 | **SC-03** | Against the intrusion activity, recall is at least **80%** and precision is at least **70%**, measured as required by Requirement 7 criterion 3. |
 | **SC-04** | Across a fixed set of questions about information the data does not contain, the system fabricates nothing and names the absent source every time. |
 | **SC-05** | Findings are unchanged under the perturbation in Requirement 7. |
@@ -313,9 +335,10 @@ normally make in silence.
 
 ## 6. Acceptance scenarios — the ten evaluation questions
 
-Adopted verbatim from the assignment. **Every scenario also requires:** every statement resolves
-to a record containing the asserted values (R2); no annotation, identifier ordering or time
-precision influenced the answer (R7).
+Adopted verbatim from the assignment. **Every scenario also requires:** every atomic observation
+cites records containing the values it asserts, and every derived finding names its rule and
+cites a complete evidence set (R2); no annotation, identifier ordering or time precision
+influenced the answer (R7).
 
 | # | The analyst asks… | The system must… |
 |---|---|---|
