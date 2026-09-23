@@ -1,0 +1,31 @@
+# Project metadata and tool configuration.
+#
+# There is deliberately no [build-system] table: this package is never built or
+# installed. setuptools is outside the frozen dependency set (design 10.1), and
+# a pip install at demo time is an NFR-02 failure, so `src/` reaches the import
+# path directly -- tests/__init__.py for the suite, PYTHONPATH for the build
+# entry point (see README "Running it").
+#
+# `dependencies` lists only the four declared dependencies. Their pinned
+# transitive closure lives in requirements.txt, which is what gets installed.
+
+[project]
+name = "siem-investigator"
+# Keep in sync with siem_investigator.__version__ -- design 8.2 stamps the
+# software version onto every emitted artifact and onto the answer record.
+version = "0.1.0"
+description = "Agentic cyber incident investigation over a synthetic SIEM dataset, with a citation behind every claim"
+readme = "README.md"
+requires-python = ">=3.14"
+
+dependencies = [
+    "anthropic==0.84.0",
+    "jsonschema==4.26.0",
+    "pydantic==2.13.5",
+    "streamlit==1.64.0",
+]
+
+[project.urls]
+Requirements = "docs/specs/requirements.md"
+Design = "docs/specs/design.md"
+Tasks = "docs/specs/tasks.md"
