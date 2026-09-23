@@ -1,7 +1,6 @@
 # Requirements: Cyber Incident Investigation Intelligence
 
-**Phase 1 of** Spec → Design → Tasks → Implement → Validate  ·  **Status:** draft, 5 open
-questions (§8)  ·  **Incident:** `INC-2026-0610-001`  ·  **2026-09-22**
+**Phase 1 of** Spec → Design → Tasks → Implement → Validate  ·  **Status:** draft, 4 open questions (§8)  ·  **Incident:** `INC-2026-0610-001`  ·  **2026-09-22**
 
 What the system must do and how we will know it did it. No architecture, no technology, no
 mechanism — those belong in [design.md](design.md).
@@ -59,10 +58,20 @@ cross-referencing thousands of lines across separate systems.
    rather than omitting it.
 8. IF no activity evidences an intrusion at all THEN THE SYSTEM SHALL say so and SHALL NOT present
    a sequence.
+9. THE SYSTEM SHALL attribute activity to the intrusion only on the basis of observed behaviour
+   evidenced by cited records.
+10. IF an account, host or address is notable only for having little or no other recorded activity,
+    or for lacking the variation its peers show, THEN THE SYSTEM SHALL treat that as grounds for
+    review and SHALL NOT treat it as evidence of intrusion.
 
 *Criterion 4 is the point. No two records in this data describe the same action, so there is
 nothing to merge — the value is in showing that activity in one source is related to activity in
 another.*
+
+*Criterion 10 exists because unusualness in this data is a shortcut to the right answer for the
+wrong reason. One account has no ordinary activity in the whole period and it is the compromised
+one; the only three hosts with a single network address are exactly the three compromised hosts,
+while every other host shows four to nine. Both would score perfectly here and fail on real logs.*
 
 ### Requirement 2 — Show the evidence for every statement `P1`
 
@@ -168,17 +177,22 @@ records rather than by reading answers embedded in the supplied data, **so that*
 the approach would work on real logs.
 
 1. WHEN given the same data with developer annotations removed, record identifiers reassigned in a
-   different order, and sub-second time precision replaced in a way that leaves the true order of
-   events unchanged, THEN THE SYSTEM SHALL produce the same intrusion-related activity, the same
-   sequence order, the same relationships and the same techniques.
+   different order, sub-second time precision replaced in a way that leaves the true order of
+   events unchanged, ordinary activity added for accounts that have none, and the number of
+   distinct network addresses per host equalised, THEN THE SYSTEM SHALL produce the same
+   intrusion-related activity, the same sequence order, the same relationships and the same
+   techniques.
 2. THE SYSTEM SHALL use developer annotations for no purpose other than measuring its own accuracy.
 3. THE SYSTEM SHALL report its own accuracy against those annotations: what it found, what it
    missed, and what it wrongly included.
 4. THE SYSTEM SHALL make the intermediate results of its investigation available for inspection.
 
-*The supplied data reveals the answer three separate ways — an annotation field, the ordering of
-record identifiers, and a difference in time precision between intrusion and background records.
-Criterion 1 is a black-box test that all three were ignored.*
+*The supplied data reveals the answer five separate ways: an annotation field naming the intrusion
+records; record identifiers in which the intrusion occupies the last contiguous block; a
+difference in recorded time precision between intrusion and background records; exactly one
+account with no ordinary activity, which is the compromised one; and exactly three hosts with a
+single network address, which are the three compromised hosts. Each of the five would score
+perfectly on this data and teach nothing. Criterion 1 is a black-box test that none was used.*
 
 ### Requirement 8 — Produce something that can be handed over `P2`
 
@@ -226,7 +240,7 @@ judge whether the reasoning was sound instead of trusting the output.
 | # | Requirement |
 |---|---|
 | **NFR-01** | Given the same data and the same question, THE SYSTEM SHALL return the same conclusions and the same citations on every run. |
-| **NFR-02** | WHILE any service outside the analyst's machine is unavailable, THE SYSTEM SHALL still produce the sequence, the techniques, the scope of compromise and the absent-source report. |
+| **NFR-02** | WHILE any service outside the analyst's machine is unavailable, THE SYSTEM SHALL still produce the sequence, the relationships between activities, the technique attributions, the scope of compromise and the absent-source report. No factual conclusion SHALL depend on a service outside the analyst's machine; only the wording in which an answer is expressed may. |
 | **NFR-03** | THE SYSTEM SHALL complete a reconstruction of the supplied data within a stated time. `[NEEDS CLARIFICATION: Q2]` |
 | **NFR-04** | THE SYSTEM SHALL state what information about the incident leaves the analyst's machine, and SHALL send nothing beyond what is stated. `[NEEDS CLARIFICATION: Q4]` |
 | **NFR-05** | THE SYSTEM SHALL leave the supplied data unmodified. |
@@ -245,8 +259,8 @@ Behaviour beyond the supplied volume of data is not established and will be stat
 | # | Criterion |
 |---|---|
 | **SC-01** | An analyst with no prior knowledge of the incident can state the initial access, every affected host and account, and whether data was removed, within ten minutes of first use — against six to eight hours manually. |
-| **SC-02** | Every factual statement in every output resolves to a log record containing the asserted values. A single failure is a defect, not a lower score. |
-| **SC-03** | The reconstruction finds at least a stated proportion of the intrusion activity and wrongly includes no more than a stated proportion of unrelated activity. `[NEEDS CLARIFICATION: Q5]` |
+| **SC-02** | Citation resolution is **100%**: every factual statement in every output resolves to a log record containing the asserted values. A single failure is a defect, not a lower score. |
+| **SC-03** | Against the intrusion activity, recall is at least **80%** and precision is at least **70%**, measured as required by Requirement 7 criterion 3. |
 | **SC-04** | Across a fixed set of questions about information the data does not contain, the system fabricates nothing and names the absent source every time. |
 | **SC-05** | Findings are unchanged under the perturbation in Requirement 7. |
 
@@ -278,9 +292,9 @@ precision influenced the answer (R7).
 | **AS-01** | "Walk me through the full attack timeline from initial access to last observed activity." | Present one time-ordered sequence covering every stage the data evidences, name those it does not, state the first and last activity, cite every step |
 | **AS-02** | "What was the initial access vector and what evidence supports that conclusion?" | Name and cite the evidence of a document application starting a command interpreter; **state that no mail records exist**; name no sender, subject or attachment; state that a single log source supports this |
 | **AS-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Give identifier, official name, tactic and citation for each; state the catalogue version; assert no exploitation-based privilege escalation; report anything it could not map |
-| **AS-04** | "Which user accounts were compromised or used by the attacker?" | Identify every such account with citations; separate confirmed compromise from mere observation; state where an account has no ordinary activity to compare against |
+| **AS-04** | "Which user accounts were compromised or used by the attacker?" | Identify every such account with citations, each resting on evidenced behaviour; separate confirmed compromise from mere observation; note where an account has no ordinary activity to compare against **as a limitation on the assessment, never as grounds for it** (R1.10) |
 | **AS-05** | "Which internal hosts did the attacker move to after the initial foothold?" | Identify every subsequent host in the order reached, with citations; name the authentication and the remote-service-creation activity evidencing the movement; flag any host identification resting on an uncertain address association |
-| **AS-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answer yes; name the file, exact size, destination, its external ownership, the client used and the time; cite the two records matching on file name and exact size; state that one log source evidences this and that no network record corroborates it |
+| **AS-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answer yes; name the file, exact size, destination, its external ownership, the client used and the time; cite the two records matching on file name and exact size; then separate the three levels of support — the **upload itself** is recorded by cloud storage alone; the **staging-to-upload link** is corroborated by endpoint and cloud storage together; and **no network record independently corroborates the transfer path** |
 | **AS-07** | "What is the blast radius — list every affected host and account." | Enumerate every host and account with first and last involvement and citations; name the assets and volume; state what cannot be ruled out, including hosts no source covers |
 | **AS-08** | "Where are the gaps in our log coverage that limit your confidence in this reconstruction?" | Report the absent mail and name-resolution sources, the uncorroborated data removal, the uneven endpoint coverage, the unobserved tool transfer and the unobserved credential removal — each tied to the conclusion it limits |
 | **AS-09** | "Give me a 3-sentence executive summary suitable for a board briefing." | Exactly three sentences, every assertion traceable, residual uncertainty stated, nothing beyond the evidence |
@@ -302,7 +316,7 @@ it. Requirement 7 exists because that cannot be argued away, only tested around.
 | Identity, access control and concurrent use | One analyst, one machine |
 | Accessibility conformance | Not evaluated here; a conformance claim would cost budget that investigation quality needs |
 | Reputation lookup for external addresses | Requires an outside service, conflicting with NFR-02; no conclusion depends on it |
-| Producing reusable detection rules | Downstream of investigation |
+| Exporting detection rules for other tools to run | The repeatable reasoning that attributes activity to the intrusion is **in scope** — it is how attribution happens, and every conclusion names the reasoning behind it (R1.9, R10.2). What is excluded is publishing that reasoning in a portable form for other systems to consume |
 | Carrying out containment | The system advises; a person acts. Acting on a possibly-wrong reconstruction is the failure this document exists to prevent |
 | Comparing behaviour against a normal baseline | The compromised account has no ordinary activity in the period, so no baseline can be formed |
 | Follow-up questions that refer back to earlier ones; showing the activity examined and dismissed | Both considered and deferred — useful, but not needed for any P1 outcome |
@@ -313,11 +327,10 @@ it. Requirement 7 exists because that cannot be argued away, only tested around.
 
 | # | Question | Blocks | Proposal |
 |---|---|---|---|
-| **Q1** | What vocabulary expresses evidential strength — the intelligence community's estimative terms with a separate confidence statement, or a simpler three-tier scale? And is a conclusion resting on a single source **weakly** supported even when that source directly records the act? The data-removal finding turns on the second half | R3.2, R3.3 | Separate the likelihood of a claim from the strength of its evidence; never combine them in one sentence. Second half unresolved |
+| **Q1** | What vocabulary expresses evidential strength — the intelligence community's estimative terms with a separate confidence statement, or a simpler three-tier scale? And is a conclusion resting on a single source **weakly** supported even when that source directly records the act? The upload record is the case in point: one source records the act itself, while the staging-to-upload link beside it carries two | R3.2, R3.3 | Separate the likelihood of a claim from the strength of its evidence; never combine them in one sentence. Second half unresolved |
 | **Q2** | How long may the system take to reconstruct the data, and to answer one question? | NFR-03, R6.7 | 10 seconds; 60 seconds |
 | **Q3** | Is a handover record in scope, and in what form? Legal counsel will never operate the system | Requirement 8 | In scope; form undecided |
 | **Q4** | The client is a healthcare organisation. May log content be sent unrestricted to a service outside the analyst's machine, or must it be reduced first? | NFR-04 | **Unresolved — shapes the whole design** |
-| **Q5** | What proportion of intrusion activity must be found, and how much unrelated activity may be wrongly included? The data is deliberately seeded with misleading but benign activity | SC-03 | Find ≥ 80%; wrongly include ≤ 30% |
 
 ---
 
