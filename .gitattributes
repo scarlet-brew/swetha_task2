@@ -2,6 +2,12 @@
 # Keeps a Windows checkout byte-identical to a Linux one.
 * text=auto eol=lf
 
+# Data files that must survive byte-for-byte. EOL conversion on a committed
+# external artifact would make its sha256 provenance claim unverifiable, which
+# is the entire reason D-03 retains the official ATT&CK bundle locally.
+*.json  -text
+*.jsonl -text
+
 # Binary assets - git must never apply EOL conversion to these.
 # The assignment PDF is small enough that git guessed "text" without this.
 *.pdf   binary
