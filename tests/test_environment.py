@@ -232,7 +232,7 @@ class NoCredentialInTheTree(unittest.TestCase):
             with self.subTest(path=str(path.relative_to(REPO_ROOT))):
                 self.assertIsNone(
                     SK_ANT_RE.search(text),
-                    "an Anthropic key prefix appears in a committed file",
+                    "an Anthropic key literal appears in a repository file",
                 )
 
     def test_every_api_key_assignment_is_empty_or_an_indirection(self) -> None:
