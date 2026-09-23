@@ -1,6 +1,6 @@
 # Requirements: Cyber Incident Investigation Intelligence
 
-**Phase 1 of** Spec → Design → Tasks → Implement → Validate  ·  **Status:** draft, 4 open questions (§8)  ·  **Incident:** `INC-2026-0610-001`  ·  **2026-09-22**
+**Phase 1 of** Spec → Design → Tasks → Implement → Validate  ·  **Status:** draft, 3 open questions (§8)  ·  **Incident:** `INC-2026-0610-001`  ·  **2026-09-22**
 
 What the system must do and how we will know it did it. No architecture, no technology, no
 mechanism — those belong in [design.md](design.md).
@@ -113,8 +113,8 @@ cannot establish, **so that** I never repeat a conclusion the evidence does not 
    address alone and SHALL NOT infer a host.
 9. IF records support mutually incompatible conclusions THEN THE SYSTEM SHALL report the
    incompatibility and cite every record involved.
-10. THE SYSTEM SHALL identify hosts and accounts involved in the incident that no relevant log
-    source covers.
+10. THE SYSTEM SHALL identify hosts and accounts that appear in the incident but about which one
+    or more relevant log sources record nothing.
 
 *Criterion 5 is the assignment's own example: this data contains no mail records, so the phishing
 message — sender, subject, attachment — is unknowable. Naming any of them is fabrication.*
@@ -199,12 +199,11 @@ perfectly on this data and teach nothing. Criterion 1 is a black-box test that n
 **As a** CISO, **I want** a short summary and a self-contained written record, **so that** I can
 brief a board and give something to legal counsel who will never operate this system.
 
-`[NEEDS CLARIFICATION: Q3]`
-
 1. WHEN asked for a summary of a stated length THEN THE SYSTEM SHALL produce one in which every
    assertion traces to the reconstruction and residual uncertainty is stated.
-2. THE SYSTEM SHALL produce a self-contained record containing the sequence, the techniques, the
-   affected hosts, accounts and assets, the absent sources, and every citation.
+2. THE SYSTEM SHALL produce a self-contained Markdown document containing the sequence, the
+   relationships between activities, the techniques, the affected hosts, accounts and assets, the
+   absent sources, and every citation.
 3. WHEN producing that record THEN THE SYSTEM SHALL state the data it was built from, the catalogue
    version, the version of the system, and when it was produced.
 4. THE SYSTEM SHALL make that record readable without access to the running system.
@@ -294,15 +293,18 @@ precision influenced the answer (R7).
 | **AS-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Give identifier, official name, tactic and citation for each; state the catalogue version; assert no exploitation-based privilege escalation; report anything it could not map |
 | **AS-04** | "Which user accounts were compromised or used by the attacker?" | Identify every such account with citations, each resting on evidenced behaviour; separate confirmed compromise from mere observation; note where an account has no ordinary activity to compare against **as a limitation on the assessment, never as grounds for it** (R1.10) |
 | **AS-05** | "Which internal hosts did the attacker move to after the initial foothold?" | Identify every subsequent host in the order reached, with citations; name the authentication and the remote-service-creation activity evidencing the movement; flag any host identification resting on an uncertain address association |
-| **AS-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answer yes; name the file, exact size, destination, its external ownership, the client used and the time; cite the two records matching on file name and exact size; then separate the three levels of support — the **upload itself** is recorded by cloud storage alone; the **staging-to-upload link** is corroborated by endpoint and cloud storage together; and **no network record independently corroborates the transfer path** |
-| **AS-07** | "What is the blast radius — list every affected host and account." | Enumerate every host and account with first and last involvement and citations; name the assets and volume; state what cannot be ruled out, including hosts no source covers |
+| **AS-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answer yes; name the file, exact size, destination, its external ownership, the client used and the time; establish the link between the archive staged on the host and the upload to the external destination, citing the record on each side; then separate the three levels of support — the **upload itself** is recorded by cloud storage alone; the **staging-to-upload link** is corroborated by endpoint and cloud storage together; and **no network record independently corroborates the transfer path** |
+| **AS-07** | "What is the blast radius — list every affected host and account." | Enumerate every host and account with first and last involvement and citations; name the assets and volume; state what cannot be ruled out, including hosts that appear in the incident but about which a relevant source records nothing |
 | **AS-08** | "Where are the gaps in our log coverage that limit your confidence in this reconstruction?" | Report the absent mail and name-resolution sources, the uncorroborated data removal, the uneven endpoint coverage, the unobserved tool transfer and the unobserved credential removal — each tied to the conclusion it limits |
 | **AS-09** | "Give me a 3-sentence executive summary suitable for a board briefing." | Exactly three sentences, every assertion traceable, residual uncertainty stated, nothing beyond the evidence |
 | **AS-10** | "What should the incident response team do in the next 2 hours to contain this?" | Ordered actions, each citing the evidence that motivates it and classified as limiting damage, removing access or restoring operation; at least one addressing an absent source |
 
-These criteria were written after reading the developer annotations, so they encode the known
-answer — a strong test suite, but weak evidence that the requirements were discoverable without
-it. Requirement 7 exists because that cannot be argued away, only tested around.
+**What this suite is and is not.** These ten scenarios are a **regression suite for this one
+supplied incident**. They were written after reading the developer annotations, so they encode
+its known answer. Passing them shows the system reproduces this incident correctly; it is **not**
+evidence that the system generalises to an incident it has not seen, and no claim of
+generalisation follows from it. Requirement 7 is the only check that constrains *how* the answer
+was reached rather than what it is.
 
 ---
 
@@ -318,7 +320,7 @@ it. Requirement 7 exists because that cannot be argued away, only tested around.
 | Reputation lookup for external addresses | Requires an outside service, conflicting with NFR-02; no conclusion depends on it |
 | Exporting detection rules for other tools to run | The repeatable reasoning that attributes activity to the intrusion is **in scope** — it is how attribution happens, and every conclusion names the reasoning behind it (R1.9, R10.2). What is excluded is publishing that reasoning in a portable form for other systems to consume |
 | Carrying out containment | The system advises; a person acts. Acting on a possibly-wrong reconstruction is the failure this document exists to prevent |
-| Comparing behaviour against a normal baseline | The compromised account has no ordinary activity in the period, so no baseline can be formed |
+| Comparing behaviour against a normal baseline | Attribution may never rest on behaviour being unusual (R1.10), so a baseline cannot serve the purpose one is normally built for. Using it to prioritise what an analyst reviews first is *permitted* by R1.10 but is not built in this iteration: three days is too short to establish a norm, and no P1 outcome depends on it |
 | Follow-up questions that refer back to earlier ones; showing the activity examined and dismissed | Both considered and deferred — useful, but not needed for any P1 outcome |
 
 ---
@@ -329,7 +331,6 @@ it. Requirement 7 exists because that cannot be argued away, only tested around.
 |---|---|---|---|
 | **Q1** | What vocabulary expresses evidential strength — the intelligence community's estimative terms with a separate confidence statement, or a simpler three-tier scale? And is a conclusion resting on a single source **weakly** supported even when that source directly records the act? The upload record is the case in point: one source records the act itself, while the staging-to-upload link beside it carries two | R3.2, R3.3 | Separate the likelihood of a claim from the strength of its evidence; never combine them in one sentence. Second half unresolved |
 | **Q2** | How long may the system take to reconstruct the data, and to answer one question? | NFR-03, R6.7 | 10 seconds; 60 seconds |
-| **Q3** | Is a handover record in scope, and in what form? Legal counsel will never operate the system | Requirement 8 | In scope; form undecided |
 | **Q4** | The client is a healthcare organisation. May log content be sent unrestricted to a service outside the analyst's machine, or must it be reduced first? | NFR-04 | **Unresolved — shapes the whole design** |
 
 ---
