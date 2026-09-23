@@ -159,23 +159,35 @@ describe it in a vocabulary others already use.
 5. WHEN comparing privilege levels THEN THE SYSTEM SHALL compare only activity on the same host,
    and SHALL state that privilege observed on one host is not evidence of a rise relative to
    another.
-6. IF records show privileged activity with no preceding record of that privilege being acquired
-   THEN THE SYSTEM SHALL report that the account appears to have already held it, and SHALL cite
-   both the authentication and the privileged activity.
-7. IF no available source is capable of recording a change of privilege THEN THE SYSTEM SHALL say
+6. IF records show activity at a given privilege with no preceding record of that privilege being
+   acquired THEN THE SYSTEM SHALL report that no record evidences its acquisition, cite the
+   authentication and the privileged activity, and SHALL NOT assert how the privilege came to be
+   held.
+7. IF a record's own fields are inconsistent with the privilege or the nature of related activity
+   THEN THE SYSTEM SHALL report the inconsistency, cite both records, and SHALL NOT resolve it in
+   favour of either reading.
+8. IF no available source is capable of recording a change of privilege THEN THE SYSTEM SHALL say
    so, and SHALL NOT report the absence of an escalation mechanism as evidence that none occurred.
-8. THE SYSTEM SHALL distinguish the privilege-escalation **tactic** from the **mechanism class**
+9. THE SYSTEM SHALL distinguish the privilege-escalation **tactic** from the **mechanism class**
    that achieved it, and SHALL NOT present a technique as absent from the reconstruction merely
    because it is more commonly cited under a different tactic.
 
-*Criteria 4–8 together prevent a specific and tempting error. In this data privilege appears to
-rise `medium → high → SYSTEM`, but the three readings are on three different hosts, so no
-within-host rise is evidenced at all (criterion 5). Nothing records privilege being acquired: the
-account is already executing at high integrity 54 seconds after authenticating, with no
-intervening record (criterion 6) — which is a finding about standing privilege, not about the
-adversary. And no event type in this data could record a privilege change even if one had
-happened, so "no escalation mechanism observed" is guaranteed regardless of the facts and is a
-statement about coverage (criterion 7).*
+*Criteria 4–9 together prevent a specific and tempting error. In this data privilege appears to
+rise `medium → high → SYSTEM`, but the three readings sit on three different hosts, so no
+within-host rise is evidenced at all (criterion 5). Nothing records the privilege being acquired
+(criterion 6). And no event type in this data could record a privilege change even if one had
+occurred, so "no escalation mechanism observed" is guaranteed regardless of the facts and is a
+statement about coverage (criterion 8).*
+
+*Criterion 7 is why criterion 6 stops at reporting rather than concluding. The one session record
+for this account on that host is a **network** logon, yet interactive high-integrity processes
+appear 54 seconds later — and the data plainly does model interactive logons, since fifteen other
+accounts have them to the same host. So at least one of these is true: a session went unlogged,
+the logon type is mislabelled, or the privilege field does not mean what it appears to. None is
+decidable from the records, and each would change the finding. An earlier draft of criterion 6
+asserted that the account "appears to have already held" the privilege — a theory resting on the
+privilege field being meaningful, which is exactly the kind of quiet resolution criterion 7
+forbids.*
 
 *Criterion 8 exists because the obvious wording of this is wrong. ATT&CK maps **T1078 Valid
 Accounts** to the Privilege Escalation tactic among others, so valid-account use is **not** an
@@ -371,7 +383,7 @@ influenced the answer (R7).
 |---|---|---|
 | **AS-01** | "Walk me through the full attack timeline from initial access to last observed activity." | Present one time-ordered sequence covering every stage the data evidences, name those it does not, state the first and last activity, cite every step |
 | **AS-02** | "What was the initial access vector and what evidence supports that conclusion?" | Name and cite the evidence of a document application starting a command interpreter; **state that no mail records exist**; name no sender, subject or attachment; state that a single log source supports this |
-| **AS-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Give identifier, official name, tactic and citation for each; state the catalogue version; report anything it could not map. On privilege: assert **no** exploitation, elevation-bypass or token-manipulation technique; do **not** deny the privilege-escalation tactic, since valid-account use is one of its forms; state that the privilege readings are on different hosts, that the account already held it, and that no source here records privilege changes (R4.4–R4.8) |
+| **AS-03** | "Which MITRE ATT&CK techniques did the attacker use? List them with technique IDs." | Give identifier, official name, tactic and citation for each; state the catalogue version; report anything it could not map. On privilege: assert **no** exploitation, elevation-bypass or token-manipulation technique; do **not** deny the privilege-escalation tactic, since valid-account use is one of its forms; state that the privilege readings are on different hosts, that the account already held it, and that no source here records privilege changes (R4.4–R4.9) |
 | **AS-04** | "Which user accounts were compromised or used by the attacker?" | Identify every such account with citations, each resting on evidenced behaviour; separate confirmed compromise from mere observation; note where an account has no ordinary activity to compare against **as a limitation on the assessment, never as grounds for it** (R1.10) |
 | **AS-05** | "Which internal hosts did the attacker move to after the initial foothold?" | Identify every subsequent host in the order reached, with citations; name the authentication and the remote-service-creation activity evidencing the movement; flag any host identification resting on an uncertain address association |
 | **AS-06** | "Is there evidence of data exfiltration? If so, what was accessed and when?" | Answer yes; name the file, exact size, destination, its external ownership, the client used and the time; establish the link between the archive staged on the host and the upload to the external destination, citing the record on each side; then separate the three levels of support — the **upload itself** is recorded by cloud storage alone; the **staging-to-upload link** is corroborated by endpoint and cloud storage together; and **no network record independently corroborates the transfer path** |
