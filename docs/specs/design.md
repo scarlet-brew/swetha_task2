@@ -647,13 +647,52 @@ stylesheet, since the dossier framing invites printing.
 
 ### 10.1 Dependencies
 
-`anthropic` · `streamlit` · `pydantic` · `pandera` · `jsonschema` · `streamlit-aggrid` ·
-`st-link-analysis`
+**Revised against the measured environment** (see §10.2). Two of the originally planned
+dependencies are ruled out by evidence, not preference:
 
-Catalogue derivation, the ten relation functions, the graph, the validator and serialisation are
-**stdlib**. The venv is frozen before any demo; `pip install` at demo time is an `NFR-02` failure.
+```
+anthropic 0.84.0   streamlit 1.64.0   pydantic 2.13.5   jsonschema 4.26.0
+```
 
-### 10.2 If the five days compress — cut order
+`pyarrow`, `numpy` and `altair` arrive with Streamlit and are used; nothing else is added.
+Catalogue derivation, the ten relation functions, the graph, the validator, ingest validation and
+serialisation are **stdlib**. The venv is frozen before any demo; `pip install` at demo time is an
+`NFR-02` failure.
+
+| Dropped | Why — empirical |
+|---|---|
+| `pandera` | Its import chain touches `pandas._libs.join`, which this environment's Application Control policy **blocks**. Ingest validation is hand-written stdlib instead — consistent with the relation functions already being stdlib |
+| `streamlit-aggrid` | Declares `pandas>=1.4.0`. Since pandas is only partially functional here (plain `import pandas` succeeds; `_libs.join` does not), any dependency on it fails at *runtime* on specific operations rather than cleanly at import — the worst failure shape. `st.dataframe` over `pyarrow.Table.from_pylist` covers the need via narwhals |
+
+`st-link-analysis` declares no pandas dependency and remains viable, but stays a **Could** in the
+cut order.
+
+### 10.2 Measured environment, and the three spikes
+
+Run before any implementation, because each could have invalidated a locked decision.
+
+| Check | Result |
+|---|---|
+| Python | **3.14.2** |
+| `anthropic` SDK surface | **0.84.0** — `messages.parse`, `output_config`, `thinking` and `beta_tool` **all present**, so `D-08` holds on the 0.x line |
+| Streamlit on 3.14 | **installs clean** — `numpy 2.5.3`, `pandas 3.0.6`, `pyarrow 25.0.1`, `pillow 12.3.0` all ship cp314 wheels. Now on starlette/uvicorn, not tornado |
+| **Offline startup** (verification 5) | **PASS — 1.5 s** to accept connections, with an unroutable proxy set (a worse case than no network, since it hangs on timeout rather than failing fast). Issue #8364's 2–5 minute hang **does not reproduce** on 1.64.0 with `gatherUsageStats = false`. `D-06` is verified, not contingent |
+| **Relation spike** (verification 7) | **CONFIRMED, and stronger than §3.6 claimed** — see below |
+| pandas | **partially blocked** — see §10.1 |
+
+**The relation spike result.** The deletion pair fails on **two** independent counts, not one:
+
+```
+EVT-0237 -> EVT-0238   same_file  same_size  same_account  same_host  ordered     5 edges
+EVT-0239 -> EVT-0238   same_file     --      same_account  same_host  REVERSED    4 edges
+```
+
+`EVT-0239` (the deletion) occurs **1.74 h after** the upload, so it fails temporal ordering as well
+as lacking `same_size`. Across the whole dataset, cross-source file pairs on name **alone** number
+2 and on name **+ exact size** number 1 — a **50% false-positive rate reduced to 0%** by the second
+predicate. §3.6's central claim holds with margin.
+
+### 10.3 If the five days compress — cut order
 
 Ratified requirements outrank design preferences, so the handover report survives longer than the
 pipeline view even though the pipeline view is worth more to the grading:
