@@ -69,59 +69,80 @@ def count_lines(path: str | Path) -> int:
     return len(Path(path).read_text(encoding="utf-8").splitlines())
 
 
-def python_files(roots=paths.CODE_ROOTS) -> list[Path]:
+def python_files(roots: Sequence[str | Path] = paths.CODE_ROOTS) -> list[Path]:
     """Every `.py` file under `roots`, sorted, skipping caches and virtualenvs."""
     skip = {"__pycache__", ".venv", "venv", ".git", "node_modules"}
     found: list[Path] = []
     for root in roots:
-        root = Path(root)
-        if not root.exists():
+        root_path = Path(root)
+        if not root_path.exists():
             continue
-        for candidate in root.rglob("*.py"):
+        for candidate in root_path.rglob("*.py"):
             if skip.isdisjoint(candidate.parts):
                 found.append(candidate)
     return sorted(found)
 
 
-def report(roots=paths.CODE_ROOTS) -> list[tuple[str, int]]:
-    """`(display path, lines)` for every file, longest first."""
-    measured = [(_display(path), count_lines(path)) for path in python_files(roots)]
-    return sorted(measured, key=lambda row: (-row[1], row[0]))
+class Measurement(NamedTuple):
+    """One row of the report: where the file is, how it reads in the listing,
+    how long it is, and whether the ceiling applies to it."""
+
+    path: Path
+    display: str
+    lines: int
+    governed: bool
 
 
-def over_ceiling(roots=paths.CODE_ROOTS) -> list[tuple[str, int]]:
-    """Files that exceed `CEILING`.
+def measure(roots: Sequence[str | Path] = paths.CODE_ROOTS) -> list[Measurement]:
+    """Every file under `roots`, longest first.
 
-    When called with the default roots, only `GOVERNED_ROOTS` are eligible. When
-    pointed at an explicit root -- as its own tests do -- everything under it is,
-    since the caller has said what to measure.
+    One function decides whether the ceiling applies, so the CLI and
+    `over_ceiling` cannot drift into disagreeing about which files it governs.
+
+    An *explicit* root makes everything under it governed: `GOVERNED_ROOTS` is a
+    statement about this repository's layout, and it says nothing about a
+    directory the caller named instead. That is also what makes the ceiling
+    behaviour itself testable -- point the reporter at a scratch directory and
+    the flagging path runs for real.
     """
     explicit = roots is not paths.CODE_ROOTS
-    flagged = []
-    for path in python_files(roots):
-        count = count_lines(path)
-        if count > CEILING and (explicit or _governed(path)):
-            flagged.append((_display(path), count))
-    flagged.sort(key=lambda row: (-row[1], row[0]))
-    return flagged
+    rows = [
+        Measurement(path, _display(path), count_lines(path), explicit or _governed(path))
+        for path in python_files(roots)
+    ]
+    return sorted(rows, key=lambda row: (-row.lines, row.display))
+
+
+def report(roots: Sequence[str | Path] = paths.CODE_ROOTS) -> list[tuple[str, int]]:
+    """`(display path, lines)` for every file, longest first."""
+    return [(row.display, row.lines) for row in measure(roots)]
+
+
+def over_ceiling(roots: Sequence[str | Path] = paths.CODE_ROOTS) -> list[tuple[str, int]]:
+    """Governed files that exceed `CEILING`, longest first."""
+    return [(row.display, row.lines) for row in measure(roots) if row.lines > CEILING and row.governed]
 
 
 def main(argv: list[str] | None = None) -> int:
-    measured = [(path, _display(path), count_lines(path)) for path in python_files()]
-    measured.sort(key=lambda row: (-row[2], row[1]))
-    total = sum(count for _, _, count in measured)
-    flagged = [(name, count) for path, name, count in measured if count > CEILING and _governed(path)]
+    """Print the measurement. Arguments, if given, are roots to measure instead
+    of `paths.CODE_ROOTS`."""
+    named = list(argv or [])
+    rows = measure(tuple(named)) if named else measure()
+    total = sum(row.lines for row in rows)
+    flagged = [row for row in rows if row.lines > CEILING and row.governed]
 
-    print(f"{len(measured)} Python files, {total} lines, D-09 soft ceiling {CEILING}")
-    print("  (the ceiling governs src/ and app/; scripts/ and tests/ are measured, not governed)\n")
-    for path, name, count in measured:
-        if count <= CEILING:
+    print(f"{len(rows)} Python files, {total} lines, D-09 soft ceiling {CEILING}")
+    if not named:
+        print("  (the ceiling governs src/ and app/; scripts/ and tests/ are measured, not governed)")
+    print()
+    for row in rows:
+        if row.lines <= CEILING:
             marker = "      "
-        elif _governed(path):
+        elif row.governed:
             marker = "  OVER"
         else:
             marker = "     ~"
-        print(f"{count:6d}{marker}  {name}")
+        print(f"{row.lines:6d}{marker}  {row.display}")
 
     if flagged:
         print(
