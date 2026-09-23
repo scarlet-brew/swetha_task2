@@ -19,7 +19,7 @@ import streamlit as st
 from siem_investigator import paths
 
 from app import artifacts
-from app.components import evidence_table
+from app.components import evidence_table, plots
 
 
 def _load(path):
@@ -30,11 +30,7 @@ def _load(path):
 
 def render() -> None:
     st.title("Impact")
-    st.caption(
-        "Every host and account the incident touched, with first and last involvement, "
-        "whether compromise is confirmed or merely observed, and what the data cannot "
-        "rule out."
-    )
+    st.caption("Hosts, accounts and assets the incident touched, and what cannot be ruled out.")
 
     notice = artifacts.absent_notice(paths.SCOPE)
     if notice:
@@ -89,12 +85,9 @@ def render() -> None:
         ),
     )
 
-    st.subheader("What cannot be ruled out")
+    st.header("What cannot be ruled out")
     cannot = scope.get("cannot_be_ruled_out", {})
-    st.markdown(
-        "Stated rather than implied. These hosts appear in the data but are cited by no "
-        "accepted finding, which is **not** the same as being clear."
-    )
+    st.caption("In the data, cited by no finding. Not the same as clear.")
     evidence_table.render_table(
         [
             {"host": host, "status": "observed, not implicated by any finding"}
@@ -106,12 +99,20 @@ def render() -> None:
     if cannot.get("_note"):
         st.caption(cannot["_note"])
 
+    st.header("Source coverage")
+    st.caption(
+        "Covered = the source holds records about the host. Mentioned only = it appears as "
+        "the far end of someone else's activity. This is where an absence claim gets its warrant."
+    )
+    entities = []
+    if paths.ENTITIES.is_file():
+        for line in paths.ENTITIES.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                entities.append(json.loads(line))
+    plots.coverage_matrix(entities, ["endpoint", "auth", "network", "cloud_storage"])
+
     if gaps.get("uneven_host_coverage"):
-        st.subheader("Uneven source coverage")
-        st.caption(
-            "A host absent from a source is invisible to it. That is why an absence of "
-            "records is reported as a limit on the assessment rather than as evidence."
-        )
+        st.header("Hosts no source fully covers")
         evidence_table.render_table(
             [
                 {
@@ -125,7 +126,7 @@ def render() -> None:
         )
 
     if privilege:
-        st.subheader("Privilege")
+        st.header("Privilege")
         escalation = privilege.get("exploit_based_escalation", {})
         st.markdown(
             f"Exploit-based escalation evidenced: **{escalation.get('evidenced')}**. "

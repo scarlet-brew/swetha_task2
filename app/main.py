@@ -47,11 +47,17 @@ theme.inject_chrome()
 
 SURFACES = [
     st.Page(
+        "views/overview.py",
+        title="Overview",
+        icon=":material/summarize:",
+        url_path="overview",
+        default=True,
+    ),
+    st.Page(
         "views/chat.py",
         title="Chat",
         icon=":material/forum:",
         url_path="chat",
-        default=True,
     ),
     st.Page(
         "views/timeline.py",
@@ -74,10 +80,9 @@ SURFACES = [
 ]
 
 with st.sidebar:
-    st.markdown("### Meridian Health Partners")
-    st.caption(
-        "Incident **INC-2026-0610-001** · synthetic dataset · "
-        "window 2026-06-10T08:00Z to 2026-06-13T08:00Z (72 h)"
-    )
+    st.markdown("### Deloitte Cyber Engineering")
+    st.markdown("**INC-2026-0610-001**")
+    st.caption("Meridian Health Partners")
+    st.caption("72-hour window · synthetic dataset")
 
 st.navigation(SURFACES).run()

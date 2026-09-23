@@ -536,12 +536,50 @@ pair, and nothing else.
 
 ---
 
-## 9. UI design — forensic dossier, not dashboard
+## 9. UI design — Deloitte house style
+
+> **Superseded at implementation.** §9 originally specified a parchment-and-serif "forensic
+> dossier": `#E8DCC4` ground, Georgia headings, a case-file reference class chosen to
+> differentiate from the dark-mode-dashboard look. Built and looked at, it was **wrong** — muddy,
+> dated, and hostile to scanning, with every surface carrying four- and five-line explanatory
+> captions that buried the findings they were introducing.
+>
+> The mistake was the reference class. The brief states plainly *"Not grading on polish"* and lists
+> **Communication** among the criteria: *"can you clearly explain what your system found, what it
+> is uncertain about, and why?"* A distinctive look was optimising for the wrong thing. Worse, the
+> brief itself is set in the Deloitte house style — white ground, black text, the Deloitte green
+> `#86BC25` as the only accent, thin grey rules, generous whitespace, system sans — so the target
+> was on the page the requirements arrived on.
+>
+> Replaced by that house style, and the palette improved by the change rather than merely looking
+> more familiar: under parchment three of the four status colours measured **below 3:1** and icon +
+> word was the *mitigation*; on white all four clear **4.5:1**, so icon + word is now
+> belt-and-braces and stays only because R3.2–R3.5 want the support state to be a word. The prose
+> was cut hard, and a fifth surface — **Overview** — was added to answer the CISO's three questions
+> on one screen, which is what the Communication criterion actually asks for.
 
 **Reference class.** The product thesis is *"can the CISO hand this reconstructed timeline to their
-board and legal team with confidence?"* So the model is a **case file**, not a SOC dashboard. That
-serves the positioning and differentiates from the dark-mode-dashboard look the category defaults
-to.
+board and legal team with confidence?"* So the model is a **briefing document**: the answer first,
+the limits stated before the conclusions, the evidence one click away, and nothing on screen that
+does not help a reader under time pressure.
+
+**Measured palette** (against the panel surface `#F7F7F7`; dark against `#1C1C1C`):
+
+| Role | Light | vs surface | Dark | vs surface |
+|---|---|---|---|---|
+| page | `#FFFFFF` | — | `#111111` | — |
+| panel | `#F7F7F7` | — | `#1C1C1C` | — |
+| primary ink | `#000000` | **19.60:1** | `#FFFFFF` | 17.04:1 |
+| secondary ink | `#53565A` | 6.89:1 | `#C8C9C7` | 10.25:1 |
+| muted ink | `#63666A` | **5.39:1** | `#9A9C9B` | 6.17:1 |
+| rule | `#D0D0CE` | 1.44:1 | `#333333` | 1.35:1 |
+| table border | `#BBBCBC` | 1.78:1 | `#3D3D3D` | 1.57:1 |
+
+The accent `#86BC25` measures **2.27:1** and is therefore **never text** — it is the top rule, the
+metric edge and the widget accent, which is exactly how the brief uses it. Links use Deloitte blue
+`#007CB0` at 4.66:1. All four status colours clear 4.5:1. `tests/test_ui_render.py` recomputes
+every one of these from `config.toml`, so the palette has one copy and the place it is written is
+the place the floor is checked.
 
 ### 9.1 Palette — measured
 

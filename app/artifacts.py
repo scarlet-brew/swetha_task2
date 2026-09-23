@@ -30,6 +30,11 @@ class Stage:
     name: str
     determinism: str
     artifacts: tuple[Path, ...]
+    #: True for a stage that runs at question time rather than at build time.
+    #: Without this, stage 6 publishes no build artifact and so reported "not
+    #: built" while being perfectly alive -- a wrong answer that looked like a
+    #: right one.
+    live: bool = False
 
     @property
     def present(self) -> tuple[Path, ...]:
@@ -47,6 +52,8 @@ class Stage:
         two of its three artifacts is a different situation from one that never
         ran, and collapsing them would hide a half-finished build.
         """
+        if self.live:
+            return "live at query time"
         if not self.present:
             return "not built"
         return "complete" if not self.missing else "partial"
@@ -102,6 +109,7 @@ STAGES: tuple[Stage, ...] = (
         "ANSWER",
         "model + read-only tools + gate",
         (),  # answers are per-question records under outputs/, not a build artifact
+        live=True,
     ),
 )
 

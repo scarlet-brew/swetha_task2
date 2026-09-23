@@ -49,10 +49,12 @@ from app.components import citation, evidence_table, support_badge  # noqa: E402
 
 CONFIG_TOML = _env.REPO_ROOT / ".streamlit" / "config.toml"
 
-#: Design SS9.1's light column, against the panel surface #F0E6D2.
-LIGHT_EXPECTED = {"ink": 14.25, "ink_secondary": 8.61, "ink_muted": 4.85}
-#: The dark column -- selected steps against #1E1A15, not an automatic flip.
-DARK_EXPECTED = {"ink": 15.11, "ink_secondary": 8.46, "ink_muted": 4.71}
+#: Measured against the panel surface #F7F7F7. Deloitte house style, taken from
+#: the assignment brief itself: white ground, black text, one green accent.
+#: (Replaces the earlier parchment palette -- see design SS9.1.)
+LIGHT_EXPECTED = {"ink": 19.60, "ink_secondary": 6.89, "ink_muted": 5.39}
+#: The dark column -- selected steps against #1C1C1C, not an automatic flip.
+DARK_EXPECTED = {"ink": 17.04, "ink_secondary": 10.25, "ink_muted": 6.17}
 
 
 class ThePaletteClearsItsFloors(unittest.TestCase):
@@ -80,11 +82,22 @@ class ThePaletteClearsItsFloors(unittest.TestCase):
                         self.assertGreaterEqual(row["ratio_vs_panel"], theme.BODY_TEXT_FLOOR)
 
     def test_dark_mode_is_selected_not_flipped(self):
-        """Its own steps against its own surface. If dark were a flip of light,
-        the two palettes would share hexes."""
-        light = set(theme.palette("light").values())
-        dark = set(theme.palette("dark").values())
-        self.assertEqual(light & dark, set(), "a step is shared between the two modes")
+        """Its own steps against its own surface.
+
+        Checked on the *ink* roles rather than on the whole palette. A
+        black-and-white house style legitimately reuses white as the light page
+        and the dark ink, so "no hex appears in both modes" is the wrong test --
+        it held for the parchment palette by accident of hue, not by design. The
+        property that matters is that no ink role was reused unchanged, which is
+        what an automatic flip would do.
+        """
+        for role in ("ink", "ink_secondary", "ink_muted"):
+            with self.subTest(role=role):
+                self.assertNotEqual(
+                    theme.palette("light")[role],
+                    theme.palette("dark")[role],
+                    "an ink role is identical in both modes",
+                )
 
     def test_status_palette_is_not_themed(self):
         """The four support states are a status job, not a categorical one, so they
@@ -99,16 +112,31 @@ class ThePaletteClearsItsFloors(unittest.TestCase):
             with self.subTest(key=key):
                 self.assertNotIn(key, dark_section)
 
-    def test_three_status_colours_sit_below_three_to_one_on_parchment(self):
-        """Which is *why* icon + word is mandatory. Recording the measurement makes
-        the mitigation a consequence rather than a preference."""
+    def test_every_status_colour_clears_the_body_text_floor(self):
+        """The Deloitte palette buys something the parchment one could not.
+
+        Under parchment, three of the four status colours measured below 3:1 and
+        icon + word was the *mitigation*. On white, all four clear 4.5:1 -- so
+        icon + word is now belt-and-braces rather than load-bearing. It stays
+        mandatory anyway, because R3.2-R3.5 want the support state to be a word.
+        """
         surface = theme.palette("light")[theme.SURFACE_ROLE]
-        below = [
-            name
-            for name, hex_value in theme.status_palette().items()
-            if theme.contrast_ratio(hex_value, surface) < theme.LARGE_TEXT_FLOOR
-        ]
-        self.assertEqual(len(below), 3, f"expected 3 sub-3:1 status colours, got {below}")
+        for name, hex_value in theme.status_palette().items():
+            with self.subTest(status=name):
+                self.assertGreaterEqual(
+                    theme.contrast_ratio(hex_value, surface), theme.BODY_TEXT_FLOOR
+                )
+
+    def test_the_green_accent_is_never_used_as_text(self):
+        """#86BC25 is the Deloitte brand green and measures 2.27:1 on white, so it
+        cannot carry text. It is the rule, the metric edge and the widget accent --
+        exactly how the brief uses it."""
+        surface = theme.palette("light")[theme.SURFACE_ROLE]
+        accent = theme.read_config()["theme"]["primaryColor"]
+        self.assertEqual(accent.upper(), "#86BC25")
+        self.assertLess(theme.contrast_ratio(accent, surface), theme.LARGE_TEXT_FLOOR)
+        # And it is therefore absent from every ink role.
+        self.assertNotIn(accent.upper(), {v.upper() for v in theme.palette("light").values()})
 
 
 class NoWebFontAndNoTelemetry(unittest.TestCase):
@@ -132,6 +160,17 @@ class NoWebFontAndNoTelemetry(unittest.TestCase):
 
     def test_usage_stats_are_off(self):
         self.assertIs(theme.read_config()["browser"]["gatherUsageStats"], False)
+
+    def test_the_font_is_a_system_sans(self):
+        """No serif anywhere. The parchment design used Georgia for dossier chrome;
+        the brief's own house style is sans throughout, and the brief grades
+        communication rather than polish."""
+        for key in ("font", "headingFont"):
+            with self.subTest(key=key):
+                stack = theme.read_config()["theme"][key].lower()
+                self.assertIn("sans-serif", stack)
+                for serif in ("georgia", "palatino", "iowan", "times"):
+                    self.assertNotIn(serif, stack)
 
     def test_font_stacks_name_no_remote_family(self):
         fonts = {

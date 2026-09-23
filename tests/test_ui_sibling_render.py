@@ -96,17 +96,23 @@ def arrow_tables(run) -> list[pa.Table]:
     return tables
 
 
-class TheChatSurfaceRendersCitedProse(unittest.TestCase):
+class TheCitationLayoutRenders(unittest.TestCase):
     """One run, shared: every assertion below is about the same rendered tree.
 
-    Named `app` rather than `run` because `TestCase.run` is how unittest
-    invokes a test -- shadowing it makes every test in the class unrunnable
-    with a confusing `TypeError`.
+    The tree is the **pipeline** surface, because that is where the citation
+    specimen lives. It started on the chat surface and moved: a synthetic answer
+    sitting beside real ones was the most confusing thing in the UI, and as
+    render evidence it belongs with the rest of the working.
+
+    Named `app` rather than `run` because `TestCase.run` is how unittest invokes
+    a test -- shadowing it makes every test in the class unrunnable with a
+    confusing `TypeError`.
     """
 
     @classmethod
     def setUpClass(cls) -> None:
         cls.app = AppTest.from_file(str(MAIN), default_timeout=RENDER_TIMEOUT).run()
+        cls.app.switch_page("views/pipeline.py").run()
 
     def test_it_renders_without_exception(self):
         self.assertEqual([(e.type, e.value) for e in self.app.exception], [])
@@ -136,7 +142,7 @@ class TheChatSurfaceRendersCitedProse(unittest.TestCase):
         ]
         self.assertEqual(nested, [], f"expanders nested inside expanders: {nested}")
 
-    def test_every_citation_expander_is_a_sibling_inside_the_chat_message(self):
+    def test_every_citation_expander_is_a_sibling_inside_the_message(self):
         """SS9.4 says *inside* `st.chat_message`, as siblings of the answer body.
 
         Both halves matter. Outside the chat message the citations would stop
@@ -146,11 +152,20 @@ class TheChatSurfaceRendersCitedProse(unittest.TestCase):
         placements = [
             ancestors
             for _, kind, ancestors in walk(self.app.main)
-            if kind == "expander"
+            if kind == "expander" and "chat_message" in ancestors
         ]
         self.assertEqual(len(placements), SPECIMEN_CITATIONS)
         for ancestors in placements:
             self.assertEqual(ancestors, ("main", "chat_message"))
+
+        # And nothing on the surface nests one expander inside another, which is
+        # the property the flat layout exists for.
+        nested = [
+            ancestors
+            for _, kind, ancestors in walk(self.app.main)
+            if kind == "expander" and "expander" in ancestors
+        ]
+        self.assertEqual(nested, [])
 
     def test_the_answer_body_precedes_its_citations(self):
         """Reading order is part of the layout: prose first, evidence under it."""
@@ -205,7 +220,15 @@ class TheChatSurfaceRendersCitedProse(unittest.TestCase):
         invisible in a static read of the code.
         """
         run = AppTest.from_file(str(MAIN), default_timeout=RENDER_TIMEOUT).run()
-        keys = [box.key for box in run.expander if box.key]
+        # The specimen lives on the pipeline surface: it is render evidence, and
+        # a synthetic answer sitting beside real ones on the chat surface was
+        # the single most confusing thing in the UI.
+        run.switch_page("views/pipeline.py").run()
+        keys = [
+            box.key
+            for box in run.expander
+            if box.key and box.key.startswith("pipeline::specimen::")
+        ]
         self.assertEqual(len(keys), SPECIMEN_CITATIONS)
         self.assertEqual(len(set(keys)), SPECIMEN_CITATIONS, "two citations share a key")
         for key in keys:
@@ -213,10 +236,16 @@ class TheChatSurfaceRendersCitedProse(unittest.TestCase):
                 # The key carries answer, claim and node, so the same
                 # observation cited by two claims stays two independent
                 # expanders rather than colliding.
-                self.assertIn("chat::specimen::", key)
+                self.assertIn("pipeline::specimen::", key)
                 self.assertIn(key, run.session_state)
 
-        closed = [box.key for box in run.expander if not box.proto.expanded]
+        closed = [
+            box.key
+            for box in run.expander
+            if box.key
+            and box.key.startswith("pipeline::specimen::")
+            and not box.proto.expanded
+        ]
         self.assertEqual(len(closed), SPECIMEN_CITATIONS - SPECIMEN_OPEN_BY_DEFAULT)
         for key in closed:
             run.session_state[key] = True
@@ -345,14 +374,14 @@ class AllFourSurfacesNavigate(unittest.TestCase):
 
         self.assertEqual(
             (light["ink"], light["ink_secondary"], light["ink_muted"]),
-            (14.25, 8.61, 4.85),
+            (19.6, 6.89, 5.39),
         )
         self.assertEqual(
             (dark["ink"], dark["ink_secondary"], dark["ink_muted"]),
-            (15.11, 8.46, 4.71),
+            (17.04, 10.25, 6.17),
         )
-        self.assertEqual((light["rule"], light["baseline"]), (1.32, 1.8))
-        self.assertEqual((dark["rule"], dark["baseline"]), (1.2, 1.4))
+        self.assertEqual((light["rule"], light["baseline"]), (1.44, 1.78))
+        self.assertEqual((dark["rule"], dark["baseline"]), (1.35, 1.57))
 
     def test_the_status_audit_shows_colour_is_never_sufficient_alone(self):
         run = AppTest.from_file(str(MAIN), default_timeout=RENDER_TIMEOUT).run()
@@ -364,7 +393,11 @@ class AllFourSurfacesNavigate(unittest.TestCase):
         ]
         self.assertEqual(len(status), 1)
         sufficient = status[0].column("colour_alone_sufficient").to_pylist()
-        self.assertEqual(sufficient.count(False), 3, "three sit below 3:1")
+        # Under the parchment palette three of the four measured below 3:1, and
+        # icon + word was the mitigation. On the Deloitte white ground all four
+        # clear it, so the audit now reports that. Icon + word stays mandatory
+        # regardless, because R3.2-R3.5 want the support state to be a *word*.
+        self.assertEqual(sufficient.count(False), 0, "all four now clear 3:1 on white")
 
 
 class TablesRenderWithPandasBlocked(unittest.TestCase):
@@ -408,9 +441,14 @@ class TablesRenderWithPandasBlocked(unittest.TestCase):
             "chat_json": len(at.json),
             "chat_expanders": len(at.expander),
         }
+
         at.switch_page("views/pipeline.py").run()
         result["pipeline_exceptions"] = [str(e.value) for e in at.exception]
         result["pipeline_dataframes"] = len(at.dataframe)
+        result["pipeline_json"] = len(at.json)
+        result["pipeline_citation_expanders"] = len(
+            [b for b in at.expander if b.key and b.key.startswith("pipeline::specimen::")]
+        )
         result["pandas_modules"] = sorted(
             name for name in sys.modules
             if name == "pandas" or name.startswith("pandas.")
@@ -440,9 +478,15 @@ class TablesRenderWithPandasBlocked(unittest.TestCase):
 
         self.assertEqual(result["chat_exceptions"], [])
         self.assertEqual(result["pipeline_exceptions"], [])
-        self.assertGreaterEqual(result["chat_dataframes"], 5)
-        self.assertEqual(result["chat_expanders"], SPECIMEN_CITATIONS)
-        self.assertEqual(result["chat_json"], SPECIMEN_OPEN_BY_DEFAULT)
+        # Only the pipeline surface is probed: it is the one that enumerates
+        # without charting, and it carries the citation specimen. The timeline
+        # and impact surfaces both hold a chart now, and -- measured, not assumed
+        # -- `st.vega_lite_chart` reaches pandas through Streamlit's Vega
+        # integration even when handed a plain dict. The *table* path avoids
+        # pandas, which is the property this test exists for; the chart path does
+        # not, and asserting otherwise would be asserting something false.
+        self.assertEqual(result["pipeline_citation_expanders"], SPECIMEN_CITATIONS)
+        self.assertEqual(result["pipeline_json"], SPECIMEN_OPEN_BY_DEFAULT)
         self.assertGreaterEqual(result["pipeline_dataframes"], 3)
         self.assertEqual(
             result["pandas_modules"], [], "the render path reached pandas after all"

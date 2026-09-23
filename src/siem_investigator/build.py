@@ -28,7 +28,7 @@ from .agent import client, contracts
 from .correlate import anchors, loop, relations
 from .enrich import mapper
 from .enrich.catalogue import Catalogue
-from .evidence import close, graph, observations as observations_module, synthesise
+from .evidence import close, graph, handover, observations as observations_module, synthesise
 from .ingest import load, parse, transforms
 
 
@@ -266,6 +266,10 @@ def run(*, use_model: bool = True, max_steps: int = 40) -> dict[str, Any]:
         f"4 grounding {_ok(not grounding)}  "
         f"5 reproducible {_ok(parse_report['invariant_5_reproducibility']['holds'])}"
     )
+
+    # R8, and SS10.3 cuts this last: the document the CISO actually forwards.
+    handover_path = handover.write()
+    print(f"  handover       {paths.relative(handover_path)}  {handover_path.stat().st_size:,} bytes")
 
     manifest = {
         **_stamp({"attack_version": catalogue.attack_version, "interpreter": mode}),

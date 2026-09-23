@@ -16,8 +16,10 @@ from __future__ import annotations
 
 import streamlit as st
 
+from siem_investigator import paths
+
 from app import artifacts, theme
-from app.components import evidence_table
+from app.components import citation, evidence_table, support_badge
 
 
 def _render_stages() -> None:
@@ -28,7 +30,13 @@ def _render_stages() -> None:
     )
     for stage in artifacts.STAGES:
         state = stage.state
-        status = {"complete": "complete", "partial": "error", "not built": "running"}[state]
+        # A stage that runs at question time is neither complete nor unbuilt.
+        status = {
+            "complete": "complete",
+            "partial": "error",
+            "not built": "running",
+            "live at query time": "complete",
+        }[state]
         with st.status(
             f"Stage {stage.number} · {stage.name} — {state}",
             state=status,  # type: ignore[arg-type]
@@ -50,6 +58,32 @@ def _render_stages() -> None:
 
 
 def _render_theme_audit() -> None:
+
+    st.header("Citation layout specimen")
+    st.warning(
+        "This is a **layout specimen**, not incident data -- every value in it is "
+        "synthetic. Kept as the render proof: three citations open at once as siblings "
+        "of the answer body, with no nested expander.",
+        icon=":material/science:",
+    )
+    from app.specimen import SPECIMEN_RECORDS, specimen_payload
+
+    report = citation.render_answer(
+        specimen_payload(), records=SPECIMEN_RECORDS, key_prefix="pipeline::specimen"
+    )
+    st.caption(
+        f"{report.claims} claims, {report.citations} citations, "
+        f"{len(report.unresolved)} unresolved."
+    )
+
+    st.header("Support labels")
+    for state in support_badge.SUPPORT_STATES:
+        support_badge.render(state)
+    support_badge.render("single_sourced", ["resolution_dependent"])
+    evidence_table.render_table(
+        support_badge.legend_rows(), columns=("kind", "badge", "name", "means")
+    )
+
     st.subheader("Palette audit")
     st.caption(
         "Design SS9.1's contrast figures, recomputed from the hex values in "
@@ -99,7 +133,26 @@ def render() -> None:
     _render_stages()
 
     st.divider()
-    st.subheader("Coverage gaps and the rejection log")
+    handover = paths.OUTPUTS / "handover.md"
+    if handover.is_file():
+        st.subheader("Handover report")
+        st.caption(
+            "The self-contained document the CISO forwards. No links back into this tool, "
+            "no node id without the record behind it -- someone reading it in an email "
+            "thread with no access to this repository can follow it and check it."
+        )
+        text = handover.read_text(encoding="utf-8")
+        st.download_button(
+            "Download handover.md",
+            data=text,
+            file_name="handover.md",
+            mime="text/markdown",
+            icon=":material/download:",
+        )
+        with st.expander(f"Preview ({len(text):,} bytes)"):
+            truncated = len(text) > 6000
+            note = "\n\n*... truncated; download for the whole document.*"
+            st.markdown(text[:6000] + (note if truncated else ""))
     st.info(
         "The gap report is published by stage 5 and the rejection log by "
         "stage 3; neither exists yet. Each gap will appear beside the "

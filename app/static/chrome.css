@@ -1,47 +1,185 @@
-/* Case-file chrome: the three things design SS9.2 asks for that
-   .streamlit/config.toml cannot express.
+/* Deloitte Cyber Engineering house style, taken from the assignment brief.
+ *
+ * White ground, black text, one green accent, thin grey rules, generous
+ * whitespace. The brief says it is not grading on polish -- it grades
+ * Communication -- so everything here serves scanning speed and nothing here
+ * is decorative.
+ *
+ * Only what config.toml cannot express lives in this file: the green brand
+ * rule, the section dividers, the measure, tabular figures, and the small-caps
+ * label style. Every colour is a literal from config.toml's palette, because
+ * duplicating one in a variable here would be a second place for it to drift.
+ */
 
-   No colour appears in this file. The palette is declared once, in
-   config.toml, and Streamlit applies it to its own chrome from there; a hex
-   here would be a second copy and app/theme.py exists to prevent exactly that.
-
-   Selectors use Streamlit's data-testid hooks. Those are internal to
-   Streamlit, not a public API -- they are safe here because design SS10.1 pins
-   streamlit 1.64.0 and the venv is frozen before any demo, and every rule
-   below degrades to "slightly different spacing" rather than to a broken
-   layout if a future version renames one. */
-
-/* 1. Prose measure and leading. SS9.2: ~68ch, 1.55 line-height. A dossier is
-      read in order, and a full-width line of serif at 14px is not. Applied to
-      markdown prose only, so tables, code and charts keep the full width. */
-[data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] li {
-  line-height: 1.55;
-  max-width: 68ch;
+/* The brand rule at the top of the page, as in the brief's header and footer. */
+[data-testid="stAppViewContainer"] > .main::before {
+  content: "";
+  display: block;
+  height: 4px;
+  background: #86BC25;
+  margin: 0 0 2rem 0;
 }
 
-/* 2. Tabular figures on everything that is a record identifier, a timestamp or
-      a byte count. SS9.2 puts these in the monospace stack with
-      font-variant-numeric: tabular-nums, so digits line up column-wise down a
-      citation list -- which is how a reader spots that two byte counts are the
-      same number. */
-code,
-pre,
-[data-testid="stJson"],
-[data-testid="stDataFrame"],
-[data-testid="stMetricValue"] {
+/* Comfortable measure. Long lines are the single biggest readability cost in a
+ * document meant to be read rather than scanned, and Streamlit's default main
+ * block runs full width. */
+.main .block-container {
+  max-width: 1180px;
+  padding-top: 1.25rem;
+  padding-bottom: 5rem;
+}
+
+/* Headings: tight, dark, and separated by a rule rather than by size alone --
+ * the brief's own section treatment. */
+h1 {
+  font-size: 1.9rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem !important;
+}
+
+h2 {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  margin-top: 2.25rem !important;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #D0D0CE;
+}
+
+h3 {
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.4rem !important;
+}
+
+/* The caption directly under a title is the one-line orientation, so it reads
+ * as secondary rather than as body copy. */
+[data-testid="stCaptionContainer"] p {
+  color: #63666A;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+/* Record ids, event ids, timestamps and byte counts. Tabular figures so
+ * columns of them line up, which is most of what these tables contain. */
+code, pre, [data-testid="stJson"] {
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
+  font-size: 0.82rem !important;
 }
 
-/* 3. Citation expanders read as a stack of sibling evidence slips rather than
-      as nested boxes. SS9.4 renders them as top-level siblings of the answer
-      body, so their vertical rhythm is what communicates grouping -- there is
-      no indentation to do it. */
-[data-testid="stExpander"] {
-  margin-block: 0.15rem;
+code {
+  background: #F7F7F7;
+  border: 1px solid #D0D0CE;
+  border-radius: 2px;
+  padding: 0.05rem 0.3rem;
+  color: #000000;
+}
+
+/* Tables: the brief's treatment -- light header, hairline borders, no zebra. */
+[data-testid="stDataFrame"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Metrics as a plain figure with a small grey label above it, not a card. */
+[data-testid="stMetric"] {
+  background: transparent;
+  border: none;
+  border-left: 3px solid #86BC25;
+  padding: 0.1rem 0 0.1rem 0.7rem;
+}
+
+[data-testid="stMetricLabel"] p {
+  font-size: 0.7rem !important;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #63666A;
+}
+
+[data-testid="stMetricValue"] {
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Expanders are the evidence drill-down and there are a lot of them, so they
+ * are quiet until opened: a hairline, no fill, no shadow. */
+[data-testid="stExpander"] details {
+  border: 1px solid #D0D0CE;
+  border-radius: 2px;
+  background: #FFFFFF;
 }
 
 [data-testid="stExpander"] summary {
-  font-variant-numeric: tabular-nums;
+  font-size: 0.88rem;
+  padding: 0.5rem 0.75rem;
+}
+
+[data-testid="stExpander"] summary:hover {
+  background: #F7F7F7;
+}
+
+/* The sidebar carries the incident identity and nothing else, so it stays
+ * visually subordinate. */
+[data-testid="stSidebar"] {
+  border-right: 1px solid #D0D0CE;
+}
+
+[data-testid="stSidebar"] h3 {
+  font-size: 0.8rem !important;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #63666A;
+  margin-top: 0 !important;
+}
+
+/* Preset question buttons: a dense, left-aligned list, not a grid of pills. */
+[data-testid="stBaseButton-secondary"] {
+  text-align: left;
+  justify-content: flex-start;
+  font-size: 0.84rem;
+  font-weight: 400;
+  border: 1px solid #D0D0CE;
+  background: #FFFFFF;
+}
+
+[data-testid="stBaseButton-secondary"]:hover {
+  border-color: #86BC25;
+  background: #F7F7F7;
+}
+
+/* Alerts carry the honesty messages -- withheld answers, absent artifacts,
+ * gaps. Flat, with a coloured left edge, so they read as annotations on the
+ * page rather than as interruptions. */
+[data-testid="stAlert"] {
+  border-radius: 2px;
+  border: 1px solid #D0D0CE;
+  border-left-width: 3px;
+}
+
+/* Dark mode: the same structure against its own surface. */
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] [data-testid="stExpander"] details,
+:root[data-theme="dark"] [data-testid="stSidebar"],
+:root[data-theme="dark"] [data-testid="stBaseButton-secondary"],
+:root[data-theme="dark"] [data-testid="stAlert"],
+:root[data-theme="dark"] code {
+  border-color: #333333;
+}
+
+:root[data-theme="dark"] [data-testid="stExpander"] details,
+:root[data-theme="dark"] [data-testid="stBaseButton-secondary"] {
+  background: #111111;
+}
+
+:root[data-theme="dark"] code {
+  background: #1C1C1C;
+  color: #FFFFFF;
+}
+
+:root[data-theme="dark"] [data-testid="stCaptionContainer"] p,
+:root[data-theme="dark"] [data-testid="stMetricLabel"] p,
+:root[data-theme="dark"] [data-testid="stSidebar"] h3 {
+  color: #9A9C9B;
 }

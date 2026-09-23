@@ -16,7 +16,7 @@ import streamlit as st
 from siem_investigator import paths
 
 from app import artifacts
-from app.components import evidence_table, support_badge
+from app.components import evidence_table, plots, support_badge
 
 
 def _load(path):
@@ -38,11 +38,7 @@ def _index(path):
 
 def render() -> None:
     st.title("Timeline")
-    st.caption(
-        "One time-ordered sequence from first to last observed activity, each step "
-        "carrying its technique, the structure of its support, and its citations. "
-        "Recorded times are shown exactly as they appear in the data, with the zone stated."
-    )
+    st.caption("Chronological sequence. Every step opens to the records behind it.")
 
     notice = artifacts.absent_notice(paths.TIMELINE)
     if notice:
@@ -72,6 +68,14 @@ def render() -> None:
         f"{str(window.get('first'))[:19]} -> {str(window.get('last'))[:19]}",
     )
 
+    st.header("Activity across the window")
+    st.caption("One lane per source. Dark marks are cited by a finding. Hover for the event id.")
+    records = list(_index(paths.RECORDS).values())
+    cited_events = {event for step in steps for event in step["event_ids"]}
+    plots.source_type_lanes(records, cited_events)
+    st.caption(f"{len(cited_events)} of {len(records)} records are cited by a finding.")
+
+    st.header("The sequence")
     evidence_table.render_table(
         [
             {
@@ -98,14 +102,11 @@ def render() -> None:
         ),
     )
 
-    st.subheader("Each step, with its evidence")
-    st.caption(
-        "Open as many as you like -- the citations are siblings, not nested, so nothing "
-        "collapses when another opens."
-    )
+    st.header("Evidence per step")
+    st.caption("Open as many as you like.")
 
     observations = _index(paths.OBSERVATIONS)
-    records = _index(paths.RECORDS)
+    records_by_id = _index(paths.RECORDS)
 
     for index, step in enumerate(steps, start=1):
         with st.expander(f"{index}. [{step['stage']}] {step['statement'][:110]}"):
@@ -122,10 +123,7 @@ def render() -> None:
                         f"· tactics: {', '.join(technique['tactics'])}"
                     )
             else:
-                st.caption(
-                    "Technique attribution is reported as **unmapped** rather than omitted "
-                    "(NFR-02)."
-                )
+                st.caption("Technique reported as unmapped rather than omitted.")
 
             evidence_table.render_table(
                 [
@@ -153,10 +151,10 @@ def render() -> None:
             shown = set()
             for obs in step["cites_observations"]:
                 record_id = observations.get(obs, {}).get("record")
-                if record_id in records and record_id not in shown:
+                if record_id in records_by_id and record_id not in shown:
                     shown.add(record_id)
                     st.caption(f"raw record behind `{obs}`")
-                    st.json(records[record_id]["payload"], expanded=2)
+                    st.json(records_by_id[record_id]["payload"], expanded=2)
                 if len(shown) >= 4:
                     break
 
