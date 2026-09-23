@@ -13,13 +13,16 @@ a failure.
 Physical lines, not statements: a reviewer scrolls past blanks and comments
 too, and "how much is there to read" is the question being asked.
 
-    python -m siem_investigator.loc
+    python -m siem_investigator.loc              measure src/ app/ scripts/ tests/
+    python -m siem_investigator.loc src/ app/    measure only what is named
 """
 
 from __future__ import annotations
 
 import sys
+from collections.abc import Sequence
 from pathlib import Path
+from typing import NamedTuple
 
 from . import paths
 
