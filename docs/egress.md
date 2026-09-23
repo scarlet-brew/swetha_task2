@@ -12,9 +12,20 @@ here, and nothing beyond it is sent. The inventory is checked, not described.
 
 Three facts frame everything else:
 
-- **The query plane has no path to the service.** `git grep anthropic -- app/`
-  returns nothing, and a test asserts it. The app reads committed artifacts, so
-  it starts with the credential unset and the network down.
+- **Four of the five surfaces need no credential and no network.** Overview,
+  Timeline, Impact and Pipeline read committed artifacts only, so the app starts
+  and those surfaces work with the key unset — measured at 1.85 s to accept
+  connections with a *hanging* proxy.
+
+  The **chat surface is different, and an earlier version of this file
+  overstated it.** It said "the query plane has no path to the service", citing
+  `git grep anthropic -- app/` returning nothing. That grep does pass, but it
+  proves something narrower than the sentence claimed: no module under `app/`
+  constructs its own client. The chat surface reaches the service *transitively*,
+  through `siem_investigator.agent.answer` → `agent.client`, and it is **supposed
+  to** — stage 6 ANSWER is the fourth model site in §7. With the key unset it
+  withholds the answer and says which variable is missing, which is the designed
+  behaviour rather than an absence of egress.
 - **Egress happens at exactly one place.** `agent/client.py` is the only module
   under `src/` that names a network client, and `tests/test_external_artifacts.py`
   asserts that the list of such modules is exactly `[agent/client.py]` — so
