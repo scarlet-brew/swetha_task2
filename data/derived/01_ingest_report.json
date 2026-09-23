@@ -1,0 +1,426 @@
+{
+  "absence_encodings": {
+    "command_line": {
+      "absent": 184,
+      "empty_string": 50,
+      "null": 0,
+      "valued": 8
+    },
+    "dst_host": {
+      "absent": 241,
+      "empty_string": 0,
+      "null": 0,
+      "valued": 1
+    },
+    "file_size_bytes": {
+      "absent": 209,
+      "empty_string": 0,
+      "null": 0,
+      "valued": 33
+    },
+    "src_host": {
+      "absent": 238,
+      "empty_string": 0,
+      "null": 0,
+      "valued": 4
+    }
+  },
+  "address_classes": {
+    "external": 7,
+    "internal": 254
+  },
+  "collection_window": {
+    "end": "2026-06-13T08:00:00Z",
+    "start": "2026-06-10T08:00:00Z"
+  },
+  "counts": {
+    "annotations_stripped": 22,
+    "by_kind": {
+      "auth/failed_logon": 20,
+      "auth/user_logoff": 23,
+      "auth/user_logon": 19,
+      "cloud_storage/file_download": 8,
+      "cloud_storage/file_share": 9,
+      "cloud_storage/file_upload": 8,
+      "cloud_storage/file_view": 6,
+      "endpoint/file_create": 2,
+      "endpoint/file_delete": 2,
+      "endpoint/process_access": 1,
+      "endpoint/process_create": 58,
+      "endpoint/service_create": 1,
+      "endpoint/service_delete": 1,
+      "network/network_connection": 84
+    },
+    "by_source_type": {
+      "auth": 62,
+      "cloud_storage": 31,
+      "endpoint": 65,
+      "network": 84
+    },
+    "events_in": 242,
+    "records_out": 242
+  },
+  "field_census": {
+    "absent": {
+      "access_rights": 241,
+      "action": 127,
+      "bucket": 211,
+      "bucket_owner": 241,
+      "bytes_recv": 158,
+      "bytes_sent": 158,
+      "command_line": 184,
+      "dest_host": 180,
+      "dest_ip": 241,
+      "dst_host": 241,
+      "dst_ip": 158,
+      "dst_port": 158,
+      "event_id": 0,
+      "event_name": 0,
+      "file_name": 211,
+      "file_path": 238,
+      "file_size_bytes": 209,
+      "firewall_rule": 158,
+      "hostname": 177,
+      "integrity_level": 184,
+      "logon_type": 180,
+      "parent_process": 184,
+      "pid": 183,
+      "process_name": 183,
+      "process_path": 184,
+      "protocol": 158,
+      "result": 180,
+      "service_name": 240,
+      "service_path": 241,
+      "source_host": 179,
+      "source_ip": 150,
+      "source_type": 0,
+      "src_host": 238,
+      "src_ip": 158,
+      "target_pid": 241,
+      "target_process": 241,
+      "timestamp": 0,
+      "user_agent": 211,
+      "username": 84
+    },
+    "distinct_keys": 39,
+    "present": {
+      "access_rights": 1,
+      "action": 115,
+      "bucket": 31,
+      "bucket_owner": 1,
+      "bytes_recv": 84,
+      "bytes_sent": 84,
+      "command_line": 58,
+      "dest_host": 62,
+      "dest_ip": 1,
+      "dst_host": 1,
+      "dst_ip": 84,
+      "dst_port": 84,
+      "event_id": 242,
+      "event_name": 242,
+      "file_name": 31,
+      "file_path": 4,
+      "file_size_bytes": 33,
+      "firewall_rule": 84,
+      "hostname": 65,
+      "integrity_level": 58,
+      "logon_type": 62,
+      "parent_process": 58,
+      "pid": 59,
+      "process_name": 59,
+      "process_path": 58,
+      "protocol": 84,
+      "result": 62,
+      "service_name": 2,
+      "service_path": 1,
+      "source_host": 63,
+      "source_ip": 92,
+      "source_type": 242,
+      "src_host": 4,
+      "src_ip": 84,
+      "target_pid": 1,
+      "target_process": 1,
+      "timestamp": 242,
+      "user_agent": 31,
+      "username": 158
+    }
+  },
+  "incident_ref": "INC-2026-0610-001",
+  "per_kind_schema": {
+    "auth/failed_logon": {
+      "fields_in_every_record": [
+        "dest_host",
+        "event_id",
+        "event_name",
+        "logon_type",
+        "result",
+        "source_host",
+        "source_ip",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "10": 20
+      },
+      "records": 20,
+      "required_present_in_all": true
+    },
+    "auth/user_logoff": {
+      "fields_in_every_record": [
+        "dest_host",
+        "event_id",
+        "event_name",
+        "logon_type",
+        "result",
+        "source_host",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "9": 1,
+        "10": 22
+      },
+      "records": 23,
+      "required_present_in_all": true
+    },
+    "auth/user_logon": {
+      "fields_in_every_record": [
+        "dest_host",
+        "event_id",
+        "event_name",
+        "logon_type",
+        "result",
+        "source_host",
+        "source_ip",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "10": 18,
+        "11": 1
+      },
+      "records": 19,
+      "required_present_in_all": true
+    },
+    "cloud_storage/file_download": {
+      "fields_in_every_record": [
+        "action",
+        "bucket",
+        "event_id",
+        "event_name",
+        "file_name",
+        "file_size_bytes",
+        "source_ip",
+        "source_type",
+        "timestamp",
+        "user_agent",
+        "username"
+      ],
+      "key_set_sizes": {
+        "11": 8
+      },
+      "records": 8,
+      "required_present_in_all": true
+    },
+    "cloud_storage/file_share": {
+      "fields_in_every_record": [
+        "action",
+        "bucket",
+        "event_id",
+        "event_name",
+        "file_name",
+        "file_size_bytes",
+        "source_ip",
+        "source_type",
+        "timestamp",
+        "user_agent",
+        "username"
+      ],
+      "key_set_sizes": {
+        "11": 9
+      },
+      "records": 9,
+      "required_present_in_all": true
+    },
+    "cloud_storage/file_upload": {
+      "fields_in_every_record": [
+        "action",
+        "bucket",
+        "event_id",
+        "event_name",
+        "file_name",
+        "file_size_bytes",
+        "source_ip",
+        "source_type",
+        "timestamp",
+        "user_agent",
+        "username"
+      ],
+      "key_set_sizes": {
+        "11": 7,
+        "13": 1
+      },
+      "records": 8,
+      "required_present_in_all": true
+    },
+    "cloud_storage/file_view": {
+      "fields_in_every_record": [
+        "action",
+        "bucket",
+        "event_id",
+        "event_name",
+        "file_name",
+        "file_size_bytes",
+        "source_ip",
+        "source_type",
+        "timestamp",
+        "user_agent",
+        "username"
+      ],
+      "key_set_sizes": {
+        "11": 6
+      },
+      "records": 6,
+      "required_present_in_all": true
+    },
+    "endpoint/file_create": {
+      "fields_in_every_record": [
+        "event_id",
+        "event_name",
+        "file_path",
+        "file_size_bytes",
+        "hostname",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "8": 2
+      },
+      "records": 2,
+      "required_present_in_all": true
+    },
+    "endpoint/file_delete": {
+      "fields_in_every_record": [
+        "event_id",
+        "event_name",
+        "file_path",
+        "hostname",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "7": 2
+      },
+      "records": 2,
+      "required_present_in_all": true
+    },
+    "endpoint/process_access": {
+      "fields_in_every_record": [
+        "access_rights",
+        "event_id",
+        "event_name",
+        "hostname",
+        "pid",
+        "process_name",
+        "source_type",
+        "target_pid",
+        "target_process",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "11": 1
+      },
+      "records": 1,
+      "required_present_in_all": true
+    },
+    "endpoint/process_create": {
+      "fields_in_every_record": [
+        "command_line",
+        "event_id",
+        "event_name",
+        "hostname",
+        "integrity_level",
+        "parent_process",
+        "pid",
+        "process_name",
+        "process_path",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "12": 58
+      },
+      "records": 58,
+      "required_present_in_all": true
+    },
+    "endpoint/service_create": {
+      "fields_in_every_record": [
+        "event_id",
+        "event_name",
+        "hostname",
+        "service_name",
+        "service_path",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "8": 1
+      },
+      "records": 1,
+      "required_present_in_all": true
+    },
+    "endpoint/service_delete": {
+      "fields_in_every_record": [
+        "event_id",
+        "event_name",
+        "hostname",
+        "service_name",
+        "source_type",
+        "timestamp",
+        "username"
+      ],
+      "key_set_sizes": {
+        "7": 1
+      },
+      "records": 1,
+      "required_present_in_all": true
+    },
+    "network/network_connection": {
+      "fields_in_every_record": [
+        "action",
+        "bytes_recv",
+        "bytes_sent",
+        "dst_ip",
+        "dst_port",
+        "event_id",
+        "event_name",
+        "firewall_rule",
+        "protocol",
+        "source_type",
+        "src_ip",
+        "timestamp"
+      ],
+      "key_set_sizes": {
+        "12": 80,
+        "13": 3,
+        "14": 1
+      },
+      "records": 84,
+      "required_present_in_all": true
+    }
+  },
+  "source": "data/raw/siem_logs.json",
+  "verification": {
+    "annotation_absent_downstream": true,
+    "counts_reconcile": true,
+    "every_record_retrievable_by_id": true
+  }
+}

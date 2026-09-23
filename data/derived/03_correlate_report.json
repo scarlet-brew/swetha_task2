@@ -1,0 +1,86 @@
+{
+  "check_6_mutual_compatibility": {
+    "_when": "at close only -- compatibility is a set-level property",
+    "holds": true,
+    "incompatibilities": []
+  },
+  "counts": {
+    "edges_traversed_by_the_investigation": 122,
+    "findings_accepted": 22,
+    "hypotheses": 20,
+    "observations": 1951,
+    "proposals_rejected": 2,
+    "sparse_edges_materialised": 1338,
+    "trajectory_steps": 47
+  },
+  "flags": {},
+  "hypothesis_outcomes": {
+    "found": 7,
+    "not_covered": 10,
+    "not_found": 3
+  },
+  "interpreter": "model-backed",
+  "leak_independence": {
+    "event_id_ordering": {
+      "_how": "ids reversed, so the intrusion becomes the first 22 rather than the last",
+      "independent": true,
+      "top_25_unchanged": true
+    },
+    "note_field": {
+      "_how": "stripped at the parse boundary, so no observation can carry it",
+      "independent": true,
+      "observations_carrying_it": 0
+    },
+    "ordering_not_filtering": {
+      "_how": "the ranking is a permutation of the input, never a subset",
+      "is_permutation": true,
+      "observations_in": 1951,
+      "observations_ranked": 1951
+    },
+    "timestamp_precision": {
+      "_how": "every recorded time rewritten to whole seconds, erasing the 220/22 split",
+      "independent": true,
+      "top_25_unchanged": true
+    }
+  },
+  "rejection_reasons": {
+    "3_no_invented_identifier": 2
+  },
+  "relations": {
+    "counts_by_relation": {
+      "address_resolves_to_host": 1127,
+      "flow_endpoint": 85,
+      "process_parent": 66,
+      "same_account": 1,
+      "same_address": 8,
+      "same_file": 67,
+      "same_host": 1,
+      "same_size": 3,
+      "temporal_within": 102
+    },
+    "dense_left_as_queries": [
+      "same_account",
+      "same_host",
+      "same_address",
+      "temporal_within",
+      "session_bracket"
+    ],
+    "sparse_materialised": [
+      "same_file",
+      "same_size",
+      "process_parent",
+      "flow_endpoint",
+      "address_resolves_to_host"
+    ]
+  },
+  "support_distribution": {
+    "corroborated": 13,
+    "single_sourced": 9
+  },
+  "verification": {
+    "anchors_independent_of_all_three_leaks": true,
+    "anchors_order_and_do_not_filter": true,
+    "every_finding_cites_an_observation": true,
+    "every_rejection_carries_a_diagnostic": true
+  }
+}

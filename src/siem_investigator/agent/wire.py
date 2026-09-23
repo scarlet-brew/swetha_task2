@@ -42,8 +42,6 @@ _BELIEF_TOKENS = (
 )
 
 
-
-
 def _restore_closed_values(pydantic_schema: Any, wire: Any) -> Any:
     """Put `enum`/`const` back into `wire`, taken from `pydantic_schema`.
 
@@ -160,5 +158,3 @@ def schema_defects(schema: dict[str, Any]) -> list[str]:
 
     walk(schema, "$")
     return defects
-
-

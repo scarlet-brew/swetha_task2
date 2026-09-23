@@ -1,0 +1,146 @@
+{
+  "address_resolution": {
+    "_note": "Only three hosts have a single stable address, and those are the compromised ones. Preferring unambiguous mappings would therefore rediscover the intrusion by construction, which is why every resolution keeps its full candidate set.",
+    "ambiguous": 1,
+    "max_candidates": 2,
+    "total": 62,
+    "unambiguous": 61
+  },
+  "counts": {
+    "addresses_resolved": 62,
+    "entities": 201,
+    "events": 242,
+    "provenance_entries": 1951
+  },
+  "coverage_gaps": [
+    {
+      "absent_from": [
+        "cloud_storage"
+      ],
+      "entity_type": "host",
+      "value": "auth-srv-01"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "endpoint",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "auth-srv-02"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-01"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-02"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-03"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-04"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-05"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-06"
+    },
+    {
+      "absent_from": [
+        "cloud_storage"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-07"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-08"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-09"
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "entity_type": "host",
+      "value": "wkstn-10"
+    }
+  ],
+  "entities_by_type": {
+    "account": 12,
+    "address": 145,
+    "bucket": 2,
+    "file": 10,
+    "host": 13,
+    "process": 18,
+    "service": 1
+  },
+  "invariant_5_reproducibility": {
+    "checked": 1951,
+    "failures": [],
+    "holds": true
+  },
+  "transforms_used": {
+    "basename": 94,
+    "identity": 39,
+    "integer": 345,
+    "ipv4_canonical": 261,
+    "lower": 970,
+    "utc_instant": 242
+  },
+  "verification": {
+    "invariant_4_grounding": {
+      "failures": [],
+      "holds": true
+    },
+    "invariant_5_reproducibility": {
+      "checked": 1951,
+      "failures": [],
+      "holds": true
+    },
+    "observations": 1951
+  }
+}

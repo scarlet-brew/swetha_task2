@@ -1,10 +1,22 @@
-"""T06 -- the three model-site contracts, the contract-set hash, the egress inventory.
+"""T06 -- the four model-site contracts, and the contract-set hash.
 
-The load-bearing test here is `TheCapturedRequestBody`. NFR-04 has two halves:
-the model sites are documented, and the documentation is *true*. A document
-cannot establish the second about itself, so the real serialised request body
-for each site is captured through a mock transport and checked against
-`docs/egress.md`. Nothing leaves the process and no credential is needed.
+What each site may *send* is `tests/test_egress_inventory.py`; this file is
+about the contracts themselves: the closed vocabularies, the schema that reaches
+the wire, and the two values SS11.1's replay claim needs.
+
+The posture under test is D-08's, and the order in it is the point. A value
+outside a vocabulary must be **unrepresentable** rather than rejected after the
+fact -- so these tests check the emitted schema and the constructor, not the
+error message of a validator.
+
+**What is not tested here, and cannot be.** No live round-trip. There is no
+credential in this environment, so "each model returns a populated instance" is
+verified for the *return* half only -- `TheContractsParseWhatTheyPromise` parses
+a representative payload for every contract through the same
+`TypeAdapter.validate_json` the SDK uses. The live call is T06's one blocked
+verification and is named as such rather than stubbed: a mocked success proves
+the mock, and a fabricated response body is the one thing this must never
+manufacture.
 
 Every test in this file runs offline.
 """
@@ -12,17 +24,25 @@ Every test in this file runs offline.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
+import sys
 import typing
 import unittest
 
 import _env  # noqa: F401  -- puts src/ on sys.path
 
+import pydantic
+
 from siem_investigator import ids
 from siem_investigator.agent import client, contracts, schemas
 from siem_investigator.enrich.catalogue import Catalogue
 
-EGRESS_DOC = _env.REPO_ROOT / "docs" / "egress.md"
+SCRIPTS = _env.REPO_ROOT / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+import regen_egress_fixture  # noqa: E402
 
 
 class TheClosedVocabularies(unittest.TestCase):
@@ -122,8 +142,6 @@ class TheEmittedSchemas(unittest.TestCase):
         self.assertEqual(set(stage["enum"]), set(typing.get_args(schemas.IntrusionStage)))
 
     def test_a_stage_outside_the_enum_is_unrepresentable(self):
-        import pydantic
-
         with self.assertRaises(pydantic.ValidationError):
             schemas.CandidateFinding(
                 statement="x",
@@ -133,8 +151,6 @@ class TheEmittedSchemas(unittest.TestCase):
             )
 
     def test_an_unmodelled_field_is_refused(self):
-        import pydantic
-
         with self.assertRaises(pydantic.ValidationError):
             schemas.CandidateFinding(
                 statement="x",
@@ -145,8 +161,6 @@ class TheEmittedSchemas(unittest.TestCase):
             )
 
     def test_a_finding_citing_nothing_is_refused(self):
-        import pydantic
-
         with self.assertRaises(pydantic.ValidationError):
             schemas.CandidateFinding(
                 statement="x", stage="exfiltration", cites_observations=[], rationale="y"
@@ -206,8 +220,6 @@ class TheDynamicTechniqueEnum(unittest.TestCase):
         self.assertEqual(schema["properties"]["technique_id"]["enum"], list(self.CANDIDATES))
 
     def test_a_technique_outside_the_candidates_is_unrepresentable(self):
-        import pydantic
-
         model = schemas.technique_selection_model(self.CANDIDATES)
         with self.assertRaises(pydantic.ValidationError):
             model(
@@ -252,8 +264,6 @@ class ThePromptHashAndContractSet(unittest.TestCase):
             "from siem_investigator.agent import client;"
             "print(client.prompt_hash('system text', 'user text'))" % str(_env.SRC_DIR)
         )
-        import os
-
         out = subprocess.run(
             [__import__("sys").executable, "-c", snippet],
             capture_output=True,
@@ -293,154 +303,270 @@ class ThePromptHashAndContractSet(unittest.TestCase):
         self.assertIn("software_version", stamp)
 
 
-class TheCapturedRequestBody(unittest.TestCase):
-    """NFR-04's second half, tested rather than described.
+class TheContractsParseWhatTheyPromise(unittest.TestCase):
+    """The return half of the round-trip, without a model.
 
-    The capture goes through the same `_request_kwargs` the live call uses.
-    Building the request twice is exactly what would let this inventory describe
-    a request the system does not send.
+    T06 asks that each contract "round-trips and returns a populated instance".
+    With no credential in this environment the send half cannot run, so this
+    covers the half that can: a representative response payload for each of the
+    five contracts, parsed through the same `TypeAdapter.validate_json` the SDK
+    calls on the way back, yielding a populated instance.
+
+    Deliberately not a mocked call. A stub that hands back a canned response and
+    asserts the canned response arrived proves the stub, and the live call is
+    reported as blocked instead.
     """
 
-    #: Keys the Messages API body legitimately carries. Anything else appearing
-    #: is an unreviewed field reaching the provider.
-    ALLOWED_TOP_LEVEL = {
-        "model",
-        "max_tokens",
-        "system",
-        "messages",
-        "thinking",
-        "output_config",
-        "stream",
-        "metadata",
+    #: One payload per contract, as the API would return it.
+    PAYLOADS: dict[str, tuple[type[pydantic.BaseModel], dict]] = {
+        "CitedEdge": (
+            schemas.CitedEdge,
+            {
+                "relation": "process_parent",
+                "from_observation": "obs_000000000001",
+                "to_observation": "obs_000000000002",
+            },
+        ),
+        "CandidateFinding": (
+            schemas.CandidateFinding,
+            {
+                "statement": "notepad.exe was created by explorer.exe on WKSTN-08.",
+                "stage": "execution",
+                "cites_observations": ["obs_000000000001", "obs_000000000002"],
+                "cites_edges": [
+                    {
+                        "relation": "process_parent",
+                        "from_observation": "obs_000000000002",
+                        "to_observation": "obs_000000000001",
+                    }
+                ],
+                "rationale": "The parent field of one names the process of the other.",
+            },
+        ),
+        "Hypothesis": (
+            schemas.Hypothesis,
+            {
+                "premises": ["fnd_000000000001"],
+                "predicted_entity": "WKSTN-08",
+                "predicted_role": "observed_on",
+                "predicted_event_kind": "auth/user_logon",
+                "predicted_source_type": "auth",
+                "window_start": "2026-06-13T02:00:00.000000Z",
+                "window_end": "2026-06-13T04:00:00.000000Z",
+                "rationale": "A process ran under an account, so a session should precede it.",
+            },
+        ),
+        "TechniqueSelection": (
+            schemas.TechniqueSelection,
+            {
+                "technique_id": "T1059.001",
+                "technique_name": "PowerShell",
+                "quoted_values": ["powershell.exe"],
+                "cited_observations": ["obs_000000000001"],
+            },
+        ),
+        "Answer": (
+            schemas.Answer,
+            {
+                "body": "One account appears on that host in the period examined.",
+                "claims": [
+                    {
+                        "text": "The account jclark appears on WKSTN-08.",
+                        "kind": "observation",
+                        "cites_observations": ["obs_000000000001"],
+                    },
+                    {
+                        "text": "No mail-gateway source is present.",
+                        "kind": "absence",
+                        "applies_because": "no source in this dataset records mail delivery",
+                    },
+                ],
+                "gaps": ["no DNS source, so an address cannot be resolved to a name"],
+            },
+        ),
     }
 
-    def _body(self, site: contracts.Site) -> dict:
-        model_type = site.model_type
-        if site is contracts.SELECT_TECHNIQUE:
-            model_type = schemas.technique_selection_model(("T1059.001", "T1078"))
-        return client.captured_request_body(
-            model_type=model_type,
-            system=site.system,
-            user="OBSERVATIONS\nobs_a  endpoint  process_name  powershell.exe\n",
+    def test_every_contract_parses_a_representative_payload(self):
+        for name, (model, payload) in self.PAYLOADS.items():
+            with self.subTest(contract=name):
+                adapter = pydantic.TypeAdapter(model)
+                instance = adapter.validate_json(json.dumps(payload))
+                self.assertIsInstance(instance, model)
+                self.assertTrue(instance.model_dump(), "the instance came back empty")
+
+    def test_the_five_named_contracts_are_all_covered(self):
+        """T06 names five models. A contract added later without a payload here
+        would be a contract nobody parsed."""
+        self.assertEqual(
+            set(self.PAYLOADS),
+            {model.__name__ for model in schemas.CONTRACT_MODELS} | {"CitedEdge"},
         )
 
-    def test_every_site_builds_a_request_with_no_credential_and_no_network(self):
+    def test_the_nested_edge_parses_as_an_object_within_a_finding(self):
+        """The nesting is the part D-08 flagged: if a list of edge objects could
+        not be expressed strictly, the native-parse choice would change."""
+        _, payload = self.PAYLOADS["CandidateFinding"]
+        finding = schemas.CandidateFinding.model_validate(payload)
+        self.assertIsInstance(finding.cites_edges[0], schemas.CitedEdge)
+        self.assertEqual(finding.cites_edges[0].relation, "process_parent")
+
+    def test_an_answer_claim_keeps_its_citation_lists_distinct(self):
+        _, payload = self.PAYLOADS["Answer"]
+        answer = schemas.Answer.model_validate(payload)
+        self.assertEqual(answer.claims[0].cites_observations, ["obs_000000000001"])
+        self.assertEqual(answer.claims[0].cites_findings, [])
+        self.assertIsNone(answer.claims[0].applies_because)
+
+
+class TheClosedFieldsReachTheWire(unittest.TestCase):
+    """Every closed field, not the two that were spot-checked.
+
+    The SDK's transform drops `enum`, so "structurally unrepresentable" holds
+    only where the repair put it back. Checking `stage` and `technique_id` by
+    hand leaves `relation`, `predicted_role` and `kind` unverified -- and each
+    is a place a value outside the vocabulary could arrive and be accepted.
+    """
+
+    @staticmethod
+    def _enum_paths(schema: dict, path: str = "$") -> dict[str, list]:
+        found: dict[str, list] = {}
+        if not isinstance(schema, dict):
+            return found
+        if "enum" in schema:
+            found[path] = schema["enum"]
+        for name, sub in (schema.get("properties") or {}).items():
+            found.update(TheClosedFieldsReachTheWire._enum_paths(sub, f"{path}.{name}"))
+        for name, sub in (schema.get("$defs") or {}).items():
+            found.update(TheClosedFieldsReachTheWire._enum_paths(sub, f"{path}.$defs.{name}"))
+        if "items" in schema:
+            found.update(TheClosedFieldsReachTheWire._enum_paths(schema["items"], f"{path}[]"))
+        return found
+
+    def test_every_literal_in_every_contract_keeps_its_enum_on_the_wire(self):
         for site in contracts.SITES:
+            model = regen_egress_fixture.model_type_for(site)
+            pydantic_enums = self._enum_paths(model.model_json_schema())
+            wire_enums = self._enum_paths(client.wire_schema(model))
             with self.subTest(site=site.name):
-                body = self._body(site)
-                self.assertEqual(body["model"], client.MODEL_ID)
-                self.assertEqual(body["thinking"], {"type": "adaptive"})
+                self.assertTrue(pydantic_enums, "this contract closes no field at all")
+                self.assertEqual(wire_enums, pydantic_enums)
 
-    def test_no_field_outside_the_documented_api_surface_is_sent(self):
+    def test_the_closed_fields_are_the_ones_the_design_names(self):
+        """Named rather than counted, so a vocabulary quietly opened to a bare
+        string shows up here."""
+        closed = set()
         for site in contracts.SITES:
-            body = self._body(site)
-            with self.subTest(site=site.name):
-                self.assertEqual(
-                    set(body) - self.ALLOWED_TOP_LEVEL,
-                    set(),
-                    "an unreviewed top-level field is reaching the provider",
-                )
+            schema = client.wire_schema(regen_egress_fixture.model_type_for(site))
+            closed.update(path.rsplit(".", 1)[-1] for path in self._enum_paths(schema))
+        self.assertEqual(
+            closed, {"stage", "relation", "predicted_role", "technique_id", "kind"}
+        )
 
-    def test_the_repaired_schema_is_what_actually_goes_out(self):
-        """The measured SDK behaviour this guards: `transform_schema` discards
-        `enum`, so without the repair a closed Literal arrives as a description
-        hint and a hallucinated value is accepted by the API. `wire_schema` says
-        what we intend to send; this says what the SDK does."""
-        body = self._body(contracts.SELECT_TECHNIQUE)
-        self.assertEqual(client.request_defects(body), [])
-        sent = body["output_config"]["format"]["schema"]
-        self.assertEqual(sent["properties"]["technique_id"]["enum"], ["T1059.001", "T1078"])
+    def test_no_contract_carries_a_belief_value_at_any_depth(self):
+        """R3.4, over every model including the nested ones -- a `confidence`
+        added to `CitedEdge` reaches the wire just as surely as one added to
+        `CandidateFinding`, and is the easier one to miss on review."""
+        for model in schemas.ALL_CONTRACT_MODELS:
+            with self.subTest(contract=model.__name__):
+                self.assertEqual(client.schema_defects(client.wire_schema(model)), [])
+                rendered = json.dumps(client.wire_schema(model)).lower()
+                for token in ("probability", "confidence", "percent", "likelihood"):
+                    self.assertNotIn(token, rendered)
 
-    def test_the_stage_enum_survives_to_the_wire_for_interpret(self):
-        body = self._body(contracts.INTERPRET)
-        sent = body["output_config"]["format"]["schema"]
-        self.assertIn("enum", sent["properties"]["stage"])
-
-    def test_the_body_carries_no_raw_note_field(self):
-        """The dataset's answer key is stripped at the parse boundary, so no
-        prompt can contain it."""
-        for site in contracts.SITES:
-            rendered = json.dumps(self._body(site))
-            with self.subTest(site=site.name):
-                self.assertNotIn("ATTACK:", rendered)
-
-    def test_the_body_carries_no_credential(self):
-        for site in contracts.SITES:
-            rendered = json.dumps(self._body(site)).lower()
-            with self.subTest(site=site.name):
-                self.assertNotIn("sk-ant", rendered)
-                self.assertNotIn("api_key", rendered)
+    def test_the_prompts_may_say_the_words_the_schemas_may_not(self):
+        """Stated so nobody "strengthens" the scan into scanning the whole body.
+        The system prompt forbids belief language in so many words, so it
+        contains those words; a schema *field* carrying one is the violation."""
+        self.assertIn("confidence level", contracts.COMMON_SYSTEM)
+        self.assertEqual(client.schema_defects(contracts.ANSWER.wire_schema()), [])
 
 
-class TheEgressInventoryIsComplete(unittest.TestCase):
-    def test_exactly_three_model_stages(self):
-        """Design SS7's claim, as a test. A fourth stage appearing without a
-        documented egress category is what the inventory exists to catch."""
-        self.assertEqual(len(contracts.MODEL_STAGES), 3)
+class TheAnswerContractMatchesTheRenderedPayload(unittest.TestCase):
+    """T07 committed the payload contract; T06 defines what the model may return.
 
-    def test_every_site_appears_in_the_egress_doc(self):
-        text = EGRESS_DOC.read_text(encoding="utf-8")
-        for site in contracts.SITES:
-            with self.subTest(site=site.name):
-                self.assertIn(f"`{site.name}`", text)
+    They are different shapes on purpose -- support labels and record ids are
+    computed, never returned -- but where they share a key they have to agree,
+    and where they must not share one the names have to differ.
+    """
 
-    def test_every_declared_category_appears_in_the_egress_doc(self):
-        """A category named in code but not in the document would be undocumented
-        egress, which is the NFR-04 failure."""
-        text = EGRESS_DOC.read_text(encoding="utf-8").lower()
-        for site in contracts.SITES:
-            for category in site.egress_categories:
-                with self.subTest(site=site.name, category=category):
-                    # Match on the distinctive head of the phrase; the document
-                    # renders these as table prose rather than verbatim strings.
-                    head = " ".join(category.lower().split()[:3])
-                    self.assertIn(head, text, f"{category!r} is not documented")
+    PAYLOAD_CONTRACT = _env.REPO_ROOT / "docs" / "specs" / "answer_payload.md"
 
-    def test_every_site_declares_at_least_one_category(self):
-        for site in contracts.SITES:
-            with self.subTest(site=site.name):
-                self.assertTrue(site.egress_categories)
+    def test_the_claim_kinds_the_model_may_return_are_the_rendered_ones(self):
+        kinds = set(typing.get_args(schemas.AnswerClaim.model_fields["kind"].annotation))
+        self.assertEqual(kinds, {"observation", "attribution", "absence", "recommendation"})
 
-    def test_the_doc_names_what_is_never_sent(self):
-        text = EGRESS_DOC.read_text(encoding="utf-8")
-        for absent in ("ground_truth.json", "`note`", "credential"):
-            with self.subTest(item=absent):
-                self.assertIn(absent, text)
+    def test_the_model_cannot_return_the_payloads_basis_object(self):
+        """`app/components/citation.py` reads `basis` with `.get`. A string under
+        that key would crash the renderer, and before that it would be a
+        model-invented basis name -- so the field the model fills is
+        `applies_because`, and there is no `basis` to copy through."""
+        self.assertNotIn("basis", schemas.AnswerClaim.model_fields)
+        self.assertIn("applies_because", schemas.AnswerClaim.model_fields)
 
+    def test_the_model_cannot_return_a_support_label(self):
+        """R3.4: the label is counted from the structure of the support. A
+        model-asserted one would be an opinion wearing the clothes of a
+        measurement."""
+        for forbidden in ("support", "label", "flags", "claim_id", "answer_id"):
+            with self.subTest(field=forbidden):
+                self.assertNotIn(forbidden, schemas.AnswerClaim.model_fields)
+                self.assertNotIn(forbidden, schemas.Answer.model_fields)
 
-class TheQueryPlaneCannotReachTheService(unittest.TestCase):
-    def test_no_app_module_names_anthropic(self):
-        result = subprocess.run(
-            ["git", "grep", "-n", "--untracked", "anthropic", "--", "app/"],
+    def test_the_payload_contract_is_still_the_one_this_was_written_against(self):
+        """A cheap tripwire. If the renderer stops reading `basis` as an object
+        the reasoning above changes, and this is where to notice."""
+        text = self.PAYLOAD_CONTRACT.read_text(encoding="utf-8")
+        self.assertIn('"basis": {', text)
+        self.assertIn("applies_because", text)
+
+class TheLiveRoundTripScript(unittest.TestCase):
+    """The one verification that needs a credential, and its offline behaviour.
+
+    `scripts/live_round_trip.py` is where T06's "each model round-trips and
+    returns a populated instance" is checked, because that claim cannot be
+    checked without a key and must not be stubbed. What *can* be tested here is
+    everything up to the call, and that the no-credential path is a clean exit
+    rather than a traceback -- NFR-02 makes running without a key an ordinary
+    state.
+    """
+
+    SCRIPT = _env.REPO_ROOT / "scripts" / "live_round_trip.py"
+
+    def _run(self, *args, credential: str | None = None):
+        environment = {key: value for key, value in os.environ.items()}
+        environment.pop("ANTHROPIC_API_KEY", None)
+        environment.pop("ANTHROPIC_AUTH_TOKEN", None)
+        if credential is not None:
+            environment["ANTHROPIC_API_KEY"] = credential
+        return subprocess.run(
+            [sys.executable, str(self.SCRIPT), *args],
             cwd=_env.REPO_ROOT,
             capture_output=True,
             text=True,
+            env=environment,
         )
-        self.assertNotEqual(result.returncode, 0, result.stdout)
 
-    def test_the_credential_is_read_from_the_environment_only(self):
-        self.assertEqual(client.CREDENTIAL_VARIABLE, "ANTHROPIC_API_KEY")
-        source = (_env.SRC_DIR / "siem_investigator/agent/client.py").read_text(encoding="utf-8")
-        self.assertIn("os.environ", source)
-        self.assertNotIn(".env", source.replace("environ", ""))
+    def test_the_dry_run_builds_every_request_with_no_credential(self):
+        result = self._run("--dry-run")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        for site in contracts.SITES:
+            with self.subTest(site=site.name):
+                self.assertIn(site.name, result.stdout)
+        self.assertIn(contracts.CONTRACT_SET_HASH[:12], result.stdout)
 
-    def test_a_missing_credential_raises_one_line_not_a_traceback(self):
-        import os
+    def test_a_missing_credential_is_one_line_and_no_traceback(self):
+        result = self._run()
+        self.assertEqual(result.returncode, 2)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertEqual(len(result.stderr.strip().splitlines()), 1)
+        self.assertIn("ANTHROPIC_API_KEY", result.stderr)
 
-        saved = os.environ.pop(client.CREDENTIAL_VARIABLE, None)
-        try:
-            self.assertFalse(client.credential_present())
-            with self.assertRaises(client.CredentialMissing) as caught:
-                client.call(
-                    site="interpret",
-                    model_type=schemas.CandidateFinding,
-                    system="s",
-                    user="u",
-                )
-            self.assertIn("ANTHROPIC_API_KEY", str(caught.exception))
-        finally:
-            if saved is not None:
-                os.environ[client.CREDENTIAL_VARIABLE] = saved
+    def test_it_sends_the_payload_the_fixture_documents(self):
+        """Otherwise the live check would prove a request the inventory does not
+        describe, which is the failure `docs/egress.md` exists to prevent."""
+        source = self.SCRIPT.read_text(encoding="utf-8")
+        self.assertIn("regen_egress_fixture", source)
+        self.assertIn("client.call(", source)
 
 
 if __name__ == "__main__":

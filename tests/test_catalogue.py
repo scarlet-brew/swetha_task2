@@ -23,21 +23,33 @@ from siem_investigator.enrich import catalogue as catalogue_module
 from siem_investigator.enrich.catalogue import Catalogue
 
 
-def _bundle_technique(technique_id: str) -> dict:
-    """The raw `attack-pattern` object for `technique_id`, read from the bundle."""
+def _bundle_techniques(technique_ids: tuple[str, ...]) -> dict[str, dict]:
+    """The raw `attack-pattern` objects for `technique_ids`, read from the bundle.
+
+    One pass for all of them: the bundle is 51 MiB, and re-parsing it per
+    assertion would cost the suite several seconds to learn nothing new.
+    """
+    wanted = set(technique_ids)
+    found: dict[str, dict] = {}
     with paths.ATTACK_BUNDLE.open(encoding="utf-8") as handle:
         objects = json.load(handle)["objects"]
     for obj in objects:
         if obj["type"] != "attack-pattern":
             continue
         for reference in obj.get("external_references", ()):
-            if reference.get("source_name") == "mitre-attack" and reference.get("external_id") == technique_id:
-                return obj
-    raise AssertionError(f"{technique_id} not present in the bundle")
+            if (
+                reference.get("source_name") == "mitre-attack"
+                and reference.get("external_id") in wanted
+            ):
+                found[reference["external_id"]] = obj
+    missing = wanted - set(found)
+    if missing:
+        raise AssertionError(f"not present in the bundle: {sorted(missing)}")
+    return found
 
 
-def _bundle_tactics(technique_id: str) -> list[str]:
-    obj = _bundle_technique(technique_id)
+def _mitre_phases(obj: dict) -> list[str]:
+    """`kill_chain_phases` can name other kill chains; only ATT&CK's are tactics."""
     return [
         phase["phase_name"]
         for phase in obj.get("kill_chain_phases", ())
@@ -90,9 +102,23 @@ class TestCatalogueShape(unittest.TestCase):
 class TestTheThreeSlices(unittest.TestCase):
     """The assertions design SS4's R4.4-R4.9 paragraph and AS-03 depend on."""
 
+    #: Every expected literal below is checked twice -- against the derived
+    #: catalogue, and against the bundle object it was projected from. The first
+    #: check alone would pass on a projection that invented the value; the second
+    #: is what makes "against the bundle, not from memory" literally true.
+    SLICES = ("T1059.001", "T1078", "T1569.002", "T1068")
+
     @classmethod
     def setUpClass(cls):
         cls.catalogue = Catalogue.load()
+        cls.bundle = _bundle_techniques(cls.SLICES)
+
+    def assert_matches_bundle(self, technique_id: str) -> None:
+        technique = self.catalogue.technique(technique_id)
+        obj = self.bundle[technique_id]
+        self.assertEqual(technique.name, obj["name"])
+        self.assertEqual(list(technique.tactics), _mitre_phases(obj))
+        self.assertEqual(technique.technique_ref, obj["id"])
 
     def test_t1059_001_is_powershell_under_execution(self):
         technique = self.catalogue.technique("T1059.001")
@@ -100,7 +126,7 @@ class TestTheThreeSlices(unittest.TestCase):
         self.assertEqual(technique.name, "PowerShell")
         self.assertIn("execution", technique.tactics)
         self.assertEqual(self.catalogue.tactic_name("execution"), "Execution")
-        self.assertEqual(list(technique.tactics), _bundle_tactics("T1059.001"))
+        self.assert_matches_bundle("T1059.001")
 
     def test_t1078_is_valid_accounts_and_includes_privilege_escalation(self):
         """Load-bearing for R4.9: privilege escalation is reported from the
@@ -109,7 +135,7 @@ class TestTheThreeSlices(unittest.TestCase):
         self.assertIsNotNone(technique)
         self.assertEqual(technique.name, "Valid Accounts")
         self.assertIn("privilege-escalation", technique.tactics)
-        self.assertEqual(list(technique.tactics), _bundle_tactics("T1078"))
+        self.assert_matches_bundle("T1078")
 
     def test_t1569_002_is_service_execution_under_execution_only(self):
         """The other half of the pair: service execution is *not* privilege
@@ -119,7 +145,7 @@ class TestTheThreeSlices(unittest.TestCase):
         self.assertEqual(technique.name, "Service Execution")
         self.assertEqual(list(technique.tactics), ["execution"])
         self.assertNotIn("privilege-escalation", technique.tactics)
-        self.assertEqual(list(technique.tactics), _bundle_tactics("T1569.002"))
+        self.assert_matches_bundle("T1569.002")
 
     def test_t1068_is_present_and_selectable(self):
         """Present so it *could* be selected. T23 must nonetheless emit no mapping
@@ -130,6 +156,7 @@ class TestTheThreeSlices(unittest.TestCase):
         self.assertEqual(technique.name, "Exploitation for Privilege Escalation")
         self.assertEqual(list(technique.tactics), ["privilege-escalation"])
         self.assertIn("T1068", self.catalogue.selectable_ids())
+        self.assert_matches_bundle("T1068")
 
     def test_v19_renamed_defense_evasion_to_stealth(self):
         """Worth pinning, because it is the kind of upstream change that silently
@@ -195,6 +222,11 @@ class TestMeasuredParseCost(unittest.TestCase):
     The assertion is the one that matters for D-03: the parse completes at all
     with stdlib `json` alone, which is what let `mitreattack-python` and its
     150-300 MB of pandas/numpy/pillow be rejected.
+
+    `tracemalloc` is the portable half of the measurement. SS10.2's 274 MiB peak
+    working set came from `GetProcessMemoryInfo` in a fresh process, measured out
+    of band and deliberately not asserted here: a Windows-only call would cost
+    this suite the portability the rest of it keeps.
     """
 
     def test_stdlib_parse_completes_and_report_the_cost(self):

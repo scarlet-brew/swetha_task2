@@ -1,0 +1,349 @@
+{
+  "_note": "Derived from the hypothesis ledger rather than written by hand. A gap here is something the investigation predicted and did not find, which is why each one names the hypothesis that went looking.",
+  "counts": {
+    "hosts_with_partial_coverage": 12,
+    "structural": 3,
+    "unconfirmed_or_uncoverable_hypotheses": 13
+  },
+  "from_hypotheses": [
+    {
+      "hypothesis": "hyp_e26b1bd35d33",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "powershell.exe (pid 5104) on wkstn-07",
+        "event_kind": "endpoint/network_connection",
+        "source_type": "endpoint"
+      },
+      "premised_on": [
+        "fnd_28064fa63b48"
+      ],
+      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_71197a4750cc",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "wkstn-07",
+        "event_kind": "network/connection",
+        "source_type": "network"
+      },
+      "premised_on": [
+        "fnd_28064fa63b48",
+        "fnd_625e7d1c3522"
+      ],
+      "statement": "No network/connection record for wkstn-07 was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_c0ec9aa78529",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "powershell.exe (pid 5104) on wkstn-07",
+        "event_kind": "endpoint/network_connection",
+        "source_type": "endpoint"
+      },
+      "premised_on": [
+        "fnd_28064fa63b48",
+        "fnd_625e7d1c3522"
+      ],
+      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_144ff8276ee8",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "powershell.exe (pid 5104) on wkstn-07",
+        "event_kind": "endpoint/network_connection",
+        "source_type": "endpoint"
+      },
+      "premised_on": [
+        "fnd_1ce658a06f2d",
+        "fnd_28064fa63b48",
+        "fnd_c35f33a624af"
+      ],
+      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_f427570a3811",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "powershell.exe (pid 5104) on wkstn-07",
+        "event_kind": "endpoint/network_connection",
+        "source_type": "endpoint"
+      },
+      "premised_on": [
+        "fnd_270b166d0a7d",
+        "fnd_28064fa63b48",
+        "fnd_c35f33a624af"
+      ],
+      "statement": "No endpoint/network_connection record for powershell.exe (pid 5104) on wkstn-07 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_9bdf9750f8be",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "wkstn-07",
+        "event_kind": "network/network_flow (the EVT-0224 flow to 185.220.101.45, carrying a src_host field)",
+        "source_type": "network"
+      },
+      "premised_on": [
+        "fnd_270b166d0a7d",
+        "fnd_28064fa63b48",
+        "fnd_c35f33a624af"
+      ],
+      "statement": "No network/network_flow (the EVT-0224 flow to 185.220.101.45, carrying a src_host field) record for wkstn-07 was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_599f21d4637c",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "wkstn-07",
+        "event_kind": "network/connection",
+        "source_type": "network"
+      },
+      "premised_on": [
+        "fnd_270b166d0a7d",
+        "fnd_c35f33a624af"
+      ],
+      "statement": "No network/connection record for wkstn-07 was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_270636592f2f",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_6731ea185dd8",
+        "fnd_ef7349648196"
+      ],
+      "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_8ad9380dadb2",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon (network logon to host file-srv-02 preceding the 'psexesvc' service install)",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_6731ea185dd8",
+        "fnd_ef7349648196"
+      ],
+      "statement": "No authentication/logon (network logon to host file-srv-02 preceding the 'psexesvc' service install) record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_feb98ffcaebe",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon (network logon to file-srv-02 preceding the psexesvc service install)",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_6731ea185dd8",
+        "fnd_ef7349648196"
+      ],
+      "statement": "No authentication/logon (network logon to file-srv-02 preceding the psexesvc service install) record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_1adb2aebfb2e",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "file-srv-02",
+        "event_kind": "authentication/logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_6731ea185dd8",
+        "fnd_ef7349648196"
+      ],
+      "statement": "No authentication/logon record for file-srv-02 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_4af723cfa4ad",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_6731ea185dd8",
+        "fnd_ef7349648196"
+      ],
+      "statement": "No authentication/logon record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_dc6fe493a749",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "jdavis",
+        "event_kind": "authentication/logon (network logon to dest_host file-srv-02)",
+        "source_type": "authentication"
+      },
+      "premised_on": [
+        "fnd_a03018703879",
+        "fnd_ef7349648196"
+      ],
+      "statement": "No authentication/logon (network logon to dest_host file-srv-02) record for jdavis was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    }
+  ],
+  "structural": [
+    {
+      "basis": "source_type_absent(email)",
+      "id": "no_mail_source",
+      "limits": "the delivery vector cannot be evidenced, only inferred from process lineage",
+      "statement": "No email or mail-gateway source is present.",
+      "verified": true
+    },
+    {
+      "basis": "source_type_absent(dns)",
+      "id": "no_dns_source",
+      "limits": "command-and-control is an address with no domain or resolution chain",
+      "statement": "No DNS source is present.",
+      "verified": true
+    },
+    {
+      "basis": "all_actions_allowed(network)",
+      "id": "no_block_signal",
+      "limits": "there is no block or deny signal to corroborate or contradict any transfer",
+      "statement": "Every firewall record is an allow.",
+      "verified": true
+    }
+  ],
+  "uneven_host_coverage": [
+    {
+      "absent_from": [
+        "cloud_storage"
+      ],
+      "host": "auth-srv-01",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "endpoint",
+        "network"
+      ],
+      "host": "auth-srv-02",
+      "observed_on_in": []
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-01",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-02",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-03",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-04",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-05",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-06",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage"
+      ],
+      "host": "wkstn-07",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-08",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-09",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    },
+    {
+      "absent_from": [
+        "cloud_storage",
+        "network"
+      ],
+      "host": "wkstn-10",
+      "observed_on_in": [
+        "endpoint"
+      ]
+    }
+  ]
+}

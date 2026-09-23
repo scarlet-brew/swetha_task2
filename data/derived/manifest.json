@@ -1,0 +1,71 @@
+{
+  "artifacts": {
+    "data/derived/01_ingest_report.json": 9256,
+    "data/derived/01_records.jsonl": 142948,
+    "data/derived/02_entities.jsonl": 47833,
+    "data/derived/02_events.jsonl": 212760,
+    "data/derived/02_parse_report.json": 2863,
+    "data/derived/02_resolution.jsonl": 12130,
+    "data/derived/03_correlate_report.json": 2279,
+    "data/derived/03_edges.jsonl": 366701,
+    "data/derived/03_findings.jsonl": 42477,
+    "data/derived/03_hypotheses.jsonl": 29474,
+    "data/derived/03_observations.jsonl": 774337,
+    "data/derived/03_rejections.jsonl": 2406,
+    "data/derived/03_trajectory.jsonl": 8236,
+    "data/derived/04_enrich_report.json": 685,
+    "data/derived/04_mappings.jsonl": 8528,
+    "data/derived/04_unmapped.jsonl": 1546,
+    "data/derived/05_attack_flow.json": 24681,
+    "data/derived/05_gaps.json": 10291,
+    "data/derived/05_navigator_layer.json": 1951,
+    "data/derived/05_privilege.json": 4423,
+    "data/derived/05_scope.json": 28313,
+    "data/derived/05_synthesise_report.json": 994,
+    "data/derived/05_timeline.json": 40961
+  },
+  "attack_version": "19.2",
+  "contract_set_hash": "78d3fa5705d9b21e8c18ea9778e1bf3f9b7b80918c3963f493e88584d92dc287",
+  "elapsed_seconds": 743.38,
+  "interpreter": "model-backed",
+  "software_version": "0.1.0",
+  "stage_verification": {
+    "01_ingest": {
+      "annotation_absent_downstream": true,
+      "counts_reconcile": true,
+      "every_record_retrievable_by_id": true
+    },
+    "02_parse": {
+      "invariant_4_grounding": {
+        "failures": [],
+        "holds": true
+      },
+      "invariant_5_reproducibility": {
+        "checked": 1951,
+        "failures": [],
+        "holds": true
+      },
+      "observations": 1951
+    },
+    "03_correlate": {
+      "anchors_independent_of_all_three_leaks": true,
+      "anchors_order_and_do_not_filter": true,
+      "every_finding_cites_an_observation": true,
+      "every_rejection_carries_a_diagnostic": true
+    },
+    "04_enrich": {
+      "every_id_name_pair_is_consistent": true,
+      "every_mapping_id_is_in_the_catalogue": true,
+      "non_mappable_is_distinct_from_rejected": true,
+      "t1068_not_mapped": true
+    },
+    "05_synthesise": {
+      "absence_claims_computed_after_close": true,
+      "every_timeline_step_traces_to_the_graph": true,
+      "invariant_1_layer_order": true,
+      "invariant_2_termination": true,
+      "invariant_3_acyclicity": true
+    }
+  },
+  "validator_version": "1"
+}

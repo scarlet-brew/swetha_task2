@@ -14,6 +14,9 @@ from __future__ import annotations
 
 import streamlit as st
 
+from siem_investigator import paths
+from siem_investigator.agent import answer
+
 from app.components import citation, evidence_table, support_badge
 from app.specimen import SPECIMEN_RECORDS, specimen_payload
 
@@ -34,6 +37,30 @@ EVALUATION_QUESTIONS: tuple[tuple[str, str], ...] = (
 )
 
 
+def _render_result(result: dict, *, key_prefix: str) -> None:
+    """Render an answer, or say plainly why it was withheld.
+
+    R2.9: an answer whose citations do not resolve is withheld and the failing
+    check reported. Showing it without the evidence would be the fabrication the
+    whole design exists to prevent, and a silent failure would be worse than a
+    visible one.
+    """
+    if result.get("withheld"):
+        st.error(
+            f"**Answer withheld.** {result.get('reason', 'no reason given')}",
+            icon=":material/block:",
+        )
+        for failure in result.get("failures", []):
+            st.markdown(f"- {failure}")
+        return
+
+    citation.render_answer(
+        result["payload"],
+        records=citation.records_from_file(paths.RECORDS),
+        key_prefix=key_prefix,
+    )
+
+
 def render() -> None:
     st.title("Chat")
     st.caption(
@@ -41,23 +68,54 @@ def render() -> None:
         "and the support label says what kind of support that is."
     )
 
-    st.subheader("The ten evaluation questions")
-    st.caption(
-        "Presets, adopted verbatim from requirements SS6. They become buttons "
-        "when the answer stage is wired (T31, T36)."
-    )
-    evidence_table.render_table(
-        [
-            {"scenario": scenario, "question": question}
-            for scenario, question in EVALUATION_QUESTIONS
-        ],
-        columns=("scenario", "question"),
-    )
+    ready = paths.FINDINGS.is_file() and paths.TIMELINE.is_file()
+    if not ready:
+        st.info(
+            "No committed artifacts yet. Run `python -m siem_investigator.build` first -- "
+            "the app only reads what the build produced, and computes nothing at question "
+            "time that could mint a claim (NFR-01).",
+            icon=":material/pending:",
+        )
 
-    st.chat_input(
-        "The answer stage is not wired yet (T31, T36).",
-        disabled=True,
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+    st.subheader("The ten evaluation questions")
+    st.caption("Adopted verbatim from requirements SS6. Click one, or type your own below.")
+    for row in range(0, len(EVALUATION_QUESTIONS), 2):
+        columns = st.columns(2)
+        for column, (scenario, question) in zip(
+            columns, EVALUATION_QUESTIONS[row : row + 2]
+        ):
+            if column.button(
+                f"{scenario}  {question[:58]}{'...' if len(question) > 58 else ''}",
+                key=f"preset::{scenario}",
+                disabled=not ready,
+                use_container_width=True,
+            ):
+                st.session_state.pending_question = question
+
+    typed = st.chat_input(
+        "Ask about the incident" if ready else "Run the build first",
+        disabled=not ready,
     )
+    question = typed or st.session_state.pop("pending_question", None)
+
+    for entry in st.session_state.chat_history:
+        with st.chat_message("user"):
+            st.markdown(entry["question"])
+        _render_result(entry["result"], key_prefix=entry["key"])
+
+    if question:
+        with st.chat_message("user"):
+            st.markdown(question)
+        with st.spinner("Reading the committed graph..."):
+            result = answer.ask(question)
+        key = f"chat::{len(st.session_state.chat_history)}"
+        st.session_state.chat_history.append(
+            {"question": question, "result": result, "key": key}
+        )
+        _render_result(result, key_prefix=key)
 
     st.divider()
     st.subheader("Support labels")
@@ -78,9 +136,9 @@ def render() -> None:
 
     st.divider()
     st.warning(
-        "Below is a **layout specimen**, not an answer about the incident. Every "
-        "value in it is synthetic. It is here so the citation layout can be "
-        "reviewed before the answer stage exists.",
+        "Below is a **layout specimen**, not an answer about the incident. Every value "
+        "in it is synthetic. It is kept so the citation layout can be reviewed on its "
+        "own, and it is labelled so it cannot be mistaken for incident data in the room.",
         icon=":material/science:",
     )
     report = citation.render_answer(

@@ -1,0 +1,36 @@
+{
+  "attack_version": "19.2",
+  "catalogue": "data/attack/catalogue_v19.2.json",
+  "counts": {
+    "findings": 22,
+    "mapped": 20,
+    "selectable_enum_size": 697,
+    "unmapped": 2
+  },
+  "techniques": [
+    "T1021.002",
+    "T1021.004",
+    "T1059",
+    "T1059.003",
+    "T1071",
+    "T1083",
+    "T1090.004",
+    "T1135",
+    "T1203",
+    "T1204",
+    "T1205",
+    "T1563",
+    "T1563.001",
+    "T1566.001",
+    "T1567.002"
+  ],
+  "unmapped_outcomes": {
+    "rejected": 2
+  },
+  "verification": {
+    "every_id_name_pair_is_consistent": true,
+    "every_mapping_id_is_in_the_catalogue": true,
+    "non_mappable_is_distinct_from_rejected": true,
+    "t1068_not_mapped": true
+  }
+}

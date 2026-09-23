@@ -14,16 +14,19 @@ leave R4.2's version claim unverifiable.
 **stdlib `json` only.** D-03 rejected `mitreattack-python` (pandas + numpy +
 pillow + drawsvg to turn an id into a name, 150-300 MB installed, and its
 `MitreAttackData` is typed against STIX *2.0* while the committed bundle is
-2.1). Measured on this machine, the stdlib parse of 51 MiB takes about 1.6 s and
-peaks near 257 MiB -- affordable for a build step that runs once, which is the
-whole reason the catalogue is derived at build time rather than at query time.
+2.1). Measured on this machine, the stdlib parse of the 51.3 MiB bundle takes
+0.30-0.45 s and peaks at a 274 MiB working set -- 259 MiB above a bare
+interpreter, and 257 MiB of it accounted for by `tracemalloc`. Affordable for a
+build step that runs once, which is the whole reason the catalogue is derived at
+build time rather than at query time. SS10.2 carries the measured row.
 
-**Size.** Design D-03 estimated ~200 KB for this file. Measured, it is about
-1.3 MB: the 858 descriptions are 1,185,188 characters between them, and this
-keeps them in full. Truncating would shrink the file by degrading the only
-thing it exists for, since stage 4 retrieves candidate techniques by matching
-against names *and* descriptions. Still a 40x reduction from the bundle, and
-committing 1.3 MB costs nothing. SS10.2 records the corrected figure.
+**Size.** Design D-03 estimated ~200 KB for this file. Measured, it is
+1,475,013 bytes. The gap is descriptions: the 858 of them are 1,185,188
+characters between them, and without them the projection is 262,248 bytes --
+about what the estimate described. Truncating would shrink the file by degrading
+the only thing it exists for, since stage 4 retrieves candidate techniques by
+matching against names *and* descriptions. Still a 36x reduction from the
+bundle, and committing 1.4 MiB costs nothing. SS10.2 records the correction.
 
     python -m siem_investigator.enrich.catalogue          # regenerate
     python -m siem_investigator.enrich.catalogue --check   # regenerate and diff

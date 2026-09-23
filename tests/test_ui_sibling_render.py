@@ -264,20 +264,36 @@ class AllFourSurfacesNavigate(unittest.TestCase):
                 )
                 self.assertEqual([element.value for element in run.title], [title])
 
-    def test_the_surfaces_that_wait_on_artifacts_say_so(self):
-        """NFR-02 and the honesty rule: a surface with no artifact behind it
-        names the file it is waiting for instead of rendering an invented row."""
+    def test_a_surface_either_names_its_missing_artifact_or_renders_it(self):
+        """The honesty rule, in both directions.
+
+        With no artifact behind it, a surface must name the file it is waiting
+        for rather than render an invented row. With the artifact present it
+        must actually render it -- an earlier version of this test only checked
+        the empty case, so it went on passing after the surfaces were wired and
+        would have kept passing if they had rendered nothing at all.
+        """
+        from siem_investigator import paths
+
         run = AppTest.from_file(str(MAIN), default_timeout=RENDER_TIMEOUT).run()
-        for page, artifact in (
-            ("views/timeline.py", "05_timeline.json"),
-            ("views/impact.py", "05_scope.json"),
+        for page, artifact, path in (
+            ("views/timeline.py", "05_timeline.json", paths.TIMELINE),
+            ("views/impact.py", "05_scope.json", paths.SCOPE),
         ):
             with self.subTest(page=page):
                 run.switch_page(page).run()
-                notices = " ".join(
-                    element.value for element in list(run.info) + list(run.error)
-                )
-                self.assertIn(artifact, notices)
+                self.assertEqual([(e.type, e.value) for e in run.exception], [])
+                if path.is_file():
+                    # Rendered: at least one real table, and no "waiting" notice.
+                    self.assertTrue(
+                        len(run.dataframe) >= 1,
+                        f"{page} has its artifact but rendered no table",
+                    )
+                else:
+                    notices = " ".join(
+                        element.value for element in list(run.info) + list(run.error)
+                    )
+                    self.assertIn(artifact, notices)
 
     def test_the_pipeline_surface_reports_every_stage_state(self):
         run = AppTest.from_file(str(MAIN), default_timeout=RENDER_TIMEOUT).run()

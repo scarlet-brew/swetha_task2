@@ -1,0 +1,492 @@
+{
+  "_note": "The exact serialised request body of every model site, captured through a mock transport by scripts/regen_egress_fixture.py. Nothing was sent. Checked against docs/egress.md by tests/test_egress_inventory.py.",
+  "contract_set_hash": "78d3fa5705d9b21e8c18ea9778e1bf3f9b7b80918c3963f493e88584d92dc287",
+  "provider_sdk_version": "0.84.0",
+  "sample_event_ids": [
+    "EVT-0141",
+    "EVT-0046",
+    "EVT-0114",
+    "EVT-0199"
+  ],
+  "sites": {
+    "answer": {
+      "payload_blocks": [
+        {
+          "category": "the analyst's question",
+          "text": "QUESTION\n  Which accounts appear on WKSTN-08 during the period examined?"
+        },
+        {
+          "category": "accepted finding statements, stages and ids",
+          "text": "FINDINGS\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z."
+        },
+        {
+          "category": "observation ids, fields and asserted values",
+          "text": "OBSERVATIONS\n  obs_ac0f9f154df0  hostname  WKSTN-08\n  obs_d3e946757ac4  username  jclark\n  EVT-0199 bucket  corp-documents"
+        },
+        {
+          "category": "technique mappings and the local catalogue version",
+          "text": "MAPPINGS\n  map_37d7536faf6d  T1059.001  ->  fnd_73d07c572bf9\n  catalogue version 19.2"
+        },
+        {
+          "category": "computed coverage gaps",
+          "text": "GAPS\n  no mail-gateway source is present, so a delivery vector cannot be evidenced\n  no DNS source is present, so an address cannot be resolved to a name"
+        }
+      ],
+      "prompt_hash": "b1ed9be3f4d2e9578bcc909c85a48516d013779736353142e0fe984ff56daa78",
+      "request_body": {
+        "max_tokens": 2048,
+        "messages": [
+          {
+            "content": "QUESTION\n  Which accounts appear on WKSTN-08 during the period examined?\nFINDINGS\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z.\nOBSERVATIONS\n  obs_ac0f9f154df0  hostname  WKSTN-08\n  obs_d3e946757ac4  username  jclark\n  EVT-0199 bucket  corp-documents\nMAPPINGS\n  map_37d7536faf6d  T1059.001  ->  fnd_73d07c572bf9\n  catalogue version 19.2\nGAPS\n  no mail-gateway source is present, so a delivery vector cannot be evidenced\n  no DNS source is present, so an address cannot be resolved to a name",
+            "role": "user"
+          }
+        ],
+        "model": "claude-opus-5",
+        "output_config": {
+          "effort": "medium",
+          "format": {
+            "schema": {
+              "$defs": {
+                "AnswerClaim": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "applies_because": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "For an `absence` claim, why the basis applies to this question. Absence claims are computed after the graph closes, never during the loop.\n\n{default: None}",
+                      "title": "Applies Because"
+                    },
+                    "cites_findings": {
+                      "description": "Finding ids. Required for an `attribution` claim.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Cites Findings",
+                      "type": "array"
+                    },
+                    "cites_mappings": {
+                      "description": "Technique mapping ids, where the claim names a technique.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Cites Mappings",
+                      "type": "array"
+                    },
+                    "cites_observations": {
+                      "description": "Observation ids supporting a factual claim.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Cites Observations",
+                      "type": "array"
+                    },
+                    "kind": {
+                      "description": "What kind of claim this is. `attribution` requires at least one finding citation; `absence` requires a named basis.",
+                      "enum": [
+                        "observation",
+                        "attribution",
+                        "absence",
+                        "recommendation"
+                      ],
+                      "title": "Kind",
+                      "type": "string"
+                    },
+                    "text": {
+                      "description": "The claim, in one sentence.",
+                      "title": "Text",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "kind"
+                  ],
+                  "title": "AnswerClaim",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "body": {
+                  "description": "The answer prose. States no claim that is not also in `claims`.",
+                  "title": "Body",
+                  "type": "string"
+                },
+                "claims": {
+                  "description": "Every claim the body makes, each with its citations.",
+                  "items": {
+                    "$ref": "#/$defs/AnswerClaim"
+                  },
+                  "minItems": 1,
+                  "title": "Claims",
+                  "type": "array"
+                },
+                "gaps": {
+                  "description": "What the available sources cannot settle about this question. Reported without being asked (R3.6).",
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Gaps",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "body",
+                "claims"
+              ],
+              "title": "Answer",
+              "type": "object"
+            },
+            "type": "json_schema"
+          }
+        },
+        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nAnswer the question from the investigation graph you are given. You are reading a closed record: you cannot add to it, and every claim you make must cite nodes that already exist in it.\n\nA claim that attributes activity to the intrusion must cite at least one finding. Citing observations alone supports a fact -- that a value appeared in a record -- not an attribution, and the difference is checked.\n\nSay what the sources cannot settle. A question the evidence does not answer should come back with the gap named, not with the gap filled in.\n",
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "stage": "6 answer"
+    },
+    "hypothesise": {
+      "payload_blocks": [
+        {
+          "category": "accepted finding statements, stages and ids",
+          "text": "FINDINGS\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z."
+        },
+        {
+          "category": "entity names as they appear in observations",
+          "text": "ENTITIES\n  host WKSTN-08\n  account jclark\n  address 10.0.3.29"
+        },
+        {
+          "category": "source type coverage per entity",
+          "text": "COVERAGE\n  WKSTN-08: endpoint yes, auth yes, cloud_storage no\n  jclark: auth yes, endpoint no"
+        }
+      ],
+      "prompt_hash": "551bf692f23a7884ff637bc32e9d737d60ce8425ea8af83d3163709384d0df13",
+      "request_body": {
+        "max_tokens": 2048,
+        "messages": [
+          {
+            "content": "FINDINGS\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z.\nENTITIES\n  host WKSTN-08\n  account jclark\n  address 10.0.3.29\nCOVERAGE\n  WKSTN-08: endpoint yes, auth yes, cloud_storage no\n  jclark: auth yes, endpoint no",
+            "role": "user"
+          }
+        ],
+        "model": "claude-opus-5",
+        "output_config": {
+          "effort": "medium",
+          "format": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "predicted_entity": {
+                  "description": "The entity that should appear -- an account, host, address, process or file.",
+                  "title": "Predicted Entity",
+                  "type": "string"
+                },
+                "predicted_event_kind": {
+                  "description": "The source_type/event_name kind the record should be, e.g. endpoint/process_create.",
+                  "title": "Predicted Event Kind",
+                  "type": "string"
+                },
+                "predicted_role": {
+                  "description": "The role that entity should hold in the predicted record.",
+                  "enum": [
+                    "actor",
+                    "observed_on",
+                    "origin",
+                    "target"
+                  ],
+                  "title": "Predicted Role",
+                  "type": "string"
+                },
+                "predicted_source_type": {
+                  "description": "Which log source should carry it. Used to tell absence from blindness.",
+                  "title": "Predicted Source Type",
+                  "type": "string"
+                },
+                "premises": {
+                  "description": "Finding ids this hypothesis is premised on.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Premises",
+                  "type": "array"
+                },
+                "rationale": {
+                  "description": "Why the premises imply this record should exist.",
+                  "title": "Rationale",
+                  "type": "string"
+                },
+                "window_end": {
+                  "description": "Latest instant the record could hold, ISO-8601 UTC.",
+                  "title": "Window End",
+                  "type": "string"
+                },
+                "window_start": {
+                  "description": "Earliest instant the record could hold, ISO-8601 UTC.",
+                  "title": "Window Start",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "premises",
+                "predicted_entity",
+                "predicted_role",
+                "predicted_event_kind",
+                "predicted_source_type",
+                "window_start",
+                "window_end",
+                "rationale"
+              ],
+              "title": "Hypothesis",
+              "type": "object"
+            },
+            "type": "json_schema"
+          }
+        },
+        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nGiven the findings so far, predict one record that should exist if they are right, and commit to it before it is looked for.\n\nBe specific enough to be wrong: name the entity, the role it should hold, the kind of event, which source should carry it, and the window it should fall in. A prediction vague enough to always match tests nothing.\n\nNaming the source matters most. It is what lets the search distinguish \"the record is absent\" from \"no source covers this\", and those are different findings.\n",
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "stage": "3 correlate"
+    },
+    "interpret": {
+      "payload_blocks": [
+        {
+          "category": "observation ids and their asserted normalised values",
+          "text": "OBSERVATIONS\n  obs_4c0eef0ad302  process_name  notepad.exe\n  obs_ed61d0eff47c  parent_process  explorer.exe\n  obs_d3e946757ac4  username  jclark"
+        },
+        {
+          "category": "record ids, source types and recorded timestamps",
+          "text": "RECORDS\n  rec_b0dafa002a35  endpoint  2026-06-13T03:04:15.015833Z\n  rec_d8503c08813a  auth  2026-06-12T09:07:30.394151Z"
+        },
+        {
+          "category": "relation names and their endpoint observation ids",
+          "text": "EDGES\n  process_parent(obs_ed61d0eff47c, obs_4c0eef0ad302)\n  same_host(obs_ac0f9f154df0, obs_4c0eef0ad302)"
+        },
+        {
+          "category": "previously accepted finding statements and ids",
+          "text": "ACCEPTED SO FAR\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z."
+        }
+      ],
+      "prompt_hash": "e6fc344a3befa83a50e47302592a3c3a94a3d749cbe5c0056399ee11f53ec4ff",
+      "request_body": {
+        "max_tokens": 2048,
+        "messages": [
+          {
+            "content": "OBSERVATIONS\n  obs_4c0eef0ad302  process_name  notepad.exe\n  obs_ed61d0eff47c  parent_process  explorer.exe\n  obs_d3e946757ac4  username  jclark\nRECORDS\n  rec_b0dafa002a35  endpoint  2026-06-13T03:04:15.015833Z\n  rec_d8503c08813a  auth  2026-06-12T09:07:30.394151Z\nEDGES\n  process_parent(obs_ed61d0eff47c, obs_4c0eef0ad302)\n  same_host(obs_ac0f9f154df0, obs_4c0eef0ad302)\nACCEPTED SO FAR\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z.",
+            "role": "user"
+          }
+        ],
+        "model": "claude-opus-5",
+        "output_config": {
+          "effort": "medium",
+          "format": {
+            "schema": {
+              "$defs": {
+                "CitedEdge": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "from_observation": {
+                      "description": "Observation id of the first endpoint, in the relation's own order.",
+                      "title": "From Observation",
+                      "type": "string"
+                    },
+                    "relation": {
+                      "description": "Which of the ten atomic factual relations holds.",
+                      "enum": [
+                        "same_account",
+                        "same_host",
+                        "same_address",
+                        "same_file",
+                        "same_size",
+                        "process_parent",
+                        "temporal_within",
+                        "flow_endpoint",
+                        "session_bracket",
+                        "address_resolves_to_host"
+                      ],
+                      "title": "Relation",
+                      "type": "string"
+                    },
+                    "to_observation": {
+                      "description": "Observation id of the second endpoint, in the relation's own order.",
+                      "title": "To Observation",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "relation",
+                    "from_observation",
+                    "to_observation"
+                  ],
+                  "title": "CitedEdge",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "cites_edges": {
+                  "description": "Factual edges this finding rests on. May be empty -- a finding can rest on observations alone. Each edge is re-evaluated from its relation function during validation, never looked up in a stored list.",
+                  "items": {
+                    "$ref": "#/$defs/CitedEdge"
+                  },
+                  "title": "Cites Edges",
+                  "type": "array"
+                },
+                "cites_observations": {
+                  "description": "Observation ids this finding rests on. At least one: a finding citing nothing is ungrounded and could not terminate in a raw record.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Cites Observations",
+                  "type": "array"
+                },
+                "rationale": {
+                  "description": "Why these observations and edges support this statement.",
+                  "title": "Rationale",
+                  "type": "string"
+                },
+                "stage": {
+                  "description": "Which intrusion stage this finding belongs to.",
+                  "enum": [
+                    "collection",
+                    "command-and-control",
+                    "credential-access",
+                    "defense-impairment",
+                    "discovery",
+                    "execution",
+                    "exfiltration",
+                    "impact",
+                    "initial-access",
+                    "lateral-movement",
+                    "persistence",
+                    "privilege-escalation",
+                    "reconnaissance",
+                    "resource-development",
+                    "stealth"
+                  ],
+                  "title": "Stage",
+                  "type": "string"
+                },
+                "statement": {
+                  "description": "The interpretation, in one or two sentences. Name only entities, values, identifiers and timestamps that appear in a cited observation: validation check 3 rejects the proposal otherwise, and names the invented identifier.",
+                  "title": "Statement",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "statement",
+                "stage",
+                "cites_observations",
+                "rationale"
+              ],
+              "title": "CandidateFinding",
+              "type": "object"
+            },
+            "type": "json_schema"
+          }
+        },
+        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nYou are given a neighbourhood: some observations, and the factual edges that hold between them. The edges were computed deterministically and are true; your job is to say what they mean, if they mean anything.\n\nCite the specific edges your reading rests on. If the neighbourhood supports no interpretation, say so rather than manufacturing one -- \"nothing here\" is a useful answer and a wrong finding is not.\n\n`temporal_within` reports the interval between two observations rather than thresholding it. Decide in context whether a given gap is meaningful: this intrusion's own related activities are separated by anything from two seconds to an hour and a half.\n",
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "stage": "3 correlate"
+    },
+    "select_technique": {
+      "payload_blocks": [
+        {
+          "category": "one accepted finding statement and its stage",
+          "text": "FINDING\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z."
+        },
+        {
+          "category": "the observations it cites, with their fields and values",
+          "text": "CITED OBSERVATIONS\n  obs_4c0eef0ad302  process_name  notepad.exe\n  obs_ed61d0eff47c  parent_process  explorer.exe"
+        },
+        {
+          "category": "candidate ATT&CK technique ids, names and descriptions from the local catalogue",
+          "text": "CANDIDATE TECHNIQUES\n  T1059.001  PowerShell  [execution]  Adversaries may abuse PowerShell commands and scripts for execution.\n  T1078  Valid Accounts  [stealth, persistence, privilege-escalation, initial-access]  Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion.\n  T1569.002  Service Execution  [execution]  Adversaries may abuse the Windows service control manager to execute malicious commands or payloads."
+        }
+      ],
+      "prompt_hash": "0f8dfe1ee56f498c82708af6232ac8f4d50ba6f161153298ac2114a9a3aaa851",
+      "request_body": {
+        "max_tokens": 2048,
+        "messages": [
+          {
+            "content": "FINDING\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z.\nCITED OBSERVATIONS\n  obs_4c0eef0ad302  process_name  notepad.exe\n  obs_ed61d0eff47c  parent_process  explorer.exe\nCANDIDATE TECHNIQUES\n  T1059.001  PowerShell  [execution]  Adversaries may abuse PowerShell commands and scripts for execution.\n  T1078  Valid Accounts  [stealth, persistence, privilege-escalation, initial-access]  Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion.\n  T1569.002  Service Execution  [execution]  Adversaries may abuse the Windows service control manager to execute malicious commands or payloads.",
+            "role": "user"
+          }
+        ],
+        "model": "claude-opus-5",
+        "output_config": {
+          "effort": "medium",
+          "format": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "cited_observations": {
+                  "description": "Observation ids carrying those values.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Cited Observations",
+                  "type": "array"
+                },
+                "quoted_values": {
+                  "description": "The field values that triggered this choice, quoted exactly as they appear in a cited observation.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Quoted Values",
+                  "type": "array"
+                },
+                "technique_id": {
+                  "description": "ATT&CK technique id. Exactly one of the retrieved candidates.",
+                  "enum": [
+                    "T1059.001",
+                    "T1078",
+                    "T1569.002"
+                  ],
+                  "title": "Technique Id",
+                  "type": "string"
+                },
+                "technique_name": {
+                  "description": "The official ATT&CK name for that id. Checked against the catalogue: the documented failure mode is a plausible name paired with the wrong id, which checking the id alone passes.",
+                  "title": "Technique Name",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "technique_id",
+                "technique_name",
+                "quoted_values",
+                "cited_observations"
+              ],
+              "title": "TechniqueSelection",
+              "type": "object"
+            },
+            "type": "json_schema"
+          }
+        },
+        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nChoose the single ATT&CK technique that best fits the finding, from the candidates supplied. You cannot name a technique outside that set -- the response contract does not admit one.\n\nQuote the field values that drove the choice, exactly as they appear in an observation you cite. Those quotes are checked against the cited record, so an approximate quote fails.\n\nIf no candidate genuinely fits, say so in `quoted_values` by selecting the closest and explaining -- but a poor fit recorded honestly is better than a confident wrong mapping, and the caller can record the finding as unmappable. That is a legitimate outcome, distinct from a rejection.\n",
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "stage": "4 enrich"
+    }
+  },
+  "validator_version": "1"
+}

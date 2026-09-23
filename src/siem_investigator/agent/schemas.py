@@ -4,14 +4,15 @@ Every model here is **strict**: `extra="forbid"` becomes
 `additionalProperties: false` at every object level, and every closed field is a
 `Literal` so a value outside it is unrepresentable rather than merely
 detectable. That ordering is D-08's whole posture -- constrain, then validate --
-and `client.wire_schema` is what makes it survive to the wire, because the SDK's
-own transform drops `enum` (see `client._restore_closed_values`).
+and `wire.wire_schema` is what makes it survive to the wire, because the SDK's
+own transform drops `enum` (see `wire._restore_closed_values`).
 
 **No field anywhere carries a probability, a percentage or a confidence value.**
 R3.4 forbids them, and the way that requirement normally rots is someone adding
 a harmless-looking `confidence: float` two months later. There is no field to
-put one in, `client.schema_defects` scans the emitted schema for the shape of
-one, and a test asserts the scan over all five models.
+put one in, `wire.schema_defects` scans the emitted schema for the shape of one,
+and a test runs that scan over `ALL_CONTRACT_MODELS` -- the nested models
+included, since those reach the wire too and are the easier ones to miss.
 
 Two things are deliberately *not* in these models:
 
@@ -232,6 +233,16 @@ class AnswerClaim(BaseModel):
     observation-only citations support facts, not attributions. Without that,
     stage 6 could assemble an attribution out of raw observations and mint a
     conclusion the validator never saw.
+
+    **`applies_because` is deliberately not called `basis`.** The payload
+    contract in `docs/specs/answer_payload.md` renders `basis` as an object of
+    `name` / `requires` / `applies_because`, and `app/components/citation.py`
+    reads it with `.get`. Only the third of those is the model's to supply: the
+    basis *name* and what it *requires* come from the deterministic basis
+    registry, so a model-supplied `basis` would be an invented one. Giving the
+    field the payload's own name would invite stage 6 to copy it straight
+    through, putting a string where the renderer calls `.get` -- a crash, and
+    before that a fabricated basis.
     """
 
     model_config = _STRICT
@@ -252,11 +263,11 @@ class AnswerClaim(BaseModel):
     cites_mappings: list[str] = Field(
         default_factory=list, description="Technique mapping ids, where the claim names a technique."
     )
-    basis: str | None = Field(
+    applies_because: str | None = Field(
         default=None,
         description=(
-            "For an `absence` claim, the named basis: what it requires and why it applies. "
-            "Absence claims are computed after the graph closes, never during the loop."
+            "For an `absence` claim, why the basis applies to this question. Absence "
+            "claims are computed after the graph closes, never during the loop."
         ),
     )
 
@@ -290,6 +301,19 @@ CONTRACT_MODELS: tuple[type[BaseModel], ...] = (
     CandidateFinding,
     Hypothesis,
     TechniqueSelection,
+    Answer,
+)
+
+#: Every strict model defined here, the nested ones included. `CONTRACT_MODELS`
+#: is what the four sites send; this is what R3.4's scan has to cover, because a
+#: belief field added to a *nested* model reaches the wire just as surely and is
+#: the easier one to miss on review.
+ALL_CONTRACT_MODELS: tuple[type[BaseModel], ...] = (
+    CitedEdge,
+    CandidateFinding,
+    Hypothesis,
+    TechniqueSelection,
+    AnswerClaim,
     Answer,
 )
 

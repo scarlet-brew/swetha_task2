@@ -355,7 +355,7 @@ class NothingFetchesAtRuntime(unittest.TestCase):
 
     #: The one module under `src/` allowed to name a network client: the model
     #: plane's transport. Its egress is inventoried in `docs/egress.md` and
-    #: captured field-by-field by `tests/test_agent_contracts.py`.
+    #: captured field-by-field by `tests/test_egress_inventory.py`.
     EGRESS_BOUNDARY = "src/siem_investigator/agent/client.py"
 
     def test_only_the_model_transport_names_a_network_client(self) -> None:

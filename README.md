@@ -4,9 +4,30 @@ Agentic incident investigation prototype over a synthetic SIEM dataset: multi-so
 correlation, attack timeline reconstruction, MITRE ATT&CK technique mapping, and blast radius
 assessment — with an evidence citation behind every claim.
 
-**Status:** Phase 4 (implement) in progress against `docs/specs/tasks.md`. The dependency set,
-the test runner and the commands below are settled (T01); the build entry point lands at T28 and
-the app at T07.
+**Status:** implemented and running. `python -m siem_investigator.build` reconstructs the
+incident end to end and `streamlit run app/main.py` serves the four analyst surfaces over the
+committed artifacts. 292 tests pass.
+
+## What it produced on the supplied dataset
+
+| | |
+|---|---|
+| Records ingested | 242 (0 lost, 22 `note` annotations stripped at the parse boundary) |
+| Observations | 1,951, every one reproducible from its recorded transform |
+| Factual edges | 1,451 traversed and committed, from 10 atomic relations |
+| Findings accepted | 22 — 13 Corroborated, 9 Single-sourced |
+| Proposals rejected | 2, both for naming an identifier that appears in no cited observation |
+| ATT&CK techniques | 20 mapped against v19.2; `T1068` correctly mapped by nothing |
+| Hypotheses | 20 — 7 found, 3 not found, **10 not covered by any source** |
+| Graph invariants | all five hold |
+| Accuracy vs the labelled set | recall 59% (13/22), precision 34% (13/38) |
+
+It reconstructs the real intrusion: `WINWORD.EXE` → `cmd.exe` → `powershell.exe` on `WKSTN-07`
+under `jdavis`, the C2 channel to `185.220.101.45`, `net.exe` discovery, the port-445 →
+`psexesvc` lateral movement, and the 2,473,829,122-byte archive appearing in both endpoint and
+cloud-storage records. About half the findings are honest but low-value observations about benign
+activity — the cost of anchors that order rather than filter, discussed in
+[docs/writeup/product-thinking.md](docs/writeup/product-thinking.md).
 
 - `CLAUDE.md` — project context, dataset schema, ground rules
 - `docs/assignment/` — the assignment brief
@@ -33,11 +54,21 @@ failure, so build the venv before the demo and leave it alone.
 ### Build — reconstruct the incident from the raw logs
 
 ```
+$env:PYTHONPATH = "src"                              # PowerShell; `export PYTHONPATH=src` in bash
 .venv\Scripts\python.exe -m siem_investigator.build
 ```
 
 The package is not installed (see `pyproject.toml`), so `src` goes on the import path for this
-command — `$env:PYTHONPATH = "src"` in PowerShell, `export PYTHONPATH=src` in bash.
+command.
+
+Add `--no-model` to run the deterministic stages only: ingest, parse, the ten factual relations,
+the graph invariants, the scope and the coverage report all work with no credential. The
+interpretive layer then falls back to a scripted stub and technique attribution is reported as
+**unmapped** rather than omitted.
+
+A full model-backed build takes about 12 minutes and writes 23 artifacts to `data/derived/`.
+That is a run-once step: the app only reads what it produced, so nothing is computed at question
+time that could mint a claim.
 
 ### App — the analyst chat UI over the committed artifacts
 
@@ -71,3 +102,17 @@ export ANTHROPIC_API_KEY=<your key>        # bash
 
 With the variable unset, the deterministic stages still run and the model-backed stages fail with
 a one-line message rather than a traceback.
+
+## The written discussion
+
+- [docs/writeup/trust-and-hallucination.md](docs/writeup/trust-and-hallucination.md) — the
+  generator/kernel split, the three places fabrication is made structurally impossible, and the
+  limits that remain
+- [docs/writeup/agentic-design.md](docs/writeup/agentic-design.md) — the loop, why it is not one
+  large prompt, and where agency is deliberately withheld
+- [docs/writeup/product-thinking.md](docs/writeup/product-thinking.md) — who it is for, why there
+  are no confidence scores, the scope cuts, and what another week would buy
+
+Supporting documents: [docs/egress.md](docs/egress.md) (what leaves the machine, checked rather
+than described), [docs/specs/](docs/specs/) (requirements, design, tasks, answer-payload
+contract), [docs/architecture/](docs/architecture/) (the four diagrams).

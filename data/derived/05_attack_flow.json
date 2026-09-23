@@ -1,0 +1,836 @@
+{
+  "id": "bundle--attack-flow-projection",
+  "objects": [
+    {
+      "attack_version": "19.2",
+      "description": "Projection of the investigation graph. Derived, never authoritative; regenerable from data/derived/03_findings.jsonl.",
+      "id": "attack-flow--00000000-0000-4000-8000-000000000000",
+      "name": "INC-2026-0610-001 reconstruction",
+      "spec_version": "2.1",
+      "start_refs": [],
+      "type": "attack-flow"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_3383d456f220",
+          "edg_64726cc20742",
+          "edg_6c5579b409d5",
+          "edg_89eb08339466",
+          "edg_9639bba19c52",
+          "edg_ad34574ae5ae",
+          "edg_d0f568811570",
+          "edg_d152fae28350"
+        ],
+        "event_ids": [
+          "EVT-0221",
+          "EVT-0222"
+        ],
+        "finding": "fnd_28064fa63b48",
+        "observations": [
+          "obs_0ef69125c19a",
+          "obs_22a1c5ca6d2e",
+          "obs_316089135c54",
+          "obs_60313c3242ef",
+          "obs_61b958fd9c70",
+          "obs_cdb3a5113652",
+          "obs_d3b07ec9588f",
+          "obs_f7510556968d",
+          "obs_f9f99b96c932"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_28064fa63b48",
+      "name": "On wkstn-07, winword.exe spawned cmd.exe (EVT-0221), and two seconds later cmd.exe spawned powershell.exe (pid 5104) und",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1059",
+      "technique_ref": "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_d1ef109f8f81"
+        ],
+        "event_ids": [
+          "EVT-0075",
+          "EVT-0078"
+        ],
+        "finding": "fnd_625e7d1c3522",
+        "observations": [
+          "obs_3c6afcc4c3f0",
+          "obs_d23162adddb1"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_625e7d1c3522",
+      "name": "Two distinct network events, EVT-0075 (obs_d23162adddb1) and EVT-0078 (obs_3c6afcc4c3f0), record flows to the same desti",
+      "spec_version": "2.1",
+      "tactic_id": "command-and-control",
+      "technique_id": "T1090.004",
+      "technique_ref": "attack-pattern--ca9d3402-ada3-484d-876a-d717bd6e05f2",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_e411be7f60db"
+        ],
+        "event_ids": [
+          "EVT-0237",
+          "EVT-0238"
+        ],
+        "finding": "fnd_8cf2799a2fe9",
+        "observations": [
+          "obs_3dfc08d5bf03",
+          "obs_6861e8f4de91"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_8cf2799a2fe9",
+      "name": "An endpoint file event (EVT-0237) and a cloud_storage event (EVT-0238) both record a file_size_bytes of 2473829122, cons",
+      "spec_version": "2.1",
+      "tactic_id": "exfiltration",
+      "technique_id": "T1567.002",
+      "technique_ref": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_02de8a510ea8",
+          "edg_24e759ef19fa"
+        ],
+        "event_ids": [
+          "EVT-0223",
+          "EVT-0224",
+          "EVT-0225"
+        ],
+        "finding": "fnd_c35f33a624af",
+        "observations": [
+          "obs_4714251c0355",
+          "obs_8ca591c0ba53",
+          "obs_a9eb81b4cb9c"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_c35f33a624af",
+      "name": "Three distinct network events, EVT-0223 (obs_8ca591c0ba53), EVT-0224 (obs_a9eb81b4cb9c) and EVT-0225 (obs_4714251c0355),",
+      "spec_version": "2.1",
+      "tactic_id": "command-and-control",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_29886a9ed37d",
+          "edg_361b04b2b9c3",
+          "edg_3fbe51e2bb0f",
+          "edg_4838c3336cfb",
+          "edg_79b68b3df35a",
+          "edg_bf998f6f6f60",
+          "edg_c35b513122c2",
+          "edg_ca32d35a1e82",
+          "edg_e2f15eabfb02"
+        ],
+        "event_ids": [
+          "EVT-0159",
+          "EVT-0237",
+          "EVT-0238"
+        ],
+        "finding": "fnd_900fcbfd7c57",
+        "observations": [
+          "obs_01a53bfb7c1c",
+          "obs_0c05e2be1b53",
+          "obs_38efe08cadfa",
+          "obs_3b4d68632aee",
+          "obs_3dfc08d5bf03",
+          "obs_51db2663b964",
+          "obs_6861e8f4de91",
+          "obs_720dcdfa0265",
+          "obs_be0943a4dbfb",
+          "obs_c14cb7869990"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_900fcbfd7c57",
+      "name": "The 2,473,829,122-byte cloud_storage event EVT-0238 (obs_6861e8f4de91) shares its size with endpoint file event EVT-0237",
+      "spec_version": "2.1",
+      "tactic_id": "exfiltration",
+      "technique_id": "T1567.002",
+      "technique_ref": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_33e3905f2615",
+          "edg_6ad94ac9e89f",
+          "edg_947529abb1b5",
+          "edg_b074d27f9d9f",
+          "edg_b70a2195e75b",
+          "edg_ba961da8d315",
+          "edg_dd82152f6258",
+          "edg_e42bf1e084f1"
+        ],
+        "event_ids": [
+          "EVT-0150",
+          "EVT-0223",
+          "EVT-0224",
+          "EVT-0225"
+        ],
+        "finding": "fnd_1ce658a06f2d",
+        "observations": [
+          "obs_0a405407e13e",
+          "obs_13a8a422418f",
+          "obs_4714251c0355",
+          "obs_82b9197671fd",
+          "obs_8ca591c0ba53",
+          "obs_9181baa33fef",
+          "obs_990ce803097c",
+          "obs_9bd880d666ae",
+          "obs_a9eb81b4cb9c",
+          "obs_d78a86f39070",
+          "obs_feedefba142b"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_1ce658a06f2d",
+      "name": "The nearest endpoint activity in time to the outbound flow EVT-0223 to 185.220.101.45 (obs_8ca591c0ba53) is EVT-0150, 14",
+      "spec_version": "2.1",
+      "tactic_id": "command-and-control",
+      "technique_id": "T1205",
+      "technique_ref": "attack-pattern--451a9977-d255-43c9-b431-66de80130c8c",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_00c80113d038",
+          "edg_524b6248c2c5",
+          "edg_5bd0d03795c3",
+          "edg_6fb9838b888a",
+          "edg_b8f00337397f",
+          "edg_d6e52b1e57b5"
+        ],
+        "event_ids": [
+          "EVT-0223",
+          "EVT-0224",
+          "EVT-0225"
+        ],
+        "finding": "fnd_270b166d0a7d",
+        "observations": [
+          "obs_07db70cbe0c7",
+          "obs_4714251c0355",
+          "obs_4736dae95664",
+          "obs_8ca591c0ba53",
+          "obs_a9eb81b4cb9c",
+          "obs_aeb0730cd5c1",
+          "obs_b791737b5e85",
+          "obs_e2f473d4b9dd",
+          "obs_e902ea8816c8",
+          "obs_ffbd322e2775"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_270b166d0a7d",
+      "name": "Network event EVT-0225, a flow to 185.220.101.45, carries source attribution absent from the anchor: src_host 'wkstn-07'",
+      "spec_version": "2.1",
+      "tactic_id": "command-and-control",
+      "technique_id": "T1071",
+      "technique_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_5567d5b40c6f",
+          "edg_681f246f07b0",
+          "edg_82ba8a5d0c91",
+          "edg_8e767fab4180",
+          "edg_a058257a7fd5",
+          "edg_d0f49218bfde",
+          "edg_d25e6b1748fc",
+          "edg_d9698d266a0a",
+          "edg_e7389fc45ae2"
+        ],
+        "event_ids": [
+          "EVT-0075",
+          "EVT-0078",
+          "EVT-0163"
+        ],
+        "finding": "fnd_745612bd4358",
+        "observations": [
+          "obs_0b00c8d81038",
+          "obs_1d1c3d0b5012",
+          "obs_3c6afcc4c3f0",
+          "obs_59ffb80c3526",
+          "obs_5ae3baed75ec",
+          "obs_a10668d2e8e7",
+          "obs_ceb6b319ab1c",
+          "obs_d23162adddb1",
+          "obs_e5b86b0b7149",
+          "obs_e920f626af47"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_745612bd4358",
+      "name": "The nearest endpoint activity in time to the flow EVT-0075 to 151.101.65.140 (obs_d23162adddb1) is EVT-0163, 1259.720237",
+      "spec_version": "2.1",
+      "tactic_id": "command-and-control",
+      "technique_id": "T1205",
+      "technique_ref": "attack-pattern--451a9977-d255-43c9-b431-66de80130c8c",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_05889b138d89",
+          "edg_38628e577468"
+        ],
+        "event_ids": [
+          "EVT-0187",
+          "EVT-0233"
+        ],
+        "finding": "fnd_6731ea185dd8",
+        "observations": [
+          "obs_0b8c629840a8",
+          "obs_0c0777d0de45",
+          "obs_17c320943d11",
+          "obs_44ba24f843ab",
+          "obs_b10ca951ffa0",
+          "obs_cb87031c57b2"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_6731ea185dd8",
+      "name": "Endpoint event EVT-0233 records cmd.exe (obs_44ba24f843ab) spawned by parent process psexesvc.exe (obs_cb87031c57b2), th",
+      "spec_version": "2.1",
+      "tactic_id": "lateral-movement",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_1a9575355a45",
+          "edg_2489d54a2c46",
+          "edg_47ae60d60996",
+          "edg_4faccbbb06e6",
+          "edg_b837c5de12c8",
+          "edg_b9e3a2e74015",
+          "edg_bf615eb9846e",
+          "edg_ecf2b384fac0"
+        ],
+        "event_ids": [
+          "EVT-0231",
+          "EVT-0232",
+          "EVT-0233"
+        ],
+        "finding": "fnd_ef7349648196",
+        "observations": [
+          "obs_184b3dbaace7",
+          "obs_42ead5b62ef2",
+          "obs_60a53547af4a",
+          "obs_7d30c81f008c",
+          "obs_9c45b5c6189a",
+          "obs_9f81d2d1d113",
+          "obs_dd24d4929cd4",
+          "obs_f552866366ac",
+          "obs_fe4a928be14f"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_ef7349648196",
+      "name": "The single dst_port 445 network event EVT-0231 (obs_dd24d4929cd4) precedes by 31 seconds the installation of service 'ps",
+      "spec_version": "2.1",
+      "tactic_id": "lateral-movement",
+      "technique_id": "T1021.002",
+      "technique_ref": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_08bb5f181bfa"
+        ],
+        "event_ids": [
+          "EVT-0145"
+        ],
+        "finding": "fnd_01d154fca657",
+        "observations": [
+          "obs_090e99f4acce",
+          "obs_f65e594e6488"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_01d154fca657",
+      "name": "Endpoint event EVT-0145 records word.exe (obs_f65e594e6488) created by parent process outlook.exe (obs_090e99f4acce), i.",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1204",
+      "technique_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_34192c5c42f0",
+          "edg_6176b0eed752"
+        ],
+        "event_ids": [
+          "EVT-0009",
+          "EVT-0235"
+        ],
+        "finding": "fnd_98a77ac9b73d",
+        "observations": [
+          "obs_0a1c4d0a7b95",
+          "obs_59f1be1fe4fa",
+          "obs_6cc207186072",
+          "obs_95eadec3eccc",
+          "obs_aa36006864c3",
+          "obs_de67c229d175"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_98a77ac9b73d",
+      "name": "Endpoint event EVT-0235 records a process named cmd.exe (obs_59f1be1fe4fa) whose parent process is itself cmd.exe (obs_0",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1059.003",
+      "technique_ref": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_27ce5076b058",
+          "edg_a7c997cbdd45"
+        ],
+        "event_ids": [
+          "EVT-0209",
+          "EVT-0222"
+        ],
+        "finding": "fnd_b6eade451f6b",
+        "observations": [
+          "obs_0ef69125c19a",
+          "obs_50462666fe77",
+          "obs_c17ec95f8881",
+          "obs_efc3a4318676",
+          "obs_f7510556968d"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_b6eade451f6b",
+      "name": "Endpoint event EVT-0222 records a process named powershell.exe (obs_f7510556968d) whose parent process is cmd.exe (obs_0",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1059",
+      "technique_ref": "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_04292c7e8cfe",
+          "edg_1c4bbef177e4",
+          "edg_6de956daf2e8",
+          "edg_7d9a2e2be31b",
+          "edg_a1f7fa444b25",
+          "edg_a751fdd81281",
+          "edg_d17041e7edec",
+          "edg_ed72b8a1bafe"
+        ],
+        "event_ids": [
+          "EVT-0007",
+          "EVT-0085",
+          "EVT-0103"
+        ],
+        "finding": "fnd_f1eaa8bec5ae",
+        "observations": [
+          "obs_2045376d6e35",
+          "obs_44e2b274e914",
+          "obs_6874728ed1b0",
+          "obs_9c711bb3acff",
+          "obs_b0d35611b03d",
+          "obs_e46250d79b0b",
+          "obs_f098a7c33730",
+          "obs_f3563b936dc1",
+          "obs_fcc3d6e3336f"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_f1eaa8bec5ae",
+      "name": "Network event EVT-0103 (obs_2045376d6e35) records only dst_port 22, an SSH/remote-administration destination port, with ",
+      "spec_version": "2.1",
+      "tactic_id": "lateral-movement",
+      "technique_id": "T1021.004",
+      "technique_ref": "attack-pattern--2db31dcd-54da-405d-acef-b9129b816ed6",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_0a54cc18ca18",
+          "edg_1c1bdef3e56c",
+          "edg_8b0c75bba2a6",
+          "edg_d302aff0dabb",
+          "edg_e4278a641e3e"
+        ],
+        "event_ids": [
+          "EVT-0234",
+          "EVT-0235"
+        ],
+        "finding": "fnd_a03018703879",
+        "observations": [
+          "obs_27f847ad5fdf",
+          "obs_59f1be1fe4fa",
+          "obs_618ee48830b3",
+          "obs_8163e55a7811",
+          "obs_9db3c9019c41",
+          "obs_ee39ef851987",
+          "obs_f01f881129ba",
+          "obs_fefbda991563"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_a03018703879",
+      "name": "Endpoint event EVT-0234 records net.exe (obs_9db3c9019c41) spawned by parent process cmd.exe (obs_27f847ad5fdf) — the bu",
+      "spec_version": "2.1",
+      "tactic_id": "discovery",
+      "technique_id": "T1083",
+      "technique_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_052cc0dbf7e7",
+          "edg_0a6c0dc930ea",
+          "edg_0cf66b01e04b",
+          "edg_4e5ca9e2bc43",
+          "edg_5d3df43e616b",
+          "edg_7330e0988785",
+          "edg_e4293810480f",
+          "edg_f0fd2a342045"
+        ],
+        "event_ids": [
+          "EVT-0110",
+          "EVT-0230"
+        ],
+        "finding": "fnd_c22ee92c8f33",
+        "observations": [
+          "obs_0609d699aad4",
+          "obs_1bfa12e5f29b",
+          "obs_2ac0a28281d4",
+          "obs_3d50340fd98d",
+          "obs_46ca7e384646",
+          "obs_70040b6134b9",
+          "obs_7c58a54a78ef",
+          "obs_d8c377fb6985",
+          "obs_e38985573038"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_c22ee92c8f33",
+      "name": "Endpoint event EVT-0230 records execution of net.exe (obs_2ac0a28281d4), the built-in network/share and account enumerat",
+      "spec_version": "2.1",
+      "tactic_id": "discovery",
+      "technique_id": "T1135",
+      "technique_ref": "attack-pattern--3489cfc5-640f-4bb3-a103-9137b97de79f",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_689d46628ab3",
+          "edg_7149f305fcec",
+          "edg_802d89bbe615",
+          "edg_92bf00357b3c",
+          "edg_a4b16d072a0a",
+          "edg_b306467e65ce",
+          "edg_f7815aa27774",
+          "edg_fe63ba63c0d8"
+        ],
+        "event_ids": [
+          "EVT-0027",
+          "EVT-0083",
+          "EVT-0165"
+        ],
+        "finding": "fnd_299857d08455",
+        "observations": [
+          "obs_0da7ac4d5992",
+          "obs_2b442d0d0510",
+          "obs_82e8cab8c6b2",
+          "obs_cae9e8a841bd",
+          "obs_d0408bec4eee",
+          "obs_e314aabb886d",
+          "obs_e6fcadccd2dc",
+          "obs_ec15f21bf38e",
+          "obs_fbbebd022416"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_299857d08455",
+      "name": "Network event EVT-0083 (obs_2b442d0d0510) records only dst_port 22, an SSH/remote-administration destination port, with ",
+      "spec_version": "2.1",
+      "tactic_id": "lateral-movement",
+      "technique_id": "T1563.001",
+      "technique_ref": "attack-pattern--4d2a5b3e-340d-4600-9123-309dd63c9bf8",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_3112cf3a07d3",
+          "edg_514202816726",
+          "edg_6e376656278a",
+          "edg_8c073397f723",
+          "edg_90de7878d376",
+          "edg_a8998cb4bd6a",
+          "edg_ccfd218e56ae",
+          "edg_cffd0de7fe0f"
+        ],
+        "event_ids": [
+          "EVT-0088",
+          "EVT-0183"
+        ],
+        "finding": "fnd_e53fdea6ce54",
+        "observations": [
+          "obs_090e41ee0071",
+          "obs_2d12359c2a2c",
+          "obs_6636443d705c",
+          "obs_6710881279d5",
+          "obs_6c30291b25b2",
+          "obs_b69f45005968",
+          "obs_b6a5f467a5e3",
+          "obs_dd6e9ff8795a",
+          "obs_f8e91901d0a5"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_e53fdea6ce54",
+      "name": "Endpoint event EVT-0183 records a process named outlook.exe (obs_2d12359c2a2c); the cited observations carry no hostname",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1203",
+      "technique_ref": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_158b41b10755",
+          "edg_3e9f6a8df515",
+          "edg_46506f5e26e8",
+          "edg_65d76ada6da8",
+          "edg_688f7b8c3a9e",
+          "edg_7c9db53e02b5",
+          "edg_9f430cfc2c31",
+          "edg_a93ab738fb27"
+        ],
+        "event_ids": [
+          "EVT-0057",
+          "EVT-0069",
+          "EVT-0211"
+        ],
+        "finding": "fnd_53c3e1920796",
+        "observations": [
+          "obs_31001fdc5a47",
+          "obs_5be0c2ae26d1",
+          "obs_801152812f67",
+          "obs_9e579e1c1c90",
+          "obs_a9f265d709fe",
+          "obs_bc1123ec3d33",
+          "obs_d4a141bf01f8",
+          "obs_e51fbf26ac45",
+          "obs_f3c4ea75ffdc"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_53c3e1920796",
+      "name": "Network event EVT-0069 (obs_31001fdc5a47) records only dst_port 22, an SSH/remote-administration destination port, with ",
+      "spec_version": "2.1",
+      "tactic_id": "lateral-movement",
+      "technique_id": "T1563",
+      "technique_ref": "attack-pattern--5b0ad6f8-6a16-4966-a4ef-d09ea6e2a9f5",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_05234d4445d2",
+          "edg_d1a5f6c56b9c"
+        ],
+        "event_ids": [
+          "EVT-0156",
+          "EVT-0182"
+        ],
+        "finding": "fnd_1432ab8c9ddc",
+        "observations": [
+          "obs_1bf15406231c",
+          "obs_227453b1b214",
+          "obs_2cf9df93d8e8",
+          "obs_3bb081b1587a",
+          "obs_42f939d6e319",
+          "obs_472a48f157c7",
+          "obs_590779099318",
+          "obs_a4c1323b93cc",
+          "obs_a6d72005dae7",
+          "obs_c1a41ff9c155"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_1432ab8c9ddc",
+      "name": "Endpoint event EVT-0182 records a process named word.exe (obs_227453b1b214) whose parent process is outlook.exe (obs_3bb",
+      "spec_version": "2.1",
+      "tactic_id": "initial-access",
+      "technique_id": "T1566.001",
+      "technique_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_141bb8faa5df",
+          "edg_2546450724a7",
+          "edg_3c0f081d64f0",
+          "edg_3c315c8b9287",
+          "edg_80f188bbdfd2",
+          "edg_82d07de47352",
+          "edg_ad3b7068352a",
+          "edg_d1b40fff4d01"
+        ],
+        "event_ids": [
+          "EVT-0187",
+          "EVT-0233"
+        ],
+        "finding": "fnd_1cfbb89f3ea3",
+        "observations": [
+          "obs_0b8c629840a8",
+          "obs_0c0777d0de45",
+          "obs_17c320943d11",
+          "obs_44ba24f843ab",
+          "obs_4bc6676c461d",
+          "obs_50895533f5de",
+          "obs_a6023415d341",
+          "obs_b10ca951ffa0",
+          "obs_bcb38cbba3e0"
+        ],
+        "support": {
+          "flags": [],
+          "label": "single_sourced"
+        }
+      },
+      "id": "attack-action--fnd_1cfbb89f3ea3",
+      "name": "Endpoint event EVT-0233 records a process named cmd.exe (obs_44ba24f843ab), a command shell. The cited EVT-0233 observat",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1059.003",
+      "technique_ref": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62",
+      "type": "attack-action"
+    },
+    {
+      "evidence_refs": {
+        "edges": [
+          "edg_1a0310c3117d",
+          "edg_21803c4d4093",
+          "edg_24d97e77cab8",
+          "edg_48f82bff1d28",
+          "edg_59e2f3ed2673",
+          "edg_8aba9cac7fd3",
+          "edg_b574091a0fe5",
+          "edg_f2206ee38de6"
+        ],
+        "event_ids": [
+          "EVT-0116",
+          "EVT-0172"
+        ],
+        "finding": "fnd_d1731f8ce5fa",
+        "observations": [
+          "obs_0e505c680707",
+          "obs_267b7ea44e08",
+          "obs_4a99959f6c04",
+          "obs_9cbe51be9d85",
+          "obs_a456b8f58f20",
+          "obs_a59459abe429",
+          "obs_bc44cca9c9a6",
+          "obs_c1e59e587d9a",
+          "obs_d404050eb869"
+        ],
+        "support": {
+          "flags": [],
+          "label": "corroborated"
+        }
+      },
+      "id": "attack-action--fnd_d1731f8ce5fa",
+      "name": "Endpoint event EVT-0172 records a process named excel.exe (obs_4a99959f6c04), a spreadsheet application often abused for",
+      "spec_version": "2.1",
+      "tactic_id": "execution",
+      "technique_id": "T1059",
+      "technique_ref": "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
+      "type": "attack-action"
+    }
+  ],
+  "type": "bundle"
+}

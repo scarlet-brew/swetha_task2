@@ -16,13 +16,15 @@ module supplies:
 * `VALIDATOR_VERSION` -- bumped when the meaning of accept/reject changes, and
   stamped onto every artifact.
 
-Three sites, matching design SS7 and `docs/egress.md` row for row. There are
-exactly three, and a test asserts that: a fourth appearing without a
-documented egress category is the failure the inventory exists to catch.
+Four contracts across design SS7's three model *stages*, matching
+`docs/egress.md` row for row -- INTERPRET and HYPOTHESISE are two contracts at
+one stage. A test asserts both numbers: a fourth *stage*, or a category declared
+here and not documented there, is the failure the inventory exists to catch.
 """
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any
 
@@ -35,8 +37,8 @@ from . import client, schemas
 #: every verdict identical, because then a recorded verdict is still replayable.
 VALIDATOR_VERSION = "1"
 
-#: One line, stated once, shared by all three sites. Site prompts add to it;
-#: none of them contradicts it.
+#: Stated once, shared by all four contracts. Site prompts add to it; none of
+#: them contradicts it.
 COMMON_SYSTEM = """\
 You are an evidence-bound assistant reconstructing a cyber intrusion from \
 already-parsed log observations.
@@ -206,6 +208,61 @@ SITES_BY_NAME: dict[str, Site] = {site.name: site for site in SITES}
 
 #: The stages a model appears in. Exactly three, and a test asserts it.
 MODEL_STAGES: tuple[str, ...] = tuple(dict.fromkeys(site.stage for site in SITES))
+
+#: What `render_payload` joins blocks with. Named rather than inlined because
+#: the egress check reassembles a payload from its labelled blocks to compare
+#: against what was captured, and the two have to agree by construction rather
+#: than by both happening to say "newline".
+BLOCK_SEPARATOR = "\n"
+
+
+class UndeclaredEgress(ValueError):
+    """A payload block claimed a category the site does not declare.
+
+    Raised rather than logged. NFR-04 says the system sends nothing beyond what
+    it documents, and the only way to keep that true as the prompt builders
+    arrive is for undocumented material to be unable to reach a prompt at all.
+    """
+
+
+@dataclass(frozen=True)
+class PayloadBlock:
+    """One labelled piece of a user payload: what it is, and its text.
+
+    The label is the load-bearing half. NFR-04's second half -- that the
+    inventory is *true* -- is only checkable if each piece of a prompt says
+    which documented category it instantiates, so the check is a lookup rather
+    than someone reading a prompt and judging.
+    """
+
+    category: str
+    text: str
+
+
+def render_payload(site: Site, blocks: Sequence[PayloadBlock]) -> str:
+    """Assemble a user payload from labelled blocks, refusing an undeclared one.
+
+    **Every prompt builder goes through here** -- the stage-3 loop, the stage-4
+    mapper, the stage-6 answerer. That is what extends the egress check from the
+    committed fixture to the real prompts: a builder that wants to send
+    something new has to declare a category, which fails here until
+    `docs/egress.md` names it and the site declares it.
+
+    The alternative -- f-strings at three call sites and a document describing
+    them -- is exactly the arrangement where the document drifts and nothing
+    notices.
+    """
+    if not blocks:
+        raise ValueError(f"{site.name}: an empty payload asks the model to reason over nothing")
+    for block in blocks:
+        if block.category not in site.egress_categories:
+            raise UndeclaredEgress(
+                f"{site.name}: category {block.category!r} is not declared for this site; "
+                f"document it in docs/egress.md and add it to the site's egress_categories. "
+                f"Declared: {list(site.egress_categories)}"
+            )
+    return BLOCK_SEPARATOR.join(block.text for block in blocks)
+
 
 
 def contract_set() -> dict[str, Any]:

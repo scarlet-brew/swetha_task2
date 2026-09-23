@@ -1,0 +1,44 @@
+{
+  "graph_invariants": {
+    "by_layer": {
+      "edge": 1451,
+      "finding": 22,
+      "hypothesis": 20,
+      "mapping": 20,
+      "observation": 1951,
+      "record": 242
+    },
+    "citations": 5267,
+    "invariant_1_layer_order": {
+      "holds": true,
+      "violations": []
+    },
+    "invariant_2_termination": {
+      "failures": [],
+      "holds": true
+    },
+    "invariant_3_acyclicity": {
+      "cycle_path": null,
+      "holds": true
+    },
+    "nodes": 3706
+  },
+  "projections": {
+    "attack_flow_objects": 23,
+    "entities_in_scope": 53,
+    "gaps": {
+      "hosts_with_partial_coverage": 12,
+      "structural": 3,
+      "unconfirmed_or_uncoverable_hypotheses": 13
+    },
+    "navigator_techniques": 15,
+    "timeline_steps": 22
+  },
+  "verification": {
+    "absence_claims_computed_after_close": true,
+    "every_timeline_step_traces_to_the_graph": true,
+    "invariant_1_layer_order": true,
+    "invariant_2_termination": true,
+    "invariant_3_acyclicity": true
+  }
+}

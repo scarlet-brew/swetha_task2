@@ -1,0 +1,181 @@
+{
+  "exploit_based_escalation": {
+    "_why": "Integrity rises through stolen credentials and service execution, both of which are evidenced. No record shows exploitation of a vulnerability, and inferring one from rising integrity would close a gap with inference. T1068 is present in the catalogue and is deliberately absent from every mapping.",
+    "evidenced": false,
+    "techniques_deliberately_not_mapped": [
+      "T1068"
+    ]
+  },
+  "mechanisms_evidenced": [],
+  "per_host": [
+    {
+      "highest": "high",
+      "host": "auth-srv-01",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0229",
+          "level": "high",
+          "observation": "obs_e65bf2594f3d",
+          "rank": 2,
+          "recorded_time": "2026-06-10T11:23:08Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "system",
+      "host": "file-srv-02",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0233",
+          "level": "system",
+          "observation": "obs_40c9cd6ae02b",
+          "rank": 3,
+          "recorded_time": "2026-06-10T13:12:07Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-01",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0180",
+          "level": "medium",
+          "observation": "obs_c4464ef3d58d",
+          "rank": 1,
+          "recorded_time": "2026-06-10T12:06:58.828725Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-02",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0187",
+          "level": "medium",
+          "observation": "obs_50895533f5de",
+          "rank": 1,
+          "recorded_time": "2026-06-10T13:40:10.848419Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-03",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0168",
+          "level": "medium",
+          "observation": "obs_5349c84f49e0",
+          "rank": 1,
+          "recorded_time": "2026-06-10T14:01:45.325234Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-04",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0166",
+          "level": "medium",
+          "observation": "obs_e4f460d586af",
+          "rank": 1,
+          "recorded_time": "2026-06-11T14:30:37.545256Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-05",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0150",
+          "level": "medium",
+          "observation": "obs_990ce803097c",
+          "rank": 1,
+          "recorded_time": "2026-06-10T09:05:40.279231Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-06",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0167",
+          "level": "medium",
+          "observation": "obs_3409fa2cae30",
+          "rank": 1,
+          "recorded_time": "2026-06-11T00:49:30.104519Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-07",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0221",
+          "level": "medium",
+          "observation": "obs_2ffe65dccba5",
+          "rank": 1,
+          "recorded_time": "2026-06-10T08:12:33Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-08",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0152",
+          "level": "medium",
+          "observation": "obs_d835f01234cb",
+          "rank": 1,
+          "recorded_time": "2026-06-10T10:57:37.982291Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-09",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0184",
+          "level": "medium",
+          "observation": "obs_326b3f738097",
+          "rank": 1,
+          "recorded_time": "2026-06-10T19:35:47.005698Z"
+        }
+      ],
+      "rises": []
+    },
+    {
+      "highest": "medium",
+      "host": "wkstn-10",
+      "levels_observed": [
+        {
+          "event_id": "EVT-0174",
+          "level": "medium",
+          "observation": "obs_f6574e040313",
+          "rank": 1,
+          "recorded_time": "2026-06-11T01:41:07.455907Z"
+        }
+      ],
+      "rises": []
+    }
+  ],
+  "t1068_absent_from_mappings": true
+}

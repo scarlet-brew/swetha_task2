@@ -78,11 +78,30 @@ class TheCensusMatchesTheDataset(unittest.TestCase):
         self.assertEqual(sum(self.census["event_kinds"]["counts"].values()), 242)
 
     def test_forty_keys_including_the_two_claude_md_omits(self):
+        """The whole inventory rebuilt here, not just its headline number.
+
+        It is the census's largest block and the one CLAUDE.md's field table gets
+        wrong, so agreeing with the generator proves too little: the map is
+        recounted from the raw events and compared entry by entry. `service_path`
+        and `target_pid` are the two keys that table omits, and each occurs
+        exactly once -- a lone occurrence is precisely what a hand-written table
+        loses.
+        """
         inventory = self.census["key_inventory"]
+        measured = Counter()
+        for event in self.events:
+            measured.update(event.keys())
+
         self.assertEqual(inventory["distinct_keys"], 40)
+        self.assertEqual(len(measured), 40)
+        self.assertEqual(inventory["present"], dict(sorted(measured.items())))
+        self.assertEqual(
+            inventory["absent"],
+            {key: len(self.events) - n for key, n in sorted(measured.items())},
+        )
         for key in ("service_path", "target_pid"):
             with self.subTest(key=key):
-                self.assertIn(key, inventory["present"])
+                self.assertEqual(measured[key], 1)
                 self.assertEqual(inventory["present"][key], 1)
 
     def test_network_connection_has_three_shapes(self):
@@ -152,17 +171,36 @@ class GroundTruthIsLabelledAndQuarantined(unittest.TestCase):
         self.assertEqual(whole_second, labelled, "the precision leak does not select exactly this set")
         self.assertEqual(last_22, labelled, "the id-ordering leak does not select exactly this set")
 
-    def test_no_module_under_src_or_app_reads_it(self):
-        """T08's standing verification, and it has to keep holding at every later
-        task. `--untracked` so a new uncommitted module cannot pass vacuously."""
-        result = subprocess.run(
-            ["git", "grep", "-n", "--untracked", "ground_truth", "--", "src/", "app/"],
+    @staticmethod
+    def _quarantine_grep(token: str) -> subprocess.CompletedProcess:
+        """One invocation shape for both the quarantine check and its control, so
+        the control cannot drift into exercising a different command."""
+        return subprocess.run(
+            ["git", "grep", "-n", "--untracked", token, "--", "src/", "app/"],
             cwd=_env.REPO_ROOT,
             capture_output=True,
             text=True,
         )
+
+    def test_no_module_under_src_or_app_reads_it(self):
+        """T08's standing verification, and it has to keep holding at every later
+        task. `--untracked` so a new uncommitted module cannot pass vacuously."""
+        result = self._quarantine_grep("ground_truth")
         self.assertNotEqual(result.returncode, 0, f"ground_truth is reachable from the system:\n{result.stdout}")
         self.assertEqual(result.stdout.strip(), "")
+
+    def test_the_quarantine_grep_is_actually_searching_files(self):
+        """The check above is worth exactly as much as its pathspec, and no more.
+
+        Measured: `git grep` exits 1 both for "searched real files, found nothing"
+        and for "searched nothing at all" -- against a renamed or emptied `src/`
+        it reports success while proving nothing, at precisely the later tasks the
+        guarantee is meant to cover. A token that is certainly there shows the
+        search reached files.
+        """
+        control = self._quarantine_grep("siem_investigator")
+        self.assertEqual(control.returncode, 0, "the src/ app/ pathspec matched no files at all")
+        self.assertTrue(control.stdout.strip())
 
 
 class RelationExpectationsPinTheCentralClaim(unittest.TestCase):

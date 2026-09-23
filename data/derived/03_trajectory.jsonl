@@ -1,0 +1,47 @@
+{"action": "interpret", "id": "obs_000000000000", "observation": "obs_60313c3242ef", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 1942, "truncated": true}}, "step": 1}
+{"action": "seek", "hypothesis": "hyp_e26b1bd35d33", "id": "obs_000000000001", "outcome": "not_covered", "step": 1}
+{"action": "interpret", "id": "obs_000000000002", "observation": "obs_719ee3e6a187", "outcome": "nothing_here", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 1765, "truncated": true}}, "step": 2}
+{"action": "interpret", "id": "obs_000000000003", "observation": "obs_5a12d557737a", "outcome": "nothing_here", "relations_offered": {"temporal_within": {"total": 1194, "truncated": true}}, "step": 3}
+{"action": "interpret", "id": "obs_000000000004", "observation": "obs_659763134c37", "outcome": "nothing_here", "relations_offered": {"temporal_within": {"total": 521, "truncated": true}}, "step": 4}
+{"action": "interpret", "id": "obs_000000000005", "observation": "obs_3c6afcc4c3f0", "outcome": "accepted", "relations_offered": {"same_address": {"total": 1, "truncated": false}}, "step": 5}
+{"action": "seek", "hypothesis": "hyp_71197a4750cc", "id": "obs_000000000006", "outcome": "not_found", "step": 5}
+{"action": "interpret", "id": "obs_000000000007", "observation": "obs_3dfc08d5bf03", "outcome": "accepted", "relations_offered": {"same_size": {"total": 1, "truncated": false}, "temporal_within": {"total": 1612, "truncated": true}}, "step": 6}
+{"action": "seek", "hypothesis": "hyp_c0ec9aa78529", "id": "obs_000000000008", "outcome": "not_covered", "step": 6}
+{"action": "interpret", "id": "obs_000000000009", "observation": "obs_4714251c0355", "outcome": "accepted", "relations_offered": {"same_address": {"total": 2, "truncated": false}, "temporal_within": {"total": 1878, "truncated": true}}, "step": 7}
+{"action": "seek", "hypothesis": "hyp_fc502c7eef5c", "id": "obs_000000000010", "outcome": "found", "step": 7}
+{"action": "interpret", "id": "obs_000000000011", "observation": "obs_6861e8f4de91", "outcome": "accepted", "relations_offered": {"same_size": {"total": 1, "truncated": false}, "temporal_within": {"total": 1593, "truncated": true}}, "step": 8}
+{"action": "seek", "hypothesis": "hyp_88ad093c33b0", "id": "obs_000000000012", "outcome": "found", "step": 8}
+{"action": "interpret", "id": "obs_000000000013", "observation": "obs_8ca591c0ba53", "outcome": "accepted", "relations_offered": {"same_address": {"total": 2, "truncated": false}, "temporal_within": {"total": 1906, "truncated": true}}, "step": 9}
+{"action": "seek", "hypothesis": "hyp_144ff8276ee8", "id": "obs_000000000014", "outcome": "not_covered", "step": 9}
+{"action": "interpret", "id": "obs_000000000015", "observation": "obs_a9eb81b4cb9c", "outcome": "accepted", "relations_offered": {"same_address": {"total": 2, "truncated": false}, "temporal_within": {"total": 1888, "truncated": true}}, "step": 10}
+{"action": "seek", "hypothesis": "hyp_f427570a3811", "id": "obs_000000000016", "outcome": "not_covered", "step": 10}
+{"action": "interpret", "id": "obs_000000000017", "observation": "obs_d23162adddb1", "outcome": "accepted", "relations_offered": {"same_address": {"total": 1, "truncated": false}, "temporal_within": {"total": 817, "truncated": true}}, "step": 11}
+{"action": "seek", "hypothesis": "hyp_9bdf9750f8be", "id": "obs_000000000018", "outcome": "not_found", "step": 11}
+{"action": "interpret", "id": "obs_000000000019", "observation": "obs_cb87031c57b2", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 1708, "truncated": true}}, "step": 12}
+{"action": "seek", "hypothesis": "hyp_599f21d4637c", "id": "obs_000000000020", "outcome": "not_found", "step": 12}
+{"action": "interpret", "id": "obs_000000000021", "observation": "obs_dd24d4929cd4", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 1722, "truncated": true}}, "step": 13}
+{"action": "seek", "hypothesis": "hyp_270636592f2f", "id": "obs_000000000022", "outcome": "not_covered", "step": 13}
+{"action": "interpret", "id": "obs_000000000023", "observation": "obs_090e99f4acce", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 751, "truncated": true}}, "step": 14}
+{"action": "seek", "hypothesis": "hyp_8ad9380dadb2", "id": "obs_000000000024", "outcome": "not_covered", "step": 14}
+{"action": "interpret", "id": "obs_000000000025", "observation": "obs_0a1c4d0a7b95", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 1674, "truncated": true}}, "step": 15}
+{"action": "interpret", "id": "obs_000000000026", "observation": "obs_0ef69125c19a", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 1933, "truncated": true}}, "step": 16}
+{"action": "seek", "hypothesis": "hyp_feb98ffcaebe", "id": "obs_000000000027", "outcome": "not_covered", "step": 16}
+{"action": "interpret", "id": "obs_000000000028", "observation": "obs_2045376d6e35", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 25, "truncated": true}}, "step": 17}
+{"action": "seek", "hypothesis": "hyp_1adb2aebfb2e", "id": "obs_000000000029", "outcome": "not_covered", "step": 17}
+{"action": "interpret", "id": "obs_000000000030", "observation": "obs_27f847ad5fdf", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 1683, "truncated": true}}, "step": 18}
+{"action": "seek", "hypothesis": "hyp_742d4c394dad", "id": "obs_000000000031", "outcome": "found", "step": 18}
+{"action": "interpret", "id": "obs_000000000032", "observation": "obs_2ac0a28281d4", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 1782, "truncated": true}}, "step": 19}
+{"action": "seek", "hypothesis": "hyp_4af723cfa4ad", "id": "obs_000000000033", "outcome": "not_covered", "step": 19}
+{"action": "interpret", "id": "obs_000000000034", "observation": "obs_2b442d0d0510", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 457, "truncated": true}}, "step": 20}
+{"action": "seek", "hypothesis": "hyp_dc6fe493a749", "id": "obs_000000000035", "outcome": "not_covered", "step": 20}
+{"action": "interpret", "id": "obs_000000000036", "observation": "obs_2d12359c2a2c", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 1577, "truncated": true}}, "step": 21}
+{"action": "seek", "hypothesis": "hyp_62b0d130ca9a", "id": "obs_000000000037", "outcome": "found", "step": 21}
+{"action": "interpret", "id": "obs_000000000038", "observation": "obs_31001fdc5a47", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 144, "truncated": true}}, "step": 22}
+{"action": "interpret", "id": "obs_000000000039", "observation": "obs_3bb081b1587a", "outcome": "accepted", "relations_offered": {"process_parent": {"total": 1, "truncated": false}, "temporal_within": {"total": 834, "truncated": true}}, "step": 23}
+{"action": "seek", "hypothesis": "hyp_5c0ab28d2ae2", "id": "obs_000000000040", "outcome": "found", "step": 23}
+{"action": "interpret", "id": "obs_000000000041", "observation": "obs_44ba24f843ab", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 1708, "truncated": true}}, "step": 24}
+{"action": "seek", "hypothesis": "hyp_be6dcb50520d", "id": "obs_000000000042", "outcome": "found", "step": 24}
+{"action": "interpret", "id": "obs_000000000043", "observation": "obs_472a48f157c7", "outcome": "nothing_here", "relations_offered": {"temporal_within": {"total": 826, "truncated": true}}, "step": 25}
+{"action": "interpret", "id": "obs_000000000044", "observation": "obs_4a99959f6c04", "outcome": "accepted", "relations_offered": {"temporal_within": {"total": 263, "truncated": true}}, "step": 26}
+{"action": "seek", "hypothesis": "hyp_6c75f19d8e28", "id": "obs_000000000045", "outcome": "found", "step": 26}
+{"action": "terminate", "id": "obs_000000000046", "reason": "step budget 26 exhausted", "step": 26}

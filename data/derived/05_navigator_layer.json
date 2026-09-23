@@ -1,0 +1,95 @@
+{
+  "description": "Techniques mapped from accepted findings. Derived projection.",
+  "domain": "enterprise-attack",
+  "gradient": {
+    "colors": [
+      "#F0E6D2",
+      "#453D34"
+    ],
+    "maxValue": 3,
+    "minValue": 0
+  },
+  "name": "INC-2026-0610-001",
+  "techniques": [
+    {
+      "comment": "SMB/Windows Admin Shares",
+      "score": 1,
+      "techniqueID": "T1021.002"
+    },
+    {
+      "comment": "SSH",
+      "score": 1,
+      "techniqueID": "T1021.004"
+    },
+    {
+      "comment": "Command and Scripting Interpreter",
+      "score": 3,
+      "techniqueID": "T1059"
+    },
+    {
+      "comment": "Windows Command Shell",
+      "score": 2,
+      "techniqueID": "T1059.003"
+    },
+    {
+      "comment": "Application Layer Protocol",
+      "score": 1,
+      "techniqueID": "T1071"
+    },
+    {
+      "comment": "File and Directory Discovery",
+      "score": 1,
+      "techniqueID": "T1083"
+    },
+    {
+      "comment": "Domain Fronting",
+      "score": 1,
+      "techniqueID": "T1090.004"
+    },
+    {
+      "comment": "Network Share Discovery",
+      "score": 1,
+      "techniqueID": "T1135"
+    },
+    {
+      "comment": "Exploitation for Client Execution",
+      "score": 1,
+      "techniqueID": "T1203"
+    },
+    {
+      "comment": "User Execution",
+      "score": 1,
+      "techniqueID": "T1204"
+    },
+    {
+      "comment": "Traffic Signaling",
+      "score": 2,
+      "techniqueID": "T1205"
+    },
+    {
+      "comment": "Remote Service Session Hijacking",
+      "score": 1,
+      "techniqueID": "T1563"
+    },
+    {
+      "comment": "SSH Hijacking",
+      "score": 1,
+      "techniqueID": "T1563.001"
+    },
+    {
+      "comment": "Spearphishing Attachment",
+      "score": 1,
+      "techniqueID": "T1566.001"
+    },
+    {
+      "comment": "Exfiltration to Cloud Storage",
+      "score": 2,
+      "techniqueID": "T1567.002"
+    }
+  ],
+  "versions": {
+    "attack": "19.2",
+    "layer": "4.5",
+    "navigator": "5.1.0"
+  }
+}

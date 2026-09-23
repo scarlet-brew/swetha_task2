@@ -3,7 +3,7 @@
 Every call from every one of design SS7's three model sites goes through
 `call`. That is what makes `docs/egress.md` a checkable inventory rather than a
 description: there is a single function to capture, and
-`tests/test_agent_contracts.py` captures the real serialised body for each site
+`tests/test_egress_inventory.py` captures the real serialised body for each site
 and asserts nothing outside the inventory leaves the process.
 
 The schema a contract is sent as is built in `wire.py`, which exists to work
@@ -19,7 +19,6 @@ asserts that no *other* module under `src/` reaches the network.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 from dataclasses import dataclass
@@ -29,7 +28,7 @@ import anthropic
 import httpx
 from pydantic import BaseModel
 
-from .. import __version__
+from .. import __version__, ids
 from .wire import schema_defects, wire_schema
 
 #: Design SS10.1's model. Opus 5, with adaptive thinking.
@@ -48,6 +47,7 @@ CREDENTIAL_VARIABLE = "ANTHROPIC_API_KEY"
 
 ModelT = TypeVar("ModelT", bound=BaseModel)
 
+
 def prompt_hash(system: str, user: str) -> str:
     """A stable digest of one prompt pair.
 
@@ -55,9 +55,13 @@ def prompt_hash(system: str, user: str) -> str:
     *given the committed trajectory, the contract-set hash and the validator
     version*, and this is how the trajectory records which prompt produced a
     proposal. Stable across processes -- it hashes bytes, not object identity.
+
+    Through `ids.content_digest`, so the system has exactly one canonical form
+    (SS8.2) and one hash discipline. A second, locally reasonable `json.dumps`
+    here would be a second answer to "what is this the hash of", and the
+    contract-set hash already uses the first.
     """
-    payload = json.dumps({"system": system, "user": user}, sort_keys=True, ensure_ascii=False)
-    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+    return ids.content_digest({"system": system, "user": user})
 
 
 @dataclass(frozen=True)
