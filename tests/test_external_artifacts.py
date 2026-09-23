@@ -353,14 +353,55 @@ class NothingFetchesAtRuntime(unittest.TestCase):
                 )
                 self.assertEqual(result.stdout.strip(), f"{relative}: text: unset")
 
-    def test_no_source_file_names_a_network_client(self) -> None:
+    #: The one module under `src/` allowed to name a network client: the model
+    #: plane's transport. Its egress is inventoried in `docs/egress.md` and
+    #: captured field-by-field by `tests/test_agent_contracts.py`.
+    EGRESS_BOUNDARY = "src/siem_investigator/agent/client.py"
+
+    def test_only_the_model_transport_names_a_network_client(self) -> None:
+        """D-03's rule, stated precisely now that the model plane exists.
+
+        The rule was originally "nothing under `src/` names a network client",
+        which was true only because `agent/` was empty. It would now fail on the
+        model transport, which is *supposed* to reach the service -- so asserting
+        it would either be wrong or would push the transport somewhere less
+        visible.
+
+        The real invariant is narrower and stronger: egress happens at exactly
+        one place, so there is exactly one function to capture in order to check
+        the inventory. A second module reaching the network is what this catches,
+        and that is the failure that would make `docs/egress.md` untrue.
+        """
         sources = sorted(SRC_DIR.rglob("*.py"))
         self.assertTrue(sources, "src/ has no Python files; the scan is vacuous")
-        for source in sources:
+
+        offenders = [
+            source.relative_to(REPO_ROOT).as_posix()
+            for source in sources
+            if NETWORK_TOKENS_RE.search(source.read_text(encoding="utf-8"))
+        ]
+        self.assertEqual(
+            offenders,
+            [self.EGRESS_BOUNDARY],
+            "egress must happen at exactly one place under src/",
+        )
+
+    def test_nothing_under_src_fetches_an_external_artifact(self) -> None:
+        """The half of D-03 that is still an absolute ban.
+
+        The model transport may talk to the model service. Nothing may fetch the
+        ATT&CK catalogue, the Attack Flow schema or any other external artifact
+        at runtime -- that is what retaining them locally is *for*, and it is why
+        `scripts/fetch_external.py` lives outside the package.
+        """
+        forbidden = re.compile(
+            r"githubusercontent|attack-stix-data|cti-stix2-json-schemas|taxii|urlretrieve"
+        )
+        for source in sorted(SRC_DIR.rglob("*.py")):
             with self.subTest(path=source.relative_to(REPO_ROOT).as_posix()):
                 self.assertIsNone(
-                    NETWORK_TOKENS_RE.search(source.read_text(encoding="utf-8")),
-                    "src/ reaches the network; design D-03 forbids it",
+                    forbidden.search(source.read_text(encoding="utf-8")),
+                    "src/ fetches an external artifact; D-03 retains them locally",
                 )
 
 

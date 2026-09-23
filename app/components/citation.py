@@ -19,10 +19,10 @@ expander.
 Measured at T07 on streamlit 1.64.0, and recorded because it changes what the
 check means: 1.64 raises *no* exception for nested expanders; the backend guard
 is gone. The sibling layout is therefore no longer forced by the engine on this
-version. It is kept anyway, and `tests/test_ui_render.py` asserts the
-structural property (no expander has an expander ancestor) rather than only the
-absence of an exception -- an assertion that cannot quietly become vacuous the
-way "no exception was raised" just did.
+version. It is kept anyway, and `tests/test_ui_sibling_render.py` asserts the
+structural property against the *rendered* tree -- no expander has an expander
+ancestor -- rather than only the absence of an exception, which is an assertion
+that cannot quietly become vacuous the way "no exception was raised" just did.
 
 Expansion state is keyed in `st.session_state` through each expander's `key`
 plus `on_change="rerun"`. Without `on_change="rerun"` an expander does not
@@ -36,6 +36,7 @@ serving a stale record under a citation.
 
 from __future__ import annotations
 
+import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -130,8 +131,6 @@ def load_records(path: str, mtime: float) -> dict[str, dict]:
     rather than guessed at, because a record the UI cannot address by id is
     indistinguishable from an absent one and R2.9 wants that said, not patched.
     """
-    import json
-
     records: dict[str, dict] = {}
     file = Path(path)
     if not file.is_file():
@@ -326,10 +325,16 @@ def render_answer(
             # rather than a separate page the reader might not visit.
             st.markdown("**Gaps limiting this answer**")
             for gap in gaps:
-                st.markdown(
-                    f"- {gap.get('statement', gap)}"
-                    + (f" — limits: {gap['limits']}" if isinstance(gap, Mapping) and gap.get("limits") else "")
-                )
+                if isinstance(gap, Mapping):
+                    line = str(gap.get("statement", ""))
+                    if gap.get("limits"):
+                        line += f" — limits: {gap['limits']}"
+                else:
+                    # A bare string is a gap with no stated limit. Accepted
+                    # rather than rejected: R3.6 asks for the absence to be
+                    # reported, and refusing to render it would suppress it.
+                    line = str(gap)
+                st.markdown(f"- {line}")
 
         provenance = payload.get("provenance")
         if provenance:

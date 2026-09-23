@@ -7,8 +7,14 @@ expensive to discover at T37 rather than here:
   from the exact hex strings in `.streamlit/config.toml`, so the one place a
   colour is written is the place the floor is checked.
 * **Citations must render as top-level siblings.** SS9.4 says retrofitting this is
-  a rewrite of the render loop, and Streamlit forbids nesting an expander
-  inside an expander.
+  a rewrite of the render loop. Note the reason is *not* an engine constraint:
+  measured at T07, streamlit 1.64.0 raises no nested-expander exception -- the
+  backend ancestor check is gone. The flat layout is kept because SS9.4 requires
+  it, because a nested expander's frontend behaviour is unverified here, and
+  because one open citation at a time would defeat the surface. The AST walk
+  below localises a regression to a line number; the runtime check in
+  `test_ui_sibling_render.py` is the load-bearing one, since a static walk
+  cannot see an expander opened from a helper two calls away.
 * **The table path must not reach pandas at all.** SS10.1 originally justified
   dropping `pandera` and `streamlit-aggrid` by claiming this machine's
   Application Control policy blocks `pandas._libs.join`. Re-measured here it

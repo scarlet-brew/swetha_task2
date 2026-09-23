@@ -8,9 +8,11 @@ thing to get wrong, and the copy that drifted would be the one nobody renders.
 So this module reads that file and hands the same strings to the app. Two things
 depend on it: the Pipeline surface shows the palette audit as a table (SS9.4
 item 4 -- a stage is expandable to its verification result, and the
-accessibility claim is a claim like any other), and `tests/test_ui_render.py`
-recomputes every contrast ratio from these exact strings. Nothing hardcodes a
-hex next to the ratio it is supposed to produce.
+accessibility claim is a claim like any other), and the tests recompute every
+contrast ratio from these exact strings -- `tests/test_ui_render.py` from the
+palette directly, `tests/test_ui_sibling_render.py` from the Arrow bytes the
+audit table actually sent. Nothing hardcodes a hex next to the ratio it is
+supposed to produce.
 
 The WCAG 2.x arithmetic lives here rather than in the test for the same reason:
 the audit table and the test assertion have to be one computation, or the table

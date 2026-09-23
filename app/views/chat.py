@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-from app.components import citation, support_badge, evidence_table
+from app.components import citation, evidence_table, support_badge
 from app.specimen import SPECIMEN_RECORDS, specimen_payload
 
 #: Requirements SS6, verbatim. These are the ten scenarios the system is graded
@@ -66,13 +66,14 @@ def render() -> None:
         "support. Three of the four colours sit below 3:1 on parchment "
         "(design SS9.1), so every badge carries an icon and the word."
     )
-    st.markdown(
-        "  ".join(
-            support_badge.badge_markup(name)
-            for name in ("corroborated", "single_sourced", "absence_based", "conflicted")
-        )
-        + "  "
-        + support_badge.badge_markup("resolution_dependent")
+    for state in support_badge.SUPPORT_STATES:
+        # Rendered one per line, coloured, so the parchment and dark palettes
+        # can both be eyeballed here -- and so the icon-plus-word rule is
+        # visible rather than asserted.
+        support_badge.render(state)
+    support_badge.render("single_sourced", ["resolution_dependent"])
+    evidence_table.render_table(
+        support_badge.legend_rows(), columns=("kind", "badge", "name", "means")
     )
 
     st.divider()

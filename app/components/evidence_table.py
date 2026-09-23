@@ -9,14 +9,15 @@ blocks -- and asserted without measuring that `st.dataframe` over
 Measured at T07: it does, and more cleanly than SS10.1 hoped. With every
 `pandas` import blocked by a `sys.meta_path` hook, `st.dataframe` given a
 `pyarrow.Table` still renders -- Streamlit serialises Arrow to Arrow IPC and
-never constructs a DataFrame. See `tests/test_ui_render.py`, which runs that
-blocked render in a subprocess so the hook cannot leak into the rest of the
+never constructs a DataFrame. See `tests/test_ui_sibling_render.py`, which runs
+that blocked render in a subprocess so the hook cannot leak into the rest of the
 suite.
 
 One caveat worth recording, because it will bite the next person: the
 *inspection* helper `AppTest.dataframe[i].value` does convert to pandas, via
-`pyarrow.Table.to_pandas`. That is test scaffolding, not a render path. Tests
-read `proto.arrow_data.data` back with `pyarrow.ipc` instead.
+`pyarrow.Table.to_pandas`. That is test scaffolding, not a render path, so the
+tests read `proto.arrow_data.data` back with `pyarrow.ipc` instead -- which also
+makes them assertions about the bytes the browser receives.
 
 Every table surface in the app goes through here, so there is exactly one place
 where a DataFrame could creep back in.

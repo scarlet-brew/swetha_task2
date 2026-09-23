@@ -87,7 +87,9 @@ render one empty claim per letter.
 | `basis` | the basis caption is omitted | R2.3, R10.2 — what the basis requires and why it applies are inspectable rather than implied |
 | `gaps` | no gaps block | R3.6 — absent sources are reported *without being asked*, so they belong in the answer rather than on a page the reader may never open |
 | `provenance` | no version caption | R10.3 — the versions in use are retained with the answer |
-| `support.flags` | no flag badges | the two flags from stage-5 close |
+| `support.flags` | no flag badges | R3.3 — `resolution_dependent` and `conflicted`, additive to the label, never substitutes for it |
+| `support.source_types` · `support.counts` | nothing renders from them today | R3.2/R3.4 — the countable facts the label was derived *from*, carried so a reader can check the label against them. Counts, never scores |
+| `citation.open_by_default` | the citation renders closed | the emitter can open the citations that carry the claim, which is how the specimen exercises three at once |
 
 `body` accepts a string or a sequence of paragraphs. A sequence renders one
 `st.markdown` per entry, which is how a multi-paragraph answer keeps its
@@ -115,11 +117,26 @@ exceptions that are not cosmetic:
 ## Layout constraints the emitter must respect
 
 1. **Citations are siblings, not children.** Everything renders inside one
-   `st.chat_message`; each citation is its own top-level expander. Streamlit
-   raises `StreamlitAPIException` on an expander inside an expander, so nesting
-   would cap the surface at one open citation. Three open at once is the case
-   `T07` verifies, and `tests/test_ui_render.py` proves the shape statically by
-   walking the AST of every module under `app/`.
+   `st.chat_message`; each citation is its own top-level expander.
+
+   Design §9.4 justifies this with `StreamlitAPIException: Expanders may not be
+   nested inside other expanders`. **Measured at `T07`: streamlit 1.64.0 raises
+   no such exception** — the backend ancestor check is gone, and the message
+   survives in the package only for dialogs and forms. So the flat layout is no
+   longer *forced* by the engine on this version; it is kept because §9.4
+   requires it, because the frontend behaviour of a nested expander is
+   unverified here, and because one open citation at a time would defeat the
+   surface.
+
+   Two tests guard it, and the split is deliberate.
+   `tests/test_ui_render.py` walks the AST of every module under `app/` — cheap,
+   and it localises a regression to a line number.
+   `tests/test_ui_sibling_render.py` renders the app through
+   `streamlit.testing.v1.AppTest` and asserts that no expander in the rendered
+   tree has an expander ancestor, with three citations open at once. The
+   runtime check is the load-bearing one: the static one cannot see an expander
+   opened from a helper two calls away, which is how this render loop is built,
+   and an exception-based check would now pass for the illegal layout.
 2. **Expansion state is keyed in `st.session_state`**, under
    `{key_prefix}::{claim_id}::{node_id}`. So `claim_id` must be unique within a
    payload and `node_id` unique within a claim; duplicates would collapse two
