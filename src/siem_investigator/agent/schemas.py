@@ -284,13 +284,20 @@ class Answer(BaseModel):
 
     body: str = Field(description="The answer prose. States no claim that is not also in `claims`.")
     claims: list[AnswerClaim] = Field(
-        min_length=1, description="Every claim the body makes, each with its citations."
+        default_factory=list,
+        description=(
+            "Every claim the body asserts about the incident, each with its citations. "
+            "May be empty: an answer that asserts nothing -- a greeting, or a question "
+            "the graph does not speak to -- has nothing to cite, and forcing a claim "
+            "would push the model toward inventing one."
+        ),
     )
     gaps: list[str] = Field(
         default_factory=list,
         description=(
-            "What the available sources cannot settle about this question. Reported "
-            "without being asked (R3.6)."
+            "What the available sources cannot settle about this question. This is where "
+            "a limitation belongs: it is not a claim, it needs no citation, and it is "
+            "reported without being asked (R3.6)."
         ),
     )
 

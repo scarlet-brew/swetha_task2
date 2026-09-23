@@ -55,7 +55,7 @@ SURFACES = [
     ),
     st.Page(
         "views/chat.py",
-        title="Chat",
+        title="Ask",
         icon=":material/forum:",
         url_path="chat",
     ),

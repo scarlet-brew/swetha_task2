@@ -16,11 +16,39 @@ the failing check reported, rather than shown without it.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .. import ids, jsonl, paths
 from ..enrich.catalogue import Catalogue
 from . import client, contracts, schemas
+
+#: A run of node ids in prose, together with whatever brackets it sits in.
+#:
+#: Belt and braces. The ANSWER prompt says the ids belong in the `cites_*`
+#: fields and nowhere else; this removes them from rendered text if one slips
+#: through anyway. A sentence ending `(fnd_28064fa63b48, fnd_b6eade451f6b)` is
+#: unreadable, and it was the single worst thing about the first chat surface.
+#:
+#: Stripping is a presentation decision, not a rewrite of a claim: the id stays
+#: attached to the claim as a citation and is still rendered as evidence, so
+#: removing it from the sentence changes nothing about what is asserted or what
+#: supports it.
+_NODE_ID = r"(?:fnd|obs|rec|edg|map|hyp)_[0-9a-f]{6,}"
+_ID_RUN_IN_PROSE = re.compile(
+    r"\s*\(\s*" + _NODE_ID + r"(?:\s*,\s*" + _NODE_ID + r")*\s*\)"
+    r"|\s*\[\s*" + _NODE_ID + r"(?:\s*,\s*" + _NODE_ID + r")*\s*\]"
+    r"|\s*\b" + _NODE_ID + r"\b"
+)
+
+
+def strip_node_ids(text: str) -> str:
+    """Remove node ids from prose meant to be read by a person."""
+    cleaned = _ID_RUN_IN_PROSE.sub("", str(text))
+    cleaned = re.sub(r"\s+([,.;:])", r"\1", cleaned)
+    cleaned = re.sub(r"\(\s*\)|\[\s*\]", "", cleaned)
+    cleaned = re.sub(r"[ \t]{2,}", " ", cleaned)
+    return cleaned.strip()
 
 
 class Artifacts:
@@ -115,8 +143,10 @@ def gate(answer: dict, artifacts: Artifacts) -> tuple[bool, list[str]]:
     """The deterministic citation gate. `(passes, failures)`."""
     failures: list[str] = []
 
-    if not answer.get("claims"):
-        failures.append("the answer makes no claims, so nothing is cited")
+    # An empty claim list is allowed. R2.2 says an *uncited claim* is a bug, not
+    # that every answer must assert something -- and an answer forced to produce
+    # a claim it has no evidence for is the failure this design exists to stop.
+    # Limitations belong in `gaps`, which need no citation.
 
     for index, claim in enumerate(answer.get("claims", []), start=1):
         cited = (
@@ -211,7 +241,7 @@ def to_payload(question: str, answer: dict, artifacts: Artifacts, provenance: di
         claims.append(
             {
                 "claim_id": f"clm_{index:02d}",
-                "text": claim["text"],
+                "text": strip_node_ids(claim["text"]),
                 "kind": claim["kind"],
                 "support": support,
                 "citations": citations,
@@ -223,7 +253,7 @@ def to_payload(question: str, answer: dict, artifacts: Artifacts, provenance: di
     return {
         "answer_id": ids.node_id("obs", {"question": question, "body": answer["body"]}),
         "question": question,
-        "body": answer["body"],
+        "body": strip_node_ids(answer["body"]),
         "claims": claims,
         "gaps": [{"statement": gap} for gap in answer.get("gaps", [])],
         "provenance": provenance,

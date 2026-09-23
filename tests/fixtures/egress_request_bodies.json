@@ -1,6 +1,6 @@
 {
   "_note": "The exact serialised request body of every model site, captured through a mock transport by scripts/regen_egress_fixture.py. Nothing was sent. Checked against docs/egress.md by tests/test_egress_inventory.py.",
-  "contract_set_hash": "78d3fa5705d9b21e8c18ea9778e1bf3f9b7b80918c3963f493e88584d92dc287",
+  "contract_set_hash": "c5fc6837f2dd4a7df05ece025691fa7ae474f75ccee5cf8af9e99a228e316f5a",
   "provider_sdk_version": "0.84.0",
   "sample_event_ids": [
     "EVT-0141",
@@ -32,7 +32,7 @@
           "text": "GAPS\n  no mail-gateway source is present, so a delivery vector cannot be evidenced\n  no DNS source is present, so an address cannot be resolved to a name"
         }
       ],
-      "prompt_hash": "b1ed9be3f4d2e9578bcc909c85a48516d013779736353142e0fe984ff56daa78",
+      "prompt_hash": "3f834b8e3136a3d504d3eebdac22dd2aeebb03b24e13caec957bdd186b3ae612",
       "request_body": {
         "max_tokens": 2048,
         "messages": [
@@ -119,16 +119,15 @@
                   "type": "string"
                 },
                 "claims": {
-                  "description": "Every claim the body makes, each with its citations.",
+                  "description": "Every claim the body asserts about the incident, each with its citations. May be empty: an answer that asserts nothing -- a greeting, or a question the graph does not speak to -- has nothing to cite, and forcing a claim would push the model toward inventing one.",
                   "items": {
                     "$ref": "#/$defs/AnswerClaim"
                   },
-                  "minItems": 1,
                   "title": "Claims",
                   "type": "array"
                 },
                 "gaps": {
-                  "description": "What the available sources cannot settle about this question. Reported without being asked (R3.6).",
+                  "description": "What the available sources cannot settle about this question. This is where a limitation belongs: it is not a claim, it needs no citation, and it is reported without being asked (R3.6).",
                   "items": {
                     "type": "string"
                   },
@@ -137,8 +136,7 @@
                 }
               },
               "required": [
-                "body",
-                "claims"
+                "body"
               ],
               "title": "Answer",
               "type": "object"
@@ -146,7 +144,7 @@
             "type": "json_schema"
           }
         },
-        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nAnswer the question from the investigation graph you are given. You are reading a closed record: you cannot add to it, and every claim you make must cite nodes that already exist in it.\n\nA claim that attributes activity to the intrusion must cite at least one finding. Citing observations alone supports a fact -- that a value appeared in a record -- not an attribution, and the difference is checked.\n\nSay what the sources cannot settle. A question the evidence does not answer should come back with the gap named, not with the gap filled in.\n",
+        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nAnswer the question from the investigation graph you are given. You are reading a closed record: you cannot add to it, and every claim you make must cite nodes that already exist in it.\n\nHOW TO WRITE THE ANSWER. You are writing for a CISO under time pressure, not for an engineer reading a database.\n\n* `body` is **two to four sentences of plain English**. It is the answer someone reads first and may be all they read. No identifiers in it at all -- no `fnd_`, `obs_`, `rec_` or `edg_` ids, no field names, no schema words. Say \"a Word document launched PowerShell on WKSTN-07\", not \"fnd_28064fa63b48 records process_name powershell.exe\".\n* Put the specifics in `claims`, one short sentence each. Host names, account names, technique ids and timestamps belong here and are welcome.\n* The node ids go in the `cites_*` fields and **nowhere else**. They are rendered as evidence beside each claim, so repeating them in prose only makes the answer unreadable.\n* If the question is small talk rather than a question about the incident, answer in one sentence, return **no claims at all**, and stop. Do not deliver an unrequested briefing.\n* A **limitation is not a claim.** Anything of the form \"the logs cannot show X\" or \"no source covers Y\" belongs in `gaps`, which is a plain list of sentences and needs no citation. Putting it in `claims` makes it an assertion with no evidence, and the citation gate will withhold the whole answer for it.\n\nA claim that attributes activity to the intrusion must cite at least one finding. Citing observations alone supports a fact -- that a value appeared in a record -- not an attribution, and the difference is checked.\n\nSay what the sources cannot settle. A question the evidence does not answer should come back with the gap named, not with the gap filled in.\n",
         "thinking": {
           "type": "adaptive"
         }
