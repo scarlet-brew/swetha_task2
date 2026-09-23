@@ -37,7 +37,7 @@ st.set_page_config(
     page_title="Incident INC-2026-0610-001",
     page_icon=":material/folder_open:",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # The two stylesheets config.toml cannot express (SS9.2's measure and tabular
@@ -47,17 +47,17 @@ theme.inject_chrome()
 
 SURFACES = [
     st.Page(
-        "views/overview.py",
-        title="Overview",
-        icon=":material/summarize:",
-        url_path="overview",
-        default=True,
-    ),
-    st.Page(
         "views/chat.py",
         title="Ask",
         icon=":material/forum:",
         url_path="chat",
+        default=True,
+    ),
+    st.Page(
+        "views/overview.py",
+        title="Overview",
+        icon=":material/summarize:",
+        url_path="overview",
     ),
     st.Page(
         "views/timeline.py",

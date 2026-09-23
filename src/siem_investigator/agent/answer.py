@@ -51,6 +51,30 @@ def strip_node_ids(text: str) -> str:
     return cleaned.strip()
 
 
+#: Room for the longest answer the brief asks for.
+MAX_ANSWER_TOKENS = 12000
+
+
+def _explain(exc: Exception) -> str:
+    """Turn a failure into something a reader can act on.
+
+    A pydantic `ValidationError` about "EOF while parsing a string" is a
+    truncated response, not a malformed contract, and saying so is the
+    difference between a usable message and a stack trace on screen.
+    """
+    detail = str(exc)
+    if "EOF while parsing" in detail or "Invalid JSON" in detail:
+        return (
+            "the answer ran past the length limit and came back incomplete, so it was "
+            "discarded rather than shown half-finished. Try a narrower question."
+        )
+    if "refus" in detail.lower():
+        return "the model declined to answer this one."
+    if isinstance(exc, client.CredentialMissing):
+        return detail
+    return f"{type(exc).__name__}: {detail[:200]}"
+
+
 class Artifacts:
     """The frozen artifacts, loaded read-only. The query tool surface."""
 
@@ -133,8 +157,9 @@ class Artifacts:
 
         lines.append("")
         lines.append(
-            "Answer from this material only. Cite node ids that appear above. An "
-            "`attribution` claim must cite at least one finding id."
+            "Answer from this material only. In the prose, reference the EVT-xxxx event "
+            "ids shown above, in square brackets. In `claims`, cite the fnd_/obs_ node "
+            "ids. An `attribution` claim must cite at least one finding id."
         )
         return "\n".join(lines)
 
@@ -304,19 +329,51 @@ def ask(question: str, *, artifacts: Artifacts | None = None) -> dict[str, Any]:
             ),
         }
 
+    context = artifacts.context(question)
     try:
         result = client.call(
             site=contracts.ANSWER.name,
             model_type=schemas.Answer,
             system=contracts.ANSWER.system,
-            user=artifacts.context(question),
-            max_tokens=3000,
+            user=context,
+            # The longest thing this can be asked -- "walk me through the
+            # timeline" over 22 findings, each with claims and citations. At
+            # 3000 the JSON was truncated mid-string and the SDK raised a
+            # ValidationError inside `messages.parse`, before the stop-reason
+            # check could turn it into a sentence.
+            max_tokens=MAX_ANSWER_TOKENS,
         )
     except Exception as exc:
-        return {"withheld": True, "reason": f"{type(exc).__name__}: {exc}"}
+        return {"withheld": True, "reason": _explain(exc)}
 
     answer = result.parsed.model_dump()
     passes, failures = gate(answer, artifacts)
+
+    if not passes:
+        # One bounded repair, carrying the diagnostic -- the same move the
+        # correlate loop makes on a rejected finding. The gate is unchanged: if
+        # the repaired answer still fails, it is still withheld. What this
+        # removes is the case where a single forgotten citation discards seven
+        # good claims, non-deterministically.
+        repair = (
+            context
+            + "\n\nYour previous answer was REJECTED by the citation gate:\n"
+            + "\n".join(f"  - {failure}" for failure in failures)
+            + "\n\nFix exactly those problems and answer again. A claim you cannot cite "
+            "should be moved into `gaps` or dropped, not left uncited."
+        )
+        try:
+            result = client.call(
+                site=contracts.ANSWER.name,
+                model_type=schemas.Answer,
+                system=contracts.ANSWER.system,
+                user=repair,
+                max_tokens=MAX_ANSWER_TOKENS,
+            )
+            answer = result.parsed.model_dump()
+            passes, failures = gate(answer, artifacts)
+        except Exception as exc:
+            return {"withheld": True, "reason": _explain(exc)}
     catalogue_version = (
         Catalogue.load().attack_version if paths.ATTACK_CATALOGUE.exists() else "unavailable"
     )

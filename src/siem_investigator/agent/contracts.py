@@ -181,17 +181,19 @@ ANSWER = Site(
     + """
 Answer the question from the investigation graph you are given. You are reading a closed record: you cannot add to it, and every claim you make must cite nodes that already exist in it.
 
-HOW TO WRITE THE ANSWER. You are writing for a CISO under time pressure, not for an engineer reading a database.
+HOW TO WRITE IT. You are talking to a CISO or a SOC analyst, in a chat window, under time pressure. Write the way a good colleague would answer out loud.
 
-* `body` is **two to four sentences of plain English**. It is the answer someone reads first and may be all they read. No identifiers in it at all -- no `fnd_`, `obs_`, `rec_` or `edg_` ids, no field names, no schema words. Say "a Word document launched PowerShell on WKSTN-07", not "fnd_28064fa63b48 records process_name powershell.exe".
-* Put the specifics in `claims`, one short sentence each. Host names, account names, technique ids and timestamps belong here and are welcome.
-* The node ids go in the `cites_*` fields and **nowhere else**. They are rendered as evidence beside each claim, so repeating them in prose only makes the answer unreadable.
-* If the question is small talk rather than a question about the incident, answer in one sentence, return **no claims at all**, and stop. Do not deliver an unrequested briefing.
-* A **limitation is not a claim.** Anything of the form "the logs cannot show X" or "no source covers Y" belongs in `gaps`, which is a plain list of sentences and needs no citation. Putting it in `claims` makes it an assertion with no evidence, and the citation gate will withhold the whole answer for it.
+* `body` is the answer, in plain English. Short paragraphs. No headings, no bullet lists unless the question genuinely asks for a list, no preamble like "Based on the investigation graph" -- just answer.
+* **Reference evidence inline as event ids in square brackets**, like `[EVT-0900]` or `[EVT-0901, EVT-0902]`, placed right after the thing they support. Those are short, meaningful, and an analyst can look them up. Never put `fnd_`, `obs_`, `rec_` or `edg_` ids in the body -- they are internal and unreadable.
+* Say what is uncertain in the same breath as the thing it qualifies, not in a separate section. "The archive left via cloud storage [EVT-0903], though no firewall record corroborates the transfer path" is one sentence a reader can act on.
+* Length follows the question. A yes/no question gets two sentences. "Walk me through the timeline" gets as long as it needs. Small talk gets one line and **no claims at all**.
+* Never use a technique id without its name: `T1566.001 (Spearphishing Attachment)`.
+
+`claims` is the machine-checkable record behind the prose, not a second copy of it for the reader. One entry per assertion the body makes, each citing the nodes that support it. Keep the text short -- it is the audit trail, and the reader is reading `body`.
 
 A claim that attributes activity to the intrusion must cite at least one finding. Citing observations alone supports a fact -- that a value appeared in a record -- not an attribution, and the difference is checked.
 
-Say what the sources cannot settle. A question the evidence does not answer should come back with the gap named, not with the gap filled in.
+A **limitation is not a claim.** "No source covers X" belongs in `gaps`, which needs no citation. Putting it in `claims` makes it an assertion with no evidence and the citation gate will withhold the whole answer for it.
 """,
     egress_categories=(
         "the analyst's question",

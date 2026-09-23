@@ -277,7 +277,7 @@ class AllFourSurfacesNavigate(unittest.TestCase):
     """SS9.4's four surfaces, navigated rather than listed."""
 
     SURFACES = {
-        "views/chat.py": "Ask",
+        "views/chat.py": "Incident assistant",
         "views/timeline.py": "Timeline",
         "views/impact.py": "Impact",
         "views/pipeline.py": "Pipeline",
