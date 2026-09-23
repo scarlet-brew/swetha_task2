@@ -1,0 +1,35 @@
+{
+  "_warning": "GROUND TRUTH -- ACCURACY MEASUREMENT ONLY. R7.2 admits the `note` annotations for measuring recall and precision against a labelled set, and for nothing else. No module under src/ or app/ may read this file; tests/test_fixtures.py asserts that with git grep. Using it as detection signal would make the prototype worthless as a demonstration.",
+  "attack_event_ids": [
+    "EVT-0221",
+    "EVT-0222",
+    "EVT-0223",
+    "EVT-0224",
+    "EVT-0225",
+    "EVT-0226",
+    "EVT-0227",
+    "EVT-0228",
+    "EVT-0229",
+    "EVT-0230",
+    "EVT-0231",
+    "EVT-0232",
+    "EVT-0233",
+    "EVT-0234",
+    "EVT-0235",
+    "EVT-0236",
+    "EVT-0237",
+    "EVT-0238",
+    "EVT-0239",
+    "EVT-0240",
+    "EVT-0241",
+    "EVT-0242"
+  ],
+  "count": 22,
+  "leaks_this_set_is_perfectly_correlated_with": {
+    "_note": "CLAUDE.md ground rule 1 lists three leaks. All three select exactly this set, so any of them scores 100% precision and 100% recall while demonstrating nothing. T20 and T30 have to show the pipeline does not ride on them.",
+    "event_id_ordering": "these are the final 22 ids, contiguous 221..242 of 1..242",
+    "note_annotation": "the 22 events carrying a `note` key are exactly these 22; stripped at the parse boundary by T10",
+    "whole_second_timestamps": "`'.' not in timestamp` selects exactly these 22 of 242 -- a generator artifact, and the one leak that survives stripping `note`"
+  },
+  "source_field": "note"
+}

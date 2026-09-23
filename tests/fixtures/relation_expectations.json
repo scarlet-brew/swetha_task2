@@ -1,0 +1,61 @@
+{
+  "_note": "Design SS10.2's measured relation spike, recomputed. SS3.6's central claim is that exact byte count carries the cross-source file relation and the basename alone does not. These numbers are what T09 and T16 assert against.",
+  "cross_source_file_pairs": {
+    "_why_this_matters": "Basename alone yields 2 pairs, one of which is wrong -- a 50% false-positive rate. Basename plus exact size yields 1, and it is the right one. That is why `same_file` and `same_size` are separate atomic relations rather than one composite: the AI layer observes that both hold, and the deterministic layer never decides that the conjunction means exfiltration.",
+    "on_basename_alone": 2,
+    "on_basename_and_exact_size": 1,
+    "pairs": [
+      {
+        "basename": "backup_archive.zip",
+        "pair": [
+          "EVT-0237",
+          "EVT-0238"
+        ],
+        "same_size": true
+      },
+      {
+        "basename": "backup_archive.zip",
+        "pair": [
+          "EVT-0238",
+          "EVT-0239"
+        ],
+        "same_size": false
+      }
+    ]
+  },
+  "deletion_after_upload": {
+    "basename": "backup_archive.zip",
+    "delta_human": "-1h 44m 33s",
+    "delta_seconds": -6273.0,
+    "from": "EVT-0239",
+    "from_kind": "endpoint/file_delete",
+    "ordered_from_before_to": false,
+    "same_basename": true,
+    "same_size": false,
+    "size_bytes": null,
+    "size_present": {
+      "EVT-0238": true,
+      "EVT-0239": false
+    },
+    "to": "EVT-0238",
+    "to_kind": "cloud_storage/file_upload"
+  },
+  "events_naming_a_file": 35,
+  "staging_to_upload": {
+    "basename": "backup_archive.zip",
+    "delta_human": "1h 27m 41s",
+    "delta_seconds": 5261.0,
+    "from": "EVT-0237",
+    "from_kind": "endpoint/file_create",
+    "ordered_from_before_to": true,
+    "same_basename": true,
+    "same_size": true,
+    "size_bytes": 2473829122,
+    "size_present": {
+      "EVT-0237": true,
+      "EVT-0238": true
+    },
+    "to": "EVT-0238",
+    "to_kind": "cloud_storage/file_upload"
+  }
+}
