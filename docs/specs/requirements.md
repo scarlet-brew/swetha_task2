@@ -239,7 +239,7 @@ judge whether the reasoning was sound instead of trusting the output.
 | # | Requirement |
 |---|---|
 | **NFR-01** | Given the same data and the same question, THE SYSTEM SHALL return the same conclusions and the same citations on every run. |
-| **NFR-02** | WHILE any service outside the analyst's machine is unavailable, THE SYSTEM SHALL still produce the sequence, the relationships between activities, the technique attributions, the scope of compromise and the absent-source report. No factual conclusion SHALL depend on a service outside the analyst's machine; only the wording in which an answer is expressed may. |
+| **NFR-02** | THE SYSTEM SHALL determine every factual conclusion on the analyst's machine. A service outside that machine MAY be used only to choose the words in which an already-determined conclusion is expressed. WHILE such a service is unavailable, THE SYSTEM SHALL still present every conclusion, in a plainly-rendered form. See §3.1 for the definition of that distinction and the rationale. |
 | **NFR-03** | THE SYSTEM SHALL complete a reconstruction of the supplied data within a stated time. `[NEEDS CLARIFICATION: Q2]` |
 | **NFR-04** | THE SYSTEM SHALL state what information about the incident leaves the analyst's machine, and SHALL send nothing beyond what is stated. `[NEEDS CLARIFICATION: Q4]` |
 | **NFR-05** | THE SYSTEM SHALL leave the supplied data unmodified. |
@@ -250,6 +250,37 @@ judge whether the reasoning was sound instead of trusting the output.
 | **NFR-10** | Credentials required to operate THE SYSTEM SHALL NOT be stored alongside it. |
 
 Behaviour beyond the supplied volume of data is not established and will be stated as such.
+
+### 3.1 Conclusion and wording — the NFR-02 boundary
+
+NFR-02 turns entirely on this distinction, so it is defined here rather than left to judgement.
+
+A statement is a **factual conclusion** if altering it would change **which records are cited**,
+**what is asserted about them**, or **which qualifications accompany the assertion**. Factual
+conclusions are subject to R2 and R1.9.
+
+Everything else is **wording**: word choice, ordering, length and tone. The test is operational —
+if an edit cannot change a citation, an assertion, or a qualification, it is wording.
+
+The third clause is not decoration. A board summary that quietly omits *uncorroborated* contains
+no false sentence and is still misleading, so dropping a qualification is a change to the
+conclusion, not to its wording. It follows that for the summary in R8.1 and the recommendations
+in R9, **which** findings appear, **which** evidence each rests on and **what** qualifications
+travel with them are all determined on the analyst's machine; only their phrasing may not be.
+
+**Why NFR-02 exists.** Three reasons, in increasing order of importance:
+
+1. The walkthrough happens in a room. No conclusion may be hostage to network access.
+2. NFR-01 requires the same conclusions on every run. A conclusion produced off-machine cannot be
+   guaranteed reproducible, so pinning conclusions to local work is what makes NFR-01 achievable
+   at all.
+3. This document's premise is that a fluent, unsupported conclusion is the primary risk (§1). An
+   off-machine generative service is precisely what produces fluent, wrong output. Confining it to
+   wording means the worst consequence of a bad generation is an awkward sentence rather than a
+   false finding.
+
+A service *running on* the analyst's machine is not outside it, and NFR-02 does not restrict one.
+NFR-02 also makes NFR-04 inexpensive: if only wording crosses the boundary, identifiers need not.
 
 ---
 
