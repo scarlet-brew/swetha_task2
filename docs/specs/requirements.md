@@ -1,6 +1,6 @@
 # Requirements: Cyber Incident Investigation Intelligence
 
-**Phase 1 of** Spec → Design → Tasks → Implement → Validate  ·  **Status:** draft, 3 open questions (§8)  ·  **Incident:** `INC-2026-0610-001`  ·  **2026-09-22**
+**Phase 1 of** Spec → Design → Tasks → Implement → Validate  ·  **Status:** draft, ready for review — no open questions  ·  **Incident:** `INC-2026-0610-001`  ·  **2026-09-22**
 
 What the system must do and how we will know it did it. No architecture, no technology, no
 mechanism — those belong in [design.md](design.md).
@@ -124,29 +124,43 @@ cannot establish, **so that** I never repeat a conclusion the evidence does not 
 
 1. IF the data cannot answer a question THEN THE SYSTEM SHALL say so and SHALL name the
    information that would be required.
-2. WHEN THE SYSTEM states a derived finding THEN THE SYSTEM SHALL indicate how strongly its
-   supporting observations support it.
-   `[NEEDS CLARIFICATION: Q1]`
-3. WHEN a conclusion rests on records from a single log source, or on the absence of records, THEN
-   THE SYSTEM SHALL say so and SHALL NOT present it as observed fact.
-4. THE SYSTEM SHALL report, without being asked, which log sources are absent and which
+2. WHEN THE SYSTEM states a derived finding THEN THE SYSTEM SHALL label the structure of its
+   support, using **Corroborated** where the supporting observations draw on two or more distinct
+   log sources, **Single-sourced** where they draw on one, and **Absence-based** where the named
+   basis reasons from records not being present.
+3. WHEN a derived finding depends on an entity association with more than one candidate THEN THE
+   SYSTEM SHALL additionally flag it **resolution-dependent**; WHEN a cited observation is
+   inconsistent with another in the same support THEN THE SYSTEM SHALL additionally flag it
+   **conflicted**.
+4. THE SYSTEM SHALL derive every such label and flag from the structure of the support alone, and
+   SHALL NOT present an estimate of probability or any assessment of belief in place of them.
+5. WHEN a derived finding is labelled Absence-based THEN THE SYSTEM SHALL NOT present it as
+   observed fact.
+6. THE SYSTEM SHALL report, without being asked, which log sources are absent and which
    conclusions their absence limits.
-5. WHEN asked for information that an absent source would hold THEN THE SYSTEM SHALL state that
+7. WHEN asked for information that an absent source would hold THEN THE SYSTEM SHALL state that
    the source is absent and SHALL NOT supply the information on any other basis.
-6. WHEN asked whether the intrusion has ended THEN THE SYSTEM SHALL report the last observed
+8. WHEN asked whether the intrusion has ended THEN THE SYSTEM SHALL report the last observed
    activity and state that continuation cannot be determined from the available period.
-7. IF a network address is associated with more than one host across the data THEN THE SYSTEM
-   SHALL report every candidate, mark the association uncertain, and treat any conclusion
-   depending on it as weakly supported.
-8. IF a network address is associated with no host THEN THE SYSTEM SHALL identify the activity by
-   address alone and SHALL NOT infer a host.
-9. IF records support mutually incompatible conclusions THEN THE SYSTEM SHALL report the
-   incompatibility and cite every record involved.
-10. THE SYSTEM SHALL identify hosts and accounts that appear in the incident but about which one
+9. IF a network address is associated with more than one host across the data THEN THE SYSTEM
+   SHALL report every candidate and mark the association uncertain.
+10. IF a network address is associated with no host THEN THE SYSTEM SHALL identify the activity by
+    address alone and SHALL NOT infer a host.
+11. IF records support mutually incompatible conclusions THEN THE SYSTEM SHALL report the
+    incompatibility and cite every record involved.
+12. THE SYSTEM SHALL identify hosts and accounts that appear in the incident but about which one
     or more relevant log sources record nothing.
 
-*Criterion 5 is the assignment's own example: this data contains no mail records, so the phishing
+*Criterion 7 is the assignment's own example: this data contains no mail records, so the phishing
 message — sender, subject, attachment — is unknowable. Naming any of them is fabrication.*
+
+*Criteria 2–5 replace a confidence adjective with a description of the evidence. Every label is
+countable, so none is disputable: the movement to the third host is Corroborated (network and
+endpoint), the command-and-control channel Single-sourced (network), the staging-to-upload link
+Corroborated (endpoint and cloud), the initial-access vector Single-sourced (endpoint), and any
+claim that the intrusion ended is Absence-based and therefore not asserted. The privilege finding
+in R4.6 comes out **conflicted**, which is exactly what is wrong with it — something no
+probability scale could express.*
 
 ### Requirement 4 — Name the adversary techniques used `P1`
 
@@ -235,8 +249,7 @@ that** I do not have to learn a query language during an incident.
 5. IF a question concerns a period the data does not cover THEN THE SYSTEM SHALL state the period
    covered and that the question falls outside it.
 6. WHEN a question asks for a summary of a stated length THEN THE SYSTEM SHALL respect that length.
-7. WHEN a question is asked THEN THE SYSTEM SHALL answer within a stated time.
-   `[NEEDS CLARIFICATION: Q2]`
+7. WHEN a question is asked THEN THE SYSTEM SHALL answer within 30 seconds.
 
 ### Requirement 7 — Demonstrate the conclusions were earned `P1`
 
@@ -312,9 +325,11 @@ judge whether the reasoning was sound instead of trusting the output.
 | # | Requirement |
 |---|---|
 | **NFR-01** | Given the same data and the same question, THE SYSTEM SHALL return the same conclusions and the same citations on every run. |
-| **NFR-02** | THE SYSTEM SHALL determine every factual conclusion on the analyst's machine. A service outside that machine MAY be used only to choose the words in which an already-determined conclusion is expressed. WHILE such a service is unavailable, THE SYSTEM SHALL still present every conclusion, in a plainly-rendered form. See §3.1 for the definition of that distinction and the rationale. |
-| **NFR-03** | THE SYSTEM SHALL complete a reconstruction of the supplied data within a stated time. `[NEEDS CLARIFICATION: Q2]` |
-| **NFR-04** | THE SYSTEM SHALL state what information about the incident leaves the analyst's machine, and SHALL send nothing beyond what is stated. `[NEEDS CLARIFICATION: Q4]` |
+| **NFR-02** | WHILE any service outside the analyst's machine is unavailable, THE SYSTEM SHALL still produce the sequence, the relationships between activities, the scope of compromise and the absent-source report. IF technique attribution cannot be completed in that state THEN THE SYSTEM SHALL report the affected behaviour as unmapped rather than omitting it. See §3.1. |
+| **NFR-02a** | No conclusion THE SYSTEM presents SHALL rest solely on an assertion made by a service outside the analyst's machine. Every conclusion SHALL be verifiable against the records without that service. |
+| **NFR-03** | THE SYSTEM SHALL complete a reconstruction of the supplied data within 5 seconds. |
+| **NFR-04** | THE SYSTEM SHALL document every category of information about the incident that leaves the analyst's machine, and SHALL send nothing beyond what it documents. The supplied data is synthetic, so THE SYSTEM MAY send it to an outside service where the chosen design uses one. |
+| **NFR-04a** | THE SYSTEM SHALL apply the provenance and citation checks in Requirement 2 to every factual claim it presents, irrespective of how or where that claim was produced. |
 | **NFR-05** | THE SYSTEM SHALL leave the supplied data unmodified. |
 | **NFR-06** | IF any part of the investigation fails, or the data cannot be read, THEN THE SYSTEM SHALL report what failed and SHALL NOT present an incomplete reconstruction as complete. |
 | **NFR-07** | Every output THE SYSTEM produces SHALL identify the version of the system and the period of data behind it. |
@@ -324,36 +339,30 @@ judge whether the reasoning was sound instead of trusting the output.
 
 Behaviour beyond the supplied volume of data is not established and will be stated as such.
 
-### 3.1 Conclusion and wording — the NFR-02 boundary
+### 3.1 Why NFR-02 and NFR-02a exist
 
-NFR-02 turns entirely on this distinction, so it is defined here rather than left to judgement.
-
-A statement is a **factual conclusion** if altering it would change **which records are cited**,
-**what is asserted about them**, **which basis is named** as connecting them, or **which
-qualifications accompany the assertion**. Factual conclusions are subject to R2 and R1.9.
-
-Everything else is **wording**: word choice, ordering, length and tone. The test is operational —
-if an edit cannot change a citation, an assertion, or a qualification, it is wording.
-
-The third clause is not decoration. A board summary that quietly omits *uncorroborated* contains
-no false sentence and is still misleading, so dropping a qualification is a change to the
-conclusion, not to its wording. It follows that for the summary in R8.1 and the recommendations
-in R9, **which** findings appear, **which** evidence each rests on and **what** qualifications
-travel with them are all determined on the analyst's machine; only their phrasing may not be.
-
-**Why NFR-02 exists.** Three reasons, in increasing order of importance:
+Three reasons, in increasing order of importance:
 
 1. The walkthrough happens in a room. No conclusion may be hostage to network access.
-2. NFR-01 requires the same conclusions on every run. A conclusion produced off-machine cannot be
-   guaranteed reproducible, so pinning conclusions to local work is what makes NFR-01 achievable
-   at all.
+2. NFR-01 requires the same conclusions on every run. A conclusion resting solely on an assertion
+   from an outside service cannot be guaranteed reproducible, so NFR-02a is what makes NFR-01
+   achievable at all.
 3. This document's premise is that a fluent, unsupported conclusion is the primary risk (§1). An
-   off-machine generative service is precisely what produces fluent, wrong output. Confining it to
-   wording means the worst consequence of a bad generation is an awkward sentence rather than a
-   false finding.
+   outside generative service is precisely what produces fluent, wrong output. NFR-02a does not
+   restrict what such a service may *do* — it restricts what may *ground* a conclusion. A service
+   may propose a finding, a technique mapping or a correlation basis; nothing it asserts may be
+   the sole support for what the system presents, and everything must survive checking against
+   the records without it.
 
-A service *running on* the analyst's machine is not outside it, and NFR-02 does not restrict one.
-NFR-02 also makes NFR-04 inexpensive: if only wording crosses the boundary, identifiers need not.
+**These requirements do not decide what role an outside service plays.** Whether one correlates,
+proposes mappings, drives a multi-step investigation, or only renders prose is a design decision
+and belongs in [design.md](design.md) (D-02). Requirements fix the guarantee, not the
+architecture: availability without the service (NFR-02), no conclusion grounded solely in it
+(NFR-02a), documented egress (NFR-04), and provenance checks applied regardless of a claim's
+origin (NFR-04a).
+
+A service *running on* the analyst's machine is not outside it, and neither requirement restricts
+one.
 
 ---
 
@@ -375,7 +384,7 @@ NFR-02 also makes NFR-04 inexpensive: if only wording crosses the boundary, iden
 |---|---|---|
 | **A-01** | The data's own description of its sources and internal address ranges is accurate | Internal and external activity are misclassified, corrupting the remote-control and data-removal reasoning |
 | **A-02** | Developer annotations are accurate enough to measure accuracy against | SC-03 measures agreement with a flawed answer key rather than correctness |
-| **A-03** | Exactly one intrusion is present | A second would be folded into the first; R3.9 is the only safeguard |
+| **A-03** | Exactly one intrusion is present | A second would be folded into the first; R3.11 is the only safeguard |
 | **A-04** | Recorded times are accurate, with no drift between source systems | Sequence order may be wrong, and any conclusion drawn from two activities being close in time becomes unreliable |
 | **A-05** | For the sources present, the data is complete — a missing record reflects what was collected, not what was exported | The absent-source report blames the environment for an artifact of how the data was supplied |
 
@@ -430,13 +439,18 @@ was reached rather than what it is.
 
 ---
 
-## 8. Open questions
+## 8. Decisions taken
 
-| # | Question | Blocks | Proposal |
-|---|---|---|---|
-| **Q1** | What vocabulary expresses evidential strength — the intelligence community's estimative terms with a separate confidence statement, or a simpler three-tier scale? And is a conclusion resting on a single source **weakly** supported even when that source directly records the act? The upload record is the case in point: one source records the act itself, while the staging-to-upload link beside it carries two | R3.2, R3.3 | Separate the likelihood of a claim from the strength of its evidence; never combine them in one sentence. Second half unresolved |
-| **Q2** | How long may the system take to reconstruct the data, and to answer one question? | NFR-03, R6.7 | 10 seconds; 60 seconds |
-| **Q4** | The client is a healthcare organisation. May log content be sent unrestricted to a service outside the analyst's machine, or must it be reduced first? | NFR-04 | **Unresolved — shapes the whole design** |
+The three questions that blocked Phase 1 are settled. Recorded here because each rejected an
+alternative, and the reasoning is the raw material for the walkthrough.
+
+| Question | Decision | Alternative rejected |
+|---|---|---|
+| How to express evidential strength | Label the **structure** of the support — Corroborated, Single-sourced, Absence-based, with resolution-dependent and conflicted flags (R3.2–R3.5). Every label is countable, so none is disputable | Intelligence-community estimative terms with percentage bands. The system has no probability model, so any percentage would be invented — the exact failure §1 guards against. Structural facts are also strictly more informative |
+| Timing | 5 seconds to reconstruct, 30 seconds to answer (NFR-03, R6.7) | 60 seconds to answer. A minute of silence in a live walkthrough is the worst thing that can happen in the room |
+| Whether incident data may leave the analyst's machine | It may, where the design uses an outside service; all egress is documented (NFR-04), no conclusion rests solely on such a service (NFR-02a), and provenance checks apply regardless of a claim's origin (NFR-04a) | Restricting an outside service to wording only. That is an architectural decision masquerading as a requirement, and it would foreclose designs where a service proposes findings that are then validated. Constraining what may *ground* a conclusion is both design-neutral and stronger |
+
+The role an outside service actually plays is **D-02** in [design.md](design.md) and is still open.
 
 ---
 
@@ -444,8 +458,8 @@ was reached rather than what it is.
 
 - [ ] No implementation detail: no architecture, no components, no technology
 - [ ] Every acceptance criterion is testable and unambiguous
-- [ ] No `[NEEDS CLARIFICATION]` markers remain
 - [ ] The ten requirements in §2 are the right ones, at the right priorities
+- [ ] The three decisions in §8 are the right calls
 - [ ] The success criteria in §4 are the right measures
 - [ ] The assumptions in §5 are acceptable, in particular A-04 and A-05
 - [ ] The acceptance scenarios in §6 are what the system should be judged against
