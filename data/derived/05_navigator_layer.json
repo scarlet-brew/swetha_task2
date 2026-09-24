@@ -6,34 +6,44 @@
       "#F0E6D2",
       "#453D34"
     ],
-    "maxValue": 4,
+    "maxValue": 21,
     "minValue": 0
   },
   "name": "INC-2026-0610-001",
   "techniques": [
     {
-      "comment": "SMB/Windows Admin Shares",
+      "comment": "Protocol or Service Impersonation",
       "score": 1,
-      "techniqueID": "T1021.002"
+      "techniqueID": "T1001.003"
     },
     {
-      "comment": "SSH",
-      "score": 1,
-      "techniqueID": "T1021.004"
+      "comment": "Remote Services",
+      "score": 5,
+      "techniqueID": "T1021"
     },
     {
-      "comment": "Match Legitimate Resource Name or Location",
-      "score": 2,
-      "techniqueID": "T1036.005"
+      "comment": "Remote Desktop Protocol",
+      "score": 7,
+      "techniqueID": "T1021.001"
+    },
+    {
+      "comment": "Exfiltration Over Unencrypted Non-C2 Protocol",
+      "score": 1,
+      "techniqueID": "T1048.003"
     },
     {
       "comment": "Command and Scripting Interpreter",
-      "score": 2,
+      "score": 1,
       "techniqueID": "T1059"
     },
     {
+      "comment": "File Deletion",
+      "score": 1,
+      "techniqueID": "T1070.004"
+    },
+    {
       "comment": "Application Layer Protocol",
-      "score": 4,
+      "score": 12,
       "techniqueID": "T1071"
     },
     {
@@ -42,24 +52,59 @@
       "techniqueID": "T1071.003"
     },
     {
-      "comment": "File and Directory Discovery",
-      "score": 2,
-      "techniqueID": "T1083"
+      "comment": "DNS",
+      "score": 7,
+      "techniqueID": "T1071.004"
     },
     {
-      "comment": "Domain Account",
+      "comment": "External Proxy",
       "score": 1,
-      "techniqueID": "T1087.002"
+      "techniqueID": "T1090.002"
     },
     {
       "comment": "Non-Application Layer Protocol",
-      "score": 2,
+      "score": 6,
       "techniqueID": "T1095"
     },
     {
-      "comment": "Parent PID Spoofing",
+      "comment": "Password Guessing",
       "score": 1,
-      "techniqueID": "T1134.004"
+      "techniqueID": "T1110.001"
+    },
+    {
+      "comment": "Password Spraying",
+      "score": 1,
+      "techniqueID": "T1110.003"
+    },
+    {
+      "comment": "Credential Stuffing",
+      "score": 1,
+      "techniqueID": "T1110.004"
+    },
+    {
+      "comment": "Forced Authentication",
+      "score": 2,
+      "techniqueID": "T1187"
+    },
+    {
+      "comment": "Exploitation for Client Execution",
+      "score": 5,
+      "techniqueID": "T1203"
+    },
+    {
+      "comment": "Malicious Link",
+      "score": 1,
+      "techniqueID": "T1204.001"
+    },
+    {
+      "comment": "Exploitation for Credential Access",
+      "score": 2,
+      "techniqueID": "T1212"
+    },
+    {
+      "comment": "Data from Cloud Storage",
+      "score": 21,
+      "techniqueID": "T1530"
     },
     {
       "comment": "Transfer Data to Cloud Account",
@@ -67,9 +112,29 @@
       "techniqueID": "T1537"
     },
     {
-      "comment": "Remote Service Session Hijacking",
+      "comment": "Use Alternate Authentication Material",
+      "score": 4,
+      "techniqueID": "T1550"
+    },
+    {
+      "comment": "Pass the Hash",
+      "score": 5,
+      "techniqueID": "T1550.002"
+    },
+    {
+      "comment": "Name Resolution Poisoning and SMB Relay",
       "score": 1,
+      "techniqueID": "T1557.001"
+    },
+    {
+      "comment": "Remote Service Session Hijacking",
+      "score": 2,
       "techniqueID": "T1563"
+    },
+    {
+      "comment": "Spearphishing Attachment",
+      "score": 1,
+      "techniqueID": "T1566.001"
     },
     {
       "comment": "Exfiltration to Cloud Storage",
@@ -77,9 +142,19 @@
       "techniqueID": "T1567.002"
     },
     {
+      "comment": "Non-Standard Port",
+      "score": 5,
+      "techniqueID": "T1571"
+    },
+    {
       "comment": "Protocol Tunneling",
-      "score": 1,
+      "score": 5,
       "techniqueID": "T1572"
+    },
+    {
+      "comment": "Hijack Execution Flow",
+      "score": 1,
+      "techniqueID": "T1574"
     }
   ],
   "versions": {

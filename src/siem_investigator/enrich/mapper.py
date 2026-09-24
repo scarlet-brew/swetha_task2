@@ -92,9 +92,16 @@ def validation_failures(
         values.add(str(observation["normalised_value"]).lower())
         values.add(str(observation["raw_value"]).lower())
     for quoted in selection["quoted_values"]:
-        needle = quoted.lower()
-        if not any(needle in value or value in needle for value in values):
-            problems.append(f"quoted value {quoted!r} appears in no cited observation")
+        needle = quoted.lower().strip()
+        # Exact match, or the quote appearing verbatim *inside* a value -- a
+        # command line legitimately contains a filename. What is no longer
+        # accepted is the reverse: a stored value containing the quote as a
+        # substring, which let `;10.0.2.18` pass against `10.0.2.18` and put
+        # three invented semicolons into a committed mapping.
+        if needle not in values and not any(needle in value for value in values):
+            problems.append(
+                f"quoted value {quoted!r} does not appear verbatim in any cited observation"
+            )
 
     if finding["stage"] not in technique.tactics:
         problems.append(
@@ -106,13 +113,26 @@ def validation_failures(
 
 
 def map_findings(
-    findings: list[dict], observations: list[dict], catalogue: Catalogue, *, client_module=None
+    findings: list[dict],
+    observations: list[dict],
+    catalogue: Catalogue,
+    *,
+    client_module=None,
+    batch_size: int = 8,
 ) -> tuple[list[dict], list[dict]]:
-    """`(mappings, unmapped)`."""
+    """`(mappings, unmapped)`.
+
+    Technique selection is the most parallel step in the system: one call per
+    accepted finding, no ordering between them, no shared state. Running them
+    one at a time was costing a minute per eight findings for no reason.
+    """
     by_id = {observation["id"]: observation for observation in observations}
     mappings: list[dict] = []
     unmapped: list[dict] = []
+    pending: list[tuple[dict, list[dict], list[dict]]] = []
 
+    # Everything before the model call is deterministic, so retrieval happens
+    # for every finding first and only the calls are batched.
     for finding in findings:
         cited = [by_id[obs] for obs in finding["cites_observations"] if obs in by_id]
         candidates = retrieve(finding, cited, catalogue)
@@ -143,25 +163,42 @@ def map_findings(
             )
             continue
 
+        pending.append((finding, cited, candidates))
+
+    # ---- the one parallel step ------------------------------------------
+    def select(item):
+        finding, cited, candidates = item
         model_type = schemas.technique_selection_model(
             tuple(candidate["technique_id"] for candidate in candidates)
         )
-        user = _render(finding, cited, candidates)
-        try:
-            result = client_module.call(
-                site=contracts.SELECT_TECHNIQUE.name,
-                model_type=model_type,
-                system=contracts.SELECT_TECHNIQUE.system,
-                user=user,
-                max_tokens=1500,
-            )
-        except Exception as exc:
+        return client_module.call(
+            site=contracts.SELECT_TECHNIQUE.name,
+            model_type=model_type,
+            system=contracts.SELECT_TECHNIQUE.system,
+            user=_render(finding, cited, candidates),
+            max_tokens=1500,
+        )
+
+    results: list[Any] = []
+    if pending:
+        from concurrent.futures import ThreadPoolExecutor
+
+        with ThreadPoolExecutor(max_workers=min(len(pending), batch_size)) as pool:
+            futures = [pool.submit(select, item) for item in pending]
+            for future in futures:
+                try:
+                    results.append(future.result())
+                except Exception as exc:  # noqa: BLE001
+                    results.append(exc)
+
+    for (finding, cited, candidates), result in zip(pending, results):
+        if isinstance(result, Exception):
             unmapped.append(
                 {
                     "id": ids.node_id("map", {"finding": finding["id"], "outcome": "call_failed"}),
                     "finding": finding["id"],
                     "outcome": "unmapped",
-                    "reason": f"{type(exc).__name__}: {exc}",
+                    "reason": f"{type(result).__name__}: {result}",
                 }
             )
             continue

@@ -47,13 +47,29 @@ STAGES = frozenset(typing.get_args(schemas.IntrusionStage))
 #: costs one lookup, a missed one lets a fabrication through.
 _IDENTIFIER = re.compile(
     r"""
-    (?:EVT-\d{3,})                      # event ids
-  | (?:\b\d{1,3}(?:\.\d{1,3}){3}\b)     # IPv4
-  | (?:\b[A-Za-z0-9_-]+\.(?:exe|dll|zip|ps1|bat|dmp|7z|log)\b)   # filenames
-  | (?:\b[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+\b)                        # WKSTN-07, FILE-SRV-01
+    (?:EVT-\d{3,})                                  # event ids
+  | (?:\b\d{1,3}(?:\.\d{1,3}){3}\b)                 # IPv4
+  | (?:\b[A-Za-z0-9_-]+\.(?:exe|dll|zip|ps1|bat|dmp|7z|log|dit|tmp)\b)  # filenames
+  | (?:\bpid\s+\d+\b)                              # pid 5104
+  | (?:\b\d{1,3}(?:,\d{3})+\b)                      # 2,473,829,122
+  | (?:\b\d{7,}\b)                                  # 2473829122
     """,
-    re.VERBOSE,
+    re.VERBOSE | re.IGNORECASE,
 )
+
+#: Entity kinds checked by **lookup against the graph** rather than by pattern.
+#:
+#: `wkstn-07` and `hidden-window` are the same shape once lowercased, so no
+#: regex can tell a hostname from an English compound. Matching on shape
+#: rejected `document-borne`, `hidden-window` and `one-off` as invented
+#: hostnames -- 58 of 60 rejections in one build, including the initial-access
+#: finding, which cost 50 points of recall.
+#:
+#: Lookup is also the stronger check. A name the graph has never seen is prose;
+#: a name the graph *does* know, appearing in a statement that never cited it,
+#: is exactly the misattribution worth catching -- "jclark exfiltrated the
+#: archive" when the record says jdavis.
+LOOKED_UP_ENTITIES = ("account", "host", "process", "file", "bucket", "service")
 
 #: R3.4 -- no probability, percentage or adjective of belief in a conclusion.
 _BELIEF = re.compile(
@@ -76,6 +92,23 @@ class Verdict:
 
 
 def candidate_identifiers(statement: str) -> set[str]:
+    """Tokens in a statement a reader could go and check.
+
+    Widened after an audit found the original pattern caught almost nothing: it
+    matched hostnames only in upper case, while the pipeline lowercases every
+    hostname, so `wkstn-07` and `file-srv-02` were never checked at all.
+    Account names, pids and byte counts were never checked either. On
+    "on wkstn-07 under user jdavis, pid 5104 dumped lsass.exe" it found exactly
+    two tokens, and neither was the host or the account.
+
+    Accounts are handled by the caller rather than by a pattern: a bare
+    lowercase word is indistinguishable from prose, so the check tests whether
+    every account *known to the graph* that appears in the statement is also in
+    a cited observation.
+    """
+    # No blocklist any more: every pattern above has unambiguous syntax, so
+    # there is nothing to exempt. The blocklist existed only to hold back the
+    # hyphenated-word pattern that has been removed.
     return {match.group(0) for match in _IDENTIFIER.finditer(statement)}
 
 
@@ -117,23 +150,80 @@ def validate(
 
     # ---- check 3: no invented identifier ----------------------------------
     statement = str(proposal.get("statement", ""))
+
+    # Grounding is every value on every **cited record**, not only the values of
+    # the cited observations.
+    #
+    # This distinction cost a whole build. Grounded in the observations alone, a
+    # finding citing the process fields of an endpoint record and then writing
+    # "under user jdavis" was rejected for inventing `jdavis` -- whose username
+    # sits on that same record, uncited. 68 of 91 proposals were refused and
+    # recall went to zero.
+    #
+    # A record is the atomic unit of evidence. Citing one of its fields does not
+    # make the others invented. The check still bites: an identifier from a
+    # record the finding never cited is still refused, which is the fabrication
+    # it exists to catch.
     grounded_values: set[str] = set()
+    cited_records: set[str] = set()
     for obs in cited_observations:
         observation = index.by_id.get(obs)
         if observation is None:
             continue
-        grounded_values.add(str(observation["normalised_value"]))
-        grounded_values.add(str(observation["raw_value"]))
+        cited_records.add(observation["record"])
         grounded_values.add(observation["event_id"])
+    for record_id in cited_records:
+        for sibling in index.by_record.get(record_id, []):
+            grounded_values.add(str(sibling["normalised_value"]))
+            grounded_values.add(str(sibling["raw_value"]))
+            grounded_values.add(sibling["event_id"])
     lowered = {value.lower() for value in grounded_values}
 
     invented = []
+
+    # Entity names by lookup rather than by shape. Every account, host, process,
+    # file, bucket and service the *graph* knows is looked for in the statement;
+    # one that appears without being on a cited record is an invented
+    # attribution. A word the graph has never seen is prose.
+    known = {
+        str(observation["normalised_value"]).lower()
+        for observation in index.observations
+        if observation.get("entity_type") in LOOKED_UP_ENTITIES
+        and len(str(observation["normalised_value"])) > 2
+    }
+    cited_entities = {
+        str(sibling["normalised_value"]).lower()
+        for record_id in cited_records
+        for sibling in index.by_record.get(record_id, [])
+        if sibling.get("entity_type") in LOOKED_UP_ENTITIES
+    }
+    # `.rstrip(".")` matters: the character class admits dots so that
+    # `winword.exe` matches as one token, which means a name at the end of a
+    # sentence arrives as `file-srv-02.` and misses the lookup. Trailing dots go;
+    # interior ones stay.
+    tokens = {
+        token.rstrip(".")
+        for token in re.findall(r"[a-z][a-z0-9_.\-]{2,}", statement.lower())
+    }
+    for name in sorted((known & tokens) - cited_entities):
+        invented.append(name)
+
     for token in candidate_identifiers(statement):
-        if token.lower() in lowered:
+        needle = token.lower()
+        # `pid 5104` is matched as a phrase so the digits are not mistaken for a
+        # byte count, but grounding holds the bare value `5104`. Without this
+        # every statement naming a process id was rejected for inventing it --
+        # which took out the LSASS credential-access finding on step 1 of a run.
+        if needle.startswith("pid "):
+            needle = needle.split(None, 1)[1]
+        # Thousands separators are presentation: 2,473,829,122 is grounded as
+        # 2473829122.
+        stripped = needle.replace(",", "")
+        if needle in lowered or stripped in lowered:
             continue
         # A token appearing inside any cited value also counts as grounded --
         # a command line legitimately contains a filename.
-        if any(token.lower() in value for value in lowered):
+        if any(needle in value or stripped in value for value in lowered):
             continue
         invented.append(token)
     checks["3_no_invented_identifier"] = not invented

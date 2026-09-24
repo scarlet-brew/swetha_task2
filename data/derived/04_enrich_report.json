@@ -2,29 +2,44 @@
   "attack_version": "19.2",
   "catalogue": "data/attack/catalogue_v19.2.json",
   "counts": {
-    "findings": 25,
-    "mapped": 21,
+    "findings": 134,
+    "mapped": 103,
     "selectable_enum_size": 697,
-    "unmapped": 4
+    "unmapped": 31
   },
   "techniques": [
-    "T1021.002",
-    "T1021.004",
-    "T1036.005",
+    "T1001.003",
+    "T1021",
+    "T1021.001",
+    "T1048.003",
     "T1059",
+    "T1070.004",
     "T1071",
     "T1071.003",
-    "T1083",
-    "T1087.002",
+    "T1071.004",
+    "T1090.002",
     "T1095",
-    "T1134.004",
+    "T1110.001",
+    "T1110.003",
+    "T1110.004",
+    "T1187",
+    "T1203",
+    "T1204.001",
+    "T1212",
+    "T1530",
     "T1537",
+    "T1550",
+    "T1550.002",
+    "T1557.001",
     "T1563",
+    "T1566.001",
     "T1567.002",
-    "T1572"
+    "T1571",
+    "T1572",
+    "T1574"
   ],
   "unmapped_outcomes": {
-    "rejected": 4
+    "rejected": 31
   },
   "verification": {
     "every_id_name_pair_is_consistent": true,

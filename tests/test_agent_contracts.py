@@ -65,12 +65,23 @@ class TheClosedVocabularies(unittest.TestCase):
         self.assertIn("defense-impairment", stages)
         self.assertNotIn("defense-evasion", stages)
 
-    def test_ten_relations_and_no_composite(self):
-        """Ten relation *types*, zero detection rules. A composite like
-        `staged_then_uploaded` would both compute a link and call it exfiltration
-        -- the interpretation leak that killed design draft 3."""
+    def test_eleven_relations_and_no_composite(self):
+        """Eleven relation *types*, zero detection rules.
+
+        Design D-07 locked ten. `process_pid` is the eleventh, added after an
+        audit found that nothing in the system compared process ids -- so
+        EVT-0226 (PowerShell pid 5104 reading LSASS) had **no path at all** to
+        EVT-0222 (the creation of pid 5104), and the credential theft could not
+        be connected to the shell that performed it.
+
+        It earns the place on the same terms as the other ten: atomic, an exact
+        equality between a named field of two records, and it decides nothing.
+        What is still forbidden is a composite like `staged_then_uploaded`,
+        which would both compute a link and call it exfiltration -- the
+        interpretation leak that killed design draft 3.
+        """
         relations = set(typing.get_args(schemas.RelationName))
-        self.assertEqual(len(relations), 10)
+        self.assertEqual(len(relations), 11)
         self.assertEqual(
             relations,
             {
@@ -80,6 +91,7 @@ class TheClosedVocabularies(unittest.TestCase):
                 "same_file",
                 "same_size",
                 "process_parent",
+                "process_pid",
                 "temporal_within",
                 "flow_endpoint",
                 "session_bracket",
@@ -89,6 +101,42 @@ class TheClosedVocabularies(unittest.TestCase):
         for name in relations:
             with self.subTest(relation=name):
                 self.assertNotIn("_then_", name, "a composite relation interprets")
+
+    def test_the_event_kind_vocabulary_is_the_datasets_own(self):
+        """The fix for the worst failure in the build.
+
+        With an open string here, 18 of 24 hypotheses predicted kinds that
+        cannot exist -- `authentication/logon`, `endpoint/network_connection` --
+        so the search never matched and all 13 misses were reported as verified
+        gaps in log coverage. A false claim of blindness tells a reader to stop
+        looking, which is worse than a missed detection.
+        """
+        census = json.loads(
+            (_env.FIXTURES_DIR / "dataset_census.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            sorted(typing.get_args(schemas.EventKind)),
+            sorted(census["event_kinds"]["counts"]),
+        )
+        self.assertEqual(
+            sorted(typing.get_args(schemas.SourceType)),
+            sorted(census["by_source_type"]),
+        )
+
+    def test_a_kind_that_cannot_exist_is_unrepresentable(self):
+        import pydantic
+
+        with self.assertRaises(pydantic.ValidationError):
+            schemas.Hypothesis(
+                premises=["fnd_a"],
+                predicted_entity="jdavis",
+                predicted_role="actor",
+                predicted_event_kind="authentication/logon",   # not a real kind
+                predicted_source_type="auth",
+                window_start="2026-06-10T08:00:00.000000Z",
+                window_end="2026-06-13T08:00:00.000000Z",
+                rationale="x",
+            )
 
     def test_seek_distinguishes_absent_from_uncovered(self):
         """Without `not_covered`, "not found" conflates absence from the
@@ -459,7 +507,20 @@ class TheClosedFieldsReachTheWire(unittest.TestCase):
             schema = client.wire_schema(regen_egress_fixture.model_type_for(site))
             closed.update(path.rsplit(".", 1)[-1] for path in self._enum_paths(schema))
         self.assertEqual(
-            closed, {"stage", "relation", "predicted_role", "technique_id", "kind"}
+            closed,
+            {
+                "stage",
+                "relation",
+                "predicted_role",
+                "technique_id",
+                "kind",
+                # Closed at P0. With these two open, 18 of 24 hypotheses
+                # predicted event kinds that cannot exist, so the search never
+                # matched and all 13 misses were published as verified gaps in
+                # log coverage.
+                "predicted_event_kind",
+                "predicted_source_type",
+            },
         )
 
     def test_no_contract_carries_a_belief_value_at_any_depth(self):

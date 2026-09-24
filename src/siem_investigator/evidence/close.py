@@ -52,9 +52,42 @@ def label_for(finding: dict, observations: dict[str, dict]) -> tuple[str, list[s
         return "absence_based", flags
     if conflicted:
         return "conflicted", flags
-    if len(sources) >= 2:
+    # Two source types is necessary but not sufficient. The label used to be
+    # awarded whenever citations *spanned* two sources, so domain-user
+    # enumeration plus an unrelated DNS-port flow 5 minutes away counted as
+    # corroborated domain-user enumeration. It was not: the second source said
+    # nothing about the first claim.
+    #
+    # Corroboration now requires the two sources to be talking about the same
+    # thing -- a shared entity value across the source boundary. Time proximity
+    # alone is explicitly not enough, which is what "temporal adjacency is a
+    # reason to look, not evidence" means when implemented rather than asserted.
+    if len(sources) >= 2 and _sources_agree(cited):
         return "corroborated", flags
     return "single_sourced", flags
+
+
+def _sources_agree(cited: list[dict]) -> bool:
+    """Whether two different sources name a common entity value.
+
+    The weakest defensible reading of "independent agreement": an account, host,
+    address, file or size appearing in records from two distinct source types.
+    """
+    by_value: dict[tuple[str, object], set[str]] = defaultdict(set)
+    for observation in cited:
+        if observation.get("entity_type") in (
+            "account",
+            "host",
+            "address",
+            "file",
+            "size",
+            "process",
+            "bucket",
+            "service",
+        ):
+            key = (observation["entity_type"], observation["normalised_value"])
+            by_value[key].add(observation["source_type"])
+    return any(len(sources) >= 2 for sources in by_value.values())
 
 
 def apply_labels(findings: list[dict], observations: list[dict]) -> list[dict]:

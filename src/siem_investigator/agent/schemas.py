@@ -44,6 +44,7 @@ RelationName = Literal[
     "same_file",
     "same_size",
     "process_parent",
+    "process_pid",
     "temporal_within",
     "flow_endpoint",
     "session_bracket",
@@ -78,6 +79,37 @@ IntrusionStage = Literal[
     "resource-development",
     "stealth",
 ]
+
+
+#: The 14 logical event kinds the dataset contains, and its 4 source types.
+#:
+#: Closed, because an open string here produced the worst failure in the build:
+#: 18 of 24 hypotheses predicted kinds like `authentication/logon`, which cannot
+#: exist, so the search never matched and every miss was reported as "no source
+#: covers this". A false claim of blindness is worse than a missed detection --
+#: it tells a reader to stop looking.
+#:
+#: `tests/test_agent_contracts.py` pins both to the committed census, so a
+#: dataset with different kinds fails loudly instead of silently degrading every
+#: absence claim.
+EventKind = Literal[
+    "auth/failed_logon",
+    "auth/user_logoff",
+    "auth/user_logon",
+    "cloud_storage/file_download",
+    "cloud_storage/file_share",
+    "cloud_storage/file_upload",
+    "cloud_storage/file_view",
+    "endpoint/file_create",
+    "endpoint/file_delete",
+    "endpoint/process_access",
+    "endpoint/process_create",
+    "endpoint/service_create",
+    "endpoint/service_delete",
+    "network/network_connection",
+]
+
+SourceType = Literal["auth", "cloud_storage", "endpoint", "network"]
 
 #: What a SEEK returns. `not_covered` is the one that makes `not_found`
 #: meaningful: without it, "not found" conflates absence from the environment
@@ -180,11 +212,19 @@ class Hypothesis(BaseModel):
     predicted_role: EntityRole = Field(
         description="The role that entity should hold in the predicted record."
     )
-    predicted_event_kind: str = Field(
-        description="The source_type/event_name kind the record should be, e.g. endpoint/process_create."
+    predicted_event_kind: EventKind = Field(
+        description=(
+            "The source_type/event_name kind the record should be. Closed to the kinds "
+            "this dataset actually contains, so a prediction cannot fail merely for "
+            "naming something that never existed."
+        )
     )
-    predicted_source_type: str = Field(
-        description="Which log source should carry it. Used to tell absence from blindness."
+    predicted_source_type: SourceType = Field(
+        description=(
+            "Which log source should carry it, closed for the same reason. This field is "
+            "what lets the search tell absence from blindness, so it has to name a real "
+            "source."
+        )
     )
     window_start: str = Field(description="Earliest instant the record could hold, ISO-8601 UTC.")
     window_end: str = Field(description="Latest instant the record could hold, ISO-8601 UTC.")

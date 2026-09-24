@@ -1,6 +1,6 @@
 {
   "_note": "The exact serialised request body of every model site, captured through a mock transport by scripts/regen_egress_fixture.py. Nothing was sent. Checked against docs/egress.md by tests/test_egress_inventory.py.",
-  "contract_set_hash": "91b6bf5ff2c1087ef7271885ec6a711fb507459b8e09480818cac6401e74628f",
+  "contract_set_hash": "d34281130544ff53fcc09ea8ec73cbac53c9a3c8b2ac77482e69cb4aaff7f2e5",
   "provider_sdk_version": "0.84.0",
   "sample_event_ids": [
     "EVT-0141",
@@ -188,7 +188,23 @@
                   "type": "string"
                 },
                 "predicted_event_kind": {
-                  "description": "The source_type/event_name kind the record should be, e.g. endpoint/process_create.",
+                  "description": "The source_type/event_name kind the record should be. Closed to the kinds this dataset actually contains, so a prediction cannot fail merely for naming something that never existed.",
+                  "enum": [
+                    "auth/failed_logon",
+                    "auth/user_logoff",
+                    "auth/user_logon",
+                    "cloud_storage/file_download",
+                    "cloud_storage/file_share",
+                    "cloud_storage/file_upload",
+                    "cloud_storage/file_view",
+                    "endpoint/file_create",
+                    "endpoint/file_delete",
+                    "endpoint/process_access",
+                    "endpoint/process_create",
+                    "endpoint/service_create",
+                    "endpoint/service_delete",
+                    "network/network_connection"
+                  ],
                   "title": "Predicted Event Kind",
                   "type": "string"
                 },
@@ -204,7 +220,13 @@
                   "type": "string"
                 },
                 "predicted_source_type": {
-                  "description": "Which log source should carry it. Used to tell absence from blindness.",
+                  "description": "Which log source should carry it, closed for the same reason. This field is what lets the search tell absence from blindness, so it has to name a real source.",
+                  "enum": [
+                    "auth",
+                    "cloud_storage",
+                    "endpoint",
+                    "network"
+                  ],
                   "title": "Predicted Source Type",
                   "type": "string"
                 },
@@ -275,7 +297,7 @@
           "text": "ACCEPTED SO FAR\n  fnd_73d07c572bf9  (execution)  notepad.exe was created by explorer.exe on WKSTN-08, recorded at 2026-06-13T03:04:15.015833Z."
         }
       ],
-      "prompt_hash": "e6fc344a3befa83a50e47302592a3c3a94a3d749cbe5c0056399ee11f53ec4ff",
+      "prompt_hash": "aff86882162fb823e0a696613af48d96752671fd4297a483d01c5aeafa1f5f4d",
       "request_body": {
         "max_tokens": 2048,
         "messages": [
@@ -307,6 +329,7 @@
                         "same_file",
                         "same_size",
                         "process_parent",
+                        "process_pid",
                         "temporal_within",
                         "flow_endpoint",
                         "session_bracket",
@@ -394,7 +417,7 @@
             "type": "json_schema"
           }
         },
-        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nYou are given a neighbourhood: some observations, and the factual edges that hold between them. The edges were computed deterministically and are true; your job is to say what they mean, if they mean anything.\n\nCite the specific edges your reading rests on. If the neighbourhood supports no interpretation, say so rather than manufacturing one -- \"nothing here\" is a useful answer and a wrong finding is not.\n\n`temporal_within` reports the interval between two observations rather than thresholding it. Decide in context whether a given gap is meaningful: this intrusion's own related activities are separated by anything from two seconds to an hour and a half.\n",
+        "system": "You are an evidence-bound assistant reconstructing a cyber intrusion from already-parsed log observations.\n\nThree rules, and they are absolute:\n\n1. Name only entities, values, identifiers and timestamps that appear in an observation you cite. An identifier you did not read in the supplied material is a fabrication, and a deterministic check will reject the whole proposal and name it.\n2. Never state a probability, a percentage, a confidence level or an adjective of belief. How strongly something is supported is computed from the evidence structure afterwards, not asserted by you.\n3. Absence is not evidence on its own. If you believe something did not happen, say what record would have shown it and which source should have carried it, so the difference between \"it did not happen\" and \"no source could have seen it\" stays visible.\n\nYou are given a neighbourhood: some observations, and the factual edges that hold between them. The edges were computed deterministically and are true; your job is to say what they mean, if they mean anything.\n\n**Read the chain before you judge the record.** The relations show you what else this account, host, process or file did, and in what order. An ordinary-looking command can be part of an intrusion because of how the account got there -- `net user /domain` is routine administration, unless that account's credentials were read out of memory an hour earlier on the machine it came from. The reverse holds too: an alarming-looking tool is often just administration. The evidence for which is in the relations, so use them rather than judging the record alone.\n\nCite the specific edges your reading rests on. If the neighbourhood supports no interpretation, say so rather than manufacturing one -- \"nothing here\" is a useful answer and a wrong finding is not.\n\n`process_pid` holds between two **different records** naming the same process id -- the creation of a process and a later action by it. One record's own `pid` and `target_pid` are different processes, so the relation does not hold between them.\n\n`temporal_within` reports the interval between two observations rather than thresholding it. Decide in context whether a given gap is meaningful: this intrusion's own related activities are separated by anything from two seconds to an hour and a half.\n",
         "thinking": {
           "type": "adaptive"
         }

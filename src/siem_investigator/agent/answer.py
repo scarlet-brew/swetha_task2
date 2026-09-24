@@ -82,14 +82,36 @@ from .artifacts import Artifacts  # noqa: E402
 __all__ = ["Artifacts", "ask", "gate", "strip_node_ids", "to_payload"]
 
 
+#: Tokens that mark a sentence as an assertion about this incident rather than
+#: conversational filler. Used only to decide whether an empty `claims` list is
+#: honest or a hole.
+_INCIDENT_TERMS = (
+    "attacker", "exfiltrat", "compromis", "lateral", "credential", "malicious",
+    "intrusion", "breach", "c2", "command-and-control", "privilege", "payload",
+    "wkstn", "file-srv", "auth-srv", "gb", "mb", "bytes", "evt-",
+)
+
+
+def _asserts_about_the_incident(body: str) -> bool:
+    lowered = body.lower()
+    return any(term in lowered for term in _INCIDENT_TERMS)
+
+
 def gate(answer: dict, artifacts: Artifacts) -> tuple[bool, list[str]]:
     """The deterministic citation gate. `(passes, failures)`."""
     failures: list[str] = []
 
-    # An empty claim list is allowed. R2.2 says an *uncited claim* is a bug, not
-    # that every answer must assert something -- and an answer forced to produce
-    # a claim it has no evidence for is the failure this design exists to stop.
-    # Limitations belong in `gaps`, which need no citation.
+    # An empty claim list is allowed *only* for a body that asserts nothing.
+    # Allowing it unconditionally opened a hole an audit walked straight
+    # through: a fabricated body with zero claims passed the gate cleanly. So
+    # the body is checked for the shape of an assertion about the incident, and
+    # if it makes one it must be backed by claims.
+    body = str(answer.get("body", ""))
+    if not answer.get("claims") and _asserts_about_the_incident(body):
+        failures.append(
+            "the body makes claims about the incident but `claims` is empty, so nothing "
+            "is cited; an uncited assertion is a bug (R2.2)"
+        )
 
     for index, claim in enumerate(answer.get("claims", []), start=1):
         cited = (
@@ -112,8 +134,17 @@ def gate(answer: dict, artifacts: Artifacts) -> tuple[bool, list[str]]:
                 "observation-only citations support facts, not attributions"
             )
 
-        if claim.get("kind") == "absence" and not claim.get("basis"):
-            failures.append(f"claim {index}: an absence claim must name its basis")
+        # The schema field is `applies_because`; the gate used to look for
+        # `basis`, so every schema-valid absence claim was refused and the
+        # answer withheld. Both names are accepted, and the mismatch is the
+        # reason to keep the check reading from the contract rather than from
+        # memory.
+        if claim.get("kind") == "absence" and not (
+            claim.get("basis") or claim.get("applies_because")
+        ):
+            failures.append(
+                f"claim {index}: an absence claim must say why its basis applies"
+            )
 
     return not failures, failures
 

@@ -92,11 +92,11 @@ You are given a neighbourhood: some observations, and the factual edges that \
 hold between them. The edges were computed deterministically and are true; \
 your job is to say what they mean, if they mean anything.
 
-Cite the specific edges your reading rests on. If the neighbourhood supports no \
+**Read the chain before you judge the record.** The relations show you what else this account, host, process or file did, and in what order. An ordinary-looking command can be part of an intrusion because of how the account got there -- `net user /domain` is routine administration, unless that account's credentials were read out of memory an hour earlier on the machine it came from. The reverse holds too: an alarming-looking tool is often just administration. The evidence for which is in the relations, so use them rather than judging the record alone.\n\nCite the specific edges your reading rests on. If the neighbourhood supports no \
 interpretation, say so rather than manufacturing one -- "nothing here" is a \
 useful answer and a wrong finding is not.
 
-`temporal_within` reports the interval between two observations rather than \
+`process_pid` holds between two **different records** naming the same process id -- the creation of a process and a later action by it. One record's own `pid` and `target_pid` are different processes, so the relation does not hold between them.\n\n`temporal_within` reports the interval between two observations rather than \
 thresholding it. Decide in context whether a given gap is meaningful: this \
 intrusion's own related activities are separated by anything from two seconds \
 to an hour and a half.

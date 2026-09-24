@@ -239,8 +239,14 @@ class TheValidatorRejectsWhatItShould(unittest.TestCase):
         self.assertTrue(verdict.accepted, verdict.diagnostics)
 
     def test_every_rejection_carries_a_specific_diagnostic(self):
+        # `file-srv-02` rather than `WKSTN-99`: entity names are now checked by
+        # lookup against the graph, not by shape, so a host that exists nowhere
+        # in 242 records is prose and is correctly left alone. A host that does
+        # exist, named by a finding that never cited it, is the misattribution
+        # worth catching.
         verdict = validate.validate(
-            self._base(statement="WKSTN-99 did something.", stage="pivoting"), index=self.index
+            self._base(statement="file-srv-02 did something.", stage="pivoting"),
+            index=self.index,
         )
         self.assertFalse(verdict.accepted)
         self.assertGreaterEqual(len(verdict.diagnostics), 2)
@@ -330,8 +336,20 @@ class TheAccuracyGate(unittest.TestCase):
             f"\n  [accuracy] attack-event recall {recall:.0%} ({len(hits)}/{len(truth)}), "
             f"precision {precision:.0%} ({len(hits)}/{len(cited)})"
         )
-        # Reported, not gated. The assertion is only that the measurement ran.
-        self.assertGreaterEqual(len(cited), 1)
+        # Now gated, not merely printed. An audit pointed out that 294 passing
+        # tests sat happily beside 59% recall because this test asserted
+        # nothing -- so the suite measured structure and never outcomes.
+        #
+        # The floors are deliberately below the current measurement rather than
+        # at it: they are there to catch a regression that loses half the
+        # intrusion, not to freeze today's number as a target. A model-backed
+        # run varies; a run that drops under these has broken something.
+        self.assertGreaterEqual(
+            recall, 0.70, f"attack-event recall fell to {recall:.0%}"
+        )
+        self.assertGreaterEqual(
+            precision, 0.40, f"attack-event precision fell to {precision:.0%}"
+        )
 
 
 if __name__ == "__main__":

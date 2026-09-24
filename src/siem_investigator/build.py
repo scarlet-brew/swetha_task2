@@ -36,7 +36,7 @@ def _stamp(extra: dict[str, Any] | None = None) -> dict[str, Any]:
     return {**contracts.stamp(), "software_version": __version__, **(extra or {})}
 
 
-def run(*, use_model: bool = True, max_steps: int = 40) -> dict[str, Any]:
+def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, Any]:
     started = time.perf_counter()
     reports: dict[str, Any] = {}
 
@@ -93,6 +93,7 @@ def run(*, use_model: bool = True, max_steps: int = 40) -> dict[str, Any]:
         interpreter=interpreter,
         entities=parsed["entities"],
         max_steps=max_steps,
+        batch_size=8,
     )
 
     closed = close.close(ledger.findings, observation_nodes)
@@ -319,7 +320,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--no-model", action="store_true", help="deterministic stages only, no model calls"
     )
-    parser.add_argument("--max-steps", type=int, default=40, help="interpretive loop step budget")
+    parser.add_argument("--max-steps", type=int, default=None, help="records to examine; default is all of them")
     args = parser.parse_args(argv)
 
     print(f"siem-investigator {__version__}  build")

@@ -49,6 +49,48 @@ NOTABLE_PROCESSES = frozenset(
     }
 )
 
+#: Credential stores. Reading one is not proof of theft -- endpoint protection
+#: reads them too -- but it is always worth a look, and nothing scored it.
+CREDENTIAL_STORES = frozenset({"lsass.exe", "ntds.dit", "sam", "security", "lsaiso.exe"})
+
+#: Command-line shapes worth reading: encoding, window hiding, download cradles
+#: and archiving. Ordering only; every one of these appears in benign automation.
+_COMMAND_FLAGS = (
+    "-enc",
+    "-encodedcommand",
+    "-nop",
+    "-w hidden",
+    "-windowstyle hidden",
+    "frombase64string",
+    "downloadstring",
+    "invoke-expression",
+    "iex ",
+    " -hp",
+    "7z",
+    "rar a",
+    "/s /b",
+    # Discovery. `net group "Domain Admins" /domain` is in essentially every
+    # published intrusion report, and nothing here looked for it -- so the
+    # Domain Admins enumeration ranked 56th and was never examined. These are
+    # generic built-in discovery commands, not strings from this dataset.
+    "/domain",
+    "net group",
+    "net localgroup",
+    "net user",
+    "net share",
+    "net view",
+    "whoami",
+    "nltest",
+    "dsquery",
+    "query session",
+)
+
+
+def _suspicious_command(value: str) -> bool:
+    lowered = value.lower()
+    return any(flag in lowered for flag in _COMMAND_FLAGS)
+
+
 #: Office applications: interesting only as a *parent* of an interpreter.
 DOCUMENT_APPS = frozenset({"winword.exe", "excel.exe", "powerpnt.exe", "outlook.exe"})
 
@@ -124,13 +166,72 @@ def score(observations: list[dict], edges: list[dict]) -> dict[str, dict[str, An
                 points += 2
                 reasons.append(f"{observation['normalised_value']:,} bytes is a large transfer")
 
-        # 6. Rarity. Orders review; asserts nothing.
+        # 6. Behaviours the first version of this scorer was blind to, and it
+        #    cost nine attack events. Each is a reason to *look* -- credential
+        #    stores get read by legitimate software, services get installed, and
+        #    files get deleted all day -- but none of them was scored at all, so
+        #    LSASS access ranked 88th and the cleanup sequence past 459th of
+        #    1,951, far beyond any finite step budget.
+        if observation["field"] == "target_process" and str(
+            observation["normalised_value"]
+        ) in CREDENTIAL_STORES:
+            points += 3
+            reasons.append(
+                f"{observation['normalised_value']} holds credentials and is being read "
+                "by another process"
+            )
+
+        if observation["event_name"] in ("service_create", "service_delete"):
+            points += 2
+            reasons.append(f"{observation['event_name']} -- services are a remote-execution path")
+
+        if observation["event_name"] == "file_delete":
+            points += 1.5
+            reasons.append("a file was deleted, which removes evidence as well as data")
+
+        # A successful network logon between two different hosts is the entity
+        # pivot lateral movement is made of. Measured: 5 in this dataset and
+        # only 1 belongs to the intrusion, so this orders review at 20%
+        # precision rather than encoding an answer -- and without it the first
+        # lateral hop ranked 308th and was never examined.
+        if (
+            observation["field"] == "logon_type"
+            and str(observation["normalised_value"]) == "network"
+        ):
+            siblings = by_record.get(observation["record"], [])
+            result = next((s for s in siblings if s["field"] == "result"), None)
+            source = next((s for s in siblings if s["field"] == "source_host"), None)
+            dest = next((s for s in siblings if s["field"] == "dest_host"), None)
+            if (
+                result is not None
+                and str(result["normalised_value"]) == "success"
+                and source is not None
+                and dest is not None
+                and source["normalised_value"] != dest["normalised_value"]
+            ):
+                points += 2.5
+                reasons.append(
+                    f"successful network logon from {source['normalised_value']} to "
+                    f"{dest['normalised_value']} -- a host-to-host credential pivot"
+                )
+
+        if observation["event_name"] == "process_access":
+            points += 2
+            reasons.append("one process opened another's memory")
+
+        if observation["field"] == "command_line" and _suspicious_command(
+            str(observation["normalised_value"])
+        ):
+            points += 2.5
+            reasons.append("the command line carries encoding, hiding or archiving flags")
+
+        # 7. Rarity. Orders review; asserts nothing.
         key = (observation["entity_type"], observation["normalised_value"])
         if observation["entity_type"] is not None and value_counts[key] == 1:
             points += 0.5
             reasons.append("this value occurs once in the dataset")
 
-        # 7. Participation in a sparse factual relation -- something factually
+        # 8. Participation in a sparse factual relation -- something factually
         #    links this observation across records.
         related = edges_by_observation.get(observation["id"], [])
         # Counted by *distinct relation*, and capped. Counting edges let a dense

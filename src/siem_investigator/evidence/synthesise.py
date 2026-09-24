@@ -15,31 +15,6 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from typing import Any
 
-#: The gaps CLAUDE.md requires any honest answer to surface. Each is a claim
-#: *about the sources*, checked against what was actually ingested rather than
-#: hard-coded as prose.
-STRUCTURAL_GAPS = (
-    {
-        "id": "no_mail_source",
-        "statement": "No email or mail-gateway source is present.",
-        "limits": "the delivery vector cannot be evidenced, only inferred from process lineage",
-        "check": ("source_type_absent", "email"),
-    },
-    {
-        "id": "no_dns_source",
-        "statement": "No DNS source is present.",
-        "limits": "command-and-control is an address with no domain or resolution chain",
-        "check": ("source_type_absent", "dns"),
-    },
-    {
-        "id": "no_block_signal",
-        "statement": "Every firewall record is an allow.",
-        "limits": "there is no block or deny signal to corroborate or contradict any transfer",
-        "check": ("all_actions_allowed", "network"),
-    },
-)
-
-
 def timeline(findings: list[dict], observations: list[dict], mappings: list[dict]) -> dict[str, Any]:
     """One row per finding, in recorded-time order, with its evidence and technique."""
     by_id = {observation["id"]: observation for observation in observations}
@@ -82,7 +57,11 @@ def timeline(findings: list[dict], observations: list[dict], mappings: list[dict
         "count": len(rows),
         "window": {
             "first": rows[0]["first_recorded_time"] if rows else None,
-            "last": rows[-1]["last_recorded_time"] if rows else None,
+            # The maximum over all rows, not the last row's end. Rows are
+            # ordered by their *start*, so a long earlier step can finish after
+            # a short later one -- and it did: the reported end was 06:54:52
+            # while a cited record ran to 07:41:34.
+            "last": max((row["last_recorded_time"] for row in rows), default=None),
         },
         # The honest empty case: no intrusion reconstructed is a valid result,
         # and must read as one rather than as an empty page.
@@ -128,8 +107,11 @@ def scope(findings: list[dict], observations: list[dict], entities: list[dict]) 
                     "source_types": set(),
                     "first": observation["recorded_time"],
                     "last": observation["recorded_time"],
+                    "named_in_statement": False,
                 },
             )
+            if str(observation["normalised_value"]).lower() in finding["statement"].lower():
+                entry["named_in_statement"] = True
             entry["findings"].add(finding["id"])
             entry["event_ids"].add(observation["event_id"])
             entry["source_types"].add(observation["source_type"])
@@ -143,7 +125,16 @@ def scope(findings: list[dict], observations: list[dict], entities: list[dict]) 
             {
                 "entity_type": entry["entity_type"],
                 "value": entry["value"],
-                "confirmed": True,
+                # How the entity got here, stated. Every entity on a cited
+                # record used to be marked confirmed, so a background host
+                # mentioned in a record a noise finding cited entered the blast
+                # radius as compromised. "A finding named it" and "it shares a
+                # log line with something a finding named" are different
+                # claims, and only the first belongs in a headline count.
+                "basis": "named_by_finding"
+                if entry["named_in_statement"]
+                else "on_a_cited_record",
+                "confirmed": entry["named_in_statement"],
                 "finding_count": len(entry["findings"]),
                 "findings": sorted(entry["findings"]),
                 "event_ids": sorted(entry["event_ids"]),
@@ -161,7 +152,16 @@ def scope(findings: list[dict], observations: list[dict], entities: list[dict]) 
     confirmed_hosts = sorted(row["value"] for row in rows if row["entity_type"] == "host")
     return {
         "involved": rows,
-        "counts": dict(sorted(Counter(row["entity_type"] for row in rows).items())),
+        "counts": dict(
+            sorted(
+                Counter(
+                    row["entity_type"] for row in rows if row["confirmed"]
+                ).items()
+            )
+        ),
+        "counts_including_record_neighbours": dict(
+            sorted(Counter(row["entity_type"] for row in rows).items())
+        ),
         "cannot_be_ruled_out": {
             "hosts_observed_but_not_implicated": [
                 host for host in all_hosts if host not in confirmed_hosts
@@ -226,10 +226,50 @@ def privilege_report(findings: list[dict], observations: list[dict], mappings: l
             )
 
     mapped = {mapping["technique_id"] for mapping in mappings}
+    evidenced = sorted(mapped & {"T1078", "T1569.002", "T1134", "T1543.003"})
+
+    # The cross-host progression, which the brief asks for by name and which the
+    # per-host view could not show. medium on one host, high on another and
+    # SYSTEM on a third is the escalation path, and reporting only a per-host
+    # maximum hid it entirely: every "rises" list was empty because no single
+    # host rose.
+    rank = {"low": 0, "medium": 1, "high": 2, "system": 3}
+    ladder = sorted(
+        (
+            {
+                "host": row["host"],
+                "level": row["highest"],
+                "rank": rank.get(row["highest"], -1),
+                "first_at": min(level["recorded_time"] for level in row["levels_observed"]),
+            }
+            for row in transitions
+            if row["host"] != "unknown"
+        ),
+        key=lambda row: (row["rank"], row["first_at"]),
+    )
+
     return {
         "per_host": transitions,
-        "mechanisms_evidenced": sorted(
-            mapped & {"T1078", "T1569.002", "T1134", "T1543.003"}
+        "cross_host_progression": {
+            "ladder": ladder,
+            "highest_reached": ladder[-1] if ladder else None,
+            "_note": (
+                "Observed integrity per host, ordered. This is a progression across "
+                "hosts, not a within-host escalation: no single host is recorded rising "
+                "from one level to another."
+            ),
+        },
+        "mechanisms_evidenced": evidenced,
+        # Stated from the mappings rather than from a stock sentence. The prose
+        # used to assert that stolen credentials and service execution were both
+        # evidenced while this list was empty -- a claim the artifact itself
+        # contradicted.
+        "mechanism_claim": (
+            "Evidenced by mapped techniques: " + ", ".join(evidenced)
+            if evidenced
+            else "No privilege-acquisition mechanism is evidenced by any accepted mapping. "
+            "Integrity differs across hosts, but how the account obtained it is not "
+            "established by these records."
         ),
         "exploit_based_escalation": {
             "evidenced": False,
@@ -246,103 +286,17 @@ def privilege_report(findings: list[dict], observations: list[dict], mappings: l
     }
 
 
-def gaps(
-    hypotheses: list[dict],
-    entities: list[dict],
-    records: list[dict],
-    findings: list[dict],
-) -> dict[str, Any]:
-    """The coverage-gap report -- **derived**, not asserted (T27).
-
-    The unconfirmed and uncoverable hypothesis sets *are* the report: each gap
-    appears beside the hypothesis that went looking for it, so a reader can see
-    what was predicted and what the search returned. Plus the structural gaps,
-    each checked against what was actually ingested.
-    """
-    source_types = {record["source_type"] for record in records}
-    actions = {
-        record["payload"].get("action")
-        for record in records
-        if record["source_type"] == "network"
-    }
-
-    structural = []
-    for gap in STRUCTURAL_GAPS:
-        kind, argument = gap["check"]
-        if kind == "source_type_absent":
-            holds = argument not in source_types
-        elif kind == "all_actions_allowed":
-            holds = actions <= {"allowed"}
-        else:
-            holds = False
-        structural.append(
-            {
-                "id": gap["id"],
-                "statement": gap["statement"],
-                "limits": gap["limits"],
-                "verified": holds,
-                "basis": f"{kind}({argument})",
-            }
-        )
-
-    from_hypotheses = [
-        {
-            "hypothesis": hypothesis["id"],
-            "status": hypothesis["status"],
-            "outcome": hypothesis["outcome"],
-            "predicted": {
-                "entity": hypothesis.get("predicted_entity"),
-                "event_kind": hypothesis.get("predicted_event_kind"),
-                "source_type": hypothesis.get("predicted_source_type"),
-            },
-            "statement": (
-                f"No {hypothesis.get('predicted_event_kind')} record for "
-                f"{hypothesis.get('predicted_entity')} was found"
-                + (
-                    " -- and no source covers it, so its absence says nothing about the estate."
-                    if hypothesis["outcome"] == "not_covered"
-                    else " in a source that does cover it."
-                )
-            ),
-            "premised_on": hypothesis["premises"],
-        }
-        for hypothesis in hypotheses
-        if hypothesis["status"] in ("unconfirmed", "uncoverable")
-    ]
-
-    host_coverage = [
-        {
-            "host": entity["value"],
-            "absent_from": entity["coverage"]["absent_from"],
-            "observed_on_in": entity["coverage"]["observed_on_in"],
-        }
-        for entity in entities
-        if entity["entity_type"] == "host" and entity["coverage"]["absent_from"]
-    ]
-
-    return {
-        "structural": structural,
-        "from_hypotheses": from_hypotheses,
-        "uneven_host_coverage": host_coverage,
-        "counts": {
-            "structural": len(structural),
-            "unconfirmed_or_uncoverable_hypotheses": len(from_hypotheses),
-            "hosts_with_partial_coverage": len(host_coverage),
-        },
-        "_note": (
-            "Derived from the hypothesis ledger rather than written by hand. A gap here is "
-            "something the investigation predicted and did not find, which is why each one "
-            "names the hypothesis that went looking."
-        ),
-    }
-
+# The gap report lives in `gaps.py`: "what happened" and "what we cannot know"
+# are different questions. Re-exported so callers need one import.
+from .gaps import STRUCTURAL_GAPS, gaps  # noqa: E402
 
 # The two standards-based exports live in `exports.py`: re-expressing a
 # conclusion in someone else's vocabulary is a different concern from computing
 # it. Re-exported so callers need one import.
-from .exports import attack_flow, navigator_layer  # noqa: E402,F401
+from .exports import attack_flow, navigator_layer  # noqa: E402
 
 __all__ = [
+    "STRUCTURAL_GAPS",
     "attack_flow",
     "gaps",
     "navigator_layer",

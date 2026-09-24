@@ -5,19 +5,19 @@
     "incompatibilities": []
   },
   "counts": {
-    "edges_traversed_by_the_investigation": 48,
-    "findings_accepted": 25,
-    "hypotheses": 24,
-    "observations": 1951,
-    "proposals_rejected": 8,
-    "sparse_edges_materialised": 1338,
-    "trajectory_steps": 51
+    "edges_traversed_by_the_investigation": 841,
+    "findings_accepted": 134,
+    "hypotheses": 19,
+    "observations": 1952,
+    "proposals_rejected": 60,
+    "sparse_edges_materialised": 1339,
+    "trajectory_steps": 169
   },
   "flags": {},
   "hypothesis_outcomes": {
-    "found": 5,
-    "not_covered": 13,
-    "not_found": 6
+    "found": 10,
+    "not_covered": 1,
+    "not_found": 8
   },
   "interpreter": "model-backed",
   "leak_independence": {
@@ -34,8 +34,8 @@
     "ordering_not_filtering": {
       "_how": "the ranking is a permutation of the input, never a subset",
       "is_permutation": true,
-      "observations_in": 1951,
-      "observations_ranked": 1951
+      "observations_in": 1952,
+      "observations_ranked": 1952
     },
     "timestamp_precision": {
       "_how": "every recorded time rewritten to whole seconds, erasing the 220/22 split",
@@ -44,20 +44,21 @@
     }
   },
   "rejection_reasons": {
-    "2_edges_reevaluate": 4,
-    "3_no_invented_identifier": 4
+    "2_edges_reevaluate": 3,
+    "3_no_invented_identifier": 58
   },
   "relations": {
     "counts_by_relation": {
-      "address_resolves_to_host": 1127,
-      "flow_endpoint": 94,
-      "process_parent": 67,
+      "address_resolves_to_host": 1213,
+      "flow_endpoint": 107,
+      "process_parent": 77,
+      "process_pid": 1,
       "same_account": 3,
-      "same_address": 9,
-      "same_file": 67,
-      "same_host": 5,
+      "same_address": 82,
+      "same_file": 172,
+      "same_host": 253,
       "same_size": 3,
-      "temporal_within": 11
+      "temporal_within": 269
     },
     "dense_left_as_queries": [
       "same_account",
@@ -70,13 +71,14 @@
       "same_file",
       "same_size",
       "process_parent",
+      "process_pid",
       "flow_endpoint",
       "address_resolves_to_host"
     ]
   },
   "support_distribution": {
-    "corroborated": 7,
-    "single_sourced": 18
+    "corroborated": 53,
+    "single_sourced": 81
   },
   "verification": {
     "anchors_independent_of_all_three_leaks": true,

@@ -8,9 +8,9 @@
   },
   "counts": {
     "addresses_resolved": 62,
-    "entities": 201,
+    "entities": 197,
     "events": 242,
-    "provenance_entries": 1951
+    "provenance_entries": 1952
   },
   "coverage_gaps": [
     {
@@ -110,16 +110,16 @@
     }
   ],
   "entities_by_type": {
-    "account": 12,
+    "account": 11,
     "address": 145,
     "bucket": 2,
     "file": 10,
     "host": 13,
-    "process": 18,
+    "process": 15,
     "service": 1
   },
   "invariant_5_reproducibility": {
-    "checked": 1951,
+    "checked": 1952,
     "failures": [],
     "holds": true
   },
@@ -128,7 +128,7 @@
     "identity": 39,
     "integer": 345,
     "ipv4_canonical": 261,
-    "lower": 970,
+    "lower": 971,
     "utc_instant": 242
   },
   "verification": {
@@ -137,10 +137,10 @@
       "holds": true
     },
     "invariant_5_reproducibility": {
-      "checked": 1951,
+      "checked": 1952,
       "failures": [],
       "holds": true
     },
-    "observations": 1951
+    "observations": 1952
   }
 }

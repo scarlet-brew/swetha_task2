@@ -175,4 +175,20 @@ outputs/                      generated reports (gitignored)
 
 ## Status
 
-Repository skeleton only. No application code yet. Next step is **Phase 1 (Specify)**.
+**Implemented and running.** All five phases are complete: `docs/specs/` holds the
+requirements, design and tasks; `src/siem_investigator/` the six-stage pipeline;
+`app/` the analyst surfaces; `docs/writeup/` the three written discussions.
+
+```
+python -m siem_investigator.build      # reconstruct (needs ANTHROPIC_API_KEY; --no-model works without)
+streamlit run app/main.py              # read the result
+```
+
+Two notes on figures, because both units appear in different places and each is
+right. The staged archive is **2,473,829,122 bytes** — 2.30 GiB, or 2.47 GB. This
+file says 2.3 GB above meaning gibibytes; the application reports 2.47 GB
+meaning gigabytes. Where it matters, the byte count is the number to quote.
+
+The committed artifacts under `data/derived/` come from a specific run; the
+manifest records the interpreter, the step budget and the contract-set hash that
+produced them.

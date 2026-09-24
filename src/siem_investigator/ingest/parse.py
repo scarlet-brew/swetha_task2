@@ -41,7 +41,12 @@ FIELD_ROLES: dict[str, tuple[tuple[str, str, str, str], ...]] = {
         # A process image, not a data file: typing it `file` would make `same_file`
         # collide every svchost.exe in the estate (measured: 1,299 pairs) and drown
         # the one cross-source file relation that matters.
-        ("process_path", "process", "target", "basename"),
+        # A path, kept as a path. Its basename is *not* a process identity:
+        # many background records carry a directory only, so `C:\Program
+        # Files\Slack\` became the "process" `slack` and a later stage read the
+        # name/path mismatch as masquerading. A directory is not a process image
+        # and must not be typed as one.
+        ("process_path", "path", "target", "basename"),
         ("file_path", "file", "target", "basename"),
         ("file_size_bytes", "size", "target", "integer"),
         ("service_name", "service", "target", "lower"),
@@ -51,6 +56,10 @@ FIELD_ROLES: dict[str, tuple[tuple[str, str, str, str], ...]] = {
         ("pid", "pid", "target", "integer"),
         ("target_pid", "pid", "target", "integer"),
         ("integrity_level", "integrity", "target", "lower"),
+        # The only non-empty field in the dataset with no observation at all,
+        # and it happens to be the one that says what a process asked LSASS
+        # for. Its absence weakened the credential-access evidence.
+        ("access_rights", "access_rights", "target", "lower"),
     ),
     "auth": (
         ("username", "account", "actor", "lower"),
@@ -78,7 +87,10 @@ FIELD_ROLES: dict[str, tuple[tuple[str, str, str, str], ...]] = {
         ("source_host", "host", "origin", "lower"),
         ("source_ip", "address", "origin", "ipv4_canonical"),
         ("bucket", "bucket", "target", "lower"),
-        ("bucket_owner", "account", "target", "lower"),
+        # An ownership *classification* in this dataset (`EXTERNAL`), not a
+        # named principal. Typed as an account, it appeared in the blast radius
+        # as a compromised user called "external".
+        ("bucket_owner", "owner_class", "target", "lower"),
         ("file_name", "file", "target", "basename"),
         ("file_size_bytes", "size", "target", "integer"),
         ("action", "action", "target", "lower"),

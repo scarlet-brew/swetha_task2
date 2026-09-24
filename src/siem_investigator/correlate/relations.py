@@ -36,7 +36,14 @@ from .. import ids
 
 #: Relations small enough to materialise. Measured, not guessed: the whole
 #: dataset yields a handful of each.
-SPARSE = ("same_file", "same_size", "process_parent", "flow_endpoint", "address_resolves_to_host")
+SPARSE = (
+    "same_file",
+    "same_size",
+    "process_parent",
+    "process_pid",
+    "flow_endpoint",
+    "address_resolves_to_host",
+)
 
 #: Relations left as indexed queries because all-pairs would be unreadable.
 DENSE = ("same_account", "same_host", "same_address", "temporal_within", "session_bracket")
@@ -109,6 +116,27 @@ def process_parent(parent: dict, child: dict) -> bool:
     )
 
 
+def process_pid(creation: dict, access: dict) -> bool:
+    """A process id in one record matching a pid or target pid in another.
+
+    The eleventh relation, and the reason it exists is concrete. EVT-0222
+    records the creation of PowerShell pid 5104; EVT-0226 records pid 5104
+    reading LSASS memory. The pid is the only thing joining them, and with the
+    original ten relations there was **no path at all** between the credential
+    theft and the shell that performed it.
+
+    Atomic and decides nothing, like every other relation here: it asserts that
+    two records name the same process id, not that one caused the other.
+    Directional only in the sense that the endpoints are ordered.
+    """
+    return (
+        creation["entity_type"] == "pid"
+        and access["entity_type"] == "pid"
+        and creation["normalised_value"] == access["normalised_value"]
+        and creation["record"] != access["record"]
+    )
+
+
 def flow_endpoint(origin: dict, target: dict) -> bool:
     """The two ends of one network flow, in direction order."""
     return (
@@ -147,237 +175,22 @@ PREDICATES: dict[str, Callable[[dict, dict], bool]] = {
     "same_file": same_file,
     "same_size": same_size,
     "process_parent": process_parent,
+    "process_pid": process_pid,
     "flow_endpoint": flow_endpoint,
     "session_bracket": session_bracket,
     "temporal_within": temporal_within,
 }
 
 
-class RelationIndex:
-    """Queries over the virtual graph, backed by value indexes.
+# The query side lives in `index.py`: what a relation *is* and how the graph is
+# *searched* are different concerns. Re-exported so callers need one import.
+from .index import RelationIndex  # noqa: E402
 
-    `evaluate` re-computes a relation from its predicate rather than looking it
-    up in a stored list, which is what makes validation check 2 meaningful: a
-    cited edge is verified against the data, not against a cache of earlier
-    conclusions.
-    """
-
-    def __init__(self, observations: list[dict], resolution: list[dict] | None = None):
-        self.observations = observations
-        self.by_id = {observation["id"]: observation for observation in observations}
-        self.by_value: dict[tuple[str, Any], list[dict]] = defaultdict(list)
-        self.by_record: dict[str, list[dict]] = defaultdict(list)
-        for observation in observations:
-            if observation["entity_type"] is not None:
-                self.by_value[(observation["entity_type"], observation["normalised_value"])].append(
-                    observation
-                )
-            self.by_record[observation["record"]].append(observation)
-        # address -> host candidates, from stage 2. Kept as candidates.
-        self.resolution = {row["address"]: row for row in (resolution or [])}
-
-    # ---- the tenth relation, which is not a pairwise predicate -------------
-
-    def address_resolves_to_host(self, address_observation: dict, host_observation: dict) -> bool:
-        """Whether the resolution table admits this host for this address.
-
-        Deliberately admits **every** candidate. Only three hosts in this
-        dataset have a single stable address, and those are the compromised
-        ones -- so a resolver that preferred unambiguous mappings would
-        rediscover the intrusion by construction.
-        """
-        if address_observation["entity_type"] != "address" or host_observation["entity_type"] != "host":
-            return False
-        row = self.resolution.get(address_observation["normalised_value"])
-        if row is None:
-            return False
-        return any(
-            candidate["host"] == host_observation["normalised_value"]
-            for candidate in row["candidates"]
-        )
-
-    def is_ambiguous(self, address_value: str) -> bool:
-        row = self.resolution.get(address_value)
-        return bool(row and row["ambiguous"])
-
-    # ---- evaluation -------------------------------------------------------
-
-    def evaluate(self, relation: str, left_id: str, right_id: str) -> tuple[bool, dict]:
-        """`(holds, reported parameters)`, recomputed from the data."""
-        left, right = self.by_id.get(left_id), self.by_id.get(right_id)
-        if left is None or right is None:
-            return False, {"error": "endpoint does not exist"}
-        if relation == "address_resolves_to_host":
-            holds = self.address_resolves_to_host(left, right)
-            params: dict[str, Any] = {}
-            if holds:
-                row = self.resolution[left["normalised_value"]]
-                params = {"candidates": row["candidate_count"], "ambiguous": row["ambiguous"]}
-            return holds, params
-        predicate = PREDICATES.get(relation)
-        if predicate is None:
-            return False, {"error": f"unknown relation {relation!r}"}
-        holds = predicate(left, right)
-        params = {}
-        if holds and relation in ("temporal_within", "session_bracket"):
-            params = {"interval_seconds": interval_seconds(left, right)}
-        return holds, params
-
-    # ---- materialisation of the sparse relations --------------------------
-
-    def _pairs_by_shared_value(self, entity_type: str, *, cross_source_only: bool = False):
-        for (kind, _value), group in self.by_value.items():
-            if kind != entity_type:
-                continue
-            for index, left in enumerate(group):
-                for right in group[index + 1 :]:
-                    if left["record"] == right["record"]:
-                        continue
-                    if cross_source_only and left["source_type"] == right["source_type"]:
-                        continue
-                    yield left, right
-
-    def materialise_sparse(self) -> list[dict]:
-        """The five sparse relations, as edge nodes.
-
-        Sparse on measurement, not assumption: these are the relations whose
-        full extension is small enough to be read by a person.
-        """
-        edges: list[dict] = []
-
-        def add(relation: str, left: dict, right: dict) -> None:
-            holds, params = self.evaluate(relation, left["id"], right["id"])
-            if not holds:
-                return
-            edges.append(
-                {
-                    "id": ids.edge_id(relation=relation, endpoints=[left["id"], right["id"]]),
-                    "layer": "edge",
-                    "relation": relation,
-                    "from_observation": left["id"],
-                    "to_observation": right["id"],
-                    "from_event": left["event_id"],
-                    "to_event": right["event_id"],
-                    # Reported, never part of identity.
-                    "params": params,
-                }
-            )
-
-        for left, right in self._pairs_by_shared_value("file"):
-            add("same_file", left, right)
-        for left, right in self._pairs_by_shared_value("size"):
-            add("same_size", left, right)
-
-        for observations in self.by_record.values():
-            parents = [o for o in observations if o["field"] == "parent_process"]
-            children = [o for o in observations if o["field"] == "process_name"]
-            for parent in parents:
-                for child in children:
-                    add("process_parent", parent, child)
-
-            origins = [o for o in observations if o["entity_type"] == "address" and o["role"] == "origin"]
-            targets = [o for o in observations if o["entity_type"] == "address" and o["role"] == "target"]
-            for origin in origins:
-                for target in targets:
-                    add("flow_endpoint", origin, target)
-
-        hosts = [o for o in self.observations if o["entity_type"] == "host"]
-        addresses = [o for o in self.observations if o["entity_type"] == "address"]
-        seen: set[tuple[str, str]] = set()
-        for address in addresses:
-            row = self.resolution.get(address["normalised_value"])
-            if not row:
-                continue
-            names = {candidate["host"] for candidate in row["candidates"]}
-            for host in hosts:
-                if host["normalised_value"] not in names:
-                    continue
-                key = (address["id"], host["id"])
-                if key in seen:
-                    continue
-                seen.add(key)
-                add("address_resolves_to_host", address, host)
-
-        return edges
-
-    # ---- the query the interpretive layer uses ----------------------------
-
-    def neighbourhood(self, observation_id: str, *, k: int = 8) -> dict:
-        """Observations related to this one, **with truncation reported**.
-
-        Each relation returns up to `k` nearest by time *with its full total
-        stated*. Without the total the model reasons over a partial view
-        believing it complete -- a 1-hop expansion on a busy host returns 60+
-        observations through `same_host` alone.
-        """
-        anchor = self.by_id.get(observation_id)
-        if anchor is None:
-            return {"observation": observation_id, "error": "does not exist"}
-
-        found: dict[str, list[dict]] = {}
-        for relation in ALL_RELATIONS:
-            matches = []
-            if relation in ("same_account", "same_host", "same_address", "same_file", "same_size"):
-                if anchor["entity_type"] is None:
-                    continue
-                for candidate in self.by_value.get(
-                    (anchor["entity_type"], anchor["normalised_value"]), []
-                ):
-                    holds, params = self.evaluate(relation, anchor["id"], candidate["id"])
-                    if holds:
-                        matches.append((candidate, params))
-            else:
-                for candidate in self.observations:
-                    if candidate["id"] == anchor["id"]:
-                        continue
-                    holds, params = self.evaluate(relation, anchor["id"], candidate["id"])
-                    if holds:
-                        matches.append((candidate, params))
-
-            if not matches:
-                continue
-            matches.sort(key=lambda pair: abs(interval_seconds(anchor, pair[0])))
-            found[relation] = {
-                "total": len(matches),
-                "showing": min(k, len(matches)),
-                "truncated": len(matches) > k,
-                "observations": [
-                    {
-                        "id": candidate["id"],
-                        "event_id": candidate["event_id"],
-                        "source_type": candidate["source_type"],
-                        "field": candidate["field"],
-                        "value": candidate["normalised_value"],
-                        "params": params,
-                    }
-                    for candidate, params in matches[:k]
-                ],
-            }
-
-        # The rest of the anchor's own record, listed separately from the ten
-        # relations and deliberately *not* called one. Being on the same record
-        # is not a factual correlation -- it is the record. But omitting it let
-        # findings cite a file size while the account and host on the same
-        # record went unmentioned, and a later stage then read "not cited" as
-        # "not present".
-        same_record = [
-            {
-                "id": sibling["id"],
-                "field": sibling["field"],
-                "value": sibling["normalised_value"],
-                "entity_type": sibling["entity_type"],
-                "role": sibling["role"],
-            }
-            for sibling in self.by_record.get(anchor["record"], [])
-            if sibling["id"] != anchor["id"]
-        ]
-
-        return {
-            "observation": anchor["id"],
-            "event_id": anchor["event_id"],
-            "source_type": anchor["source_type"],
-            "field": anchor["field"],
-            "value": anchor["normalised_value"],
-            "record_context": same_record,
-            "relations": found,
-        }
+__all__ = [
+    "ALL_RELATIONS",
+    "DENSE",
+    "PREDICATES",
+    "RelationIndex",
+    "SPARSE",
+    "interval_seconds",
+]

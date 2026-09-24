@@ -30,6 +30,7 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 from .. import ids
+from .seek import _seek
 from ..agent import contracts, schemas
 from . import anchors, validate
 
@@ -91,90 +92,159 @@ def run(
     index,
     interpreter: Interpreter,
     entities: list[dict],
-    max_steps: int = 40,
+    max_steps: int | None = None,
     expand_k: int = 8,
     back_prompts: int = 1,
+    batch_size: int = 8,
 ) -> Ledger:
+    """Search the graph, interpreting `batch_size` anchors at a time.
+
+    `max_steps=None` means **every record**, which is the intended setting. A
+    budget smaller than the dataset turns the anchors into a filter: two runs
+    with the same code and the same model reported different halves of the same
+    intrusion purely because they reached different records first.
+    """
     ledger = Ledger()
     order = anchors.ranked(observations, edges)
     anchor_scores = anchors.score(observations, edges)
 
-    # The frontier starts at the anchored observations but is not limited to
-    # them: SELECT walks the whole review order, so an intrusion matching no
-    # anchor is late in the queue rather than invisible.
+    # One look per record, and by default every record. `steps` counts records
+    # examined, not observations, because a record is the unit of evidence.
+    total_records = len({observation["record"] for observation in observations})
+    budget = total_records if max_steps is None else max_steps
+
     frontier = list(order)
     visited: set[str] = set()
+    anchored_records: set[str] = set()
     steps = 0
-    passes_without_acceptance = 0
+    waves_without_acceptance = 0
+    batched = getattr(interpreter, "interpret_batch", None)
 
-    while frontier and steps < max_steps:
-        observation_id = frontier.pop(0)
-        if observation_id in visited:
-            continue
-        visited.add(observation_id)
-        steps += 1
+    while frontier and steps < budget:
+        # ---- assemble a wave of distinct records ---------------------------
+        wave: list[tuple[str, dict]] = []
+        while frontier and len(wave) < batch_size and steps + len(wave) < budget:
+            observation_id = frontier.pop(0)
+            if observation_id in visited:
+                continue
+            visited.add(observation_id)
 
-        neighbourhood = index.neighbourhood(observation_id, k=expand_k)
-        if not neighbourhood.get("relations"):
-            continue
+            observation = index.by_id.get(observation_id)
+            if observation is None:
+                continue
+            if observation["record"] in anchored_records:
+                # Same log line, already interpreted from another of its fields.
+                continue
+            anchored_records.add(observation["record"])
 
-        context = {
-            "step": steps,
-            "anchor": anchor_scores.get(observation_id),
-            "accepted_so_far": [
-                {"id": f["id"], "stage": f["stage"], "statement": f["statement"]}
-                for f in ledger.findings
-            ],
-        }
+            neighbourhood = index.neighbourhood(observation_id, k=expand_k)
+            if not neighbourhood.get("relations"):
+                continue
+            wave.append((observation_id, neighbourhood))
 
-        proposal = interpreter.interpret(neighbourhood, context)
-        record = {
-            "step": steps,
-            "action": "interpret",
-            "observation": observation_id,
-            "relations_offered": {
-                relation: {"total": data["total"], "truncated": data["truncated"]}
-                for relation, data in neighbourhood["relations"].items()
-            },
-        }
+        if not wave:
+            break
+        steps += len(wave)
 
-        if proposal is None:
-            record["outcome"] = "nothing_here"
+        contexts = [
+            {
+                "step": steps,
+                "anchor": anchor_scores.get(observation_id),
+                "accepted_so_far": [
+                    {"id": f["id"], "stage": f["stage"], "statement": f["statement"]}
+                    for f in ledger.findings
+                ],
+            }
+            for observation_id, _ in wave
+        ]
+
+        # ---- interpret the wave, concurrently where the interpreter can ----
+        if batched is not None:
+            proposals = batched([(n, c) for (_, n), c in zip(wave, contexts)])
+        else:
+            proposals = [
+                interpreter.interpret(neighbourhood, context)
+                for (_, neighbourhood), context in zip(wave, contexts)
+            ]
+
+        # ---- validate and accept, sequentially: the kernel is cheap --------
+        accepted_any = False
+        for (observation_id, neighbourhood), context, proposal in zip(wave, contexts, proposals):
+            record = {
+                "step": steps,
+                "action": "interpret",
+                "observation": observation_id,
+                "relations_offered": {
+                    relation: {"total": data["total"], "truncated": data["truncated"]}
+                    for relation, data in neighbourhood["relations"].items()
+                },
+            }
+            if proposal is None:
+                record["outcome"] = "nothing_here"
+                ledger.trajectory.append(record)
+                continue
+
+            accepted = _try_accept(
+                proposal,
+                index=index,
+                ledger=ledger,
+                back_prompts=back_prompts,
+                interpreter=interpreter,
+                neighbourhood=neighbourhood,
+                context=context,
+                step=steps,
+            )
+            record["outcome"] = "accepted" if accepted else "rejected"
             ledger.trajectory.append(record)
-            passes_without_acceptance += 1
-            continue
 
-        accepted = _try_accept(
-            proposal, index=index, ledger=ledger, back_prompts=back_prompts, interpreter=interpreter,
-            neighbourhood=neighbourhood, context=context, step=steps,
-        )
-        record["outcome"] = "accepted" if accepted else "rejected"
-        ledger.trajectory.append(record)
+            if accepted:
+                accepted_any = True
+                # Leads go to the *front*, so the next wave follows the chain.
+                # Appending them to a 1,951-item tail was identical to
+                # discarding them, and it is why the credential theft and the
+                # first lateral hop were never reached.
+                follow = [
+                    row["id"]
+                    for data in neighbourhood["relations"].values()
+                    for row in data["observations"]
+                    if row["id"] not in visited
+                ]
+                frontier[:0] = follow
 
-        if accepted:
-            passes_without_acceptance = 0
-            # Extend the frontier with the neighbourhood we just used, so the
-            # search follows the evidence rather than only the anchor order.
-            for data in neighbourhood["relations"].values():
-                for row in data["observations"]:
-                    if row["id"] not in visited:
-                        frontier.append(row["id"])
-
-            hypothesis = interpreter.hypothesise(ledger.findings, context)
+        # ---- one hypothesis per wave --------------------------------------
+        #
+        # Per acceptance produced the same prediction up to four times, each
+        # costing a call. Once per wave, over everything accepted so far, is
+        # both cheaper and less repetitive.
+        if accepted_any and ledger.findings:
+            hypothesis = interpreter.hypothesise(ledger.findings, {"step": steps})
             if hypothesis is not None:
                 _seek(hypothesis, ledger=ledger, index=index, entities=entities, step=steps)
+            waves_without_acceptance = 0
         else:
-            passes_without_acceptance += 1
+            waves_without_acceptance += 1
 
-        if passes_without_acceptance >= 12:
+        if waves_without_acceptance >= 6:
             ledger.trajectory.append(
-                {"step": steps, "action": "terminate", "reason": "a full pass yielded no accepted finding"}
+                {
+                    "step": steps,
+                    "action": "terminate",
+                    "reason": "six consecutive waves yielded no accepted finding",
+                }
             )
             break
 
-    if steps >= max_steps:
+    if steps >= budget:
         ledger.trajectory.append(
-            {"step": steps, "action": "terminate", "reason": f"step budget {max_steps} exhausted"}
+            {
+                "step": steps,
+                "action": "terminate",
+                "reason": (
+                    f"examined {steps} of {total_records} records"
+                    if steps >= total_records
+                    else f"record budget {budget} exhausted before the {total_records} available"
+                ),
+            }
         )
         for hypothesis in ledger.hypotheses:
             if hypothesis["status"] == "proposed":
@@ -252,75 +322,6 @@ def _accept(proposal: dict, *, index, ledger: Ledger, step: int) -> None:
             "event_ids": sorted({observation["event_id"] for observation in cited}),
             "proposed_at_step": step,
         }
-    )
-
-
-def _seek(hypothesis: dict, *, ledger: Ledger, index, entities: list[dict], step: int) -> None:
-    """Look for the predicted record, and distinguish the three outcomes.
-
-    `not_covered` is what makes `not_found` mean anything: if no source carries
-    records of that kind about that entity, absence says nothing about the
-    estate.
-    """
-    prediction = {
-        key: hypothesis[key]
-        for key in (
-            "predicted_entity",
-            "predicted_role",
-            "predicted_event_kind",
-            "predicted_source_type",
-            "window_start",
-            "window_end",
-        )
-        if key in hypothesis
-    }
-    hypothesis_id = ids.hypothesis_id(premises=hypothesis["premises"], prediction=prediction)
-    if any(existing["id"] == hypothesis_id for existing in ledger.hypotheses):
-        return
-
-    entity_value = str(prediction.get("predicted_entity", "")).lower()
-    wanted_kind = prediction.get("predicted_event_kind", "")
-    wanted_source = prediction.get("predicted_source_type", "")
-
-    # Is the entity covered by the source that should have carried the record?
-    covered = False
-    for entity in entities:
-        if entity["value"] == entity_value:
-            covered = wanted_source in entity["coverage"]["mentioned_in"]
-            break
-
-    matches = [
-        observation
-        for observation in index.observations
-        if str(observation["normalised_value"]).lower() == entity_value
-        and observation["kind"] == wanted_kind
-    ]
-
-    if matches:
-        status, outcome = "confirmed", "found"
-        evidence = sorted({observation["id"] for observation in matches})[:5]
-    elif not covered:
-        status, outcome = "uncoverable", "not_covered"
-        evidence = []
-    else:
-        status, outcome = "unconfirmed", "not_found"
-        evidence = []
-
-    ledger.hypotheses.append(
-        {
-            "id": hypothesis_id,
-            "layer": "hypothesis",
-            "premises": sorted(set(hypothesis["premises"])),
-            **prediction,
-            "rationale": hypothesis.get("rationale", ""),
-            "status": status,
-            "outcome": outcome,
-            "evidence": evidence,
-            "proposed_at_step": step,
-        }
-    )
-    ledger.trajectory.append(
-        {"step": step, "action": "seek", "hypothesis": hypothesis_id, "outcome": outcome}
     )
 
 

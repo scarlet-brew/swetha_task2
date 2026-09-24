@@ -44,9 +44,13 @@ def _as_proposal(finding) -> dict | None:
 class ModelInterpreter:
     """INTERPRET and HYPOTHESISE through the constrained contracts of T06."""
 
-    def __init__(self, *, client_module, max_tokens: int = 2000):
+    def __init__(self, *, client_module, max_tokens: int = 2000, batch_size: int = 8):
         self.client = client_module
         self.max_tokens = max_tokens
+        #: How many interpret calls run at once. Eight is chosen against the
+        #: provider's concurrency rather than the machine's: these are HTTPS
+        #: round trips, not computation.
+        self.batch_size = batch_size
         self.calls: list[dict] = []
 
     def _render(self, neighbourhood: dict, context: dict) -> str:
@@ -83,6 +87,17 @@ class ModelInterpreter:
                     f"    {row['id']}  {row['event_id']}  {row['source_type']}  "
                     f"{row['field']} = {row['value']!r}{params}"
                 )
+        if neighbourhood.get("ordering"):
+            lines.append("")
+            lines.append("THESE SAME NEIGHBOURS, IN TIME ORDER RELATIVE TO THE ANCHOR")
+            for relation, rows in neighbourhood["ordering"].items():
+                lines.append(f"  {relation}")
+                for row in rows:
+                    lines.append(
+                        f"    {row['event_id']}  {row['interval_seconds']:+.1f}s  "
+                        f"({row['direction']})"
+                    )
+
         if context.get("accepted_so_far"):
             lines.append("")
             lines.append("FINDINGS ACCEPTED SO FAR")
@@ -112,6 +127,33 @@ class ModelInterpreter:
 
         self.calls.append({"site": "interpret", "provenance": result.provenance.as_dict()})
         return _as_proposal(result.parsed)
+
+
+    def interpret_batch(self, items: list[tuple[dict, dict]]) -> list[dict | None]:
+        """Interpret several neighbourhoods concurrently, in the order given.
+
+        Threads rather than async: these are I/O-bound HTTPS calls and the SDK
+        client is safe to share across them, so a pool is the whole mechanism.
+        A failure in one anchor becomes `None` for that anchor and nothing else
+        -- one bad neighbourhood must not lose the other seven.
+        """
+        from concurrent.futures import ThreadPoolExecutor
+
+        if not items:
+            return []
+        with ThreadPoolExecutor(max_workers=min(len(items), self.batch_size)) as pool:
+            futures = [
+                pool.submit(self.interpret, neighbourhood, context)
+                for neighbourhood, context in items
+            ]
+            out: list[dict | None] = []
+            for future in futures:
+                try:
+                    out.append(future.result())
+                except Exception as exc:  # noqa: BLE001
+                    self.calls.append({"site": "interpret", "error": f"{type(exc).__name__}: {exc}"})
+                    out.append(None)
+            return out
 
     def repair(self, proposal: dict, diagnostics: list[str], neighbourhood: dict, context: dict) -> dict | None:
         """One bounded back-prompt, carrying the diagnostic rather than discarding it.

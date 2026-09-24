@@ -1,4 +1,87 @@
 {
+  "cross_host_progression": {
+    "_note": "Observed integrity per host, ordered. This is a progression across hosts, not a within-host escalation: no single host is recorded rising from one level to another.",
+    "highest_reached": {
+      "first_at": "2026-06-10T13:12:07Z",
+      "host": "file-srv-02",
+      "level": "system",
+      "rank": 3
+    },
+    "ladder": [
+      {
+        "first_at": "2026-06-10T08:12:33Z",
+        "host": "wkstn-07",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T09:05:40.279231Z",
+        "host": "wkstn-05",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T10:57:37.982291Z",
+        "host": "wkstn-08",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T12:06:58.828725Z",
+        "host": "wkstn-01",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T13:40:10.848419Z",
+        "host": "wkstn-02",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T14:01:45.325234Z",
+        "host": "wkstn-03",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T19:35:47.005698Z",
+        "host": "wkstn-09",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-11T00:49:30.104519Z",
+        "host": "wkstn-06",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-11T01:41:07.455907Z",
+        "host": "wkstn-10",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-11T14:30:37.545256Z",
+        "host": "wkstn-04",
+        "level": "medium",
+        "rank": 1
+      },
+      {
+        "first_at": "2026-06-10T11:23:08Z",
+        "host": "auth-srv-01",
+        "level": "high",
+        "rank": 2
+      },
+      {
+        "first_at": "2026-06-10T13:12:07Z",
+        "host": "file-srv-02",
+        "level": "system",
+        "rank": 3
+      }
+    ]
+  },
   "exploit_based_escalation": {
     "_why": "Integrity rises through stolen credentials and service execution, both of which are evidenced. No record shows exploitation of a vulnerability, and inferring one from rising integrity would close a gap with inference. T1068 is present in the catalogue and is deliberately absent from every mapping.",
     "evidenced": false,
@@ -6,6 +89,7 @@
       "T1068"
     ]
   },
+  "mechanism_claim": "No privilege-acquisition mechanism is evidenced by any accepted mapping. Integrity differs across hosts, but how the account obtained it is not established by these records.",
   "mechanisms_evidenced": [],
   "per_host": [
     {
