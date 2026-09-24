@@ -5,19 +5,27 @@
     "incompatibilities": []
   },
   "counts": {
-    "edges_traversed_by_the_investigation": 841,
-    "findings_accepted": 134,
-    "hypotheses": 19,
+    "edges_traversed_by_the_investigation": 1637,
+    "findings_accepted": 217,
+    "hypotheses": 30,
     "observations": 1952,
-    "proposals_rejected": 60,
+    "proposals_rejected": 44,
     "sparse_edges_materialised": 1339,
-    "trajectory_steps": 169
+    "trajectory_steps": 273
+  },
+  "coverage": {
+    "first_failure": "ValidationError: 1 validation error for CandidateFinding\n  Invalid JSON: EOF while parsing a string at line 1 column 2332 [type=json_invalid, input_value='{\"statement\": \"NOTHING_H...hwalker\\' with a parent', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid",
+    "records_examined": 242,
+    "records_examined_without_relations": 0,
+    "records_not_examined": 0,
+    "records_total": 242,
+    "records_with_failed_model_calls": 19
   },
   "flags": {},
   "hypothesis_outcomes": {
-    "found": 10,
-    "not_covered": 1,
-    "not_found": 8
+    "found": 16,
+    "not_covered": 4,
+    "not_found": 10
   },
   "interpreter": "model-backed",
   "leak_independence": {
@@ -44,21 +52,23 @@
     }
   },
   "rejection_reasons": {
-    "2_edges_reevaluate": 3,
-    "3_no_invented_identifier": 58
+    "2_edges_reevaluate": 34,
+    "3_no_invented_identifier": 9,
+    "3b_basis_roles_fulfilled": 3
   },
   "relations": {
     "counts_by_relation": {
-      "address_resolves_to_host": 1213,
-      "flow_endpoint": 107,
-      "process_parent": 77,
-      "process_pid": 1,
-      "same_account": 3,
-      "same_address": 82,
-      "same_file": 172,
-      "same_host": 253,
+      "address_resolves_to_host": 1392,
+      "flow_endpoint": 168,
+      "process_parent": 109,
+      "process_pid": 3,
+      "same_account": 314,
+      "same_address": 325,
+      "same_file": 196,
+      "same_host": 189,
       "same_size": 3,
-      "temporal_within": 269
+      "session_bracket": 1,
+      "temporal_within": 276
     },
     "dense_left_as_queries": [
       "same_account",
@@ -77,13 +87,15 @@
     ]
   },
   "support_distribution": {
-    "corroborated": 53,
-    "single_sourced": 81
+    "corroborated": 165,
+    "single_sourced": 52
   },
   "verification": {
     "anchors_independent_of_all_three_leaks": true,
     "anchors_order_and_do_not_filter": true,
     "every_finding_cites_an_observation": true,
-    "every_rejection_carries_a_diagnostic": true
+    "every_record_examined": true,
+    "every_rejection_carries_a_diagnostic": true,
+    "no_model_call_failed": false
   }
 }

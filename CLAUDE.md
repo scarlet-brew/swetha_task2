@@ -181,6 +181,7 @@ requirements, design and tasks; `src/siem_investigator/` the six-stage pipeline;
 
 ```
 python -m siem_investigator.build      # reconstruct (needs ANTHROPIC_API_KEY; --no-model works without)
+python -m siem_investigator.build --from-stage 4   # redo ATT&CK mapping + synthesis over committed stage 1-3 artifacts
 streamlit run app/main.py              # read the result
 ```
 

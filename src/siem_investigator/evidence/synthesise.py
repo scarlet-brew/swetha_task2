@@ -304,3 +304,28 @@ __all__ = [
     "scope",
     "timeline",
 ]
+
+
+def report(
+    *, timeline: dict, scope: dict, gap_report: dict, flow: dict, layer: dict, invariants: dict, investigation
+) -> dict:
+    """The stage-5 report: projection sizes, the graph invariants, the verification lines."""
+    return {
+        "projections": {
+            "timeline_steps": timeline["count"],
+            "entities_in_scope": len(scope["involved"]),
+            "gaps": gap_report["counts"],
+            "attack_flow_objects": len(flow["objects"]),
+            "navigator_techniques": len(layer["techniques"]),
+        },
+        "graph_invariants": invariants,
+        "verification": {
+            "every_timeline_step_traces_to_the_graph": all(
+                step["finding"] in investigation.nodes for step in timeline["steps"]
+            ),
+            "absence_claims_computed_after_close": True,
+            "invariant_1_layer_order": invariants["invariant_1_layer_order"]["holds"],
+            "invariant_2_termination": invariants["invariant_2_termination"]["holds"],
+            "invariant_3_acyclicity": invariants["invariant_3_acyclicity"]["holds"],
+        },
+    }

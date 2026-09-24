@@ -44,7 +44,7 @@ def _as_proposal(finding) -> dict | None:
 class ModelInterpreter:
     """INTERPRET and HYPOTHESISE through the constrained contracts of T06."""
 
-    def __init__(self, *, client_module, max_tokens: int = 2000, batch_size: int = 8):
+    def __init__(self, *, client_module, max_tokens: int = 8000, batch_size: int = 8):
         self.client = client_module
         self.max_tokens = max_tokens
         #: How many interpret calls run at once. Eight is chosen against the
@@ -74,6 +74,11 @@ class ModelInterpreter:
             )
         lines.append("")
         lines.append("FACTUAL RELATIONS AROUND IT")
+        if not neighbourhood["relations"]:
+            lines.append(
+                "  none -- no other record shares an account, host, address, file, size, "
+                "pid or process lineage with this one. It stands alone in the 72 hours."
+            )
         for relation, data in neighbourhood["relations"].items():
             truncation = (
                 f" (showing {data['showing']} nearest of {data['total']})"
@@ -83,9 +88,17 @@ class ModelInterpreter:
             lines.append(f"  {relation}{truncation}")
             for row in data["observations"]:
                 params = f"  {row['params']}" if row["params"] else ""
+                # The edge as it holds, endpoints named, so a citation copies
+                # it rather than guessing which of this record's fields matched.
+                edge = (
+                    f"  [{relation}({row['from_observation']}, {row['to_observation']}) "
+                    f"via this record's {row['via']}]"
+                    if row.get("via")
+                    else ""
+                )
                 lines.append(
                     f"    {row['id']}  {row['event_id']}  {row['source_type']}  "
-                    f"{row['field']} = {row['value']!r}{params}"
+                    f"{row['field']} = {row['value']!r}{edge}{params}"
                 )
         if neighbourhood.get("ordering"):
             lines.append("")
@@ -122,8 +135,13 @@ class ModelInterpreter:
                 max_tokens=self.max_tokens,
             )
         except Exception as exc:  # a failed call is a coverage loss, not a crash
-            self.calls.append({"site": "interpret", "error": f"{type(exc).__name__}: {exc}"})
-            return None
+            # ...and not a verdict either. `None` means the model looked and
+            # said NOTHING_HERE; a failure is returned as such, so the loop
+            # can count it. Conflating the two let a credit outage produce
+            # 242 "nothing here" outcomes and an all-green empty build.
+            message = f"{type(exc).__name__}: {exc}"
+            self.calls.append({"site": "interpret", "error": message})
+            return {"error": message}
 
         self.calls.append({"site": "interpret", "provenance": result.provenance.as_dict()})
         return _as_proposal(result.parsed)
@@ -151,8 +169,9 @@ class ModelInterpreter:
                 try:
                     out.append(future.result())
                 except Exception as exc:  # noqa: BLE001
-                    self.calls.append({"site": "interpret", "error": f"{type(exc).__name__}: {exc}"})
-                    out.append(None)
+                    message = f"{type(exc).__name__}: {exc}"
+                    self.calls.append({"site": "interpret", "error": message})
+                    out.append({"error": message})
             return out
 
     def repair(self, proposal: dict, diagnostics: list[str], neighbourhood: dict, context: dict) -> dict | None:

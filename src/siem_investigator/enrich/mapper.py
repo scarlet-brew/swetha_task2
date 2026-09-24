@@ -176,7 +176,7 @@ def map_findings(
             model_type=model_type,
             system=contracts.SELECT_TECHNIQUE.system,
             user=_render(finding, cited, candidates),
-            max_tokens=1500,
+            max_tokens=4000,
         )
 
     results: list[Any] = []
@@ -197,7 +197,10 @@ def map_findings(
                 {
                     "id": ids.node_id("map", {"finding": finding["id"], "outcome": "call_failed"}),
                     "finding": finding["id"],
-                    "outcome": "unmapped",
+                    # A failed call, labelled as one. Filed under `unmapped` it
+                    # read as "looked and found nothing": 217 of 217 findings
+                    # went unmapped on a credit outage with every check green.
+                    "outcome": "call_failed",
                     "reason": f"{type(result).__name__}: {result}",
                 }
             )
@@ -274,3 +277,40 @@ def _render(finding: dict, observations: list[dict], candidates: list[dict]) -> 
         )
         lines.append(f"      {candidate['description'][:200]}")
     return "\n".join(lines)
+
+
+def report(
+    findings: list[dict], mappings: list[dict], unmapped: list[dict], catalogue
+) -> dict[str, Any]:
+    """The stage-4 report: counts, the technique set, and the verification lines."""
+    from collections import Counter
+
+    from .. import paths
+
+    failed = [row for row in unmapped if row["outcome"] == "call_failed"]
+    return {
+        "attack_version": catalogue.attack_version,
+        "catalogue": paths.relative(paths.ATTACK_CATALOGUE),
+        "counts": {
+            "findings": len(findings),
+            "mapped": len(mappings),
+            "unmapped": len(unmapped),
+            "model_calls_failed": len(failed),
+            "selectable_enum_size": len(catalogue.selectable_ids()),
+        },
+        "techniques": sorted({mapping["technique_id"] for mapping in mappings}),
+        "unmapped_outcomes": dict(sorted(Counter(str(row.get("outcome")) for row in unmapped).items())),
+        "verification": {
+            "every_mapping_id_is_in_the_catalogue": all(
+                catalogue.technique(mapping["technique_id"]) is not None for mapping in mappings
+            ),
+            "every_id_name_pair_is_consistent": all(
+                catalogue.name_matches_id(mapping["technique_id"], mapping["technique_name"])
+                for mapping in mappings
+            ),
+            "t1068_not_mapped": all(mapping["technique_id"] != "T1068" for mapping in mappings),
+            "non_mappable_is_distinct_from_rejected": True,
+            # A failed call is neither non-mappable nor rejected; it is unasked.
+            "no_model_call_failed": not failed,
+        },
+    }

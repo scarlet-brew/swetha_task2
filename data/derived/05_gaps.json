@@ -3,41 +3,124 @@
   "counts": {
     "hosts_with_partial_coverage": 12,
     "structural": 3,
-    "unconfirmed_or_uncoverable_hypotheses": 9
+    "unconfirmed_or_uncoverable_hypotheses": 14
   },
   "from_hypotheses": [
     {
-      "hypothesis": "hyp_0ff4fc3bbbca",
+      "hypothesis": "hyp_122ba9635467",
       "outcome": "not_found",
       "predicted": {
-        "entity": "hwalker",
+        "entity": "jclark",
         "event_kind": "auth/user_logon",
         "source_type": "auth"
       },
       "premised_on": [
-        "fnd_8edd945718f0",
-        "fnd_bfb7effa55db",
-        "fnd_fbf9c546485e"
+        "fnd_117b4b170db5",
+        "fnd_88c9c2765360"
       ],
-      "statement": "No auth/user_logon record for hwalker was found in a source that does cover it.",
+      "statement": "No auth/user_logon record for jclark was found in a source that does cover it.",
       "status": "unconfirmed"
     },
     {
-      "hypothesis": "hyp_17a517231827",
+      "hypothesis": "hyp_1339b53982fc",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "asmith",
+        "event_kind": "auth/user_logon",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_519a6a56c012",
+        "fnd_f740aefbd7f0"
+      ],
+      "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_28725641fd88",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "asmith",
+        "event_kind": "auth/user_logon",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_366d71d6366e",
+        "fnd_44ba5489ee07",
+        "fnd_519a6a56c012"
+      ],
+      "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_29e095648a08",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "jclark",
+        "event_kind": "cloud_storage/file_download",
+        "source_type": "cloud_storage"
+      },
+      "premised_on": [
+        "fnd_43db3187f3d2",
+        "fnd_5b3764688112",
+        "fnd_94af780ea2f5"
+      ],
+      "statement": "No cloud_storage/file_download record for jclark was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_320829b13ccc",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "10.0.1.11",
+        "event_kind": "cloud_storage/file_download",
+        "source_type": "cloud_storage"
+      },
+      "premised_on": [
+        "fnd_163cf30fbff7",
+        "fnd_37e53f778bfe",
+        "fnd_719f6b2c0755",
+        "fnd_973f39af28d3",
+        "fnd_a319efcb4f27",
+        "fnd_cb5b05c3e29d"
+      ],
+      "statement": "No cloud_storage/file_download record for 10.0.1.11 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_44b99799cb2f",
       "outcome": "not_found",
       "predicted": {
         "entity": "dtaylor",
-        "event_kind": "cloud_storage/file_download",
-        "source_type": "cloud_storage"
+        "event_kind": "auth/user_logon",
+        "source_type": "auth"
       },
       "premised_on": [
-        "fnd_cb9cffcf85ed"
+        "fnd_177d18e26a8c",
+        "fnd_c19dc28cb2e0"
       ],
-      "statement": "No cloud_storage/file_download record for dtaylor was found in a source that does cover it.",
+      "statement": "No auth/user_logon record for dtaylor was found in a source that does cover it.",
       "status": "unconfirmed"
     },
     {
-      "hypothesis": "hyp_1ce71ab7c05a",
+      "hypothesis": "hyp_46f857382171",
+      "outcome": "not_found",
+      "predicted": {
+        "entity": "file-srv-02",
+        "event_kind": "auth/user_logon",
+        "source_type": "auth"
+      },
+      "premised_on": [
+        "fnd_1d68f6505607",
+        "fnd_4a9753483895",
+        "fnd_55d6db421077",
+        "fnd_fbf49f8ae267"
+      ],
+      "statement": "No auth/user_logon record for file-srv-02 was found in a source that does cover it.",
+      "status": "unconfirmed"
+    },
+    {
+      "hypothesis": "hyp_4ca97d5b2824",
       "outcome": "not_found",
       "predicted": {
         "entity": "asmith",
@@ -45,60 +128,28 @@
         "source_type": "auth"
       },
       "premised_on": [
-        "fnd_170f88f97f02",
-        "fnd_8a431658338b"
+        "fnd_2b0c2d3e5913",
+        "fnd_6ef3401e9634"
       ],
       "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
       "status": "unconfirmed"
     },
     {
-      "hypothesis": "hyp_2ccd878e47d0",
+      "hypothesis": "hyp_5fb1b927d563",
       "outcome": "not_found",
       "predicted": {
-        "entity": "ewhite",
-        "event_kind": "endpoint/process_create",
-        "source_type": "endpoint"
-      },
-      "premised_on": [
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9",
-        "fnd_6649e8f5cc38",
-        "fnd_b63613164ad2"
-      ],
-      "statement": "No endpoint/process_create record for ewhite was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_3e67f0af3106",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "fmartinez",
-        "event_kind": "cloud_storage/file_download",
-        "source_type": "cloud_storage"
-      },
-      "premised_on": [
-        "fnd_c15c3c77b2ad"
-      ],
-      "statement": "No cloud_storage/file_download record for fmartinez was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_adbb2a254ffd",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "asmith",
+        "entity": "jdavis",
         "event_kind": "auth/user_logon",
         "source_type": "auth"
       },
       "premised_on": [
-        "fnd_7dcb36e58173",
-        "fnd_d7cfcada4aba"
+        "fnd_551783f69f0e"
       ],
-      "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
+      "statement": "No auth/user_logon record for jdavis was found in a source that does cover it.",
       "status": "unconfirmed"
     },
     {
-      "hypothesis": "hyp_e2e4154c248a",
+      "hypothesis": "hyp_6dc2d97dd585",
       "outcome": "not_covered",
       "predicted": {
         "entity": "wkstn-01",
@@ -106,30 +157,63 @@
         "source_type": "network"
       },
       "premised_on": [
-        "fnd_bd1274ae78de",
-        "fnd_e070428e74d2"
+        "fnd_d20a12fa39ac",
+        "fnd_fbb4568347c0"
       ],
       "statement": "No network/network_connection record for wkstn-01 was found -- and no source covers it, so its absence says nothing about the estate.",
       "status": "uncoverable"
     },
     {
-      "hypothesis": "hyp_e2efc0b61ce5",
+      "hypothesis": "hyp_b3eb5083c89a",
       "outcome": "not_found",
       "predicted": {
-        "entity": "wkstn-03",
-        "event_kind": "auth/failed_logon",
+        "entity": "dtaylor",
+        "event_kind": "auth/user_logoff",
         "source_type": "auth"
       },
       "premised_on": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_9ae70148e04f"
+        "fnd_4ea287c8cbf2",
+        "fnd_a294ba52f8c7"
       ],
-      "statement": "No auth/failed_logon record for wkstn-03 was found in a source that does cover it.",
+      "statement": "No auth/user_logoff record for dtaylor was found in a source that does cover it.",
       "status": "unconfirmed"
     },
     {
-      "hypothesis": "hyp_f29f9367fcea",
+      "hypothesis": "hyp_e3e0f4893294",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "10.0.5.15",
+        "event_kind": "cloud_storage/file_download",
+        "source_type": "cloud_storage"
+      },
+      "premised_on": [
+        "fnd_298c0cb282b5",
+        "fnd_2b2aab2aa2db",
+        "fnd_75b3aec8d036",
+        "fnd_7ef1c9f590b9",
+        "fnd_d609f0c75036"
+      ],
+      "statement": "No cloud_storage/file_download record for 10.0.5.15 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_eb20b89c8a1a",
+      "outcome": "not_covered",
+      "predicted": {
+        "entity": "10.0.1.17",
+        "event_kind": "cloud_storage/file_upload",
+        "source_type": "cloud_storage"
+      },
+      "premised_on": [
+        "fnd_1c56234bae30",
+        "fnd_c482dd9a536a",
+        "fnd_ca994ab10fe0"
+      ],
+      "statement": "No cloud_storage/file_upload record for 10.0.1.17 was found -- and no source covers it, so its absence says nothing about the estate.",
+      "status": "uncoverable"
+    },
+    {
+      "hypothesis": "hyp_fa3fe67c855b",
       "outcome": "not_found",
       "predicted": {
         "entity": "cjohnson",
@@ -137,10 +221,8 @@
         "source_type": "auth"
       },
       "premised_on": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_d9d4290378db"
+        "fnd_1fb96f99c258",
+        "fnd_a8ada9fe1bc3"
       ],
       "statement": "No auth/user_logon record for cjohnson was found in a source that does cover it.",
       "status": "unconfirmed"

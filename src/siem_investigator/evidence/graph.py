@@ -184,6 +184,44 @@ class Graph:
         }
 
 
+def assemble(
+    *,
+    records: list[dict],
+    observations: list[dict],
+    edges: list[dict],
+    findings: list[dict],
+    mappings: list[dict],
+    hypotheses: list[dict],
+) -> Graph:
+    """The investigation graph over the committed artifacts, in layer order.
+
+    One place, because the build and a stage-5 replay both assembled this by
+    hand and one of them drifted (`cites_findings` was optional in one copy).
+    """
+    investigation = Graph()
+    for record in records:
+        investigation.add(record, layer="record")
+    for observation in observations:
+        investigation.add(observation, layer="observation", cites=[observation["record"]])
+    for edge in edges:
+        investigation.add(
+            edge, layer="edge", cites=[edge["from_observation"], edge["to_observation"]]
+        )
+    for finding in findings:
+        investigation.add(
+            finding,
+            layer="finding",
+            cites=finding["cites_observations"] + finding["cites_edges"] + finding.get("cites_findings", []),
+        )
+    for mapping in mappings:
+        investigation.add(
+            mapping, layer="mapping", cites=[mapping["finding"]] + mapping["cites_observations"]
+        )
+    for hypothesis in hypotheses:
+        investigation.add(hypothesis, layer="hypothesis", cites=hypothesis["premises"])
+    return investigation
+
+
 def summarise(node: dict) -> str:
     """One line describing a node, for a trace or a diagnostic."""
     layer = node.get("layer")

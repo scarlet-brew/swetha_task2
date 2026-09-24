@@ -46,15 +46,14 @@ class StubInterpreter:
             for relation in sorted(required):
                 data = neighbourhood["relations"][relation]
                 for row in data["observations"][:1]:
-                    cited.append(row["id"])
+                    left = row.get("from_observation", neighbourhood["observation"])
+                    right = row.get("to_observation", row["id"])
+                    cited.extend([left, right, row["id"]])
                     edges.append(
-                        {
-                            "relation": relation,
-                            "from_observation": neighbourhood["observation"],
-                            "to_observation": row["id"],
-                        }
+                        {"relation": relation, "from_observation": left, "to_observation": right}
                     )
 
+            cited = list(dict.fromkeys(cited))
             key = tuple(sorted(set(cited))) + (stage,)
             if key in self.proposed:
                 return None

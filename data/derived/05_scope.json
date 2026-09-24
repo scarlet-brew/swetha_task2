@@ -5,17 +5,17 @@
   },
   "counts": {
     "account": 11,
-    "address": 100,
+    "address": 144,
     "bucket": 2,
-    "file": 7,
+    "file": 10,
     "host": 13,
     "service": 1
   },
   "counts_including_record_neighbours": {
     "account": 11,
-    "address": 123,
+    "address": 144,
     "bucket": 2,
-    "file": 7,
+    "file": 10,
     "host": 13,
     "service": 1
   },
@@ -40,48 +40,53 @@
         "EVT-0203",
         "EVT-0207"
       ],
-      "finding_count": 40,
+      "finding_count": 45,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_08630de5b898",
-        "fnd_11879896458d",
-        "fnd_170f88f97f02",
-        "fnd_206012af72d0",
-        "fnd_29b1a27ba765",
-        "fnd_4a6a7166edeb",
-        "fnd_521c78352abc",
-        "fnd_538b2c826768",
-        "fnd_5bac4074d3f9",
-        "fnd_60c48888d6df",
-        "fnd_61917ebc1465",
-        "fnd_6649e8f5cc38",
-        "fnd_711441b6c5b4",
-        "fnd_7dcb36e58173",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_8e121e450d8d",
-        "fnd_98d774430171",
-        "fnd_9e372d947e67",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_b401029549cc",
-        "fnd_b63613164ad2",
-        "fnd_c26397a3efbe",
-        "fnd_cca9f1658cbd",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_dcbbfd3d0900",
-        "fnd_dfa9ae1090d0",
-        "fnd_e04816d910a2",
-        "fnd_ed568ad93bf4",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_f06c8c98a8bf",
-        "fnd_f3b5b42611b8",
-        "fnd_fab2bd5da605",
-        "fnd_fbf9c546485e"
+        "fnd_01d2cb190ba7",
+        "fnd_043e19ca12e5",
+        "fnd_0aa304bcc756",
+        "fnd_0b36fe6bd196",
+        "fnd_0f38a9b55e6e",
+        "fnd_158f473c01aa",
+        "fnd_1dd3f461f4a1",
+        "fnd_1e95861b2acd",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_2cd39e51dc6b",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_37e53f778bfe",
+        "fnd_438cf028a7c4",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_506414766f30",
+        "fnd_519a6a56c012",
+        "fnd_53c36df8da83",
+        "fnd_6ef3401e9634",
+        "fnd_75b3aec8d036",
+        "fnd_79a69ecdcd41",
+        "fnd_7a3a4dcd26db",
+        "fnd_7c1f3f3bc949",
+        "fnd_7e2e7e75ae2f",
+        "fnd_9153be3889e6",
+        "fnd_94af780ea2f5",
+        "fnd_94d6b2c05cc2",
+        "fnd_9ac3d5f89203",
+        "fnd_a26828c42b48",
+        "fnd_a319efcb4f27",
+        "fnd_a855e4061b91",
+        "fnd_ad8f5de26e11",
+        "fnd_af32fc3475a5",
+        "fnd_b94d54d918ae",
+        "fnd_c19dc28cb2e0",
+        "fnd_c1fc2107bb96",
+        "fnd_c40fe3f5f19a",
+        "fnd_c8a852dc6302",
+        "fnd_c98aaf3ab9a8",
+        "fnd_cb5b05c3e29d",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T12:18:41.520558Z",
       "last_involvement": "2026-06-12T22:59:45.883199Z",
@@ -108,39 +113,46 @@
         "EVT-0145",
         "EVT-0162",
         "EVT-0163",
+        "EVT-0170",
         "EVT-0173",
         "EVT-0180",
         "EVT-0213"
       ],
-      "finding_count": 27,
+      "finding_count": 33,
       "findings": [
-        "fnd_016a78b5c956",
-        "fnd_29b1a27ba765",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9",
-        "fnd_5f00c88ae033",
-        "fnd_61917ebc1465",
-        "fnd_6649e8f5cc38",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d",
-        "fnd_98d774430171",
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_b401029549cc",
-        "fnd_b63613164ad2",
-        "fnd_bfb7effa55db",
-        "fnd_cb9cffcf85ed",
-        "fnd_cca9f1658cbd",
-        "fnd_dfa9ae1090d0",
-        "fnd_e070428e74d2",
-        "fnd_ed568ad93bf4",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_fbf9c546485e"
+        "fnd_01d2cb190ba7",
+        "fnd_1086f332dfa9",
+        "fnd_1fb96f99c258",
+        "fnd_3a009499c488",
+        "fnd_3f8f81a8df3c",
+        "fnd_414c40be5fc7",
+        "fnd_4d1a410c84f6",
+        "fnd_4f5191cc11e4",
+        "fnd_506414766f30",
+        "fnd_519a6a56c012",
+        "fnd_53c36df8da83",
+        "fnd_791b0857a81e",
+        "fnd_79a69ecdcd41",
+        "fnd_7c1f3f3bc949",
+        "fnd_8c2c3e78cc6f",
+        "fnd_9ac3d5f89203",
+        "fnd_a0af9ffbd19f",
+        "fnd_a8ada9fe1bc3",
+        "fnd_a923fb77e894",
+        "fnd_ae3e66454a4b",
+        "fnd_c19dc28cb2e0",
+        "fnd_c40fe3f5f19a",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d20a12fa39ac",
+        "fnd_d24e36d84d1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e3367b22bb43",
+        "fnd_e6d356fa0c3a",
+        "fnd_f3376c0041ed",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T12:06:58.828725Z",
       "last_involvement": "2026-06-13T07:19:39.837409Z",
@@ -171,49 +183,50 @@
         "EVT-0202",
         "EVT-0218"
       ],
-      "finding_count": 41,
+      "finding_count": 42,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_08630de5b898",
-        "fnd_11879896458d",
-        "fnd_170f88f97f02",
-        "fnd_1d488a5e71c2",
-        "fnd_294a896c4040",
-        "fnd_29b1a27ba765",
-        "fnd_2ef260a0776e",
-        "fnd_2f247baf6c60",
-        "fnd_3848c20eed44",
-        "fnd_3f8b14e929c6",
-        "fnd_442ed1871564",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_4a6a7166edeb",
-        "fnd_538b2c826768",
-        "fnd_61917ebc1465",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_8940cfe1e5b0",
-        "fnd_8c750d6e1c04",
-        "fnd_94132fdcad95",
-        "fnd_9ae70148e04f",
-        "fnd_9e372d947e67",
-        "fnd_a3de5f803349",
-        "fnd_a3fdc644f621",
-        "fnd_b19bf172d694",
-        "fnd_bfb7effa55db",
-        "fnd_c044cb208b18",
-        "fnd_c15c3c77b2ad",
-        "fnd_cca9f1658cbd",
-        "fnd_ccefda36c241",
-        "fnd_d0ca74b4c974",
-        "fnd_d239049038e3",
-        "fnd_d7cfcada4aba",
-        "fnd_d9d4290378db",
-        "fnd_ed568ad93bf4",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_f06c8c98a8bf",
-        "fnd_fbf9c546485e"
+        "fnd_07d381ab620c",
+        "fnd_0b49e42713bc",
+        "fnd_163cf30fbff7",
+        "fnd_17abecf9745f",
+        "fnd_1fb96f99c258",
+        "fnd_20c9099f1d98",
+        "fnd_20ddcfbdcb27",
+        "fnd_26f6f6446dfa",
+        "fnd_2b0c2d3e5913",
+        "fnd_355a3d8f0117",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_39dc52bfd32c",
+        "fnd_3a009499c488",
+        "fnd_3f8f81a8df3c",
+        "fnd_438cf028a7c4",
+        "fnd_43db3187f3d2",
+        "fnd_4e1cf970b837",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_553a5ffc7141",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_6f5880a2cc84",
+        "fnd_719f6b2c0755",
+        "fnd_779bf6f30bda",
+        "fnd_7a48ab9f42f8",
+        "fnd_8d937d66d90c",
+        "fnd_94d6b2c05cc2",
+        "fnd_9af751fd448b",
+        "fnd_a0af9ffbd19f",
+        "fnd_a8ada9fe1bc3",
+        "fnd_a9508c293416",
+        "fnd_af32fc3475a5",
+        "fnd_b08178d4d288",
+        "fnd_b9d7dd904305",
+        "fnd_c40fe3f5f19a",
+        "fnd_d1958cf94bd9",
+        "fnd_d2888267a51d",
+        "fnd_d2fd040540e9",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af"
       ],
       "first_involvement": "2026-06-11T06:50:13.194708Z",
       "last_involvement": "2026-06-13T06:28:21.009868Z",
@@ -255,53 +268,72 @@
         "EVT-0204",
         "EVT-0209"
       ],
-      "finding_count": 45,
+      "finding_count": 64,
       "findings": [
-        "fnd_0019fe669cbc",
-        "fnd_03b64f15e4d3",
-        "fnd_157b343088d2",
-        "fnd_1d488a5e71c2",
-        "fnd_29b1a27ba765",
-        "fnd_2e84481f4a59",
-        "fnd_2f247baf6c60",
-        "fnd_3848c20eed44",
-        "fnd_3c7de333d39f",
-        "fnd_3f8b14e929c6",
-        "fnd_442ed1871564",
-        "fnd_4491648fc385",
-        "fnd_47907166329c",
-        "fnd_48d92a30da78",
-        "fnd_521c78352abc",
-        "fnd_559788e3b610",
-        "fnd_5bac4074d3f9",
-        "fnd_5f00c88ae033",
-        "fnd_6649e8f5cc38",
-        "fnd_693575d1df21",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_711441b6c5b4",
-        "fnd_71a42fbd2f43",
-        "fnd_76035101bb3d",
-        "fnd_88a830a49846",
-        "fnd_8c750d6e1c04",
-        "fnd_8edd945718f0",
-        "fnd_94132fdcad95",
-        "fnd_98d774430171",
-        "fnd_a3de5f803349",
-        "fnd_a6bf5c461856",
-        "fnd_ac00657572dd",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_b401029549cc",
-        "fnd_b63613164ad2",
-        "fnd_cb9cffcf85ed",
-        "fnd_ccefda36c241",
-        "fnd_d239049038e3",
-        "fnd_dfa9ae1090d0",
-        "fnd_e5834c9d459f",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_01d2cb190ba7",
+        "fnd_03b0ceecd00a",
+        "fnd_043e19ca12e5",
+        "fnd_0aa304bcc756",
+        "fnd_0f38a9b55e6e",
+        "fnd_1086f332dfa9",
+        "fnd_117b4b170db5",
+        "fnd_158f473c01aa",
+        "fnd_177d18e26a8c",
+        "fnd_1e95861b2acd",
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_2cd39e51dc6b",
+        "fnd_355a3d8f0117",
+        "fnd_366d71d6366e",
+        "fnd_37e53f778bfe",
+        "fnd_3b53d32cf033",
+        "fnd_3c384fa8343e",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_46cf47b01b3a",
+        "fnd_4d1a410c84f6",
+        "fnd_4ea287c8cbf2",
+        "fnd_553a5ffc7141",
+        "fnd_5b3764688112",
+        "fnd_6115dbfe9f5a",
+        "fnd_75b3aec8d036",
+        "fnd_762538deedf1",
+        "fnd_779bf6f30bda",
+        "fnd_79a69ecdcd41",
+        "fnd_7a3a4dcd26db",
+        "fnd_7c1f3f3bc949",
+        "fnd_7d8a9b645a27",
+        "fnd_7ddcf64b685a",
+        "fnd_80dbc66d34a0",
+        "fnd_85a614c1cb71",
+        "fnd_8c2c3e78cc6f",
+        "fnd_92930d7687e1",
+        "fnd_9af751fd448b",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a294ba52f8c7",
+        "fnd_a75be4224f19",
+        "fnd_aef175f1f8a2",
+        "fnd_bb5550c8b79b",
+        "fnd_bc4364498b1e",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c1fc2107bb96",
+        "fnd_c30b669505ea",
+        "fnd_c8dcbb2febbe",
+        "fnd_cb5b05c3e29d",
+        "fnd_d1958cf94bd9",
+        "fnd_d248c42fb846",
+        "fnd_d2888267a51d",
+        "fnd_d2fd040540e9",
+        "fnd_d4918be9219e",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e21fca559f47",
+        "fnd_e3367b22bb43",
+        "fnd_e6d356fa0c3a",
+        "fnd_ed4f146bad9b",
+        "fnd_f3376c0041ed",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T08:50:44.249433Z",
       "last_involvement": "2026-06-13T05:39:45.933394Z",
@@ -335,35 +367,59 @@
         "EVT-0206",
         "EVT-0210"
       ],
-      "finding_count": 27,
+      "finding_count": 51,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_03b64f15e4d3",
-        "fnd_11879896458d",
-        "fnd_294a896c4040",
-        "fnd_2c1c30fd1d87",
-        "fnd_2ef260a0776e",
-        "fnd_3848c20eed44",
-        "fnd_3a2372343584",
-        "fnd_442ed1871564",
-        "fnd_47907166329c",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9",
-        "fnd_61917ebc1465",
-        "fnd_6649e8f5cc38",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d",
-        "fnd_94132fdcad95",
-        "fnd_9ae70148e04f",
-        "fnd_a3fdc644f621",
-        "fnd_b63613164ad2",
-        "fnd_bfb7effa55db",
-        "fnd_c15c3c77b2ad",
-        "fnd_cca9f1658cbd",
-        "fnd_ccefda36c241",
-        "fnd_d9d4290378db",
-        "fnd_dfa9ae1090d0"
+        "fnd_0b49e42713bc",
+        "fnd_0e1f6feeb885",
+        "fnd_0f38a9b55e6e",
+        "fnd_158f473c01aa",
+        "fnd_17abecf9745f",
+        "fnd_2211a419bfee",
+        "fnd_26646e57b3a3",
+        "fnd_29ec4c811ba2",
+        "fnd_2d760f5f283b",
+        "fnd_355a3d8f0117",
+        "fnd_3629b6d8b749",
+        "fnd_3a009499c488",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_46cf47b01b3a",
+        "fnd_4d1a410c84f6",
+        "fnd_4e1cf970b837",
+        "fnd_4f5191cc11e4",
+        "fnd_519a6a56c012",
+        "fnd_551b3e387cd8",
+        "fnd_6f5880a2cc84",
+        "fnd_762538deedf1",
+        "fnd_779bf6f30bda",
+        "fnd_79a69ecdcd41",
+        "fnd_7a48ab9f42f8",
+        "fnd_7d8a9b645a27",
+        "fnd_87110364ec59",
+        "fnd_8c2c3e78cc6f",
+        "fnd_9ac3d5f89203",
+        "fnd_9af751fd448b",
+        "fnd_9cf7f752f12b",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a5531924ba5e",
+        "fnd_a9508c293416",
+        "fnd_aef175f1f8a2",
+        "fnd_b9d7dd904305",
+        "fnd_bb5550c8b79b",
+        "fnd_c19dc28cb2e0",
+        "fnd_c755361c32e0",
+        "fnd_c8c9f6788d36",
+        "fnd_c8dcbb2febbe",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d24e36d84d1b",
+        "fnd_d2fd040540e9",
+        "fnd_d4918be9219e",
+        "fnd_e6d356fa0c3a",
+        "fnd_ec10918c721a",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T09:46:29.618328Z",
       "last_involvement": "2026-06-13T05:44:47.093107Z",
@@ -399,48 +455,61 @@
         "EVT-0208",
         "EVT-0215"
       ],
-      "finding_count": 40,
+      "finding_count": 53,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_11879896458d",
-        "fnd_206012af72d0",
-        "fnd_294a896c4040",
-        "fnd_2e84481f4a59",
-        "fnd_2ef260a0776e",
-        "fnd_3f8b14e929c6",
-        "fnd_48d92a30da78",
-        "fnd_4a6a7166edeb",
-        "fnd_559788e3b610",
-        "fnd_5f00c88ae033",
-        "fnd_60c48888d6df",
-        "fnd_61917ebc1465",
-        "fnd_6649e8f5cc38",
-        "fnd_6b02f3754393",
-        "fnd_711441b6c5b4",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_8e121e450d8d",
-        "fnd_8edd945718f0",
-        "fnd_94132fdcad95",
-        "fnd_98d774430171",
-        "fnd_9e372d947e67",
-        "fnd_a3fdc644f621",
-        "fnd_b401029549cc",
-        "fnd_b63613164ad2",
-        "fnd_bfb7effa55db",
-        "fnd_c15c3c77b2ad",
-        "fnd_c26397a3efbe",
-        "fnd_cb9cffcf85ed",
-        "fnd_cca9f1658cbd",
-        "fnd_d9d4290378db",
-        "fnd_dcbbfd3d0900",
-        "fnd_dfa9ae1090d0",
-        "fnd_e04816d910a2",
-        "fnd_ed568ad93bf4",
-        "fnd_f04ea969ee25",
-        "fnd_f3b5b42611b8",
-        "fnd_fab2bd5da605",
-        "fnd_fbf9c546485e"
+        "fnd_01d2cb190ba7",
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_1086f332dfa9",
+        "fnd_117b4b170db5",
+        "fnd_138109da4b2b",
+        "fnd_177d18e26a8c",
+        "fnd_17abecf9745f",
+        "fnd_1dd3f461f4a1",
+        "fnd_1e95861b2acd",
+        "fnd_2211a419bfee",
+        "fnd_26f6f6446dfa",
+        "fnd_2cd39e51dc6b",
+        "fnd_37e53f778bfe",
+        "fnd_3a009499c488",
+        "fnd_44ba5489ee07",
+        "fnd_4e1cf970b837",
+        "fnd_519a6a56c012",
+        "fnd_551b3e387cd8",
+        "fnd_6f5880a2cc84",
+        "fnd_7c0741e7218e",
+        "fnd_7c1f3f3bc949",
+        "fnd_7e2e7e75ae2f",
+        "fnd_7ef1c9f590b9",
+        "fnd_815cafcbd542",
+        "fnd_83b6c69f1af5",
+        "fnd_8521f18fb0df",
+        "fnd_85a614c1cb71",
+        "fnd_87110364ec59",
+        "fnd_8c2c3e78cc6f",
+        "fnd_9cf7f752f12b",
+        "fnd_a28af202cbcc",
+        "fnd_a855e4061b91",
+        "fnd_a9508c293416",
+        "fnd_ad8f5de26e11",
+        "fnd_b94d54d918ae",
+        "fnd_b9d7dd904305",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c30b669505ea",
+        "fnd_c6b6fdace8b4",
+        "fnd_c8a852dc6302",
+        "fnd_c8dcbb2febbe",
+        "fnd_d4918be9219e",
+        "fnd_d609f0c75036",
+        "fnd_dfb33381a96d",
+        "fnd_dfdf4e23f5f2",
+        "fnd_e3367b22bb43",
+        "fnd_ed4f146bad9b",
+        "fnd_f3376c0041ed",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T10:57:37.982291Z",
       "last_involvement": "2026-06-13T00:47:41.254884Z",
@@ -470,37 +539,39 @@
         "EVT-0216",
         "EVT-0217"
       ],
-      "finding_count": 29,
+      "finding_count": 31,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_11879896458d",
-        "fnd_1d488a5e71c2",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_2f247baf6c60",
-        "fnd_3848c20eed44",
-        "fnd_3f8b14e929c6",
-        "fnd_442ed1871564",
-        "fnd_48d92a30da78",
-        "fnd_4a6a7166edeb",
-        "fnd_61917ebc1465",
-        "fnd_693575d1df21",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_71a42fbd2f43",
-        "fnd_76035101bb3d",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_8c750d6e1c04",
-        "fnd_94132fdcad95",
-        "fnd_9ae70148e04f",
-        "fnd_c15c3c77b2ad",
-        "fnd_cca9f1658cbd",
-        "fnd_ccefda36c241",
-        "fnd_d239049038e3",
-        "fnd_d9d4290378db",
-        "fnd_e04816d910a2",
-        "fnd_f3b5b42611b8"
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_0e1f6feeb885",
+        "fnd_138109da4b2b",
+        "fnd_17abecf9745f",
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_39dc52bfd32c",
+        "fnd_3a009499c488",
+        "fnd_3b53d32cf033",
+        "fnd_4e1cf970b837",
+        "fnd_519a6a56c012",
+        "fnd_6d02017c66d9",
+        "fnd_6f5880a2cc84",
+        "fnd_779bf6f30bda",
+        "fnd_8287bdb7858a",
+        "fnd_87110364ec59",
+        "fnd_92930d7687e1",
+        "fnd_9ac3d5f89203",
+        "fnd_a294ba52f8c7",
+        "fnd_a923fb77e894",
+        "fnd_a9508c293416",
+        "fnd_ae3e66454a4b",
+        "fnd_b92e57b401f7",
+        "fnd_b9d7dd904305",
+        "fnd_bc4364498b1e",
+        "fnd_c30b669505ea",
+        "fnd_c98aaf3ab9a8",
+        "fnd_dfb33381a96d",
+        "fnd_ed4f146bad9b",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-10T09:51:41.372814Z",
       "last_involvement": "2026-06-13T02:22:03.427384Z",
@@ -520,6 +591,7 @@
       "entity_type": "account",
       "event_ids": [
         "EVT-0008",
+        "EVT-0009",
         "EVT-0010",
         "EVT-0019",
         "EVT-0025",
@@ -534,45 +606,58 @@
         "EVT-0197",
         "EVT-0219"
       ],
-      "finding_count": 35,
+      "finding_count": 48,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_2e84481f4a59",
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_47907166329c",
-        "fnd_4a6a7166edeb",
-        "fnd_521c78352abc",
-        "fnd_559788e3b610",
-        "fnd_5bac4074d3f9",
-        "fnd_6649e8f5cc38",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_711441b6c5b4",
-        "fnd_76035101bb3d",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_8edd945718f0",
-        "fnd_98d774430171",
-        "fnd_9ae70148e04f",
-        "fnd_9d1f9e3acbee",
-        "fnd_9e372d947e67",
-        "fnd_a3de5f803349",
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53",
-        "fnd_b401029549cc",
-        "fnd_b63613164ad2",
-        "fnd_bfb7effa55db",
-        "fnd_ccefda36c241",
-        "fnd_dfa9ae1090d0",
-        "fnd_e04816d910a2",
-        "fnd_ed568ad93bf4",
-        "fnd_f3b5b42611b8",
-        "fnd_fbf9c546485e"
+        "fnd_043e19ca12e5",
+        "fnd_07d381ab620c",
+        "fnd_0b36fe6bd196",
+        "fnd_117b4b170db5",
+        "fnd_138109da4b2b",
+        "fnd_158f473c01aa",
+        "fnd_177d18e26a8c",
+        "fnd_298c0cb282b5",
+        "fnd_355a3d8f0117",
+        "fnd_3c384fa8343e",
+        "fnd_414c40be5fc7",
+        "fnd_43db3187f3d2",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_46cf47b01b3a",
+        "fnd_4d1a410c84f6",
+        "fnd_4f5191cc11e4",
+        "fnd_6115dbfe9f5a",
+        "fnd_650a0c35f1cb",
+        "fnd_6d02017c66d9",
+        "fnd_762538deedf1",
+        "fnd_779bf6f30bda",
+        "fnd_79a69ecdcd41",
+        "fnd_7a48ab9f42f8",
+        "fnd_7c1f3f3bc949",
+        "fnd_83b6c69f1af5",
+        "fnd_85a614c1cb71",
+        "fnd_8c2c3e78cc6f",
+        "fnd_8d937d66d90c",
+        "fnd_9153be3889e6",
+        "fnd_9ac3d5f89203",
+        "fnd_9af751fd448b",
+        "fnd_a0af9ffbd19f",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a327a1504a5c",
+        "fnd_aef175f1f8a2",
+        "fnd_bb5550c8b79b",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c30b669505ea",
+        "fnd_d24e36d84d1b",
+        "fnd_d2fd040540e9",
+        "fnd_dfdf4e23f5f2",
+        "fnd_e3367b22bb43",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_fbb4568347c0"
       ],
-      "first_involvement": "2026-06-10T22:59:02.525182Z",
+      "first_involvement": "2026-06-10T14:40:12.102241Z",
       "last_involvement": "2026-06-12T15:10:02.539810Z",
       "source_types": [
         "auth",
@@ -601,48 +686,51 @@
         "EVT-0214",
         "EVT-0220"
       ],
-      "finding_count": 40,
+      "finding_count": 43,
       "findings": [
-        "fnd_02d100b158a5",
-        "fnd_08630de5b898",
-        "fnd_11879896458d",
-        "fnd_170f88f97f02",
-        "fnd_1d488a5e71c2",
-        "fnd_206012af72d0",
-        "fnd_29b1a27ba765",
-        "fnd_2f247baf6c60",
-        "fnd_3f8b14e929c6",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_538b2c826768",
-        "fnd_60c48888d6df",
-        "fnd_61917ebc1465",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d",
-        "fnd_8c750d6e1c04",
-        "fnd_8e121e450d8d",
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_bd1274ae78de",
-        "fnd_bfb7effa55db",
-        "fnd_c26397a3efbe",
-        "fnd_cca9f1658cbd",
-        "fnd_d0ca74b4c974",
-        "fnd_d239049038e3",
-        "fnd_d7cfcada4aba",
-        "fnd_dcbbfd3d0900",
-        "fnd_ed568ad93bf4",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_f06c8c98a8bf",
-        "fnd_fab2bd5da605",
-        "fnd_fbf9c546485e"
+        "fnd_0b49e42713bc",
+        "fnd_1dd3f461f4a1",
+        "fnd_1e95861b2acd",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_3a009499c488",
+        "fnd_3f8f81a8df3c",
+        "fnd_44ba5489ee07",
+        "fnd_469cc7b42835",
+        "fnd_4d1a410c84f6",
+        "fnd_506414766f30",
+        "fnd_519a6a56c012",
+        "fnd_53c36df8da83",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_791b0857a81e",
+        "fnd_7a48ab9f42f8",
+        "fnd_7e2e7e75ae2f",
+        "fnd_87110364ec59",
+        "fnd_87de5fd88f96",
+        "fnd_94af780ea2f5",
+        "fnd_94d6b2c05cc2",
+        "fnd_9ac3d5f89203",
+        "fnd_a0af9ffbd19f",
+        "fnd_a2e6940f965a",
+        "fnd_a855e4061b91",
+        "fnd_a8ada9fe1bc3",
+        "fnd_a923fb77e894",
+        "fnd_ae3e66454a4b",
+        "fnd_af32fc3475a5",
+        "fnd_bc4364498b1e",
+        "fnd_c2e9b0104e8e",
+        "fnd_c40fe3f5f19a",
+        "fnd_c482dd9a536a",
+        "fnd_c8a852dc6302",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d20a12fa39ac",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f3e44b3557af",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T15:45:17.487358Z",
       "last_involvement": "2026-06-13T04:07:27.113794Z",
@@ -675,56 +763,68 @@
         "EVT-0156",
         "EVT-0159",
         "EVT-0182",
+        "EVT-0184",
         "EVT-0198",
         "EVT-0200",
         "EVT-0212"
       ],
-      "finding_count": 44,
+      "finding_count": 55,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_18737151939b",
-        "fnd_1d488a5e71c2",
-        "fnd_206012af72d0",
-        "fnd_29b1a27ba765",
-        "fnd_2e84481f4a59",
-        "fnd_2f247baf6c60",
-        "fnd_3f8b14e929c6",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_4a6a7166edeb",
-        "fnd_521c78352abc",
-        "fnd_559788e3b610",
-        "fnd_5bac4074d3f9",
-        "fnd_60c48888d6df",
-        "fnd_6649e8f5cc38",
-        "fnd_682626be6d1a",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_711441b6c5b4",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_8c750d6e1c04",
-        "fnd_8e121e450d8d",
-        "fnd_8edd945718f0",
-        "fnd_94132fdcad95",
-        "fnd_98d774430171",
-        "fnd_9e372d947e67",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_b401029549cc",
-        "fnd_c26397a3efbe",
-        "fnd_c41ceb181c0c",
-        "fnd_d239049038e3",
-        "fnd_dcbbfd3d0900",
-        "fnd_dfa9ae1090d0",
-        "fnd_e04816d910a2",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_f1fa97f0fbde",
-        "fnd_f3b5b42611b8",
-        "fnd_fab2bd5da605"
+        "fnd_0f38a9b55e6e",
+        "fnd_117b4b170db5",
+        "fnd_158f473c01aa",
+        "fnd_177d18e26a8c",
+        "fnd_1879c90a967d",
+        "fnd_1dd3f461f4a1",
+        "fnd_1fb96f99c258",
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_3a009499c488",
+        "fnd_3b53d32cf033",
+        "fnd_438cf028a7c4",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_469cc7b42835",
+        "fnd_46cf47b01b3a",
+        "fnd_4ea287c8cbf2",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_5b3764688112",
+        "fnd_79a69ecdcd41",
+        "fnd_7c1f3f3bc949",
+        "fnd_7ddcf64b685a",
+        "fnd_7e2e7e75ae2f",
+        "fnd_8287bdb7858a",
+        "fnd_85a614c1cb71",
+        "fnd_87de5fd88f96",
+        "fnd_88c9c2765360",
+        "fnd_8d937d66d90c",
+        "fnd_9153be3889e6",
+        "fnd_94af780ea2f5",
+        "fnd_a1eee634fed3",
+        "fnd_a26828c42b48",
+        "fnd_a294ba52f8c7",
+        "fnd_a2e6940f965a",
+        "fnd_a855e4061b91",
+        "fnd_a8ada9fe1bc3",
+        "fnd_ad8f5de26e11",
+        "fnd_af32fc3475a5",
+        "fnd_b08178d4d288",
+        "fnd_b94d54d918ae",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c40fe3f5f19a",
+        "fnd_c8a852dc6302",
+        "fnd_d1958cf94bd9",
+        "fnd_d248c42fb846",
+        "fnd_d2d2c4744fe3",
+        "fnd_d3655d37fb1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_dfdf4e23f5f2",
+        "fnd_e2a2dc2d1e34",
+        "fnd_ec71fe9292ab",
+        "fnd_f38a82c62470",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T18:19:08.876335Z",
       "last_involvement": "2026-06-13T04:51:58.957297Z",
@@ -743,20 +843,52 @@
       "confirmed": true,
       "entity_type": "account",
       "event_ids": [
+        "EVT-0221",
+        "EVT-0222",
+        "EVT-0226",
+        "EVT-0227",
+        "EVT-0228",
+        "EVT-0229",
+        "EVT-0230",
+        "EVT-0232",
+        "EVT-0233",
+        "EVT-0234",
+        "EVT-0235",
+        "EVT-0236",
         "EVT-0237",
         "EVT-0238",
         "EVT-0239",
+        "EVT-0240",
         "EVT-0241",
         "EVT-0242"
       ],
-      "finding_count": 4,
+      "finding_count": 23,
       "findings": [
-        "fnd_2d5b74432030",
-        "fnd_7db00099d21f",
-        "fnd_c29ab976709e",
-        "fnd_fb2e3add05d9"
+        "fnd_049db50f9c7b",
+        "fnd_068506a59932",
+        "fnd_1d68f6505607",
+        "fnd_29ec4c811ba2",
+        "fnd_2dac0677dfac",
+        "fnd_38761b8c4bba",
+        "fnd_4a9753483895",
+        "fnd_4e49bb82d012",
+        "fnd_551783f69f0e",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_6adc866888f1",
+        "fnd_84a7463ecfb1",
+        "fnd_8d35217fd0ee",
+        "fnd_9125c2ce51f6",
+        "fnd_a1df4970e108",
+        "fnd_a21e399cf419",
+        "fnd_a61df8abc37f",
+        "fnd_a78dbcd602c9",
+        "fnd_e63e9ff4d249",
+        "fnd_ec35328be37a",
+        "fnd_f8addb22fba0",
+        "fnd_fbf49f8ae267"
       ],
-      "first_involvement": "2026-06-10T16:51:03Z",
+      "first_involvement": "2026-06-10T08:12:33Z",
       "last_involvement": "2026-06-10T20:08:11Z",
       "source_types": [
         "auth",
@@ -764,6 +896,40 @@
         "endpoint"
       ],
       "value": "jdavis"
+    },
+    {
+      "absent_from_sources": [
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0228",
+        "EVT-0231"
+      ],
+      "finding_count": 11,
+      "findings": [
+        "fnd_1d68f6505607",
+        "fnd_29ec4c811ba2",
+        "fnd_4a9753483895",
+        "fnd_551783f69f0e",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_84a7463ecfb1",
+        "fnd_a1df4970e108",
+        "fnd_a61df8abc37f",
+        "fnd_f8addb22fba0",
+        "fnd_fbf49f8ae267"
+      ],
+      "first_involvement": "2026-06-10T11:22:14Z",
+      "last_involvement": "2026-06-10T13:11:33Z",
+      "source_types": [
+        "auth",
+        "network"
+      ],
+      "value": "10.0.1.10"
     },
     {
       "absent_from_sources": [
@@ -778,10 +944,12 @@
         "EVT-0091",
         "EVT-0120"
       ],
-      "finding_count": 2,
+      "finding_count": 4,
       "findings": [
-        "fnd_55cb95fc8703",
-        "fnd_d05a454aa165"
+        "fnd_298c0cb282b5",
+        "fnd_973f39af28d3",
+        "fnd_adb79628d26d",
+        "fnd_e21fca559f47"
       ],
       "first_involvement": "2026-06-11T06:43:39.266514Z",
       "last_involvement": "2026-06-13T02:45:58.680196Z",
@@ -801,24 +969,32 @@
         "EVT-0010",
         "EVT-0080",
         "EVT-0112",
+        "EVT-0125",
         "EVT-0193"
       ],
-      "finding_count": 12,
+      "finding_count": 19,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_151e4bb593fc",
-        "fnd_2e84481f4a59",
-        "fnd_3fc276043a41",
-        "fnd_4049d84314e0",
-        "fnd_42962bcffb9b",
-        "fnd_521c78352abc",
-        "fnd_559788e3b610",
-        "fnd_5bac4074d3f9",
-        "fnd_6649e8f5cc38",
-        "fnd_8edd945718f0",
-        "fnd_b63613164ad2"
+        "fnd_043e19ca12e5",
+        "fnd_0f38a9b55e6e",
+        "fnd_117b4b170db5",
+        "fnd_158f473c01aa",
+        "fnd_177d18e26a8c",
+        "fnd_34ed328387fc",
+        "fnd_3a009499c488",
+        "fnd_3b00e0768a9f",
+        "fnd_6115dbfe9f5a",
+        "fnd_79a69ecdcd41",
+        "fnd_85a614c1cb71",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a294ba52f8c7",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c4775519bbfc",
+        "fnd_d3655d37fb1b",
+        "fnd_e2a2dc2d1e34"
       ],
-      "first_involvement": "2026-06-11T04:44:54.143200Z",
+      "first_involvement": "2026-06-10T08:58:58.486989Z",
       "last_involvement": "2026-06-13T05:39:45.933394Z",
       "source_types": [
         "auth",
@@ -839,11 +1015,14 @@
       "event_ids": [
         "EVT-0019"
       ],
-      "finding_count": 3,
+      "finding_count": 6,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9"
+        "fnd_043e19ca12e5",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_9153be3889e6",
+        "fnd_a26828c42b48",
+        "fnd_c30b669505ea"
       ],
       "first_involvement": "2026-06-10T22:59:02.525182Z",
       "last_involvement": "2026-06-10T22:59:02.525182Z",
@@ -864,12 +1043,10 @@
       "event_ids": [
         "EVT-0018"
       ],
-      "finding_count": 4,
+      "finding_count": 2,
       "findings": [
-        "fnd_a3fdc644f621",
-        "fnd_bfb7effa55db",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_f3e44b3557af",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-13T00:47:41.254884Z",
       "last_involvement": "2026-06-13T00:47:41.254884Z",
@@ -893,11 +1070,18 @@
         "EVT-0099",
         "EVT-0110"
       ],
-      "finding_count": 3,
+      "finding_count": 10,
       "findings": [
-        "fnd_a1eb9632bb0f",
-        "fnd_d55e8f0bdcac",
-        "fnd_da66eaacadbc"
+        "fnd_02979240ac7f",
+        "fnd_0e1f6feeb885",
+        "fnd_26646e57b3a3",
+        "fnd_3629b6d8b749",
+        "fnd_54f7763748f0",
+        "fnd_8d937d66d90c",
+        "fnd_b529cce4a6af",
+        "fnd_c755361c32e0",
+        "fnd_ceb65ab3751a",
+        "fnd_dfdf4e23f5f2"
       ],
       "first_involvement": "2026-06-10T11:33:38.176114Z",
       "last_involvement": "2026-06-12T18:10:52.596043Z",
@@ -915,29 +1099,35 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0065",
         "EVT-0111",
         "EVT-0121",
         "EVT-0192",
         "EVT-0207"
       ],
-      "finding_count": 14,
+      "finding_count": 19,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_170f88f97f02",
-        "fnd_22e176abd25d",
-        "fnd_2a6c28012709",
-        "fnd_538b2c826768",
-        "fnd_5f00c88ae033",
-        "fnd_757acb2b7b92",
-        "fnd_8a431658338b",
-        "fnd_b4776686207b",
-        "fnd_cb9cffcf85ed",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_f06c8c98a8bf",
-        "fnd_f4b2efb56baf"
+        "fnd_01d2cb190ba7",
+        "fnd_1086f332dfa9",
+        "fnd_163cf30fbff7",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_3629b6d8b749",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_37e53f778bfe",
+        "fnd_6115dbfe9f5a",
+        "fnd_6ef3401e9634",
+        "fnd_75b3aec8d036",
+        "fnd_7ef1c9f590b9",
+        "fnd_81ab4cd2b8b3",
+        "fnd_94d6b2c05cc2",
+        "fnd_cb5b05c3e29d",
+        "fnd_f2440f3b52b4",
+        "fnd_f3376c0041ed",
+        "fnd_f740aefbd7f0"
       ],
-      "first_involvement": "2026-06-12T09:04:13.235052Z",
+      "first_involvement": "2026-06-11T23:37:02.311519Z",
       "last_involvement": "2026-06-12T23:22:21.189980Z",
       "source_types": [
         "cloud_storage",
@@ -962,14 +1152,21 @@
         "EVT-0124",
         "EVT-0132"
       ],
-      "finding_count": 6,
+      "finding_count": 13,
       "findings": [
-        "fnd_157b343088d2",
-        "fnd_46f945545433",
-        "fnd_b8ed84ea7559",
-        "fnd_d26b65e5f7e0",
-        "fnd_e5834c9d459f",
-        "fnd_fb9e3de288db"
+        "fnd_1c56234bae30",
+        "fnd_1dd3f461f4a1",
+        "fnd_553a5ffc7141",
+        "fnd_727d5a72d209",
+        "fnd_762538deedf1",
+        "fnd_80dbc66d34a0",
+        "fnd_83b6c69f1af5",
+        "fnd_8d937d66d90c",
+        "fnd_c2e9b0104e8e",
+        "fnd_c482dd9a536a",
+        "fnd_ca994ab10fe0",
+        "fnd_dfdf4e23f5f2",
+        "fnd_f2440f3b52b4"
       ],
       "first_involvement": "2026-06-10T17:00:41.935055Z",
       "last_involvement": "2026-06-13T06:54:52.808353Z",
@@ -988,14 +1185,19 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0093",
         "EVT-0117",
         "EVT-0130"
       ],
-      "finding_count": 3,
+      "finding_count": 7,
       "findings": [
-        "fnd_2d32f63da83b",
-        "fnd_3cf21b661aac",
-        "fnd_a01e993b6079"
+        "fnd_02979240ac7f",
+        "fnd_2b2aab2aa2db",
+        "fnd_78d4e2739d4c",
+        "fnd_7ef1c9f590b9",
+        "fnd_7f60dc0ad32c",
+        "fnd_d2f1a71d1472",
+        "fnd_ef551a0d1bf5"
       ],
       "first_involvement": "2026-06-10T10:21:25.734447Z",
       "last_involvement": "2026-06-11T21:27:27.580114Z",
@@ -1006,21 +1208,45 @@
     },
     {
       "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0129"
+      ],
+      "finding_count": 2,
+      "findings": [
+        "fnd_035f27d887c4",
+        "fnd_05723446efaa"
+      ],
+      "first_involvement": "2026-06-11T19:57:16.622968Z",
+      "last_involvement": "2026-06-11T19:57:16.622968Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.1.19"
+    },
+    {
+      "absent_from_sources": [
         "cloud_storage",
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0043"
       ],
       "finding_count": 3,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_ccefda36c241"
+        "fnd_3c384fa8343e",
+        "fnd_779bf6f30bda",
+        "fnd_7a48ab9f42f8"
       ],
       "first_involvement": "2026-06-11T17:12:47.357821Z",
       "last_involvement": "2026-06-11T17:12:47.357821Z",
@@ -1041,9 +1267,11 @@
       "event_ids": [
         "EVT-0137"
       ],
-      "finding_count": 1,
+      "finding_count": 3,
       "findings": [
-        "fnd_61dbf18b873c"
+        "fnd_2d760f5f283b",
+        "fnd_c8c9f6788d36",
+        "fnd_ec10918c721a"
       ],
       "first_involvement": "2026-06-11T14:45:34.167799Z",
       "last_involvement": "2026-06-11T14:45:34.167799Z",
@@ -1064,11 +1292,13 @@
       "event_ids": [
         "EVT-0052"
       ],
-      "finding_count": 3,
+      "finding_count": 5,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9"
+        "fnd_043e19ca12e5",
+        "fnd_4552c1a02598",
+        "fnd_7a3a4dcd26db",
+        "fnd_a26828c42b48",
+        "fnd_c30b669505ea"
       ],
       "first_involvement": "2026-06-10T20:49:34.566610Z",
       "last_involvement": "2026-06-10T20:49:34.566610Z",
@@ -1090,13 +1320,18 @@
         "EVT-0201",
         "EVT-0208"
       ],
-      "finding_count": 5,
+      "finding_count": 10,
       "findings": [
-        "fnd_2e84481f4a59",
-        "fnd_559788e3b610",
-        "fnd_5f00c88ae033",
-        "fnd_8edd945718f0",
-        "fnd_cb9cffcf85ed"
+        "fnd_01d2cb190ba7",
+        "fnd_1086f332dfa9",
+        "fnd_117b4b170db5",
+        "fnd_177d18e26a8c",
+        "fnd_85a614c1cb71",
+        "fnd_9cf7f752f12b",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c8a852dc6302",
+        "fnd_f3376c0041ed"
       ],
       "first_involvement": "2026-06-11T05:53:30.217271Z",
       "last_involvement": "2026-06-12T14:11:08.681998Z",
@@ -1111,15 +1346,17 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0060"
       ],
-      "finding_count": 1,
+      "finding_count": 3,
       "findings": [
-        "fnd_dfa9ae1090d0"
+        "fnd_2211a419bfee",
+        "fnd_d4918be9219e",
+        "fnd_e3367b22bb43"
       ],
       "first_involvement": "2026-06-12T20:35:47.779696Z",
       "last_involvement": "2026-06-12T20:35:47.779696Z",
@@ -1137,19 +1374,30 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0231",
         "EVT-0238"
       ],
-      "finding_count": 4,
+      "finding_count": 13,
       "findings": [
-        "fnd_2d5b74432030",
-        "fnd_7db00099d21f",
-        "fnd_c29ab976709e",
-        "fnd_fb2e3add05d9"
+        "fnd_049db50f9c7b",
+        "fnd_068506a59932",
+        "fnd_2dac0677dfac",
+        "fnd_38761b8c4bba",
+        "fnd_4a9753483895",
+        "fnd_4e49bb82d012",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_a21e399cf419",
+        "fnd_a78dbcd602c9",
+        "fnd_e63e9ff4d249",
+        "fnd_f8addb22fba0",
+        "fnd_fbf49f8ae267"
       ],
-      "first_involvement": "2026-06-10T18:18:44Z",
+      "first_involvement": "2026-06-10T13:11:33Z",
       "last_involvement": "2026-06-10T18:18:44Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.1.22"
     },
@@ -1166,11 +1414,13 @@
         "EVT-0075",
         "EVT-0117"
       ],
-      "finding_count": 3,
+      "finding_count": 5,
       "findings": [
-        "fnd_3cf21b661aac",
-        "fnd_b12cdd2fb400",
-        "fnd_c32a13086dac"
+        "fnd_78d4e2739d4c",
+        "fnd_7f60dc0ad32c",
+        "fnd_c32a13086dac",
+        "fnd_d2f1a71d1472",
+        "fnd_ef551a0d1bf5"
       ],
       "first_involvement": "2026-06-11T21:27:27.580114Z",
       "last_involvement": "2026-06-11T23:15:10.853857Z",
@@ -1191,11 +1441,12 @@
       "event_ids": [
         "EVT-0102"
       ],
-      "finding_count": 3,
+      "finding_count": 4,
       "findings": [
-        "fnd_151e4bb593fc",
-        "fnd_42962bcffb9b",
-        "fnd_d8ed85122f3f"
+        "fnd_158f473c01aa",
+        "fnd_34ed328387fc",
+        "fnd_c4775519bbfc",
+        "fnd_e2a2dc2d1e34"
       ],
       "first_involvement": "2026-06-11T23:58:24.349240Z",
       "last_involvement": "2026-06-11T23:58:24.349240Z",
@@ -1216,10 +1467,16 @@
       "event_ids": [
         "EVT-0036"
       ],
-      "finding_count": 2,
+      "finding_count": 8,
       "findings": [
-        "fnd_61917ebc1465",
-        "fnd_cca9f1658cbd"
+        "fnd_519a6a56c012",
+        "fnd_9ac3d5f89203",
+        "fnd_a923fb77e894",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d24e36d84d1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e3367b22bb43",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-12T17:03:53.157508Z",
       "last_involvement": "2026-06-12T17:03:53.157508Z",
@@ -1241,9 +1498,13 @@
         "EVT-0067",
         "EVT-0136"
       ],
-      "finding_count": 1,
+      "finding_count": 5,
       "findings": [
-        "fnd_81a681057ce0"
+        "fnd_0e1f6feeb885",
+        "fnd_26646e57b3a3",
+        "fnd_3629b6d8b749",
+        "fnd_396d513a6ae6",
+        "fnd_c755361c32e0"
       ],
       "first_involvement": "2026-06-11T03:18:15.219184Z",
       "last_involvement": "2026-06-12T00:36:20.944073Z",
@@ -1267,10 +1528,18 @@
         "EVT-0130",
         "EVT-0131"
       ],
-      "finding_count": 2,
+      "finding_count": 10,
       "findings": [
-        "fnd_2d32f63da83b",
-        "fnd_a01e993b6079"
+        "fnd_02979240ac7f",
+        "fnd_2b2aab2aa2db",
+        "fnd_37e53f778bfe",
+        "fnd_719f6b2c0755",
+        "fnd_7ef1c9f590b9",
+        "fnd_7f60dc0ad32c",
+        "fnd_b529cce4a6af",
+        "fnd_d2f1a71d1472",
+        "fnd_d609f0c75036",
+        "fnd_ef551a0d1bf5"
       ],
       "first_involvement": "2026-06-10T10:21:25.734447Z",
       "last_involvement": "2026-06-12T23:58:44.972517Z",
@@ -1288,18 +1557,30 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0072",
+        "EVT-0138",
         "EVT-0197"
       ],
-      "finding_count": 3,
+      "finding_count": 12,
       "findings": [
-        "fnd_2e84481f4a59",
-        "fnd_559788e3b610",
-        "fnd_8edd945718f0"
+        "fnd_117b4b170db5",
+        "fnd_177d18e26a8c",
+        "fnd_298c0cb282b5",
+        "fnd_4552c1a02598",
+        "fnd_46cf47b01b3a",
+        "fnd_79a69ecdcd41",
+        "fnd_85a614c1cb71",
+        "fnd_9153be3889e6",
+        "fnd_973f39af28d3",
+        "fnd_a327a1504a5c",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0"
       ],
-      "first_involvement": "2026-06-11T20:13:59.578650Z",
-      "last_involvement": "2026-06-11T20:13:59.578650Z",
+      "first_involvement": "2026-06-10T19:14:27.673088Z",
+      "last_involvement": "2026-06-13T05:07:38.576349Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.1.27"
     },
@@ -1313,14 +1594,19 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0077",
         "EVT-0139"
       ],
-      "finding_count": 1,
+      "finding_count": 5,
       "findings": [
-        "fnd_0a174c704464"
+        "fnd_03b0ceecd00a",
+        "fnd_1c1c01a28270",
+        "fnd_34ed328387fc",
+        "fnd_54f7763748f0",
+        "fnd_ceb65ab3751a"
       ],
       "first_involvement": "2026-06-10T20:27:01.216356Z",
-      "last_involvement": "2026-06-10T20:27:01.216356Z",
+      "last_involvement": "2026-06-12T08:06:15.898200Z",
       "source_types": [
         "network"
       ],
@@ -1338,16 +1624,19 @@
         "EVT-0086",
         "EVT-0200"
       ],
-      "finding_count": 8,
+      "finding_count": 11,
       "findings": [
-        "fnd_151e4bb593fc",
-        "fnd_206012af72d0",
-        "fnd_42962bcffb9b",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605"
+        "fnd_158f473c01aa",
+        "fnd_1dd3f461f4a1",
+        "fnd_20c9099f1d98",
+        "fnd_34ed328387fc",
+        "fnd_44ba5489ee07",
+        "fnd_7e2e7e75ae2f",
+        "fnd_a855e4061b91",
+        "fnd_c40fe3f5f19a",
+        "fnd_c4775519bbfc",
+        "fnd_c8a852dc6302",
+        "fnd_e2a2dc2d1e34"
       ],
       "first_involvement": "2026-06-12T04:20:27.971638Z",
       "last_involvement": "2026-06-12T23:13:04.715288Z",
@@ -1369,12 +1658,16 @@
       "event_ids": [
         "EVT-0044"
       ],
-      "finding_count": 4,
+      "finding_count": 8,
       "findings": [
-        "fnd_29b1a27ba765",
-        "fnd_b19bf172d694",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_43db3187f3d2",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_94af780ea2f5",
+        "fnd_a855e4061b91",
+        "fnd_af32fc3475a5",
+        "fnd_c40fe3f5f19a",
+        "fnd_d2d2c4744fe3"
       ],
       "first_involvement": "2026-06-11T11:46:02.176941Z",
       "last_involvement": "2026-06-11T11:46:02.176941Z",
@@ -1395,12 +1688,19 @@
       "event_ids": [
         "EVT-0011"
       ],
-      "finding_count": 4,
+      "finding_count": 11,
       "findings": [
-        "fnd_29b1a27ba765",
-        "fnd_b19bf172d694",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_0aa304bcc756",
+        "fnd_366d71d6366e",
+        "fnd_44ba5489ee07",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_6ef3401e9634",
+        "fnd_7a3a4dcd26db",
+        "fnd_94af780ea2f5",
+        "fnd_af32fc3475a5",
+        "fnd_c40fe3f5f19a",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-11T03:01:40.094053Z",
       "last_involvement": "2026-06-11T03:01:40.094053Z",
@@ -1415,21 +1715,19 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0012"
       ],
-      "finding_count": 7,
+      "finding_count": 5,
       "findings": [
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53",
-        "fnd_bfb7effa55db",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_a0af9ffbd19f",
+        "fnd_af32fc3475a5",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-12T06:32:59.499554Z",
       "last_involvement": "2026-06-12T06:32:59.499554Z",
@@ -1451,10 +1749,13 @@
         "EVT-0091",
         "EVT-0098"
       ],
-      "finding_count": 2,
+      "finding_count": 5,
       "findings": [
-        "fnd_55cb95fc8703",
-        "fnd_d05a454aa165"
+        "fnd_03b0ceecd00a",
+        "fnd_973f39af28d3",
+        "fnd_adb79628d26d",
+        "fnd_e21fca559f47",
+        "fnd_ed4f146bad9b"
       ],
       "first_involvement": "2026-06-11T06:43:39.266514Z",
       "last_involvement": "2026-06-11T20:51:38.739876Z",
@@ -1469,16 +1770,20 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0213"
       ],
-      "finding_count": 2,
+      "finding_count": 6,
       "findings": [
-        "fnd_5f00c88ae033",
-        "fnd_cb9cffcf85ed"
+        "fnd_01d2cb190ba7",
+        "fnd_1086f332dfa9",
+        "fnd_1fb96f99c258",
+        "fnd_c98aaf3ab9a8",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f3376c0041ed"
       ],
       "first_involvement": "2026-06-12T15:48:17.786338Z",
       "last_involvement": "2026-06-12T15:48:17.786338Z",
@@ -1497,14 +1802,15 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
-        "EVT-0122"
+        "EVT-0122",
+        "EVT-0134"
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_e95f791df201",
-        "fnd_f4524f2dfda2"
+        "fnd_1c654d1a3245",
+        "fnd_75043c87b1c2"
       ],
-      "first_involvement": "2026-06-12T22:21:21.756883Z",
+      "first_involvement": "2026-06-11T21:15:40.924019Z",
       "last_involvement": "2026-06-12T22:21:21.756883Z",
       "source_types": [
         "network"
@@ -1513,22 +1819,48 @@
     },
     {
       "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0138"
+      ],
+      "finding_count": 3,
+      "findings": [
+        "fnd_298c0cb282b5",
+        "fnd_a327a1504a5c",
+        "fnd_c1335b9ee3bc"
+      ],
+      "first_involvement": "2026-06-13T05:07:38.576349Z",
+      "last_involvement": "2026-06-13T05:07:38.576349Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.2.14"
+    },
+    {
+      "absent_from_sources": [
         "cloud_storage",
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0001"
       ],
-      "finding_count": 4,
+      "finding_count": 5,
       "findings": [
-        "fnd_29b1a27ba765",
-        "fnd_b19bf172d694",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_94af780ea2f5",
+        "fnd_af32fc3475a5",
+        "fnd_c40fe3f5f19a"
       ],
       "first_involvement": "2026-06-12T09:13:31.478890Z",
       "last_involvement": "2026-06-12T09:13:31.478890Z",
@@ -1543,15 +1875,42 @@
         "cloud_storage",
         "endpoint"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0069"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_a54f59fcec99"
+      ],
+      "first_involvement": "2026-06-13T02:16:28.485202Z",
+      "last_involvement": "2026-06-13T02:16:28.485202Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.2.15"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0100"
       ],
-      "finding_count": 1,
+      "finding_count": 5,
       "findings": [
-        "fnd_fb9e3de288db"
+        "fnd_1c56234bae30",
+        "fnd_727d5a72d209",
+        "fnd_80dbc66d34a0",
+        "fnd_c482dd9a536a",
+        "fnd_ca994ab10fe0"
       ],
       "first_involvement": "2026-06-11T03:59:42.264363Z",
       "last_involvement": "2026-06-11T03:59:42.264363Z",
@@ -1573,12 +1932,21 @@
         "EVT-0124",
         "EVT-0209"
       ],
-      "finding_count": 4,
+      "finding_count": 13,
       "findings": [
-        "fnd_157b343088d2",
-        "fnd_47907166329c",
-        "fnd_e5834c9d459f",
-        "fnd_fb9e3de288db"
+        "fnd_0aa304bcc756",
+        "fnd_1c56234bae30",
+        "fnd_20ddcfbdcb27",
+        "fnd_39dc52bfd32c",
+        "fnd_46cf47b01b3a",
+        "fnd_553a5ffc7141",
+        "fnd_727d5a72d209",
+        "fnd_762538deedf1",
+        "fnd_80dbc66d34a0",
+        "fnd_aef175f1f8a2",
+        "fnd_bb5550c8b79b",
+        "fnd_c482dd9a536a",
+        "fnd_ca994ab10fe0"
       ],
       "first_involvement": "2026-06-10T08:50:44.249433Z",
       "last_involvement": "2026-06-11T08:08:55.989392Z",
@@ -1594,23 +1962,48 @@
         "cloud_storage",
         "endpoint"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
-        "EVT-0083"
+        "EVT-0083",
+        "EVT-0101"
       ],
-      "finding_count": 2,
+      "finding_count": 3,
       "findings": [
-        "fnd_4a6a7166edeb",
-        "fnd_7ee3e0a01179"
+        "fnd_8287bdb7858a",
+        "fnd_88c9c2765360",
+        "fnd_cd7e2e6df6a6"
       ],
-      "first_involvement": "2026-06-12T12:16:29.046088Z",
+      "first_involvement": "2026-06-12T01:12:07.786552Z",
       "last_involvement": "2026-06-12T12:16:29.046088Z",
       "source_types": [
         "network"
       ],
       "value": "10.0.2.18"
+    },
+    {
+      "absent_from_sources": [
+        "cloud_storage",
+        "endpoint",
+        "network"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0009"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_9ac3d5f89203"
+      ],
+      "first_involvement": "2026-06-10T14:40:12.102241Z",
+      "last_involvement": "2026-06-10T14:40:12.102241Z",
+      "source_types": [
+        "auth"
+      ],
+      "value": "10.0.2.185"
     },
     {
       "absent_from_sources": [
@@ -1624,17 +2017,21 @@
         "EVT-0061",
         "EVT-0220"
       ],
-      "finding_count": 9,
+      "finding_count": 13,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_170f88f97f02",
-        "fnd_46f945545433",
-        "fnd_538b2c826768",
-        "fnd_b8ed84ea7559",
-        "fnd_d0ca74b4c974",
-        "fnd_d26b65e5f7e0",
-        "fnd_d7cfcada4aba",
-        "fnd_f06c8c98a8bf"
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_6ef3401e9634",
+        "fnd_727d5a72d209",
+        "fnd_791b0857a81e",
+        "fnd_94d6b2c05cc2",
+        "fnd_a2e6940f965a",
+        "fnd_c2e9b0104e8e",
+        "fnd_d20a12fa39ac",
+        "fnd_dfdf4e23f5f2",
+        "fnd_f2440f3b52b4"
       ],
       "first_involvement": "2026-06-11T15:09:41.137709Z",
       "last_involvement": "2026-06-12T11:39:04.098916Z",
@@ -1656,18 +2053,16 @@
       "event_ids": [
         "EVT-0058"
       ],
-      "finding_count": 10,
+      "finding_count": 8,
       "findings": [
-        "fnd_1d488a5e71c2",
-        "fnd_2f247baf6c60",
-        "fnd_3f8b14e929c6",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_8c750d6e1c04",
-        "fnd_94132fdcad95",
-        "fnd_d239049038e3"
+        "fnd_26f6f6446dfa",
+        "fnd_3b53d32cf033",
+        "fnd_4ea287c8cbf2",
+        "fnd_a2e6940f965a",
+        "fnd_a855e4061b91",
+        "fnd_c40fe3f5f19a",
+        "fnd_d1958cf94bd9",
+        "fnd_d248c42fb846"
       ],
       "first_involvement": "2026-06-11T19:26:53.798600Z",
       "last_involvement": "2026-06-11T19:26:53.798600Z",
@@ -1688,15 +2083,25 @@
         "EVT-0062",
         "EVT-0214"
       ],
-      "finding_count": 7,
+      "finding_count": 17,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_170f88f97f02",
-        "fnd_538b2c826768",
-        "fnd_a3de5f803349",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_f06c8c98a8bf"
+        "fnd_1dd3f461f4a1",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_355a3d8f0117",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_3c384fa8343e",
+        "fnd_6ef3401e9634",
+        "fnd_779bf6f30bda",
+        "fnd_791b0857a81e",
+        "fnd_7a48ab9f42f8",
+        "fnd_94d6b2c05cc2",
+        "fnd_9af751fd448b",
+        "fnd_a2e6940f965a",
+        "fnd_af32fc3475a5",
+        "fnd_d20a12fa39ac",
+        "fnd_d2fd040540e9"
       ],
       "first_involvement": "2026-06-12T06:00:13.395631Z",
       "last_involvement": "2026-06-12T12:42:20.105292Z",
@@ -1712,16 +2117,19 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0040"
       ],
-      "finding_count": 2,
+      "finding_count": 5,
       "findings": [
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d"
+        "fnd_1e95861b2acd",
+        "fnd_469cc7b42835",
+        "fnd_4d1a410c84f6",
+        "fnd_ae3e66454a4b",
+        "fnd_bc4364498b1e"
       ],
       "first_involvement": "2026-06-10T15:45:17.487358Z",
       "last_involvement": "2026-06-10T15:45:17.487358Z",
@@ -1729,6 +2137,29 @@
         "auth"
       ],
       "value": "10.0.2.207"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0134"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_1c654d1a3245"
+      ],
+      "first_involvement": "2026-06-11T21:15:40.924019Z",
+      "last_involvement": "2026-06-11T21:15:40.924019Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.2.21"
     },
     {
       "absent_from_sources": [
@@ -1742,11 +2173,10 @@
       "event_ids": [
         "EVT-0030"
       ],
-      "finding_count": 3,
+      "finding_count": 2,
       "findings": [
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53"
+        "fnd_43db3187f3d2",
+        "fnd_9153be3889e6"
       ],
       "first_involvement": "2026-06-11T05:25:54.996133Z",
       "last_involvement": "2026-06-11T05:25:54.996133Z",
@@ -1761,17 +2191,22 @@
         "cloud_storage",
         "endpoint"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0072",
         "EVT-0120"
       ],
-      "finding_count": 1,
+      "finding_count": 5,
       "findings": [
-        "fnd_d05a454aa165"
+        "fnd_298c0cb282b5",
+        "fnd_973f39af28d3",
+        "fnd_a327a1504a5c",
+        "fnd_adb79628d26d",
+        "fnd_c1335b9ee3bc"
       ],
-      "first_involvement": "2026-06-13T02:45:58.680196Z",
+      "first_involvement": "2026-06-10T19:14:27.673088Z",
       "last_involvement": "2026-06-13T02:45:58.680196Z",
       "source_types": [
         "network"
@@ -1788,18 +2223,26 @@
       "entity_type": "address",
       "event_ids": [
         "EVT-0064",
+        "EVT-0065",
         "EVT-0191"
       ],
-      "finding_count": 8,
+      "finding_count": 15,
       "findings": [
-        "fnd_206012af72d0",
-        "fnd_2d32f63da83b",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_a01e993b6079",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605"
+        "fnd_01d2cb190ba7",
+        "fnd_02979240ac7f",
+        "fnd_117b4b170db5",
+        "fnd_1dd3f461f4a1",
+        "fnd_2b2aab2aa2db",
+        "fnd_366d71d6366e",
+        "fnd_37e53f778bfe",
+        "fnd_44ba5489ee07",
+        "fnd_75b3aec8d036",
+        "fnd_7e2e7e75ae2f",
+        "fnd_7ef1c9f590b9",
+        "fnd_a855e4061b91",
+        "fnd_c8a852dc6302",
+        "fnd_cb5b05c3e29d",
+        "fnd_d2f1a71d1472"
       ],
       "first_involvement": "2026-06-11T04:22:17.617130Z",
       "last_involvement": "2026-06-12T23:58:44.972517Z",
@@ -1821,11 +2264,14 @@
       "event_ids": [
         "EVT-0020"
       ],
-      "finding_count": 3,
+      "finding_count": 6,
       "findings": [
-        "fnd_711441b6c5b4",
-        "fnd_98d774430171",
-        "fnd_b401029549cc"
+        "fnd_117b4b170db5",
+        "fnd_1e95861b2acd",
+        "fnd_2cd39e51dc6b",
+        "fnd_7c1f3f3bc949",
+        "fnd_8521f18fb0df",
+        "fnd_c30b669505ea"
       ],
       "first_involvement": "2026-06-10T23:30:40.097804Z",
       "last_involvement": "2026-06-10T23:30:40.097804Z",
@@ -1844,17 +2290,26 @@
       "entity_type": "address",
       "event_ids": [
         "EVT-0050",
-        "EVT-0063"
+        "EVT-0063",
+        "EVT-0088"
       ],
-      "finding_count": 5,
+      "finding_count": 13,
       "findings": [
-        "fnd_11879896458d",
-        "fnd_3fc276043a41",
-        "fnd_4049d84314e0",
-        "fnd_61917ebc1465",
-        "fnd_cca9f1658cbd"
+        "fnd_0b49e42713bc",
+        "fnd_0f38a9b55e6e",
+        "fnd_3a009499c488",
+        "fnd_3b00e0768a9f",
+        "fnd_3f8f81a8df3c",
+        "fnd_519a6a56c012",
+        "fnd_87110364ec59",
+        "fnd_87de5fd88f96",
+        "fnd_9ac3d5f89203",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d5af4c6569f6",
+        "fnd_ec10918c721a",
+        "fnd_ec71fe9292ab"
       ],
-      "first_involvement": "2026-06-11T16:01:55.100127Z",
+      "first_involvement": "2026-06-10T19:03:40.932454Z",
       "last_involvement": "2026-06-11T16:50:58.471757Z",
       "source_types": [
         "auth",
@@ -1872,14 +2327,87 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
-        "EVT-0114"
+        "EVT-0069"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_a54f59fcec99"
+      ],
+      "first_involvement": "2026-06-13T02:16:28.485202Z",
+      "last_involvement": "2026-06-13T02:16:28.485202Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.2.26"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0101"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_cd7e2e6df6a6"
+      ],
+      "first_involvement": "2026-06-12T01:12:07.786552Z",
+      "last_involvement": "2026-06-12T01:12:07.786552Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.2.27"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0125"
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_860f4ef80169",
-        "fnd_d357f557738f"
+        "fnd_79a69ecdcd41",
+        "fnd_a26828c42b48"
       ],
-      "first_involvement": "2026-06-12T07:55:54.736700Z",
+      "first_involvement": "2026-06-10T08:58:58.486989Z",
+      "last_involvement": "2026-06-10T08:58:58.486989Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.2.28"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0114",
+        "EVT-0129"
+      ],
+      "finding_count": 4,
+      "findings": [
+        "fnd_035f27d887c4",
+        "fnd_05723446efaa",
+        "fnd_a319efcb4f27",
+        "fnd_f254162ba217"
+      ],
+      "first_involvement": "2026-06-11T19:57:16.622968Z",
       "last_involvement": "2026-06-12T07:55:54.736700Z",
       "source_types": [
         "network"
@@ -1898,9 +2426,11 @@
       "event_ids": [
         "EVT-0024"
       ],
-      "finding_count": 1,
+      "finding_count": 3,
       "findings": [
-        "fnd_94132fdcad95"
+        "fnd_29ec4c811ba2",
+        "fnd_a9508c293416",
+        "fnd_c8dcbb2febbe"
       ],
       "first_involvement": "2026-06-10T10:42:27.919718Z",
       "last_involvement": "2026-06-10T10:42:27.919718Z",
@@ -1920,17 +2450,31 @@
       "event_ids": [
         "EVT-0223",
         "EVT-0224",
-        "EVT-0225"
+        "EVT-0225",
+        "EVT-0228"
       ],
-      "finding_count": 3,
+      "finding_count": 15,
       "findings": [
-        "fnd_696071edd3b4",
-        "fnd_72d7e2b7f2cc",
-        "fnd_a123a7716e10"
+        "fnd_1d68f6505607",
+        "fnd_29ec4c811ba2",
+        "fnd_4a9753483895",
+        "fnd_551783f69f0e",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_6adc866888f1",
+        "fnd_84a7463ecfb1",
+        "fnd_8d35217fd0ee",
+        "fnd_9125c2ce51f6",
+        "fnd_a1df4970e108",
+        "fnd_a61df8abc37f",
+        "fnd_ec35328be37a",
+        "fnd_f8addb22fba0",
+        "fnd_fbf49f8ae267"
       ],
       "first_involvement": "2026-06-10T09:03:17Z",
-      "last_involvement": "2026-06-10T09:34:21Z",
+      "last_involvement": "2026-06-10T11:22:14Z",
       "source_types": [
+        "auth",
         "network"
       ],
       "value": "10.0.2.47"
@@ -1947,11 +2491,15 @@
       "event_ids": [
         "EVT-0017"
       ],
-      "finding_count": 3,
+      "finding_count": 7,
       "findings": [
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d"
+        "fnd_4d1a410c84f6",
+        "fnd_4f5191cc11e4",
+        "fnd_8c2c3e78cc6f",
+        "fnd_ae3e66454a4b",
+        "fnd_d24e36d84d1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-12T22:25:32.646863Z",
       "last_involvement": "2026-06-12T22:25:32.646863Z",
@@ -1972,13 +2520,14 @@
       "event_ids": [
         "EVT-0027"
       ],
-      "finding_count": 5,
+      "finding_count": 6,
       "findings": [
-        "fnd_a3fdc644f621",
-        "fnd_ae37f6edd899",
-        "fnd_bfb7effa55db",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_414c40be5fc7",
+        "fnd_650a0c35f1cb",
+        "fnd_a0af9ffbd19f",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-12T12:28:41.358556Z",
       "last_involvement": "2026-06-12T12:28:41.358556Z",
@@ -2002,12 +2551,18 @@
         "EVT-0112",
         "EVT-0115"
       ],
-      "finding_count": 4,
+      "finding_count": 10,
       "findings": [
-        "fnd_0a174c704464",
-        "fnd_151e4bb593fc",
-        "fnd_42962bcffb9b",
-        "fnd_d8ed85122f3f"
+        "fnd_03b0ceecd00a",
+        "fnd_158f473c01aa",
+        "fnd_1c1c01a28270",
+        "fnd_34ed328387fc",
+        "fnd_6115dbfe9f5a",
+        "fnd_79a69ecdcd41",
+        "fnd_7e2e7e75ae2f",
+        "fnd_a26828c42b48",
+        "fnd_c4775519bbfc",
+        "fnd_e2a2dc2d1e34"
       ],
       "first_involvement": "2026-06-11T04:44:54.143200Z",
       "last_involvement": "2026-06-12T23:13:04.715288Z",
@@ -2031,15 +2586,20 @@
         "EVT-0118",
         "EVT-0123"
       ],
-      "finding_count": 7,
+      "finding_count": 12,
       "findings": [
-        "fnd_46f945545433",
-        "fnd_757acb2b7b92",
-        "fnd_8a431658338b",
-        "fnd_b4776686207b",
-        "fnd_b8ed84ea7559",
-        "fnd_d26b65e5f7e0",
-        "fnd_fb9e3de288db"
+        "fnd_1c56234bae30",
+        "fnd_3629b6d8b749",
+        "fnd_727d5a72d209",
+        "fnd_80dbc66d34a0",
+        "fnd_8d937d66d90c",
+        "fnd_94d6b2c05cc2",
+        "fnd_c2e9b0104e8e",
+        "fnd_c482dd9a536a",
+        "fnd_ca994ab10fe0",
+        "fnd_cb5b05c3e29d",
+        "fnd_dfdf4e23f5f2",
+        "fnd_f2440f3b52b4"
       ],
       "first_involvement": "2026-06-10T11:11:11.437561Z",
       "last_involvement": "2026-06-12T11:39:04.098916Z",
@@ -2060,12 +2620,14 @@
       "event_ids": [
         "EVT-0047"
       ],
-      "finding_count": 4,
+      "finding_count": 6,
       "findings": [
-        "fnd_711441b6c5b4",
-        "fnd_98d774430171",
-        "fnd_b401029549cc",
-        "fnd_dfa9ae1090d0"
+        "fnd_366d71d6366e",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_7c1f3f3bc949",
+        "fnd_ad8f5de26e11",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-11T19:35:25.309741Z",
       "last_involvement": "2026-06-11T19:35:25.309741Z",
@@ -2073,6 +2635,31 @@
         "auth"
       ],
       "value": "10.0.3.112"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0092"
+      ],
+      "finding_count": 3,
+      "findings": [
+        "fnd_87de5fd88f96",
+        "fnd_d5af4c6569f6",
+        "fnd_ec10918c721a"
+      ],
+      "first_involvement": "2026-06-12T09:04:10.147368Z",
+      "last_involvement": "2026-06-12T09:04:10.147368Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.3.12"
     },
     {
       "absent_from_sources": [
@@ -2086,11 +2673,13 @@
       "event_ids": [
         "EVT-0008"
       ],
-      "finding_count": 3,
+      "finding_count": 5,
       "findings": [
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d"
+        "fnd_4d1a410c84f6",
+        "fnd_4f5191cc11e4",
+        "fnd_650a0c35f1cb",
+        "fnd_8c2c3e78cc6f",
+        "fnd_d24e36d84d1b"
       ],
       "first_involvement": "2026-06-12T10:38:43.187238Z",
       "last_involvement": "2026-06-12T10:38:43.187238Z",
@@ -2105,15 +2694,16 @@
         "cloud_storage",
         "endpoint"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0136"
       ],
-      "finding_count": 1,
+      "finding_count": 2,
       "findings": [
-        "fnd_81a681057ce0"
+        "fnd_26646e57b3a3",
+        "fnd_396d513a6ae6"
       ],
       "first_involvement": "2026-06-12T00:36:20.944073Z",
       "last_involvement": "2026-06-12T00:36:20.944073Z",
@@ -2128,17 +2718,19 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0022"
       ],
-      "finding_count": 3,
+      "finding_count": 5,
       "findings": [
-        "fnd_4a6a7166edeb",
-        "fnd_8940cfe1e5b0",
-        "fnd_9e372d947e67"
+        "fnd_438cf028a7c4",
+        "fnd_53c36df8da83",
+        "fnd_6f15d3844c40",
+        "fnd_b08178d4d288",
+        "fnd_f3e44b3557af"
       ],
       "first_involvement": "2026-06-13T06:28:21.009868Z",
       "last_involvement": "2026-06-13T06:28:21.009868Z",
@@ -2156,20 +2748,29 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0107",
+        "EVT-0109",
         "EVT-0196"
       ],
-      "finding_count": 5,
+      "finding_count": 11,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_17abecf9745f",
+        "fnd_2b2aab2aa2db",
+        "fnd_4e1cf970b837",
+        "fnd_6f5880a2cc84",
+        "fnd_719f6b2c0755",
+        "fnd_7c0741e7218e",
+        "fnd_a9508c293416",
+        "fnd_b9d7dd904305",
+        "fnd_d4918be9219e",
+        "fnd_d609f0c75036",
+        "fnd_f38a82c62470"
       ],
-      "first_involvement": "2026-06-12T22:00:13.327519Z",
-      "last_involvement": "2026-06-12T22:00:13.327519Z",
+      "first_involvement": "2026-06-12T10:30:57.120501Z",
+      "last_involvement": "2026-06-13T04:21:51.608932Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.3.14"
     },
@@ -2185,9 +2786,11 @@
       "event_ids": [
         "EVT-0007"
       ],
-      "finding_count": 1,
+      "finding_count": 3,
       "findings": [
-        "fnd_dfa9ae1090d0"
+        "fnd_d24e36d84d1b",
+        "fnd_e3367b22bb43",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-13T07:19:39.837409Z",
       "last_involvement": "2026-06-13T07:19:39.837409Z",
@@ -2195,6 +2798,31 @@
         "auth"
       ],
       "value": "10.0.3.144"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0106"
+      ],
+      "finding_count": 3,
+      "findings": [
+        "fnd_2d760f5f283b",
+        "fnd_c8c9f6788d36",
+        "fnd_ec10918c721a"
+      ],
+      "first_involvement": "2026-06-12T22:45:45.706980Z",
+      "last_involvement": "2026-06-12T22:45:45.706980Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.3.15"
     },
     {
       "absent_from_sources": [
@@ -2208,11 +2836,14 @@
       "event_ids": [
         "EVT-0037"
       ],
-      "finding_count": 3,
+      "finding_count": 6,
       "findings": [
-        "fnd_11879896458d",
-        "fnd_61917ebc1465",
-        "fnd_cca9f1658cbd"
+        "fnd_366d71d6366e",
+        "fnd_44ba5489ee07",
+        "fnd_519a6a56c012",
+        "fnd_9ac3d5f89203",
+        "fnd_c98aaf3ab9a8",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-12T13:01:06.466588Z",
       "last_involvement": "2026-06-12T13:01:06.466588Z",
@@ -2227,15 +2858,19 @@
         "cloud_storage",
         "endpoint"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0132"
       ],
-      "finding_count": 1,
+      "finding_count": 5,
       "findings": [
-        "fnd_fb9e3de288db"
+        "fnd_1c56234bae30",
+        "fnd_727d5a72d209",
+        "fnd_80dbc66d34a0",
+        "fnd_c482dd9a536a",
+        "fnd_ca994ab10fe0"
       ],
       "first_involvement": "2026-06-10T19:20:59.796200Z",
       "last_involvement": "2026-06-10T19:20:59.796200Z",
@@ -2256,12 +2891,13 @@
       "event_ids": [
         "EVT-0025"
       ],
-      "finding_count": 4,
+      "finding_count": 5,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_9ae70148e04f",
-        "fnd_ccefda36c241"
+        "fnd_07d381ab620c",
+        "fnd_355a3d8f0117",
+        "fnd_650a0c35f1cb",
+        "fnd_779bf6f30bda",
+        "fnd_7a48ab9f42f8"
       ],
       "first_involvement": "2026-06-12T01:40:25.507119Z",
       "last_involvement": "2026-06-12T01:40:25.507119Z",
@@ -2282,11 +2918,17 @@
       "event_ids": [
         "EVT-0041"
       ],
-      "finding_count": 3,
+      "finding_count": 9,
       "findings": [
-        "fnd_11879896458d",
-        "fnd_61917ebc1465",
-        "fnd_cca9f1658cbd"
+        "fnd_0b49e42713bc",
+        "fnd_3a009499c488",
+        "fnd_4e1cf970b837",
+        "fnd_519a6a56c012",
+        "fnd_6d02017c66d9",
+        "fnd_87110364ec59",
+        "fnd_9ac3d5f89203",
+        "fnd_b9d7dd904305",
+        "fnd_c98aaf3ab9a8"
       ],
       "first_involvement": "2026-06-11T21:18:42.135724Z",
       "last_involvement": "2026-06-11T21:18:42.135724Z",
@@ -2304,20 +2946,30 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0116",
+        "EVT-0128",
         "EVT-0217"
       ],
-      "finding_count": 5,
+      "finding_count": 12,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_0b49e42713bc",
+        "fnd_17abecf9745f",
+        "fnd_20ddcfbdcb27",
+        "fnd_39dc52bfd32c",
+        "fnd_4e1cf970b837",
+        "fnd_553a5ffc7141",
+        "fnd_6d02017c66d9",
+        "fnd_6f5880a2cc84",
+        "fnd_a9508c293416",
+        "fnd_b9d7dd904305",
+        "fnd_dfb33381a96d",
+        "fnd_f38a82c62470"
       ],
-      "first_involvement": "2026-06-11T18:06:53.786605Z",
-      "last_involvement": "2026-06-11T18:06:53.786605Z",
+      "first_involvement": "2026-06-11T12:31:15.304298Z",
+      "last_involvement": "2026-06-12T21:43:29.098438Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.3.18"
     },
@@ -2333,14 +2985,16 @@
       "event_ids": [
         "EVT-0056"
       ],
-      "finding_count": 6,
+      "finding_count": 8,
       "findings": [
-        "fnd_1d488a5e71c2",
-        "fnd_2f247baf6c60",
-        "fnd_4491648fc385",
-        "fnd_693575d1df21",
-        "fnd_8c750d6e1c04",
-        "fnd_d239049038e3"
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_4ea287c8cbf2",
+        "fnd_6115dbfe9f5a",
+        "fnd_a294ba52f8c7",
+        "fnd_d1958cf94bd9",
+        "fnd_d248c42fb846",
+        "fnd_d2888267a51d"
       ],
       "first_involvement": "2026-06-12T00:08:42.310238Z",
       "last_involvement": "2026-06-12T00:08:42.310238Z",
@@ -2355,16 +3009,20 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0006"
       ],
-      "finding_count": 2,
+      "finding_count": 6,
       "findings": [
-        "fnd_711441b6c5b4",
-        "fnd_b401029549cc"
+        "fnd_1e95861b2acd",
+        "fnd_2cd39e51dc6b",
+        "fnd_366d71d6366e",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T19:51:26.563646Z",
       "last_involvement": "2026-06-10T19:51:26.563646Z",
@@ -2385,13 +3043,12 @@
       "event_ids": [
         "EVT-0046"
       ],
-      "finding_count": 5,
+      "finding_count": 4,
       "findings": [
-        "fnd_4a6a7166edeb",
-        "fnd_8940cfe1e5b0",
-        "fnd_9e372d947e67",
-        "fnd_e04816d910a2",
-        "fnd_f3b5b42611b8"
+        "fnd_438cf028a7c4",
+        "fnd_ad8f5de26e11",
+        "fnd_b08178d4d288",
+        "fnd_c40fe3f5f19a"
       ],
       "first_involvement": "2026-06-12T09:07:30.394151Z",
       "last_involvement": "2026-06-12T09:07:30.394151Z",
@@ -2409,18 +3066,26 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0135",
         "EVT-0215"
       ],
-      "finding_count": 3,
+      "finding_count": 9,
       "findings": [
-        "fnd_2e84481f4a59",
-        "fnd_559788e3b610",
-        "fnd_8edd945718f0"
+        "fnd_0b36fe6bd196",
+        "fnd_117b4b170db5",
+        "fnd_177d18e26a8c",
+        "fnd_815cafcbd542",
+        "fnd_85a614c1cb71",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c6b6fdace8b4",
+        "fnd_c8a852dc6302"
       ],
       "first_involvement": "2026-06-10T12:29:17.435280Z",
-      "last_involvement": "2026-06-10T12:29:17.435280Z",
+      "last_involvement": "2026-06-12T04:00:39.646550Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.3.20"
     },
@@ -2433,21 +3098,27 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0128",
         "EVT-0194"
       ],
-      "finding_count": 6,
+      "finding_count": 10,
       "findings": [
-        "fnd_206012af72d0",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605"
+        "fnd_117b4b170db5",
+        "fnd_1dd3f461f4a1",
+        "fnd_39dc52bfd32c",
+        "fnd_44ba5489ee07",
+        "fnd_4e1cf970b837",
+        "fnd_7e2e7e75ae2f",
+        "fnd_8521f18fb0df",
+        "fnd_a855e4061b91",
+        "fnd_c8a852dc6302",
+        "fnd_dfb33381a96d"
       ],
       "first_involvement": "2026-06-10T20:42:23.024628Z",
-      "last_involvement": "2026-06-10T20:42:23.024628Z",
+      "last_involvement": "2026-06-11T12:31:15.304298Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.3.21"
     },
@@ -2461,21 +3132,29 @@
       "entity_type": "address",
       "event_ids": [
         "EVT-0095",
+        "EVT-0116",
         "EVT-0218"
       ],
-      "finding_count": 8,
+      "finding_count": 15,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_157b343088d2",
-        "fnd_170f88f97f02",
-        "fnd_538b2c826768",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_e5834c9d459f",
-        "fnd_f06c8c98a8bf"
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_39dc52bfd32c",
+        "fnd_4e1cf970b837",
+        "fnd_53c36df8da83",
+        "fnd_553a5ffc7141",
+        "fnd_6ef3401e9634",
+        "fnd_762538deedf1",
+        "fnd_80dbc66d34a0",
+        "fnd_94d6b2c05cc2",
+        "fnd_d1958cf94bd9",
+        "fnd_dfb33381a96d",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-10T11:22:19.206032Z",
-      "last_involvement": "2026-06-11T21:23:11.638878Z",
+      "last_involvement": "2026-06-12T21:43:29.098438Z",
       "source_types": [
         "cloud_storage",
         "network"
@@ -2495,12 +3174,22 @@
         "EVT-0212",
         "EVT-0219"
       ],
-      "finding_count": 4,
+      "finding_count": 14,
       "findings": [
-        "fnd_2e84481f4a59",
-        "fnd_47907166329c",
-        "fnd_559788e3b610",
-        "fnd_8edd945718f0"
+        "fnd_117b4b170db5",
+        "fnd_177d18e26a8c",
+        "fnd_20c9099f1d98",
+        "fnd_4552c1a02598",
+        "fnd_46cf47b01b3a",
+        "fnd_762538deedf1",
+        "fnd_79a69ecdcd41",
+        "fnd_85a614c1cb71",
+        "fnd_88c9c2765360",
+        "fnd_9153be3889e6",
+        "fnd_aef175f1f8a2",
+        "fnd_bb5550c8b79b",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0"
       ],
       "first_involvement": "2026-06-12T00:13:31.309003Z",
       "last_involvement": "2026-06-13T04:51:58.957297Z",
@@ -2521,11 +3210,14 @@
       "event_ids": [
         "EVT-0042"
       ],
-      "finding_count": 3,
+      "finding_count": 6,
       "findings": [
-        "fnd_7ee3e0a01179",
-        "fnd_e04816d910a2",
-        "fnd_f3b5b42611b8"
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_138109da4b2b",
+        "fnd_4e1cf970b837",
+        "fnd_6d02017c66d9",
+        "fnd_b9d7dd904305"
       ],
       "first_involvement": "2026-06-10T21:25:00.921148Z",
       "last_involvement": "2026-06-10T21:25:00.921148Z",
@@ -2543,20 +3235,28 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0085",
+        "EVT-0106",
         "EVT-0137",
         "EVT-0210"
       ],
-      "finding_count": 6,
+      "finding_count": 12,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_61dbf18b873c",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_17abecf9745f",
+        "fnd_2d760f5f283b",
+        "fnd_4e1cf970b837",
+        "fnd_6f5880a2cc84",
+        "fnd_87de5fd88f96",
+        "fnd_a9508c293416",
+        "fnd_b9d7dd904305",
+        "fnd_bb5550c8b79b",
+        "fnd_c8c9f6788d36",
+        "fnd_d5af4c6569f6",
+        "fnd_ec10918c721a",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-10T12:09:59.368729Z",
-      "last_involvement": "2026-06-11T14:45:34.167799Z",
+      "last_involvement": "2026-06-13T07:24:21.751627Z",
       "source_types": [
         "cloud_storage",
         "network"
@@ -2577,10 +3277,15 @@
         "EVT-0114",
         "EVT-0119"
       ],
-      "finding_count": 2,
+      "finding_count": 7,
       "findings": [
-        "fnd_860f4ef80169",
-        "fnd_d357f557738f"
+        "fnd_035f27d887c4",
+        "fnd_05723446efaa",
+        "fnd_6ef3401e9634",
+        "fnd_81ab4cd2b8b3",
+        "fnd_a319efcb4f27",
+        "fnd_ed2f93b40450",
+        "fnd_f254162ba217"
       ],
       "first_involvement": "2026-06-12T07:55:54.736700Z",
       "last_involvement": "2026-06-13T02:11:29.423126Z",
@@ -2602,13 +3307,15 @@
         "EVT-0005",
         "EVT-0048"
       ],
-      "finding_count": 5,
+      "finding_count": 7,
       "findings": [
-        "fnd_6649e8f5cc38",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d",
-        "fnd_b63613164ad2"
+        "fnd_469cc7b42835",
+        "fnd_4d1a410c84f6",
+        "fnd_4f5191cc11e4",
+        "fnd_551b3e387cd8",
+        "fnd_8c2c3e78cc6f",
+        "fnd_a28af202cbcc",
+        "fnd_bc4364498b1e"
       ],
       "first_involvement": "2026-06-11T03:21:03.937588Z",
       "last_involvement": "2026-06-12T18:59:04.644060Z",
@@ -2623,20 +3330,22 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0034"
       ],
-      "finding_count": 6,
+      "finding_count": 8,
       "findings": [
-        "fnd_4a6a7166edeb",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_9e372d947e67",
-        "fnd_e04816d910a2",
-        "fnd_f3b5b42611b8"
+        "fnd_0b36fe6bd196",
+        "fnd_366d71d6366e",
+        "fnd_438cf028a7c4",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_ad8f5de26e11",
+        "fnd_b94d54d918ae",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-12T00:56:43.536471Z",
       "last_involvement": "2026-06-12T00:56:43.536471Z",
@@ -2657,14 +3366,17 @@
       "event_ids": [
         "EVT-0203"
       ],
-      "finding_count": 6,
+      "finding_count": 9,
       "findings": [
-        "fnd_206012af72d0",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605"
+        "fnd_043e19ca12e5",
+        "fnd_1dd3f461f4a1",
+        "fnd_366d71d6366e",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_7e2e7e75ae2f",
+        "fnd_a855e4061b91",
+        "fnd_c8a852dc6302",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-11T13:56:04.379651Z",
       "last_involvement": "2026-06-11T13:56:04.379651Z",
@@ -2685,10 +3397,12 @@
       "event_ids": [
         "EVT-0029"
       ],
-      "finding_count": 2,
+      "finding_count": 4,
       "findings": [
-        "fnd_711441b6c5b4",
-        "fnd_b401029549cc"
+        "fnd_117b4b170db5",
+        "fnd_1e95861b2acd",
+        "fnd_2cd39e51dc6b",
+        "fnd_8521f18fb0df"
       ],
       "first_involvement": "2026-06-10T15:42:39.986198Z",
       "last_involvement": "2026-06-10T15:42:39.986198Z",
@@ -2711,13 +3425,21 @@
         "EVT-0098",
         "EVT-0204"
       ],
-      "finding_count": 5,
+      "finding_count": 13,
       "findings": [
-        "fnd_0a174c704464",
-        "fnd_47907166329c",
-        "fnd_4a6a7166edeb",
-        "fnd_55cb95fc8703",
-        "fnd_7ee3e0a01179"
+        "fnd_03b0ceecd00a",
+        "fnd_1c1c01a28270",
+        "fnd_34ed328387fc",
+        "fnd_46cf47b01b3a",
+        "fnd_762538deedf1",
+        "fnd_92930d7687e1",
+        "fnd_a75be4224f19",
+        "fnd_adb79628d26d",
+        "fnd_aef175f1f8a2",
+        "fnd_bb5550c8b79b",
+        "fnd_c8dcbb2febbe",
+        "fnd_e21fca559f47",
+        "fnd_ed4f146bad9b"
       ],
       "first_involvement": "2026-06-10T23:51:56.666230Z",
       "last_involvement": "2026-06-12T18:01:04.842883Z",
@@ -2742,18 +3464,25 @@
         "EVT-0108",
         "EVT-0206"
       ],
-      "finding_count": 10,
+      "finding_count": 17,
       "findings": [
-        "fnd_47907166329c",
-        "fnd_4a6a7166edeb",
-        "fnd_757acb2b7b92",
-        "fnd_7ee3e0a01179",
-        "fnd_81a681057ce0",
-        "fnd_8a431658338b",
-        "fnd_a1eb9632bb0f",
-        "fnd_b4776686207b",
-        "fnd_d55e8f0bdcac",
-        "fnd_da66eaacadbc"
+        "fnd_0e1f6feeb885",
+        "fnd_26646e57b3a3",
+        "fnd_29ec4c811ba2",
+        "fnd_3629b6d8b749",
+        "fnd_396d513a6ae6",
+        "fnd_46cf47b01b3a",
+        "fnd_54f7763748f0",
+        "fnd_762538deedf1",
+        "fnd_8d937d66d90c",
+        "fnd_a9508c293416",
+        "fnd_aef175f1f8a2",
+        "fnd_b529cce4a6af",
+        "fnd_bb5550c8b79b",
+        "fnd_c755361c32e0",
+        "fnd_cb5b05c3e29d",
+        "fnd_d2d2c4744fe3",
+        "fnd_f2440f3b52b4"
       ],
       "first_involvement": "2026-06-10T09:46:29.618328Z",
       "last_involvement": "2026-06-11T15:28:19.958592Z",
@@ -2776,10 +3505,12 @@
         "EVT-0070",
         "EVT-0140"
       ],
-      "finding_count": 2,
+      "finding_count": 4,
       "findings": [
-        "fnd_2cddb4d8c0e4",
-        "fnd_db291e71058e"
+        "fnd_3b00e0768a9f",
+        "fnd_879b3785db2e",
+        "fnd_8c448df091de",
+        "fnd_e3c08ba15dd7"
       ],
       "first_involvement": "2026-06-10T15:39:12.340248Z",
       "last_involvement": "2026-06-11T09:31:48.790384Z",
@@ -2803,10 +3534,20 @@
         "EVT-0080",
         "EVT-0104"
       ],
-      "finding_count": 2,
+      "finding_count": 12,
       "findings": [
-        "fnd_3fc276043a41",
-        "fnd_4049d84314e0"
+        "fnd_0f38a9b55e6e",
+        "fnd_3a009499c488",
+        "fnd_3b00e0768a9f",
+        "fnd_3f8f81a8df3c",
+        "fnd_779bf6f30bda",
+        "fnd_79a69ecdcd41",
+        "fnd_7a48ab9f42f8",
+        "fnd_87de5fd88f96",
+        "fnd_8c448df091de",
+        "fnd_a26828c42b48",
+        "fnd_d3655d37fb1b",
+        "fnd_e3c08ba15dd7"
       ],
       "first_involvement": "2026-06-11T07:06:05.683843Z",
       "last_involvement": "2026-06-12T03:16:40.664293Z",
@@ -2829,14 +3570,21 @@
         "EVT-0121",
         "EVT-0123"
       ],
-      "finding_count": 6,
+      "finding_count": 13,
       "findings": [
-        "fnd_46f945545433",
-        "fnd_757acb2b7b92",
-        "fnd_8a431658338b",
-        "fnd_b4776686207b",
-        "fnd_b8ed84ea7559",
-        "fnd_d26b65e5f7e0"
+        "fnd_01d2cb190ba7",
+        "fnd_0e1f6feeb885",
+        "fnd_26646e57b3a3",
+        "fnd_3629b6d8b749",
+        "fnd_366d71d6366e",
+        "fnd_37e53f778bfe",
+        "fnd_727d5a72d209",
+        "fnd_75b3aec8d036",
+        "fnd_c2e9b0104e8e",
+        "fnd_c755361c32e0",
+        "fnd_cb5b05c3e29d",
+        "fnd_dfdf4e23f5f2",
+        "fnd_f2440f3b52b4"
       ],
       "first_involvement": "2026-06-10T11:11:11.437561Z",
       "last_involvement": "2026-06-12T12:02:46.441429Z",
@@ -2844,6 +3592,31 @@
         "network"
       ],
       "value": "10.0.4.15"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0107"
+      ],
+      "finding_count": 3,
+      "findings": [
+        "fnd_6f5880a2cc84",
+        "fnd_7c0741e7218e",
+        "fnd_d609f0c75036"
+      ],
+      "first_involvement": "2026-06-12T10:30:57.120501Z",
+      "last_involvement": "2026-06-12T10:30:57.120501Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.4.16"
     },
     {
       "absent_from_sources": [
@@ -2857,17 +3630,15 @@
       "event_ids": [
         "EVT-0021"
       ],
-      "finding_count": 9,
+      "finding_count": 7,
       "findings": [
-        "fnd_1d488a5e71c2",
-        "fnd_2f247baf6c60",
-        "fnd_3f8b14e929c6",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_8c750d6e1c04",
-        "fnd_d239049038e3"
+        "fnd_26f6f6446dfa",
+        "fnd_4ea287c8cbf2",
+        "fnd_a1eee634fed3",
+        "fnd_a855e4061b91",
+        "fnd_c40fe3f5f19a",
+        "fnd_d1958cf94bd9",
+        "fnd_d248c42fb846"
       ],
       "first_involvement": "2026-06-11T21:01:27.094565Z",
       "last_involvement": "2026-06-11T21:01:27.094565Z",
@@ -2886,15 +3657,45 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0135"
+      ],
+      "finding_count": 2,
+      "findings": [
+        "fnd_85a614c1cb71",
+        "fnd_c6b6fdace8b4"
+      ],
+      "first_involvement": "2026-06-12T04:00:39.646550Z",
+      "last_involvement": "2026-06-12T04:00:39.646550Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.4.17"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
         "EVT-0090",
         "EVT-0115",
         "EVT-0139"
       ],
-      "finding_count": 3,
+      "finding_count": 9,
       "findings": [
-        "fnd_0a174c704464",
-        "fnd_151e4bb593fc",
-        "fnd_42962bcffb9b"
+        "fnd_03b0ceecd00a",
+        "fnd_158f473c01aa",
+        "fnd_1c1c01a28270",
+        "fnd_34ed328387fc",
+        "fnd_c4775519bbfc",
+        "fnd_ceb65ab3751a",
+        "fnd_e21fca559f47",
+        "fnd_e2a2dc2d1e34",
+        "fnd_ed4f146bad9b"
       ],
       "first_involvement": "2026-06-10T20:27:01.216356Z",
       "last_involvement": "2026-06-12T18:01:04.842883Z",
@@ -2917,9 +3718,9 @@
       ],
       "finding_count": 3,
       "findings": [
-        "fnd_693575d1df21",
-        "fnd_71a42fbd2f43",
-        "fnd_d239049038e3"
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_a294ba52f8c7"
       ],
       "first_involvement": "2026-06-13T03:34:49.698945Z",
       "last_involvement": "2026-06-13T03:34:49.698945Z",
@@ -2940,12 +3741,16 @@
       "event_ids": [
         "EVT-0033"
       ],
-      "finding_count": 4,
+      "finding_count": 8,
       "findings": [
-        "fnd_29b1a27ba765",
-        "fnd_b19bf172d694",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_438cf028a7c4",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_6f15d3844c40",
+        "fnd_af32fc3475a5",
+        "fnd_b08178d4d288",
+        "fnd_c40fe3f5f19a",
+        "fnd_d1958cf94bd9"
       ],
       "first_involvement": "2026-06-13T02:58:23.165329Z",
       "last_involvement": "2026-06-13T02:58:23.165329Z",
@@ -2966,14 +3771,16 @@
       "event_ids": [
         "EVT-0198"
       ],
-      "finding_count": 6,
+      "finding_count": 8,
       "findings": [
-        "fnd_206012af72d0",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605"
+        "fnd_1dd3f461f4a1",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_7e2e7e75ae2f",
+        "fnd_94af780ea2f5",
+        "fnd_a855e4061b91",
+        "fnd_c8a852dc6302",
+        "fnd_d2d2c4744fe3"
       ],
       "first_involvement": "2026-06-11T11:16:12.352464Z",
       "last_involvement": "2026-06-11T11:16:12.352464Z",
@@ -2994,16 +3801,19 @@
       "event_ids": [
         "EVT-0087",
         "EVT-0094",
+        "EVT-0126",
         "EVT-0133"
       ],
-      "finding_count": 6,
+      "finding_count": 8,
       "findings": [
-        "fnd_22e176abd25d",
-        "fnd_2a6c28012709",
-        "fnd_860f4ef80169",
-        "fnd_90a7d189bab7",
-        "fnd_d357f557738f",
-        "fnd_f4b2efb56baf"
+        "fnd_05723446efaa",
+        "fnd_0e8e21952649",
+        "fnd_163cf30fbff7",
+        "fnd_75b3aec8d036",
+        "fnd_81ab4cd2b8b3",
+        "fnd_a319efcb4f27",
+        "fnd_ed2f93b40450",
+        "fnd_f254162ba217"
       ],
       "first_involvement": "2026-06-10T19:10:05.788416Z",
       "last_involvement": "2026-06-13T02:11:29.423126Z",
@@ -3018,18 +3828,19 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0053"
       ],
-      "finding_count": 4,
+      "finding_count": 5,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_9ae70148e04f",
-        "fnd_ccefda36c241"
+        "fnd_355a3d8f0117",
+        "fnd_779bf6f30bda",
+        "fnd_7a48ab9f42f8",
+        "fnd_9af751fd448b",
+        "fnd_d2fd040540e9"
       ],
       "first_involvement": "2026-06-12T02:38:33.566378Z",
       "last_involvement": "2026-06-12T02:38:33.566378Z",
@@ -3050,15 +3861,13 @@
       "event_ids": [
         "EVT-0059"
       ],
-      "finding_count": 7,
+      "finding_count": 5,
       "findings": [
-        "fnd_1d488a5e71c2",
-        "fnd_2f247baf6c60",
-        "fnd_3f8b14e929c6",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_8c750d6e1c04",
-        "fnd_94132fdcad95"
+        "fnd_26f6f6446dfa",
+        "fnd_3b53d32cf033",
+        "fnd_7ddcf64b685a",
+        "fnd_d1958cf94bd9",
+        "fnd_d2888267a51d"
       ],
       "first_involvement": "2026-06-11T12:01:42.212359Z",
       "last_involvement": "2026-06-11T12:01:42.212359Z",
@@ -3073,15 +3882,17 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0004"
       ],
-      "finding_count": 1,
+      "finding_count": 3,
       "findings": [
-        "fnd_442ed1871564"
+        "fnd_9af751fd448b",
+        "fnd_d2fd040540e9",
+        "fnd_e6d356fa0c3a"
       ],
       "first_involvement": "2026-06-12T17:54:45.864623Z",
       "last_involvement": "2026-06-12T17:54:45.864623Z",
@@ -3100,14 +3911,18 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0096",
         "EVT-0104",
         "EVT-0140"
       ],
-      "finding_count": 3,
+      "finding_count": 6,
       "findings": [
-        "fnd_3fc276043a41",
-        "fnd_4049d84314e0",
-        "fnd_db291e71058e"
+        "fnd_0f38a9b55e6e",
+        "fnd_3a009499c488",
+        "fnd_3b00e0768a9f",
+        "fnd_879b3785db2e",
+        "fnd_8c448df091de",
+        "fnd_e3c08ba15dd7"
       ],
       "first_involvement": "2026-06-10T15:39:12.340248Z",
       "last_involvement": "2026-06-12T03:16:40.664293Z",
@@ -3121,26 +3936,64 @@
         "auth",
         "endpoint"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0084",
         "EVT-0216"
       ],
-      "finding_count": 5,
+      "finding_count": 9,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_17abecf9745f",
+        "fnd_4e1cf970b837",
+        "fnd_6d02017c66d9",
+        "fnd_6f5880a2cc84",
+        "fnd_75043c87b1c2",
+        "fnd_a9508c293416",
+        "fnd_b92e57b401f7",
+        "fnd_b9d7dd904305",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-10T09:51:41.372814Z",
-      "last_involvement": "2026-06-10T09:51:41.372814Z",
+      "last_involvement": "2026-06-10T19:41:12.690494Z",
       "source_types": [
-        "cloud_storage"
+        "cloud_storage",
+        "network"
       ],
       "value": "10.0.4.22"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0085",
+        "EVT-0088",
+        "EVT-0092"
+      ],
+      "finding_count": 8,
+      "findings": [
+        "fnd_2d760f5f283b",
+        "fnd_3a009499c488",
+        "fnd_3f8f81a8df3c",
+        "fnd_87de5fd88f96",
+        "fnd_c8c9f6788d36",
+        "fnd_d5af4c6569f6",
+        "fnd_ec10918c721a",
+        "fnd_ec71fe9292ab"
+      ],
+      "first_involvement": "2026-06-10T19:03:40.932454Z",
+      "last_involvement": "2026-06-13T07:24:21.751627Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.4.23"
     },
     {
       "absent_from_sources": [
@@ -3156,21 +4009,27 @@
         "EVT-0074",
         "EVT-0076"
       ],
-      "finding_count": 13,
+      "finding_count": 19,
       "findings": [
-        "fnd_46f945545433",
-        "fnd_4a6a7166edeb",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_9e372d947e67",
-        "fnd_a1eb9632bb0f",
-        "fnd_b8ed84ea7559",
-        "fnd_d26b65e5f7e0",
-        "fnd_d55e8f0bdcac",
-        "fnd_da66eaacadbc",
-        "fnd_e04816d910a2",
-        "fnd_f3b5b42611b8",
-        "fnd_fb9e3de288db"
+        "fnd_0b36fe6bd196",
+        "fnd_138109da4b2b",
+        "fnd_1c56234bae30",
+        "fnd_4552c1a02598",
+        "fnd_54f7763748f0",
+        "fnd_6d02017c66d9",
+        "fnd_727d5a72d209",
+        "fnd_80dbc66d34a0",
+        "fnd_83b6c69f1af5",
+        "fnd_8d937d66d90c",
+        "fnd_9153be3889e6",
+        "fnd_b529cce4a6af",
+        "fnd_c2e9b0104e8e",
+        "fnd_c30b669505ea",
+        "fnd_c482dd9a536a",
+        "fnd_c755361c32e0",
+        "fnd_ca994ab10fe0",
+        "fnd_dfdf4e23f5f2",
+        "fnd_f2440f3b52b4"
       ],
       "first_involvement": "2026-06-10T17:00:41.935055Z",
       "last_involvement": "2026-06-12T18:10:52.596043Z",
@@ -3186,17 +4045,18 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0015"
       ],
-      "finding_count": 3,
+      "finding_count": 4,
       "findings": [
-        "fnd_3f8b14e929c6",
-        "fnd_48d92a30da78",
-        "fnd_94132fdcad95"
+        "fnd_117b4b170db5",
+        "fnd_26f6f6446dfa",
+        "fnd_b94d54d918ae",
+        "fnd_c8dcbb2febbe"
       ],
       "first_involvement": "2026-06-11T07:40:22.208790Z",
       "last_involvement": "2026-06-11T07:40:22.208790Z",
@@ -3215,15 +4075,46 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0079"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_b6c602eaae16"
+      ],
+      "first_involvement": "2026-06-11T08:09:03.901158Z",
+      "last_involvement": "2026-06-11T08:09:03.901158Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.4.25"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
         "EVT-0082",
         "EVT-0111",
         "EVT-0133"
       ],
-      "finding_count": 3,
+      "finding_count": 11,
       "findings": [
-        "fnd_22e176abd25d",
-        "fnd_2a6c28012709",
-        "fnd_f4b2efb56baf"
+        "fnd_01d2cb190ba7",
+        "fnd_163cf30fbff7",
+        "fnd_2b0c2d3e5913",
+        "fnd_366d71d6366e",
+        "fnd_37e53f778bfe",
+        "fnd_719f6b2c0755",
+        "fnd_75b3aec8d036",
+        "fnd_81ab4cd2b8b3",
+        "fnd_cb5b05c3e29d",
+        "fnd_ed2f93b40450",
+        "fnd_f254162ba217"
       ],
       "first_involvement": "2026-06-12T18:53:52.382561Z",
       "last_involvement": "2026-06-12T23:22:21.189980Z",
@@ -3234,21 +4125,52 @@
     },
     {
       "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0096"
+      ],
+      "finding_count": 3,
+      "findings": [
+        "fnd_3b00e0768a9f",
+        "fnd_8c448df091de",
+        "fnd_e3c08ba15dd7"
+      ],
+      "first_involvement": "2026-06-10T20:46:42.214912Z",
+      "last_involvement": "2026-06-10T20:46:42.214912Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.4.29"
+    },
+    {
+      "absent_from_sources": [
         "cloud_storage",
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0045"
       ],
-      "finding_count": 3,
+      "finding_count": 9,
       "findings": [
-        "fnd_98d774430171",
-        "fnd_b401029549cc",
-        "fnd_dfa9ae1090d0"
+        "fnd_414c40be5fc7",
+        "fnd_7c1f3f3bc949",
+        "fnd_a923fb77e894",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d24e36d84d1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e3367b22bb43",
+        "fnd_e6d356fa0c3a",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-12T17:30:15.202796Z",
       "last_involvement": "2026-06-12T17:30:15.202796Z",
@@ -3269,13 +4191,18 @@
       "event_ids": [
         "EVT-0049"
       ],
-      "finding_count": 5,
+      "finding_count": 10,
       "findings": [
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_366d71d6366e",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_7c1f3f3bc949",
+        "fnd_9153be3889e6",
+        "fnd_ad8f5de26e11",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-11T19:46:43.199688Z",
       "last_involvement": "2026-06-11T19:46:43.199688Z",
@@ -3296,10 +4223,14 @@
       "event_ids": [
         "EVT-0035"
       ],
-      "finding_count": 2,
+      "finding_count": 6,
       "findings": [
-        "fnd_693575d1df21",
-        "fnd_d239049038e3"
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_7e2e7e75ae2f",
+        "fnd_88c9c2765360",
+        "fnd_a294ba52f8c7",
+        "fnd_c40fe3f5f19a"
       ],
       "first_involvement": "2026-06-12T14:48:37.755262Z",
       "last_involvement": "2026-06-12T14:48:37.755262Z",
@@ -3320,15 +4251,20 @@
         "EVT-0103",
         "EVT-0211"
       ],
-      "finding_count": 7,
+      "finding_count": 12,
       "findings": [
-        "fnd_206012af72d0",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605",
-        "fnd_fb9e3de288db"
+        "fnd_1c56234bae30",
+        "fnd_1dd3f461f4a1",
+        "fnd_44ba5489ee07",
+        "fnd_727d5a72d209",
+        "fnd_7e2e7e75ae2f",
+        "fnd_80dbc66d34a0",
+        "fnd_a855e4061b91",
+        "fnd_af32fc3475a5",
+        "fnd_c482dd9a536a",
+        "fnd_c8a852dc6302",
+        "fnd_ca994ab10fe0",
+        "fnd_d20a12fa39ac"
       ],
       "first_involvement": "2026-06-13T02:42:29.565021Z",
       "last_involvement": "2026-06-13T06:54:52.808353Z",
@@ -3350,16 +4286,27 @@
         "EVT-0026",
         "EVT-0195"
       ],
-      "finding_count": 8,
+      "finding_count": 19,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_17abecf9745f",
+        "fnd_26f6f6446dfa",
+        "fnd_43db3187f3d2",
+        "fnd_4e1cf970b837",
+        "fnd_53c36df8da83",
+        "fnd_6f15d3844c40",
+        "fnd_6f5880a2cc84",
+        "fnd_7ddcf64b685a",
+        "fnd_9153be3889e6",
+        "fnd_94af780ea2f5",
+        "fnd_a0af9ffbd19f",
+        "fnd_a855e4061b91",
+        "fnd_a9508c293416",
+        "fnd_b9d7dd904305",
+        "fnd_d1958cf94bd9",
+        "fnd_d2d2c4744fe3",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f38a82c62470",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-11T11:50:35.135756Z",
       "last_involvement": "2026-06-12T14:04:23.602351Z",
@@ -3379,14 +4326,16 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
-        "EVT-0068"
+        "EVT-0068",
+        "EVT-0084"
       ],
-      "finding_count": 2,
+      "finding_count": 3,
       "findings": [
-        "fnd_e95f791df201",
-        "fnd_f4524f2dfda2"
+        "fnd_75043c87b1c2",
+        "fnd_b92e57b401f7",
+        "fnd_b9d7dd904305"
       ],
-      "first_involvement": "2026-06-12T04:40:04.900779Z",
+      "first_involvement": "2026-06-10T19:41:12.690494Z",
       "last_involvement": "2026-06-12T04:40:04.900779Z",
       "source_types": [
         "network"
@@ -3406,10 +4355,11 @@
         "EVT-0068",
         "EVT-0122"
       ],
-      "finding_count": 2,
+      "finding_count": 3,
       "findings": [
-        "fnd_e95f791df201",
-        "fnd_f4524f2dfda2"
+        "fnd_1c654d1a3245",
+        "fnd_75043c87b1c2",
+        "fnd_b92e57b401f7"
       ],
       "first_involvement": "2026-06-12T04:40:04.900779Z",
       "last_involvement": "2026-06-12T22:21:21.756883Z",
@@ -3424,20 +4374,21 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0003"
       ],
-      "finding_count": 6,
+      "finding_count": 7,
       "findings": [
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53",
-        "fnd_bfb7effa55db",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_1fb96f99c258",
+        "fnd_506414766f30",
+        "fnd_a0af9ffbd19f",
+        "fnd_a923fb77e894",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-11T21:44:08.561917Z",
       "last_involvement": "2026-06-11T21:44:08.561917Z",
@@ -3458,13 +4409,16 @@
       "event_ids": [
         "EVT-0205"
       ],
-      "finding_count": 5,
+      "finding_count": 8,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_17abecf9745f",
+        "fnd_4e1cf970b837",
+        "fnd_6f5880a2cc84",
+        "fnd_7d8a9b645a27",
+        "fnd_a9508c293416",
+        "fnd_b9d7dd904305",
+        "fnd_bb5550c8b79b",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-12T00:48:18.537661Z",
       "last_involvement": "2026-06-12T00:48:18.537661Z",
@@ -3483,15 +4437,25 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0081",
+        "EVT-0109",
         "EVT-0131"
       ],
-      "finding_count": 2,
+      "finding_count": 10,
       "findings": [
-        "fnd_2d32f63da83b",
-        "fnd_a01e993b6079"
+        "fnd_02979240ac7f",
+        "fnd_163cf30fbff7",
+        "fnd_2b0c2d3e5913",
+        "fnd_2b2aab2aa2db",
+        "fnd_6f5880a2cc84",
+        "fnd_719f6b2c0755",
+        "fnd_7c0741e7218e",
+        "fnd_7ef1c9f590b9",
+        "fnd_d2f1a71d1472",
+        "fnd_d609f0c75036"
       ],
       "first_involvement": "2026-06-10T21:27:34.395616Z",
-      "last_involvement": "2026-06-10T21:27:34.395616Z",
+      "last_involvement": "2026-06-13T04:21:51.608932Z",
       "source_types": [
         "network"
       ],
@@ -3511,13 +4475,26 @@
         "EVT-0097",
         "EVT-0108"
       ],
-      "finding_count": 5,
+      "finding_count": 18,
       "findings": [
-        "fnd_4a6a7166edeb",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_e04816d910a2",
-        "fnd_f3b5b42611b8"
+        "fnd_03b0ceecd00a",
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_0e1f6feeb885",
+        "fnd_138109da4b2b",
+        "fnd_26646e57b3a3",
+        "fnd_3629b6d8b749",
+        "fnd_4e1cf970b837",
+        "fnd_6d02017c66d9",
+        "fnd_8287bdb7858a",
+        "fnd_88c9c2765360",
+        "fnd_b9d7dd904305",
+        "fnd_c30b669505ea",
+        "fnd_c755361c32e0",
+        "fnd_cd7e2e6df6a6",
+        "fnd_d2d2c4744fe3",
+        "fnd_e21fca559f47",
+        "fnd_ed4f146bad9b"
       ],
       "first_involvement": "2026-06-10T23:00:48.297157Z",
       "last_involvement": "2026-06-12T12:16:29.046088Z",
@@ -3539,11 +4516,13 @@
       "event_ids": [
         "EVT-0057"
       ],
-      "finding_count": 3,
+      "finding_count": 5,
       "findings": [
-        "fnd_693575d1df21",
-        "fnd_71a42fbd2f43",
-        "fnd_d239049038e3"
+        "fnd_0b49e42713bc",
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_4e1cf970b837",
+        "fnd_a294ba52f8c7"
       ],
       "first_involvement": "2026-06-13T02:22:03.427384Z",
       "last_involvement": "2026-06-13T02:22:03.427384Z",
@@ -3554,20 +4533,48 @@
     },
     {
       "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0093"
+      ],
+      "finding_count": 3,
+      "findings": [
+        "fnd_7f60dc0ad32c",
+        "fnd_d2f1a71d1472",
+        "fnd_ef551a0d1bf5"
+      ],
+      "first_involvement": "2026-06-11T20:36:15.876223Z",
+      "last_involvement": "2026-06-11T20:36:15.876223Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.5.17"
+    },
+    {
+      "absent_from_sources": [
         "cloud_storage",
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0023"
       ],
-      "finding_count": 2,
+      "finding_count": 5,
       "findings": [
-        "fnd_6649e8f5cc38",
-        "fnd_b63613164ad2"
+        "fnd_519a6a56c012",
+        "fnd_551b3e387cd8",
+        "fnd_8c2c3e78cc6f",
+        "fnd_9cf7f752f12b",
+        "fnd_a28af202cbcc"
       ],
       "first_involvement": "2026-06-12T13:29:54.225130Z",
       "last_involvement": "2026-06-12T13:29:54.225130Z",
@@ -3588,16 +4595,18 @@
         "EVT-0119",
         "EVT-0199"
       ],
-      "finding_count": 8,
+      "finding_count": 10,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_170f88f97f02",
-        "fnd_538b2c826768",
-        "fnd_860f4ef80169",
-        "fnd_d0ca74b4c974",
-        "fnd_d357f557738f",
-        "fnd_d7cfcada4aba",
-        "fnd_f06c8c98a8bf"
+        "fnd_05723446efaa",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_6ef3401e9634",
+        "fnd_94d6b2c05cc2",
+        "fnd_a319efcb4f27",
+        "fnd_c1fc2107bb96",
+        "fnd_f254162ba217"
       ],
       "first_involvement": "2026-06-10T12:18:41.520558Z",
       "last_involvement": "2026-06-13T00:04:04.195656Z",
@@ -3621,8 +4630,8 @@
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_a3fdc644f621",
-        "fnd_bfb7effa55db"
+        "fnd_f3e44b3557af",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-13T05:44:47.093107Z",
       "last_involvement": "2026-06-13T05:44:47.093107Z",
@@ -3641,20 +4650,70 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0077",
         "EVT-0110"
       ],
-      "finding_count": 3,
+      "finding_count": 6,
       "findings": [
-        "fnd_a1eb9632bb0f",
-        "fnd_d55e8f0bdcac",
-        "fnd_da66eaacadbc"
+        "fnd_1c1c01a28270",
+        "fnd_54f7763748f0",
+        "fnd_8d937d66d90c",
+        "fnd_b529cce4a6af",
+        "fnd_c755361c32e0",
+        "fnd_ceb65ab3751a"
       ],
       "first_involvement": "2026-06-10T11:33:38.176114Z",
-      "last_involvement": "2026-06-10T11:33:38.176114Z",
+      "last_involvement": "2026-06-12T08:06:15.898200Z",
       "source_types": [
         "network"
       ],
       "value": "10.0.5.19"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0079"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_b6c602eaae16"
+      ],
+      "first_involvement": "2026-06-11T08:09:03.901158Z",
+      "last_involvement": "2026-06-11T08:09:03.901158Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.5.20"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0105"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_e122ec5b0ab5"
+      ],
+      "first_involvement": "2026-06-12T09:37:39.772267Z",
+      "last_involvement": "2026-06-12T09:37:39.772267Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "10.0.5.21"
     },
     {
       "absent_from_sources": [
@@ -3668,12 +4727,13 @@
       "event_ids": [
         "EVT-0055"
       ],
-      "finding_count": 4,
+      "finding_count": 5,
       "findings": [
-        "fnd_29b1a27ba765",
-        "fnd_b19bf172d694",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_94af780ea2f5",
+        "fnd_af32fc3475a5",
+        "fnd_c40fe3f5f19a"
       ],
       "first_involvement": "2026-06-12T06:15:52.098136Z",
       "last_involvement": "2026-06-12T06:15:52.098136Z",
@@ -3694,10 +4754,11 @@
       "event_ids": [
         "EVT-0016"
       ],
-      "finding_count": 2,
+      "finding_count": 3,
       "findings": [
-        "fnd_6649e8f5cc38",
-        "fnd_b63613164ad2"
+        "fnd_551b3e387cd8",
+        "fnd_8c2c3e78cc6f",
+        "fnd_a28af202cbcc"
       ],
       "first_involvement": "2026-06-12T20:02:27.306774Z",
       "last_involvement": "2026-06-12T20:02:27.306774Z",
@@ -3715,20 +4776,26 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0081",
         "EVT-0082",
         "EVT-0202"
       ],
-      "finding_count": 9,
+      "finding_count": 14,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_170f88f97f02",
-        "fnd_22e176abd25d",
-        "fnd_2a6c28012709",
-        "fnd_538b2c826768",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_f06c8c98a8bf",
-        "fnd_f4b2efb56baf"
+        "fnd_163cf30fbff7",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_2b2aab2aa2db",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_6ef3401e9634",
+        "fnd_719f6b2c0755",
+        "fnd_75b3aec8d036",
+        "fnd_81ab4cd2b8b3",
+        "fnd_94d6b2c05cc2",
+        "fnd_a8ada9fe1bc3",
+        "fnd_d1958cf94bd9",
+        "fnd_d609f0c75036"
       ],
       "first_involvement": "2026-06-11T12:46:27.752751Z",
       "last_involvement": "2026-06-12T18:55:43.289178Z",
@@ -3750,14 +4817,12 @@
       "event_ids": [
         "EVT-0039"
       ],
-      "finding_count": 6,
+      "finding_count": 4,
       "findings": [
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_bfb7effa55db",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_4d1a410c84f6",
+        "fnd_650a0c35f1cb",
+        "fnd_a0af9ffbd19f",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-12T10:09:41.598420Z",
       "last_involvement": "2026-06-12T10:09:41.598420Z",
@@ -3772,16 +4837,18 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0038"
       ],
-      "finding_count": 2,
+      "finding_count": 4,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564"
+        "fnd_355a3d8f0117",
+        "fnd_7d8a9b645a27",
+        "fnd_9af751fd448b",
+        "fnd_d2fd040540e9"
       ],
       "first_involvement": "2026-06-12T10:30:21.031344Z",
       "last_involvement": "2026-06-12T10:30:21.031344Z",
@@ -3802,9 +4869,11 @@
       "event_ids": [
         "EVT-0094"
       ],
-      "finding_count": 1,
+      "finding_count": 3,
       "findings": [
-        "fnd_90a7d189bab7"
+        "fnd_81ab4cd2b8b3",
+        "fnd_ed2f93b40450",
+        "fnd_f254162ba217"
       ],
       "first_involvement": "2026-06-10T19:10:05.788416Z",
       "last_involvement": "2026-06-10T19:10:05.788416Z",
@@ -3827,8 +4896,8 @@
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_2cddb4d8c0e4",
-        "fnd_db291e71058e"
+        "fnd_879b3785db2e",
+        "fnd_8c448df091de"
       ],
       "first_involvement": "2026-06-11T09:31:48.790384Z",
       "last_involvement": "2026-06-11T09:31:48.790384Z",
@@ -3850,15 +4919,24 @@
         "EVT-0062",
         "EVT-0066"
       ],
-      "finding_count": 7,
+      "finding_count": 16,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_3fc276043a41",
-        "fnd_4049d84314e0",
-        "fnd_442ed1871564",
-        "fnd_9ae70148e04f",
-        "fnd_a3de5f803349",
-        "fnd_ccefda36c241"
+        "fnd_07d381ab620c",
+        "fnd_0f38a9b55e6e",
+        "fnd_26f6f6446dfa",
+        "fnd_355a3d8f0117",
+        "fnd_36c4c7bdcb1e",
+        "fnd_3a009499c488",
+        "fnd_3b00e0768a9f",
+        "fnd_3c384fa8343e",
+        "fnd_53c36df8da83",
+        "fnd_6f15d3844c40",
+        "fnd_779bf6f30bda",
+        "fnd_7a48ab9f42f8",
+        "fnd_9af751fd448b",
+        "fnd_b08178d4d288",
+        "fnd_d1958cf94bd9",
+        "fnd_d2fd040540e9"
       ],
       "first_involvement": "2026-06-11T11:08:13.385686Z",
       "last_involvement": "2026-06-12T06:00:13.395631Z",
@@ -3882,7 +4960,7 @@
       ],
       "finding_count": 2,
       "findings": [
-        "fnd_b12cdd2fb400",
+        "fnd_78d4e2739d4c",
         "fnd_c32a13086dac"
       ],
       "first_involvement": "2026-06-13T07:41:34.251699Z",
@@ -3905,13 +4983,16 @@
         "EVT-0089",
         "EVT-0127"
       ],
-      "finding_count": 5,
+      "finding_count": 8,
       "findings": [
-        "fnd_2d32f63da83b",
-        "fnd_a01e993b6079",
-        "fnd_a1eb9632bb0f",
-        "fnd_d55e8f0bdcac",
-        "fnd_da66eaacadbc"
+        "fnd_02979240ac7f",
+        "fnd_2b2aab2aa2db",
+        "fnd_54f7763748f0",
+        "fnd_7ef1c9f590b9",
+        "fnd_8d937d66d90c",
+        "fnd_b529cce4a6af",
+        "fnd_c755361c32e0",
+        "fnd_d2f1a71d1472"
       ],
       "first_involvement": "2026-06-10T15:34:04.605935Z",
       "last_involvement": "2026-06-11T15:04:19.669750Z",
@@ -3932,12 +5013,14 @@
       "event_ids": [
         "EVT-0054"
       ],
-      "finding_count": 4,
+      "finding_count": 6,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_9ae70148e04f",
-        "fnd_ccefda36c241"
+        "fnd_0b49e42713bc",
+        "fnd_4e1cf970b837",
+        "fnd_6d02017c66d9",
+        "fnd_779bf6f30bda",
+        "fnd_92930d7687e1",
+        "fnd_b9d7dd904305"
       ],
       "first_involvement": "2026-06-11T01:19:38.981577Z",
       "last_involvement": "2026-06-11T01:19:38.981577Z",
@@ -3952,17 +5035,21 @@
         "endpoint",
         "network"
       ],
-      "basis": "on_a_cited_record",
-      "confirmed": false,
+      "basis": "named_by_finding",
+      "confirmed": true,
       "entity_type": "address",
       "event_ids": [
         "EVT-0031"
       ],
-      "finding_count": 3,
+      "finding_count": 7,
       "findings": [
-        "fnd_11879896458d",
-        "fnd_61917ebc1465",
-        "fnd_cca9f1658cbd"
+        "fnd_0b49e42713bc",
+        "fnd_3a009499c488",
+        "fnd_519a6a56c012",
+        "fnd_7d8a9b645a27",
+        "fnd_87110364ec59",
+        "fnd_9ac3d5f89203",
+        "fnd_c98aaf3ab9a8"
       ],
       "first_involvement": "2026-06-12T11:17:50.636387Z",
       "last_involvement": "2026-06-12T11:17:50.636387Z",
@@ -3983,11 +5070,18 @@
       "event_ids": [
         "EVT-0028"
       ],
-      "finding_count": 3,
+      "finding_count": 10,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9"
+        "fnd_043e19ca12e5",
+        "fnd_3b53d32cf033",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_92930d7687e1",
+        "fnd_a26828c42b48",
+        "fnd_a75be4224f19",
+        "fnd_aef175f1f8a2",
+        "fnd_c30b669505ea",
+        "fnd_c8dcbb2febbe"
       ],
       "first_involvement": "2026-06-11T00:19:26.577031Z",
       "last_involvement": "2026-06-11T00:19:26.577031Z",
@@ -4006,14 +5100,37 @@
       "confirmed": true,
       "entity_type": "address",
       "event_ids": [
+        "EVT-0105"
+      ],
+      "finding_count": 1,
+      "findings": [
+        "fnd_e122ec5b0ab5"
+      ],
+      "first_involvement": "2026-06-12T09:37:39.772267Z",
+      "last_involvement": "2026-06-12T09:37:39.772267Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "13.107.42.14"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
         "EVT-0075",
         "EVT-0078"
       ],
       "finding_count": 3,
       "findings": [
-        "fnd_3cf21b661aac",
-        "fnd_b12cdd2fb400",
-        "fnd_c32a13086dac"
+        "fnd_78d4e2739d4c",
+        "fnd_c32a13086dac",
+        "fnd_ef551a0d1bf5"
       ],
       "first_involvement": "2026-06-11T23:15:10.853857Z",
       "last_involvement": "2026-06-13T07:41:34.251699Z",
@@ -4036,11 +5153,15 @@
         "EVT-0224",
         "EVT-0225"
       ],
-      "finding_count": 3,
+      "finding_count": 7,
       "findings": [
-        "fnd_696071edd3b4",
-        "fnd_72d7e2b7f2cc",
-        "fnd_a123a7716e10"
+        "fnd_1d68f6505607",
+        "fnd_551783f69f0e",
+        "fnd_6adc866888f1",
+        "fnd_8d35217fd0ee",
+        "fnd_9125c2ce51f6",
+        "fnd_a1df4970e108",
+        "fnd_ec35328be37a"
       ],
       "first_involvement": "2026-06-10T09:03:17Z",
       "last_involvement": "2026-06-10T09:34:21Z",
@@ -4048,6 +5169,32 @@
         "network"
       ],
       "value": "185.220.101.45"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "endpoint"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "address",
+      "event_ids": [
+        "EVT-0126"
+      ],
+      "finding_count": 4,
+      "findings": [
+        "fnd_0e8e21952649",
+        "fnd_81ab4cd2b8b3",
+        "fnd_ed2f93b40450",
+        "fnd_f254162ba217"
+      ],
+      "first_involvement": "2026-06-11T11:16:40.019911Z",
+      "last_involvement": "2026-06-11T11:16:40.019911Z",
+      "source_types": [
+        "network"
+      ],
+      "value": "8.8.8.8"
     },
     {
       "absent_from_sources": [
@@ -4090,33 +5237,110 @@
         "EVT-0219",
         "EVT-0220"
       ],
-      "finding_count": 25,
+      "finding_count": 102,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_08630de5b898",
-        "fnd_157b343088d2",
-        "fnd_170f88f97f02",
-        "fnd_206012af72d0",
-        "fnd_294a896c4040",
-        "fnd_2e84481f4a59",
-        "fnd_2ef260a0776e",
-        "fnd_47907166329c",
-        "fnd_538b2c826768",
-        "fnd_559788e3b610",
-        "fnd_5f00c88ae033",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_8edd945718f0",
-        "fnd_c15c3c77b2ad",
-        "fnd_c26397a3efbe",
-        "fnd_cb9cffcf85ed",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_d9d4290378db",
-        "fnd_dcbbfd3d0900",
-        "fnd_e5834c9d459f",
-        "fnd_f06c8c98a8bf",
-        "fnd_fab2bd5da605"
+        "fnd_01d2cb190ba7",
+        "fnd_03b0ceecd00a",
+        "fnd_043e19ca12e5",
+        "fnd_0aa304bcc756",
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_0e1f6feeb885",
+        "fnd_0f38a9b55e6e",
+        "fnd_1086f332dfa9",
+        "fnd_117b4b170db5",
+        "fnd_163cf30fbff7",
+        "fnd_177d18e26a8c",
+        "fnd_17abecf9745f",
+        "fnd_1dd3f461f4a1",
+        "fnd_1fb96f99c258",
+        "fnd_20c9099f1d98",
+        "fnd_20ddcfbdcb27",
+        "fnd_26646e57b3a3",
+        "fnd_26f6f6446dfa",
+        "fnd_298c0cb282b5",
+        "fnd_29ec4c811ba2",
+        "fnd_2b0c2d3e5913",
+        "fnd_2d760f5f283b",
+        "fnd_3629b6d8b749",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_37e53f778bfe",
+        "fnd_39dc52bfd32c",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_4552c1a02598",
+        "fnd_46cf47b01b3a",
+        "fnd_4e1cf970b837",
+        "fnd_53c36df8da83",
+        "fnd_553a5ffc7141",
+        "fnd_6115dbfe9f5a",
+        "fnd_6d02017c66d9",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_6f5880a2cc84",
+        "fnd_719f6b2c0755",
+        "fnd_75b3aec8d036",
+        "fnd_762538deedf1",
+        "fnd_791b0857a81e",
+        "fnd_79a69ecdcd41",
+        "fnd_7a48ab9f42f8",
+        "fnd_7c0741e7218e",
+        "fnd_7d8a9b645a27",
+        "fnd_7e2e7e75ae2f",
+        "fnd_7ef1c9f590b9",
+        "fnd_80dbc66d34a0",
+        "fnd_815cafcbd542",
+        "fnd_8521f18fb0df",
+        "fnd_85a614c1cb71",
+        "fnd_88c9c2765360",
+        "fnd_9153be3889e6",
+        "fnd_92930d7687e1",
+        "fnd_94af780ea2f5",
+        "fnd_94d6b2c05cc2",
+        "fnd_9cf7f752f12b",
+        "fnd_a0af9ffbd19f",
+        "fnd_a26828c42b48",
+        "fnd_a294ba52f8c7",
+        "fnd_a2e6940f965a",
+        "fnd_a319efcb4f27",
+        "fnd_a327a1504a5c",
+        "fnd_a75be4224f19",
+        "fnd_a855e4061b91",
+        "fnd_a8ada9fe1bc3",
+        "fnd_a9508c293416",
+        "fnd_aef175f1f8a2",
+        "fnd_af32fc3475a5",
+        "fnd_b92e57b401f7",
+        "fnd_b9d7dd904305",
+        "fnd_bb5550c8b79b",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c1fc2107bb96",
+        "fnd_c2e9b0104e8e",
+        "fnd_c40fe3f5f19a",
+        "fnd_c482dd9a536a",
+        "fnd_c6b6fdace8b4",
+        "fnd_c755361c32e0",
+        "fnd_c8a852dc6302",
+        "fnd_c8c9f6788d36",
+        "fnd_c8dcbb2febbe",
+        "fnd_c98aaf3ab9a8",
+        "fnd_cb5b05c3e29d",
+        "fnd_d1958cf94bd9",
+        "fnd_d20a12fa39ac",
+        "fnd_d2d2c4744fe3",
+        "fnd_d4918be9219e",
+        "fnd_d609f0c75036",
+        "fnd_dab5bc5fb4c0",
+        "fnd_dfb33381a96d",
+        "fnd_e21fca559f47",
+        "fnd_e2a2dc2d1e34",
+        "fnd_ec10918c721a",
+        "fnd_ed4f146bad9b",
+        "fnd_f3376c0041ed",
+        "fnd_f38a82c62470",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T08:50:44.249433Z",
       "last_involvement": "2026-06-13T05:39:45.933394Z",
@@ -4137,12 +5361,19 @@
       "event_ids": [
         "EVT-0238"
       ],
-      "finding_count": 4,
+      "finding_count": 11,
       "findings": [
-        "fnd_2d5b74432030",
-        "fnd_7db00099d21f",
-        "fnd_c29ab976709e",
-        "fnd_fb2e3add05d9"
+        "fnd_049db50f9c7b",
+        "fnd_068506a59932",
+        "fnd_2dac0677dfac",
+        "fnd_38761b8c4bba",
+        "fnd_4e49bb82d012",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_a21e399cf419",
+        "fnd_a78dbcd602c9",
+        "fnd_e63e9ff4d249",
+        "fnd_fbf49f8ae267"
       ],
       "first_involvement": "2026-06-10T18:18:44Z",
       "last_involvement": "2026-06-10T18:18:44Z",
@@ -4150,6 +5381,30 @@
         "cloud_storage"
       ],
       "value": "ext-drop-xf9q2"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "network"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "file",
+      "event_ids": [
+        "EVT-0240"
+      ],
+      "finding_count": 2,
+      "findings": [
+        "fnd_a21e399cf419",
+        "fnd_e63e9ff4d249"
+      ],
+      "first_involvement": "2026-06-10T20:04:02Z",
+      "last_involvement": "2026-06-10T20:04:02Z",
+      "source_types": [
+        "endpoint"
+      ],
+      "value": "7z.exe"
     },
     {
       "absent_from_sources": [
@@ -4164,12 +5419,19 @@
         "EVT-0238",
         "EVT-0239"
       ],
-      "finding_count": 4,
+      "finding_count": 11,
       "findings": [
-        "fnd_2d5b74432030",
-        "fnd_7db00099d21f",
-        "fnd_c29ab976709e",
-        "fnd_fb2e3add05d9"
+        "fnd_049db50f9c7b",
+        "fnd_068506a59932",
+        "fnd_2dac0677dfac",
+        "fnd_38761b8c4bba",
+        "fnd_4e49bb82d012",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_a21e399cf419",
+        "fnd_a78dbcd602c9",
+        "fnd_e63e9ff4d249",
+        "fnd_fbf49f8ae267"
       ],
       "first_involvement": "2026-06-10T16:51:03Z",
       "last_involvement": "2026-06-10T20:03:17Z",
@@ -4196,14 +5458,36 @@
         "EVT-0218",
         "EVT-0220"
       ],
-      "finding_count": 6,
+      "finding_count": 28,
       "findings": [
-        "fnd_08630de5b898",
-        "fnd_170f88f97f02",
-        "fnd_538b2c826768",
-        "fnd_d0ca74b4c974",
-        "fnd_d7cfcada4aba",
-        "fnd_f06c8c98a8bf"
+        "fnd_01d2cb190ba7",
+        "fnd_163cf30fbff7",
+        "fnd_1dd3f461f4a1",
+        "fnd_20ddcfbdcb27",
+        "fnd_2b0c2d3e5913",
+        "fnd_366d71d6366e",
+        "fnd_36c4c7bdcb1e",
+        "fnd_37e53f778bfe",
+        "fnd_39dc52bfd32c",
+        "fnd_53c36df8da83",
+        "fnd_553a5ffc7141",
+        "fnd_6ef3401e9634",
+        "fnd_719f6b2c0755",
+        "fnd_75b3aec8d036",
+        "fnd_791b0857a81e",
+        "fnd_7a48ab9f42f8",
+        "fnd_94d6b2c05cc2",
+        "fnd_a2e6940f965a",
+        "fnd_a319efcb4f27",
+        "fnd_a8ada9fe1bc3",
+        "fnd_af32fc3475a5",
+        "fnd_c1fc2107bb96",
+        "fnd_c2e9b0104e8e",
+        "fnd_cb5b05c3e29d",
+        "fnd_d1958cf94bd9",
+        "fnd_d20a12fa39ac",
+        "fnd_f38a82c62470",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T12:18:41.520558Z",
       "last_involvement": "2026-06-12T22:59:45.883199Z",
@@ -4226,10 +5510,21 @@
         "EVT-0201",
         "EVT-0213"
       ],
-      "finding_count": 2,
+      "finding_count": 13,
       "findings": [
-        "fnd_5f00c88ae033",
-        "fnd_cb9cffcf85ed"
+        "fnd_01d2cb190ba7",
+        "fnd_1086f332dfa9",
+        "fnd_117b4b170db5",
+        "fnd_1fb96f99c258",
+        "fnd_366d71d6366e",
+        "fnd_37e53f778bfe",
+        "fnd_6115dbfe9f5a",
+        "fnd_75b3aec8d036",
+        "fnd_9cf7f752f12b",
+        "fnd_c98aaf3ab9a8",
+        "fnd_cb5b05c3e29d",
+        "fnd_dab5bc5fb4c0",
+        "fnd_f3376c0041ed"
       ],
       "first_involvement": "2026-06-12T09:04:13.235052Z",
       "last_involvement": "2026-06-12T15:48:17.786338Z",
@@ -4254,11 +5549,29 @@
         "EVT-0212",
         "EVT-0215"
       ],
-      "finding_count": 3,
+      "finding_count": 21,
       "findings": [
-        "fnd_2e84481f4a59",
-        "fnd_559788e3b610",
-        "fnd_8edd945718f0"
+        "fnd_0b36fe6bd196",
+        "fnd_0f38a9b55e6e",
+        "fnd_117b4b170db5",
+        "fnd_177d18e26a8c",
+        "fnd_20c9099f1d98",
+        "fnd_298c0cb282b5",
+        "fnd_4552c1a02598",
+        "fnd_46cf47b01b3a",
+        "fnd_79a69ecdcd41",
+        "fnd_815cafcbd542",
+        "fnd_85a614c1cb71",
+        "fnd_88c9c2765360",
+        "fnd_9153be3889e6",
+        "fnd_a26828c42b48",
+        "fnd_a294ba52f8c7",
+        "fnd_a327a1504a5c",
+        "fnd_c1335b9ee3bc",
+        "fnd_c19dc28cb2e0",
+        "fnd_c6b6fdace8b4",
+        "fnd_c8a852dc6302",
+        "fnd_f3376c0041ed"
       ],
       "first_involvement": "2026-06-10T12:29:17.435280Z",
       "last_involvement": "2026-06-13T05:39:45.933394Z",
@@ -4284,14 +5597,31 @@
         "EVT-0203",
         "EVT-0211"
       ],
-      "finding_count": 6,
+      "finding_count": 23,
       "findings": [
-        "fnd_206012af72d0",
-        "fnd_60c48888d6df",
-        "fnd_8e121e450d8d",
-        "fnd_c26397a3efbe",
-        "fnd_dcbbfd3d0900",
-        "fnd_fab2bd5da605"
+        "fnd_043e19ca12e5",
+        "fnd_117b4b170db5",
+        "fnd_1dd3f461f4a1",
+        "fnd_20c9099f1d98",
+        "fnd_366d71d6366e",
+        "fnd_37e53f778bfe",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_7e2e7e75ae2f",
+        "fnd_7ef1c9f590b9",
+        "fnd_8521f18fb0df",
+        "fnd_94af780ea2f5",
+        "fnd_a855e4061b91",
+        "fnd_af32fc3475a5",
+        "fnd_c40fe3f5f19a",
+        "fnd_c482dd9a536a",
+        "fnd_c8a852dc6302",
+        "fnd_d20a12fa39ac",
+        "fnd_d2d2c4744fe3",
+        "fnd_dfb33381a96d",
+        "fnd_e2a2dc2d1e34",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T20:42:23.024628Z",
       "last_involvement": "2026-06-13T02:42:29.565021Z",
@@ -4299,6 +5629,32 @@
         "cloud_storage"
       ],
       "value": "product_roadmap_v3.pptx"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "network"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "file",
+      "event_ids": [
+        "EVT-0232"
+      ],
+      "finding_count": 4,
+      "findings": [
+        "fnd_4a9753483895",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_fbf49f8ae267"
+      ],
+      "first_involvement": "2026-06-10T13:12:04Z",
+      "last_involvement": "2026-06-10T13:12:04Z",
+      "source_types": [
+        "endpoint"
+      ],
+      "value": "psexesvc.exe"
     },
     {
       "absent_from_sources": [
@@ -4317,13 +5673,33 @@
         "EVT-0216",
         "EVT-0217"
       ],
-      "finding_count": 5,
+      "finding_count": 25,
       "findings": [
-        "fnd_005240c232d0",
-        "fnd_294a896c4040",
-        "fnd_2ef260a0776e",
-        "fnd_c15c3c77b2ad",
-        "fnd_d9d4290378db"
+        "fnd_0b49e42713bc",
+        "fnd_17abecf9745f",
+        "fnd_26f6f6446dfa",
+        "fnd_2d760f5f283b",
+        "fnd_39dc52bfd32c",
+        "fnd_43db3187f3d2",
+        "fnd_4e1cf970b837",
+        "fnd_53c36df8da83",
+        "fnd_6d02017c66d9",
+        "fnd_6f15d3844c40",
+        "fnd_6f5880a2cc84",
+        "fnd_7c0741e7218e",
+        "fnd_7d8a9b645a27",
+        "fnd_a0af9ffbd19f",
+        "fnd_a9508c293416",
+        "fnd_b92e57b401f7",
+        "fnd_b9d7dd904305",
+        "fnd_bb5550c8b79b",
+        "fnd_c8c9f6788d36",
+        "fnd_d1958cf94bd9",
+        "fnd_d4918be9219e",
+        "fnd_d609f0c75036",
+        "fnd_dfb33381a96d",
+        "fnd_ec10918c721a",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-10T09:51:41.372814Z",
       "last_involvement": "2026-06-12T22:00:13.327519Z",
@@ -4347,11 +5723,31 @@
         "EVT-0209",
         "EVT-0219"
       ],
-      "finding_count": 3,
+      "finding_count": 23,
       "findings": [
-        "fnd_157b343088d2",
-        "fnd_47907166329c",
-        "fnd_e5834c9d459f"
+        "fnd_03b0ceecd00a",
+        "fnd_0aa304bcc756",
+        "fnd_0e1f6feeb885",
+        "fnd_177d18e26a8c",
+        "fnd_26646e57b3a3",
+        "fnd_29ec4c811ba2",
+        "fnd_3629b6d8b749",
+        "fnd_4552c1a02598",
+        "fnd_46cf47b01b3a",
+        "fnd_553a5ffc7141",
+        "fnd_762538deedf1",
+        "fnd_79a69ecdcd41",
+        "fnd_80dbc66d34a0",
+        "fnd_9153be3889e6",
+        "fnd_92930d7687e1",
+        "fnd_a75be4224f19",
+        "fnd_a9508c293416",
+        "fnd_aef175f1f8a2",
+        "fnd_bb5550c8b79b",
+        "fnd_c755361c32e0",
+        "fnd_c8dcbb2febbe",
+        "fnd_e21fca559f47",
+        "fnd_ed4f146bad9b"
       ],
       "first_involvement": "2026-06-10T08:50:44.249433Z",
       "last_involvement": "2026-06-12T00:13:31.309003Z",
@@ -4359,6 +5755,32 @@
         "cloud_storage"
       ],
       "value": "team_okrs_2026.xlsx"
+    },
+    {
+      "absent_from_sources": [
+        "auth",
+        "cloud_storage",
+        "network"
+      ],
+      "basis": "named_by_finding",
+      "confirmed": true,
+      "entity_type": "file",
+      "event_ids": [
+        "EVT-0227"
+      ],
+      "finding_count": 4,
+      "findings": [
+        "fnd_1d68f6505607",
+        "fnd_a1df4970e108",
+        "fnd_a61df8abc37f",
+        "fnd_fbf49f8ae267"
+      ],
+      "first_involvement": "2026-06-10T10:08:03Z",
+      "last_involvement": "2026-06-10T10:08:03Z",
+      "source_types": [
+        "endpoint"
+      ],
+      "value": "~df4a12.tmp"
     },
     {
       "absent_from_sources": [
@@ -4370,6 +5792,7 @@
       "event_ids": [
         "EVT-0004",
         "EVT-0006",
+        "EVT-0009",
         "EVT-0010",
         "EVT-0012",
         "EVT-0013",
@@ -4404,56 +5827,124 @@
         "EVT-0055",
         "EVT-0057",
         "EVT-0060",
+        "EVT-0228",
+        "EVT-0229",
+        "EVT-0230",
+        "EVT-0231",
         "EVT-0242"
       ],
-      "finding_count": 41,
+      "finding_count": 103,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_11879896458d",
-        "fnd_29b1a27ba765",
-        "fnd_2d5b74432030",
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_4a6a7166edeb",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9",
-        "fnd_61917ebc1465",
-        "fnd_6649e8f5cc38",
-        "fnd_693575d1df21",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_711441b6c5b4",
-        "fnd_71a42fbd2f43",
-        "fnd_76035101bb3d",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_94132fdcad95",
-        "fnd_98d774430171",
-        "fnd_9ae70148e04f",
-        "fnd_9e372d947e67",
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_b401029549cc",
-        "fnd_b63613164ad2",
-        "fnd_bfb7effa55db",
-        "fnd_cca9f1658cbd",
-        "fnd_ccefda36c241",
-        "fnd_d239049038e3",
-        "fnd_dfa9ae1090d0",
-        "fnd_e04816d910a2",
-        "fnd_ed568ad93bf4",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_f3b5b42611b8",
-        "fnd_fbf9c546485e"
+        "fnd_043e19ca12e5",
+        "fnd_049db50f9c7b",
+        "fnd_07d381ab620c",
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_0e1f6feeb885",
+        "fnd_117b4b170db5",
+        "fnd_138109da4b2b",
+        "fnd_158f473c01aa",
+        "fnd_1d68f6505607",
+        "fnd_1e95861b2acd",
+        "fnd_20c9099f1d98",
+        "fnd_2211a419bfee",
+        "fnd_26f6f6446dfa",
+        "fnd_29ec4c811ba2",
+        "fnd_2cd39e51dc6b",
+        "fnd_355a3d8f0117",
+        "fnd_366d71d6366e",
+        "fnd_3a009499c488",
+        "fnd_3b53d32cf033",
+        "fnd_3f8f81a8df3c",
+        "fnd_414c40be5fc7",
+        "fnd_438cf028a7c4",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_4a9753483895",
+        "fnd_4d1a410c84f6",
+        "fnd_4e1cf970b837",
+        "fnd_4f5191cc11e4",
+        "fnd_506414766f30",
+        "fnd_519a6a56c012",
+        "fnd_53c36df8da83",
+        "fnd_551783f69f0e",
+        "fnd_551b3e387cd8",
+        "fnd_55d6db421077",
+        "fnd_6115dbfe9f5a",
+        "fnd_650a0c35f1cb",
+        "fnd_68a6409f52e9",
+        "fnd_6d02017c66d9",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_779bf6f30bda",
+        "fnd_79a69ecdcd41",
+        "fnd_7a48ab9f42f8",
+        "fnd_7c1f3f3bc949",
+        "fnd_7d8a9b645a27",
+        "fnd_7e2e7e75ae2f",
+        "fnd_8287bdb7858a",
+        "fnd_83b6c69f1af5",
+        "fnd_84a7463ecfb1",
+        "fnd_8521f18fb0df",
+        "fnd_87110364ec59",
+        "fnd_87de5fd88f96",
+        "fnd_88c9c2765360",
+        "fnd_8c2c3e78cc6f",
+        "fnd_8d937d66d90c",
+        "fnd_9153be3889e6",
+        "fnd_92930d7687e1",
+        "fnd_94af780ea2f5",
+        "fnd_9ac3d5f89203",
+        "fnd_9af751fd448b",
+        "fnd_a0af9ffbd19f",
+        "fnd_a1df4970e108",
+        "fnd_a21e399cf419",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a294ba52f8c7",
+        "fnd_a61df8abc37f",
+        "fnd_a75be4224f19",
+        "fnd_a855e4061b91",
+        "fnd_a923fb77e894",
+        "fnd_a9508c293416",
+        "fnd_ad8f5de26e11",
+        "fnd_ae3e66454a4b",
+        "fnd_aef175f1f8a2",
+        "fnd_af32fc3475a5",
+        "fnd_b08178d4d288",
+        "fnd_b94d54d918ae",
+        "fnd_b9d7dd904305",
+        "fnd_bc4364498b1e",
+        "fnd_c30b669505ea",
+        "fnd_c40fe3f5f19a",
+        "fnd_c8dcbb2febbe",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d1958cf94bd9",
+        "fnd_d24e36d84d1b",
+        "fnd_d2d2c4744fe3",
+        "fnd_d2fd040540e9",
+        "fnd_d4918be9219e",
+        "fnd_dab5bc5fb4c0",
+        "fnd_dfdf4e23f5f2",
+        "fnd_e3367b22bb43",
+        "fnd_e63e9ff4d249",
+        "fnd_e6d356fa0c3a",
+        "fnd_ed4f146bad9b",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_f740aefbd7f0",
+        "fnd_f8addb22fba0",
+        "fnd_fbb4568347c0",
+        "fnd_fbf49f8ae267"
       ],
       "first_involvement": "2026-06-10T10:42:27.919718Z",
       "last_involvement": "2026-06-13T06:28:21.009868Z",
       "source_types": [
-        "auth"
+        "auth",
+        "endpoint",
+        "network"
       ],
       "value": "auth-srv-01"
     },
@@ -4491,53 +5982,80 @@
         "EVT-0058",
         "EVT-0059"
       ],
-      "finding_count": 45,
+      "finding_count": 72,
       "findings": [
-        "fnd_03b64f15e4d3",
-        "fnd_11879896458d",
-        "fnd_1d488a5e71c2",
-        "fnd_29b1a27ba765",
-        "fnd_2f247baf6c60",
-        "fnd_3848c20eed44",
-        "fnd_3f8b14e929c6",
-        "fnd_442ed1871564",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_4a6a7166edeb",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9",
-        "fnd_61917ebc1465",
-        "fnd_6649e8f5cc38",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_71a42fbd2f43",
-        "fnd_76035101bb3d",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_8c750d6e1c04",
-        "fnd_94132fdcad95",
-        "fnd_9ae70148e04f",
-        "fnd_9e372d947e67",
-        "fnd_a3de5f803349",
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b19bf172d694",
-        "fnd_b2bfe8f35b53",
-        "fnd_b63613164ad2",
-        "fnd_bfb7effa55db",
-        "fnd_cca9f1658cbd",
-        "fnd_ccefda36c241",
-        "fnd_d239049038e3",
-        "fnd_dfa9ae1090d0",
-        "fnd_e04816d910a2",
-        "fnd_ed568ad93bf4",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5",
-        "fnd_f3b5b42611b8",
-        "fnd_fbf9c546485e"
+        "fnd_043e19ca12e5",
+        "fnd_07d381ab620c",
+        "fnd_0aa304bcc756",
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_117b4b170db5",
+        "fnd_138109da4b2b",
+        "fnd_1fb96f99c258",
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_355a3d8f0117",
+        "fnd_366d71d6366e",
+        "fnd_3b53d32cf033",
+        "fnd_3c384fa8343e",
+        "fnd_438cf028a7c4",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_4d1a410c84f6",
+        "fnd_4e1cf970b837",
+        "fnd_4ea287c8cbf2",
+        "fnd_4f5191cc11e4",
+        "fnd_506414766f30",
+        "fnd_519a6a56c012",
+        "fnd_53c36df8da83",
+        "fnd_551b3e387cd8",
+        "fnd_6115dbfe9f5a",
+        "fnd_650a0c35f1cb",
+        "fnd_6d02017c66d9",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_779bf6f30bda",
+        "fnd_7a3a4dcd26db",
+        "fnd_7a48ab9f42f8",
+        "fnd_7ddcf64b685a",
+        "fnd_8c2c3e78cc6f",
+        "fnd_9153be3889e6",
+        "fnd_92930d7687e1",
+        "fnd_94af780ea2f5",
+        "fnd_9ac3d5f89203",
+        "fnd_9af751fd448b",
+        "fnd_9cf7f752f12b",
+        "fnd_a0af9ffbd19f",
+        "fnd_a1eee634fed3",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a294ba52f8c7",
+        "fnd_a2e6940f965a",
+        "fnd_a855e4061b91",
+        "fnd_a923fb77e894",
+        "fnd_ad8f5de26e11",
+        "fnd_af32fc3475a5",
+        "fnd_b08178d4d288",
+        "fnd_b94d54d918ae",
+        "fnd_b9d7dd904305",
+        "fnd_bc4364498b1e",
+        "fnd_c30b669505ea",
+        "fnd_c40fe3f5f19a",
+        "fnd_c8dcbb2febbe",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d1958cf94bd9",
+        "fnd_d248c42fb846",
+        "fnd_d24e36d84d1b",
+        "fnd_d2888267a51d",
+        "fnd_d2d2c4744fe3",
+        "fnd_d2fd040540e9",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e3367b22bb43",
+        "fnd_f38a82c62470",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T20:49:34.566610Z",
       "last_involvement": "2026-06-13T07:19:39.837409Z",
@@ -4552,25 +6070,42 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
+        "EVT-0231",
+        "EVT-0232",
+        "EVT-0233",
+        "EVT-0234",
+        "EVT-0235",
+        "EVT-0236",
         "EVT-0237",
         "EVT-0238",
         "EVT-0239",
+        "EVT-0240",
         "EVT-0241",
         "EVT-0242"
       ],
-      "finding_count": 4,
+      "finding_count": 13,
       "findings": [
-        "fnd_2d5b74432030",
-        "fnd_7db00099d21f",
-        "fnd_c29ab976709e",
-        "fnd_fb2e3add05d9"
+        "fnd_049db50f9c7b",
+        "fnd_068506a59932",
+        "fnd_2dac0677dfac",
+        "fnd_38761b8c4bba",
+        "fnd_4a9753483895",
+        "fnd_4e49bb82d012",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_a21e399cf419",
+        "fnd_a78dbcd602c9",
+        "fnd_e63e9ff4d249",
+        "fnd_f8addb22fba0",
+        "fnd_fbf49f8ae267"
       ],
-      "first_involvement": "2026-06-10T16:51:03Z",
+      "first_involvement": "2026-06-10T13:11:33Z",
       "last_involvement": "2026-06-10T20:08:11Z",
       "source_types": [
         "auth",
         "cloud_storage",
-        "endpoint"
+        "endpoint",
+        "network"
       ],
       "value": "file-srv-02"
     },
@@ -4600,19 +6135,38 @@
         "EVT-0180",
         "EVT-0190"
       ],
-      "finding_count": 11,
+      "finding_count": 30,
       "findings": [
-        "fnd_0019fe669cbc",
-        "fnd_682626be6d1a",
-        "fnd_a3fdc644f621",
-        "fnd_a6bf5c461856",
-        "fnd_ae37f6edd899",
-        "fnd_b2bfe8f35b53",
-        "fnd_bd1274ae78de",
-        "fnd_bfb7effa55db",
-        "fnd_e070428e74d2",
-        "fnd_ed568ad93bf4",
-        "fnd_fbf9c546485e"
+        "fnd_1879c90a967d",
+        "fnd_1fb96f99c258",
+        "fnd_366d71d6366e",
+        "fnd_414c40be5fc7",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_4d1a410c84f6",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_5b3764688112",
+        "fnd_650a0c35f1cb",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_7c1f3f3bc949",
+        "fnd_7ddcf64b685a",
+        "fnd_9153be3889e6",
+        "fnd_94af780ea2f5",
+        "fnd_a0af9ffbd19f",
+        "fnd_a855e4061b91",
+        "fnd_a923fb77e894",
+        "fnd_ad8f5de26e11",
+        "fnd_af32fc3475a5",
+        "fnd_d20a12fa39ac",
+        "fnd_d2d2c4744fe3",
+        "fnd_dab5bc5fb4c0",
+        "fnd_ec71fe9292ab",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T12:06:58.828725Z",
       "last_involvement": "2026-06-13T05:44:47.093107Z",
@@ -4645,14 +6199,36 @@
         "EVT-0172",
         "EVT-0187"
       ],
-      "finding_count": 6,
+      "finding_count": 28,
       "findings": [
-        "fnd_3c7de333d39f",
-        "fnd_711441b6c5b4",
-        "fnd_7dcb36e58173",
-        "fnd_98d774430171",
-        "fnd_b401029549cc",
-        "fnd_dfa9ae1090d0"
+        "fnd_117b4b170db5",
+        "fnd_1e95861b2acd",
+        "fnd_2211a419bfee",
+        "fnd_2cd39e51dc6b",
+        "fnd_366d71d6366e",
+        "fnd_414c40be5fc7",
+        "fnd_44ba5489ee07",
+        "fnd_6ef3401e9634",
+        "fnd_7a3a4dcd26db",
+        "fnd_7c1f3f3bc949",
+        "fnd_7e2e7e75ae2f",
+        "fnd_8521f18fb0df",
+        "fnd_a1eee634fed3",
+        "fnd_a28af202cbcc",
+        "fnd_a75be4224f19",
+        "fnd_a923fb77e894",
+        "fnd_ad8f5de26e11",
+        "fnd_c1fc2107bb96",
+        "fnd_c30b669505ea",
+        "fnd_c40fe3f5f19a",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d24e36d84d1b",
+        "fnd_d4918be9219e",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e3367b22bb43",
+        "fnd_e6d356fa0c3a",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T13:40:10.848419Z",
       "last_involvement": "2026-06-13T07:19:39.837409Z",
@@ -4683,14 +6259,30 @@
         "EVT-0176",
         "EVT-0183"
       ],
-      "finding_count": 6,
+      "finding_count": 22,
       "findings": [
-        "fnd_3848c20eed44",
-        "fnd_442ed1871564",
-        "fnd_9ae70148e04f",
-        "fnd_9d1f9e3acbee",
-        "fnd_a3de5f803349",
-        "fnd_ccefda36c241"
+        "fnd_07d381ab620c",
+        "fnd_0aa304bcc756",
+        "fnd_0b49e42713bc",
+        "fnd_26f6f6446dfa",
+        "fnd_355a3d8f0117",
+        "fnd_3c384fa8343e",
+        "fnd_4e1cf970b837",
+        "fnd_53c36df8da83",
+        "fnd_650a0c35f1cb",
+        "fnd_6d02017c66d9",
+        "fnd_6f15d3844c40",
+        "fnd_779bf6f30bda",
+        "fnd_7a48ab9f42f8",
+        "fnd_7d8a9b645a27",
+        "fnd_92930d7687e1",
+        "fnd_9af751fd448b",
+        "fnd_b08178d4d288",
+        "fnd_b9d7dd904305",
+        "fnd_d1958cf94bd9",
+        "fnd_d2888267a51d",
+        "fnd_d2fd040540e9",
+        "fnd_e6d356fa0c3a"
       ],
       "first_involvement": "2026-06-10T14:01:45.325234Z",
       "last_involvement": "2026-06-12T17:54:45.864623Z",
@@ -4719,12 +6311,30 @@
         "EVT-0173",
         "EVT-0185"
       ],
-      "finding_count": 4,
+      "finding_count": 22,
       "findings": [
-        "fnd_3a2372343584",
-        "fnd_6dd3f7aaf557",
-        "fnd_6f67c5ef690d",
-        "fnd_76035101bb3d"
+        "fnd_0b49e42713bc",
+        "fnd_1e95861b2acd",
+        "fnd_469cc7b42835",
+        "fnd_4d1a410c84f6",
+        "fnd_4e1cf970b837",
+        "fnd_4f5191cc11e4",
+        "fnd_650a0c35f1cb",
+        "fnd_6d02017c66d9",
+        "fnd_791b0857a81e",
+        "fnd_87110364ec59",
+        "fnd_8c2c3e78cc6f",
+        "fnd_a0af9ffbd19f",
+        "fnd_a28af202cbcc",
+        "fnd_a5531924ba5e",
+        "fnd_a923fb77e894",
+        "fnd_ae3e66454a4b",
+        "fnd_b9d7dd904305",
+        "fnd_bc4364498b1e",
+        "fnd_d20a12fa39ac",
+        "fnd_d24e36d84d1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T15:45:17.487358Z",
       "last_involvement": "2026-06-12T22:25:32.646863Z",
@@ -4752,13 +6362,27 @@
         "EVT-0150",
         "EVT-0163"
       ],
-      "finding_count": 5,
+      "finding_count": 19,
       "findings": [
-        "fnd_29b1a27ba765",
-        "fnd_ac00657572dd",
-        "fnd_b19bf172d694",
-        "fnd_eebd6f96c872",
-        "fnd_f05cb8c7a6a5"
+        "fnd_0aa304bcc756",
+        "fnd_366d71d6366e",
+        "fnd_438cf028a7c4",
+        "fnd_43db3187f3d2",
+        "fnd_44ba5489ee07",
+        "fnd_506414766f30",
+        "fnd_53c36df8da83",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_7a3a4dcd26db",
+        "fnd_94af780ea2f5",
+        "fnd_a855e4061b91",
+        "fnd_af32fc3475a5",
+        "fnd_b08178d4d288",
+        "fnd_c40fe3f5f19a",
+        "fnd_d1958cf94bd9",
+        "fnd_d2d2c4744fe3",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T09:05:40.279231Z",
       "last_involvement": "2026-06-13T02:58:23.165329Z",
@@ -4794,22 +6418,41 @@
         "EVT-0182",
         "EVT-0186"
       ],
-      "finding_count": 14,
+      "finding_count": 33,
       "findings": [
-        "fnd_1d488a5e71c2",
-        "fnd_2f247baf6c60",
-        "fnd_3f8b14e929c6",
-        "fnd_4491648fc385",
-        "fnd_48d92a30da78",
-        "fnd_693575d1df21",
-        "fnd_69c6550e7507",
-        "fnd_71a42fbd2f43",
-        "fnd_88a830a49846",
-        "fnd_8c750d6e1c04",
-        "fnd_94132fdcad95",
-        "fnd_c044cb208b18",
-        "fnd_d239049038e3",
-        "fnd_f1fa97f0fbde"
+        "fnd_0b49e42713bc",
+        "fnd_117b4b170db5",
+        "fnd_20c9099f1d98",
+        "fnd_26f6f6446dfa",
+        "fnd_29ec4c811ba2",
+        "fnd_3b53d32cf033",
+        "fnd_3c384fa8343e",
+        "fnd_4e1cf970b837",
+        "fnd_4ea287c8cbf2",
+        "fnd_53c36df8da83",
+        "fnd_6115dbfe9f5a",
+        "fnd_6d02017c66d9",
+        "fnd_6f15d3844c40",
+        "fnd_7ddcf64b685a",
+        "fnd_7e2e7e75ae2f",
+        "fnd_88c9c2765360",
+        "fnd_a1eee634fed3",
+        "fnd_a294ba52f8c7",
+        "fnd_a2e6940f965a",
+        "fnd_a855e4061b91",
+        "fnd_a8ada9fe1bc3",
+        "fnd_a9508c293416",
+        "fnd_ae3e66454a4b",
+        "fnd_af32fc3475a5",
+        "fnd_b94d54d918ae",
+        "fnd_b9d7dd904305",
+        "fnd_c40fe3f5f19a",
+        "fnd_c8dcbb2febbe",
+        "fnd_d1958cf94bd9",
+        "fnd_d20a12fa39ac",
+        "fnd_d248c42fb846",
+        "fnd_d2888267a51d",
+        "fnd_f38a82c62470"
       ],
       "first_involvement": "2026-06-10T10:42:27.919718Z",
       "last_involvement": "2026-06-13T03:34:49.698945Z",
@@ -4827,19 +6470,38 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
+        "EVT-0221",
+        "EVT-0222",
         "EVT-0223",
         "EVT-0224",
-        "EVT-0225"
+        "EVT-0225",
+        "EVT-0226",
+        "EVT-0227",
+        "EVT-0228"
       ],
-      "finding_count": 3,
+      "finding_count": 15,
       "findings": [
-        "fnd_696071edd3b4",
-        "fnd_72d7e2b7f2cc",
-        "fnd_a123a7716e10"
+        "fnd_1d68f6505607",
+        "fnd_29ec4c811ba2",
+        "fnd_4a9753483895",
+        "fnd_551783f69f0e",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_6adc866888f1",
+        "fnd_84a7463ecfb1",
+        "fnd_8d35217fd0ee",
+        "fnd_9125c2ce51f6",
+        "fnd_a1df4970e108",
+        "fnd_a61df8abc37f",
+        "fnd_ec35328be37a",
+        "fnd_f8addb22fba0",
+        "fnd_fbf49f8ae267"
       ],
-      "first_involvement": "2026-06-10T09:03:17Z",
-      "last_involvement": "2026-06-10T09:34:21Z",
+      "first_involvement": "2026-06-10T08:12:33Z",
+      "last_involvement": "2026-06-10T11:22:14Z",
       "source_types": [
+        "auth",
+        "endpoint",
         "network"
       ],
       "value": "wkstn-07"
@@ -4866,18 +6528,45 @@
         "EVT-0154",
         "EVT-0175"
       ],
-      "finding_count": 10,
+      "finding_count": 37,
       "findings": [
-        "fnd_18737151939b",
-        "fnd_4a6a7166edeb",
-        "fnd_6b02f3754393",
-        "fnd_7ee3e0a01179",
-        "fnd_8940cfe1e5b0",
-        "fnd_9e372d947e67",
-        "fnd_c41ceb181c0c",
-        "fnd_e04816d910a2",
-        "fnd_f04ea969ee25",
-        "fnd_f3b5b42611b8"
+        "fnd_0b36fe6bd196",
+        "fnd_0b49e42713bc",
+        "fnd_0e1f6feeb885",
+        "fnd_117b4b170db5",
+        "fnd_138109da4b2b",
+        "fnd_177d18e26a8c",
+        "fnd_366d71d6366e",
+        "fnd_438cf028a7c4",
+        "fnd_44ba5489ee07",
+        "fnd_4552c1a02598",
+        "fnd_4e1cf970b837",
+        "fnd_53c36df8da83",
+        "fnd_5b3764688112",
+        "fnd_6d02017c66d9",
+        "fnd_6ef3401e9634",
+        "fnd_6f15d3844c40",
+        "fnd_815cafcbd542",
+        "fnd_8287bdb7858a",
+        "fnd_83b6c69f1af5",
+        "fnd_8521f18fb0df",
+        "fnd_88c9c2765360",
+        "fnd_8d937d66d90c",
+        "fnd_9153be3889e6",
+        "fnd_a855e4061b91",
+        "fnd_ad8f5de26e11",
+        "fnd_b08178d4d288",
+        "fnd_b94d54d918ae",
+        "fnd_b9d7dd904305",
+        "fnd_c30b669505ea",
+        "fnd_c40fe3f5f19a",
+        "fnd_c8a852dc6302",
+        "fnd_d2d2c4744fe3",
+        "fnd_dfdf4e23f5f2",
+        "fnd_ed4f146bad9b",
+        "fnd_f38a82c62470",
+        "fnd_f3e44b3557af",
+        "fnd_f740aefbd7f0"
       ],
       "first_involvement": "2026-06-10T10:57:37.982291Z",
       "last_involvement": "2026-06-13T06:28:21.009868Z",
@@ -4896,6 +6585,7 @@
       "confirmed": true,
       "entity_type": "host",
       "event_ids": [
+        "EVT-0009",
         "EVT-0031",
         "EVT-0036",
         "EVT-0037",
@@ -4903,17 +6593,42 @@
         "EVT-0050",
         "EVT-0147",
         "EVT-0165",
+        "EVT-0170",
         "EVT-0178",
-        "EVT-0181"
+        "EVT-0181",
+        "EVT-0184"
       ],
-      "finding_count": 4,
+      "finding_count": 27,
       "findings": [
-        "fnd_02d100b158a5",
-        "fnd_11879896458d",
-        "fnd_61917ebc1465",
-        "fnd_cca9f1658cbd"
+        "fnd_0b49e42713bc",
+        "fnd_117b4b170db5",
+        "fnd_1fb96f99c258",
+        "fnd_366d71d6366e",
+        "fnd_3a009499c488",
+        "fnd_3f8f81a8df3c",
+        "fnd_44ba5489ee07",
+        "fnd_4e1cf970b837",
+        "fnd_519a6a56c012",
+        "fnd_6d02017c66d9",
+        "fnd_7d8a9b645a27",
+        "fnd_87110364ec59",
+        "fnd_87de5fd88f96",
+        "fnd_9ac3d5f89203",
+        "fnd_a5531924ba5e",
+        "fnd_a8ada9fe1bc3",
+        "fnd_a923fb77e894",
+        "fnd_b94d54d918ae",
+        "fnd_b9d7dd904305",
+        "fnd_c8a852dc6302",
+        "fnd_c98aaf3ab9a8",
+        "fnd_d24e36d84d1b",
+        "fnd_dab5bc5fb4c0",
+        "fnd_e3367b22bb43",
+        "fnd_ec71fe9292ab",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
-      "first_involvement": "2026-06-11T06:50:13.194708Z",
+      "first_involvement": "2026-06-10T14:40:12.102241Z",
       "last_involvement": "2026-06-12T17:03:53.157508Z",
       "source_types": [
         "auth",
@@ -4944,15 +6659,42 @@
         "EVT-0188",
         "EVT-0189"
       ],
-      "finding_count": 7,
+      "finding_count": 34,
       "findings": [
-        "fnd_016a78b5c956",
-        "fnd_03b64f15e4d3",
-        "fnd_2c1c30fd1d87",
-        "fnd_521c78352abc",
-        "fnd_5bac4074d3f9",
-        "fnd_6649e8f5cc38",
-        "fnd_b63613164ad2"
+        "fnd_043e19ca12e5",
+        "fnd_0f38a9b55e6e",
+        "fnd_158f473c01aa",
+        "fnd_366d71d6366e",
+        "fnd_3b53d32cf033",
+        "fnd_44ba5489ee07",
+        "fnd_4552c1a02598",
+        "fnd_469cc7b42835",
+        "fnd_4d1a410c84f6",
+        "fnd_4ea287c8cbf2",
+        "fnd_4f5191cc11e4",
+        "fnd_506414766f30",
+        "fnd_519a6a56c012",
+        "fnd_551b3e387cd8",
+        "fnd_6115dbfe9f5a",
+        "fnd_6ef3401e9634",
+        "fnd_79a69ecdcd41",
+        "fnd_7a3a4dcd26db",
+        "fnd_8c2c3e78cc6f",
+        "fnd_9153be3889e6",
+        "fnd_92930d7687e1",
+        "fnd_9cf7f752f12b",
+        "fnd_a26828c42b48",
+        "fnd_a28af202cbcc",
+        "fnd_a75be4224f19",
+        "fnd_a855e4061b91",
+        "fnd_aef175f1f8a2",
+        "fnd_c19dc28cb2e0",
+        "fnd_c30b669505ea",
+        "fnd_c8dcbb2febbe",
+        "fnd_d3655d37fb1b",
+        "fnd_ec71fe9292ab",
+        "fnd_f740aefbd7f0",
+        "fnd_fbb4568347c0"
       ],
       "first_involvement": "2026-06-10T20:49:34.566610Z",
       "last_involvement": "2026-06-12T20:02:27.306774Z",
@@ -4972,13 +6714,20 @@
       "confirmed": true,
       "entity_type": "service",
       "event_ids": [
+        "EVT-0232",
         "EVT-0241"
       ],
-      "finding_count": 1,
+      "finding_count": 7,
       "findings": [
-        "fnd_2d5b74432030"
+        "fnd_049db50f9c7b",
+        "fnd_4a9753483895",
+        "fnd_55d6db421077",
+        "fnd_68a6409f52e9",
+        "fnd_a21e399cf419",
+        "fnd_e63e9ff4d249",
+        "fnd_fbf49f8ae267"
       ],
-      "first_involvement": "2026-06-10T20:05:38Z",
+      "first_involvement": "2026-06-10T13:12:04Z",
       "last_involvement": "2026-06-10T20:05:38Z",
       "source_types": [
         "endpoint"

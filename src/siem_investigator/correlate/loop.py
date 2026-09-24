@@ -57,6 +57,10 @@ class Ledger:
     rejections: list[dict] = field(default_factory=list)
     trajectory: list[dict] = field(default_factory=list)
     edges_traversed: dict[str, dict] = field(default_factory=dict)
+    #: How much of the dataset the loop actually looked at. The instrument that
+    #: was missing: three builds passed every invariant while 93 records were
+    #: never shown to the model, because nothing counted what was skipped.
+    coverage: dict = field(default_factory=dict)
 
     @property
     def finding_ids(self) -> frozenset[str]:
@@ -118,6 +122,9 @@ def run(
     anchored_records: set[str] = set()
     steps = 0
     waves_without_acceptance = 0
+    isolated = 0
+    failed_calls = 0
+    first_failure: str | None = None
     batched = getattr(interpreter, "interpret_batch", None)
 
     while frontier and steps < budget:
@@ -137,9 +144,14 @@ def run(
                 continue
             anchored_records.add(observation["record"])
 
+            # The neighbourhood of the whole record, never of one field, and a
+            # record with no linking relation at all is still shown to the
+            # model with its own fields. Examined and found isolated is a
+            # result; skipped is a hole -- and skipping here, from a single
+            # field's empty neighbourhood, lost 13 of 22 intrusion records.
             neighbourhood = index.neighbourhood(observation_id, k=expand_k)
             if not neighbourhood.get("relations"):
-                continue
+                isolated += 1
             wave.append((observation_id, neighbourhood))
 
         if not wave:
@@ -179,6 +191,14 @@ def run(
                     for relation, data in neighbourhood["relations"].items()
                 },
             }
+            if isinstance(proposal, dict) and "statement" not in proposal and "error" in proposal:
+                # The model was never heard from. Recorded as what it is.
+                record["outcome"] = "call_failed"
+                record["error"] = proposal["error"]
+                ledger.trajectory.append(record)
+                failed_calls += 1
+                first_failure = first_failure or proposal["error"]
+                continue
             if proposal is None:
                 record["outcome"] = "nothing_here"
                 ledger.trajectory.append(record)
@@ -224,7 +244,10 @@ def run(
         else:
             waves_without_acceptance += 1
 
-        if waves_without_acceptance >= 6:
+        # A patience rule only makes sense under a budget. With every record
+        # in scope the loop runs to the end of the frontier: the ranking says
+        # where to look first, never where to stop.
+        if max_steps is not None and waves_without_acceptance >= 6:
             ledger.trajectory.append(
                 {
                     "step": steps,
@@ -251,6 +274,14 @@ def run(
                 hypothesis["status"] = "unconfirmed"
                 hypothesis["outcome"] = "INSUFFICIENT_EVIDENCE"
 
+    ledger.coverage = {
+        "records_total": total_records,
+        "records_examined": len(anchored_records),
+        "records_not_examined": total_records - len(anchored_records),
+        "records_examined_without_relations": isolated,
+        "records_with_failed_model_calls": failed_calls,
+        "first_failure": first_failure,
+    }
     return ledger
 
 

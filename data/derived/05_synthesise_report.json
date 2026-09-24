@@ -1,15 +1,14 @@
 {
-  "_note": "stage 5 replayed over committed stages 1-4 artifacts",
   "graph_invariants": {
     "by_layer": {
-      "edge": 2000,
-      "finding": 134,
-      "hypothesis": 19,
-      "mapping": 103,
+      "edge": 2511,
+      "finding": 217,
+      "hypothesis": 30,
+      "mapping": 158,
       "observation": 1952,
       "record": 242
     },
-    "citations": 9461,
+    "citations": 13319,
     "invariant_1_layer_order": {
       "holds": true,
       "violations": []
@@ -22,20 +21,22 @@
       "cycle_path": null,
       "holds": true
     },
-    "nodes": 4450
+    "nodes": 5110
   },
   "projections": {
-    "attack_flow_objects": 136,
-    "entities_in_scope": 157,
+    "attack_flow_objects": 219,
+    "entities_in_scope": 181,
     "gaps": {
       "hosts_with_partial_coverage": 12,
       "structural": 3,
-      "unconfirmed_or_uncoverable_hypotheses": 9
+      "unconfirmed_or_uncoverable_hypotheses": 14
     },
-    "navigator_techniques": 29,
-    "timeline_steps": 134
+    "navigator_techniques": 44,
+    "timeline_steps": 217
   },
   "verification": {
+    "absence_claims_computed_after_close": true,
+    "every_timeline_step_traces_to_the_graph": true,
     "invariant_1_layer_order": true,
     "invariant_2_termination": true,
     "invariant_3_acyclicity": true

@@ -36,9 +36,20 @@ def _stamp(extra: dict[str, Any] | None = None) -> dict[str, Any]:
     return {**contracts.stamp(), "software_version": __version__, **(extra or {})}
 
 
-def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, Any]:
+def run(
+    *, use_model: bool = True, max_steps: int | None = None, from_stage: int = 1
+) -> dict[str, Any]:
     started = time.perf_counter()
     reports: dict[str, Any] = {}
+
+    if from_stage >= 4:
+        return _finish(
+            **_resume_after_stage_3(reports),
+            reports=reports,
+            started=started,
+            use_model=use_model,
+            resumed_from=from_stage,
+        )
 
     # ---- stage 1: INGEST --------------------------------------------------
     records, ingest_report = load.run()
@@ -96,6 +107,16 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
         batch_size=8,
     )
 
+    failed = ledger.coverage.get("records_with_failed_model_calls", 0)
+    if failed and failed == ledger.coverage.get("records_examined"):
+        # Nothing was investigated. Writing "0 findings" with every check green
+        # would be the fabricated conclusion the whole design exists to avoid.
+        print(
+            f"  3 CORRELATE    aborted: every one of {failed} model calls failed\n"
+            f"    first error  {ledger.coverage.get('first_failure')}"
+        )
+        raise SystemExit(2)
+
     closed = close.close(ledger.findings, observation_nodes)
     findings = closed["findings"]
 
@@ -114,6 +135,7 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
             "hypotheses": len(ledger.hypotheses),
             "trajectory_steps": len(ledger.trajectory),
         },
+        "coverage": ledger.coverage,
         "relations": {
             "sparse_materialised": list(relations.SPARSE),
             "dense_left_as_queries": list(relations.DENSE),
@@ -126,6 +148,10 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
         "rejection_reasons": _rejection_summary(ledger.rejections),
         "leak_independence": leak,
         "verification": {
+            # Coverage, not only grounding. Every earlier check asked "could
+            # this have been invented?"; none asked "was it looked at?".
+            "every_record_examined": ledger.coverage.get("records_not_examined") == 0,
+            "no_model_call_failed": ledger.coverage.get("records_with_failed_model_calls") == 0,
             "every_finding_cites_an_observation": all(f["cites_observations"] for f in findings),
             "every_rejection_carries_a_diagnostic": all(
                 r["diagnostics"] for r in ledger.rejections
@@ -153,9 +179,47 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
     reports["03_correlate"] = correlate_report
     print(
         f"  3 CORRELATE    {len(findings)} findings accepted, {len(ledger.rejections)} rejected, "
-        f"{len(committed_edges)} edges, {len(ledger.hypotheses)} hypotheses  [{mode}]"
+        f"{len(committed_edges)} edges, {len(ledger.hypotheses)} hypotheses  [{mode}]\n"
+        f"    coverage     {ledger.coverage.get('records_examined')}/{ledger.coverage.get('records_total')} "
+        f"records examined, {ledger.coverage.get('records_examined_without_relations')} of them isolated, "
+        f"{ledger.coverage.get('records_with_failed_model_calls')} model calls failed"
     )
 
+    return _finish(
+        records=records,
+        observation_nodes=observation_nodes,
+        parsed=parsed,
+        ledger=ledger,
+        findings=findings,
+        committed_edges=committed_edges,
+        mode=mode,
+        grounding=grounding,
+        parse_report=parse_report,
+        reports=reports,
+        started=started,
+        use_model=use_model,
+    )
+
+
+def _finish(
+    *,
+    records: list[dict],
+    observation_nodes: list[dict],
+    parsed: dict[str, Any],
+    ledger: loop.Ledger,
+    findings: list[dict],
+    committed_edges: dict[str, dict],
+    mode: str,
+    grounding: list,
+    parse_report: dict[str, Any],
+    reports: dict[str, Any],
+    started: float,
+    use_model: bool,
+    resumed_from: int | None = None,
+) -> dict[str, Any]:
+    """Stages 4 and 5, the graph invariants and the manifest -- split out so a
+    build can resume from stage 4 over committed stage 1-3 artifacts instead of
+    re-spending the ~320 model calls of stage 3 (three builds died after it)."""
     # ---- stage 4: ENRICH --------------------------------------------------
     catalogue = Catalogue.load()
     mappings, unmapped = mapper.map_findings(
@@ -164,29 +228,17 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
         catalogue,
         client_module=client if (use_model and client.credential_present()) else None,
     )
-    enrich_report = {
-        "attack_version": catalogue.attack_version,
-        "catalogue": paths.relative(paths.ATTACK_CATALOGUE),
-        "counts": {
-            "findings": len(findings),
-            "mapped": len(mappings),
-            "unmapped": len(unmapped),
-            "selectable_enum_size": len(catalogue.selectable_ids()),
-        },
-        "techniques": sorted({mapping["technique_id"] for mapping in mappings}),
-        "unmapped_outcomes": _count_by(unmapped, "outcome"),
-        "verification": {
-            "every_mapping_id_is_in_the_catalogue": all(
-                catalogue.technique(mapping["technique_id"]) is not None for mapping in mappings
-            ),
-            "every_id_name_pair_is_consistent": all(
-                catalogue.name_matches_id(mapping["technique_id"], mapping["technique_name"])
-                for mapping in mappings
-            ),
-            "t1068_not_mapped": all(mapping["technique_id"] != "T1068" for mapping in mappings),
-            "non_mappable_is_distinct_from_rejected": True,
-        },
-    }
+    enrich_report = mapper.report(findings, mappings, unmapped, catalogue)
+    failed_calls = [row for row in unmapped if row["outcome"] == "call_failed"]
+    if failed_calls and not mappings and len(failed_calls) == len(unmapped):
+        # Nothing was asked, so nothing is written: 217 "unmapped" rows with
+        # every check green is how a credit outage once passed for a result.
+        print(
+            f"  4 ENRICH       aborted: every one of {len(failed_calls)} model calls failed\n"
+            f"    first error  {failed_calls[0]['reason'][:160]}\n"
+            f"    resume with  python -m siem_investigator.build --from-stage 4"
+        )
+        raise SystemExit(2)
     jsonl.write(paths.MAPPINGS, mappings)
     jsonl.write(paths.UNMAPPED, unmapped)
     jsonl.write_json(paths.ENRICH_REPORT, enrich_report)
@@ -212,48 +264,19 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
         jsonl.write_json(path, payload)
 
     # ---- the graph and its invariants ------------------------------------
-    investigation = graph.Graph()
-    for record in records:
-        investigation.add(record, layer="record")
-    for observation in observation_nodes:
-        investigation.add(observation, layer="observation", cites=[observation["record"]])
-    for edge in committed_edges.values():
-        investigation.add(
-            edge, layer="edge", cites=[edge["from_observation"], edge["to_observation"]]
-        )
-    for finding in findings:
-        investigation.add(
-            finding,
-            layer="finding",
-            cites=finding["cites_observations"] + finding["cites_edges"] + finding["cites_findings"],
-        )
-    for mapping in mappings:
-        investigation.add(
-            mapping, layer="mapping", cites=[mapping["finding"]] + mapping["cites_observations"]
-        )
-    for hypothesis in ledger.hypotheses:
-        investigation.add(hypothesis, layer="hypothesis", cites=hypothesis["premises"])
-
+    investigation = graph.assemble(
+        records=records,
+        observations=observation_nodes,
+        edges=list(committed_edges.values()),
+        findings=findings,
+        mappings=mappings,
+        hypotheses=ledger.hypotheses,
+    )
     invariants = investigation.check_all()
-    synth_report = {
-        "projections": {
-            "timeline_steps": timeline["count"],
-            "entities_in_scope": len(scope["involved"]),
-            "gaps": gap_report["counts"],
-            "attack_flow_objects": len(flow["objects"]),
-            "navigator_techniques": len(layer["techniques"]),
-        },
-        "graph_invariants": invariants,
-        "verification": {
-            "every_timeline_step_traces_to_the_graph": all(
-                step["finding"] in investigation.nodes for step in timeline["steps"]
-            ),
-            "absence_claims_computed_after_close": True,
-            "invariant_1_layer_order": invariants["invariant_1_layer_order"]["holds"],
-            "invariant_2_termination": invariants["invariant_2_termination"]["holds"],
-            "invariant_3_acyclicity": invariants["invariant_3_acyclicity"]["holds"],
-        },
-    }
+    synth_report = synthesise.report(
+        timeline=timeline, scope=scope, gap_report=gap_report, flow=flow, layer=layer,
+        invariants=invariants, investigation=investigation,
+    )
     jsonl.write_json(paths.SYNTHESISE_REPORT, synth_report)
     reports["05_synthesise"] = synth_report
     print(
@@ -275,6 +298,7 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
     manifest = {
         **_stamp({"attack_version": catalogue.attack_version, "interpreter": mode}),
         "elapsed_seconds": round(time.perf_counter() - started, 2),
+        "resumed_from_stage": resumed_from,  # stated: stages 1-3 came from disk
         "artifacts": {
             paths.relative(path): path.stat().st_size
             for path in (
@@ -292,6 +316,32 @@ def run(*, use_model: bool = True, max_steps: int | None = None) -> dict[str, An
     jsonl.write_json(paths.MANIFEST, manifest)
     print(f"  manifest       {len(manifest['artifacts'])} artifacts, {manifest['elapsed_seconds']}s")
     return manifest
+
+
+def _resume_after_stage_3(reports: dict[str, Any]) -> dict[str, Any]:
+    """Load what stages 1-3 committed, so stage 4 can start from it."""
+    for name, path in (
+        ("01_ingest", paths.INGEST_REPORT),
+        ("02_parse", paths.PARSE_REPORT),
+        ("03_correlate", paths.CORRELATE_REPORT),
+    ):
+        if not path.exists():
+            raise SystemExit(f"cannot resume: {paths.relative(path)} is missing; run the full build")
+        reports[name] = jsonl.read_json(path)
+    parse_report = reports["02_parse"]
+    correlate_report = reports["03_correlate"]
+    print(f"  1-3 RESUMED    from committed artifacts  [{correlate_report.get('interpreter')}]")
+    return {
+        "records": jsonl.read(paths.RECORDS),
+        "observation_nodes": jsonl.read(paths.OBSERVATIONS),
+        "parsed": {"entities": jsonl.read(paths.ENTITIES)},
+        "ledger": loop.Ledger(hypotheses=jsonl.read(paths.HYPOTHESES)),
+        "findings": jsonl.read(paths.FINDINGS),
+        "committed_edges": {edge["id"]: edge for edge in jsonl.read(paths.EDGES)},
+        "mode": correlate_report.get("interpreter", "unknown"),
+        "grounding": parse_report.get("verification", {}).get("invariant_4_grounding", {}).get("failures", []),
+        "parse_report": parse_report,
+    }
 
 
 def _ok(value: bool) -> str:
@@ -321,6 +371,13 @@ def main(argv: list[str] | None = None) -> int:
         "--no-model", action="store_true", help="deterministic stages only, no model calls"
     )
     parser.add_argument("--max-steps", type=int, default=None, help="records to examine; default is all of them")
+    parser.add_argument(
+        "--from-stage",
+        type=int,
+        choices=(1, 4),
+        default=1,
+        help="4 resumes over the committed stage 1-3 artifacts instead of re-spending their model calls",
+    )
     args = parser.parse_args(argv)
 
     print(f"siem-investigator {__version__}  build")
@@ -330,7 +387,7 @@ def main(argv: list[str] | None = None) -> int:
             "technique attribution is reported as unmapped rather than omitted."
         )
     try:
-        run(use_model=not args.no_model, max_steps=args.max_steps)
+        run(use_model=not args.no_model, max_steps=args.max_steps, from_stage=args.from_stage)
     except Exception as exc:  # NFR-06: a stage failure names itself
         print(f"\nBUILD FAILED: {type(exc).__name__}: {exc}", file=sys.stderr)
         raise

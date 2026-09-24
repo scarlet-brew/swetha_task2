@@ -39,11 +39,13 @@ class RelationIndex:
         self.by_id = {observation["id"]: observation for observation in observations}
         self.by_value: dict[tuple[str, Any], list[dict]] = defaultdict(list)
         self.by_record: dict[str, list[dict]] = defaultdict(list)
+        self.by_type: dict[str, list[dict]] = defaultdict(list)
         for observation in observations:
             if observation["entity_type"] is not None:
                 self.by_value[(observation["entity_type"], observation["normalised_value"])].append(
                     observation
                 )
+                self.by_type[observation["entity_type"]].append(observation)
             self.by_record[observation["record"]].append(observation)
         # address -> host candidates, from stage 2. Kept as candidates.
         self.resolution = {row["address"]: row for row in (resolution or [])}
@@ -205,59 +207,59 @@ class RelationIndex:
     )
 
     def neighbourhood(self, observation_id: str, *, k: int = 12) -> dict:
-        """Observations related to this one, **with truncation reported**.
+        """The neighbourhood of the **record** the observation sits on.
 
-        Two things the shape of this function decides, both learned the hard
-        way.
-
-        **Truncation is always stated.** Each relation reports its full total
-        beside what it shows, because a model reasoning over a partial view
-        believing it complete is worse than one told the view is partial. A
-        1-hop expansion on a busy host returns 60+ observations through
-        `same_host` alone.
-
-        **Ordering relations are annotations, not lists.** `temporal_within`
-        held 1,782 candidates and was given eight slots of the window, while
-        `same_account` -- which carried the actual intrusion chain -- got the
-        same eight. Time now annotates the neighbours that a linking relation
-        surfaced, so the window is spent on records connected by something real.
+        Anchors score payload fields -- `command_line = 'net user /domain'`,
+        `target_process = 'lsass.exe'`, `dst_port = 445` -- while the relations
+        link identity fields: the account, the host, the address, the pid. A
+        neighbourhood taken from the anchoring observation alone was therefore
+        empty or thin for exactly the records the anchors flagged, and one
+        build dropped 93 of 242 records unexamined on that basis, 13 of them
+        part of the intrusion. The record is the unit of evidence, so its
+        neighbourhood is the union over every field it carries. Each row names
+        the field it came in through (`via`) and the exact edge that holds, so
+        a finding cites the edge as it is rather than as it was guessed.
         """
         anchor = self.by_id.get(observation_id)
         if anchor is None:
             return {"observation": observation_id, "error": "does not exist"}
+        siblings = self.by_record.get(anchor["record"], [])
 
         found: dict[str, Any] = {}
         surfaced: dict[str, dict] = {}
-
         for relation in self.LINKING:
-            matches = []
-            if relation in self.BY_VALUE:
-                if anchor["entity_type"] is None:
-                    continue
-                candidates = self.by_value.get(
-                    (anchor["entity_type"], anchor["normalised_value"]), []
-                )
-            else:
-                candidates = self.observations
-
-            for candidate in candidates:
-                if candidate["id"] == anchor["id"]:
-                    continue
-                holds, params = self.evaluate(relation, anchor["id"], candidate["id"])
-                if holds:
-                    matches.append((candidate, params))
-
+            matches: dict[str, tuple[dict, dict, dict]] = {}
+            for source in siblings:
+                for candidate, left, right in self._candidates(relation, source, siblings):
+                    if candidate["id"] in matches:
+                        continue
+                    holds, params = self.evaluate(relation, left["id"], right["id"])
+                    if not holds:
+                        # Several relations are directional; the data decides
+                        # which way round the edge holds, not the field order.
+                        holds, params = self.evaluate(relation, right["id"], left["id"])
+                        left, right = right, left
+                    if holds:
+                        matches[candidate["id"]] = (
+                            candidate,
+                            params,
+                            {
+                                "via": source["field"],
+                                "from_observation": left["id"],
+                                "to_observation": right["id"],
+                            },
+                        )
             if not matches:
                 continue
-            matches.sort(key=lambda pair: abs(interval_seconds(anchor, pair[0])))
-            shown = matches[:k]
-            for candidate, _ in shown:
-                surfaced[candidate["id"]] = candidate
-
+            rows = sorted(matches.values(), key=lambda m: abs(interval_seconds(anchor, m[0])))
+            shown = rows[:k]
+            for candidate, _, _ in shown:
+                if candidate["record"] != anchor["record"]:
+                    surfaced[candidate["id"]] = candidate
             found[relation] = {
-                "total": len(matches),
+                "total": len(rows),
                 "showing": len(shown),
-                "truncated": len(matches) > k,
+                "truncated": len(rows) > k,
                 "observations": [
                     {
                         "id": candidate["id"],
@@ -266,11 +268,44 @@ class RelationIndex:
                         "field": candidate["field"],
                         "value": candidate["normalised_value"],
                         "params": params,
+                        **edge,
                     }
-                    for candidate, params in shown
+                    for candidate, params, edge in shown
                 ],
             }
+        return self._assemble(anchor, found, surfaced)
 
+    def _candidates(self, relation: str, source: dict, siblings: list[dict]) -> list[tuple]:
+        """`(candidate, left, right)` triples worth evaluating for one relation
+        from one field of a record. Value-keyed relations come from the index;
+        `process_parent` and `flow_endpoint` are structure inside one record;
+        `address_resolves_to_host` runs address -> host from either role."""
+        if relation in self.BY_VALUE:
+            if source["entity_type"] is None:
+                return []
+            return [
+                (c, source, c)
+                for c in self.by_value.get((source["entity_type"], source["normalised_value"]), [])
+                if c["record"] != source["record"]
+            ]
+        if relation in ("process_parent", "flow_endpoint"):
+            return [(c, source, c) for c in siblings if c["id"] != source["id"]]
+        if relation == "address_resolves_to_host":
+            if source["entity_type"] == "address":
+                return [
+                    (c, source, c)
+                    for c in self.by_type.get("host", [])
+                    if c["record"] != source["record"]
+                ]
+            if source["entity_type"] == "host":
+                return [
+                    (c, c, source)
+                    for c in self.by_type.get("address", [])
+                    if c["record"] != source["record"]
+                ]
+        return []
+
+    def _ordering(self, anchor: dict, surfaced: dict[str, dict]) -> dict[str, list[dict]]:
         # Ordering, over what the linking relations surfaced. This is the chain:
         # the same neighbours, placed in time relative to the anchor.
         ordering: dict[str, list[dict]] = {}
@@ -293,7 +328,9 @@ class RelationIndex:
             if rows:
                 rows.sort(key=lambda row: row["interval_seconds"])
                 ordering[relation] = rows
+        return ordering
 
+    def _assemble(self, anchor: dict, found: dict, surfaced: dict[str, dict]) -> dict:
         same_record = [
             {
                 "id": sibling["id"],
@@ -305,7 +342,6 @@ class RelationIndex:
             for sibling in self.by_record.get(anchor["record"], [])
             if sibling["id"] != anchor["id"]
         ]
-
         return {
             "observation": anchor["id"],
             "event_id": anchor["event_id"],
@@ -315,5 +351,5 @@ class RelationIndex:
             "recorded_time": anchor["recorded_time"],
             "record_context": same_record,
             "relations": found,
-            "ordering": ordering,
+            "ordering": self._ordering(anchor, surfaced),
         }

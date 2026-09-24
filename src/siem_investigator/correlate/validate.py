@@ -206,6 +206,13 @@ def validate(
         for token in re.findall(r"[a-z][a-z0-9_.\-]{2,}", statement.lower())
     }
     for name in sorted((known & tokens) - cited_entities):
+        # A known name found *inside* a cited value is on the record --
+        # `powershell.exe` inside a cited command line. Equality alone refused
+        # the initial-access finding twice for naming the shell its own cited
+        # command line launches; the identifier check below already grounds
+        # by containment, and this one now agrees with it.
+        if any(name in value for value in lowered):
+            continue
         invented.append(name)
 
     for token in candidate_identifiers(statement):

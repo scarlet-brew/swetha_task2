@@ -240,6 +240,27 @@ process_parent →  1 observation  (complete)
 Without that, the model reasons over a partial view believing it complete. This is the tool
 surface being honest about its own limits, held to the same standard as the outputs.
 
+**`EXPAND` is over the record, not the field** *(amended 23 Sep 2026, after build 8)*. Anchors
+score payload fields — `command_line = 'net user /domain'`, `target_process = 'lsass.exe'`,
+`dst_port = 445` — while the relations link identity fields: the account, the host, the address,
+the pid. Expanding from the anchoring observation alone therefore gave exactly the records the
+anchors flagged an empty or one-row neighbourhood, and because the loop marked a record examined
+on the strength of that one field, **93 of 242 records were never shown to the model in one
+build, 13 of them part of the intrusion** — found by replaying the frontier offline, not by any
+check. The neighbourhood is now the union over every field of the record, each row naming the
+field it came in through and the edge exactly as it holds, so a citation copies the edge rather
+than guessing which field matched. The example above stands; it simply lists what the whole log
+line is related to.
+
+**The loop states its coverage** *(same amendment)*. `records_examined / records_total`, records
+examined without any linking relation, and model calls that failed are reported, and
+`every_record_examined` and `no_model_call_failed` are stage-3 verification lines. Every earlier
+check asked *could this have been invented?*; none asked *was it looked at?*, and three builds
+passed every invariant while skipping records. A failed model call is recorded as `call_failed`,
+never as "nothing here" — a credit outage once produced 242 "nothing here" outcomes and an
+all-green empty build — and a run in which every call fails aborts before writing stage-3
+artifacts rather than committing an empty investigation.
+
 **`coverage(entity, source_type)` is what makes `NOT_FOUND` meaningful.** Without it, "not found"
 conflates absence from the environment with blindness of the source — the distinction `A-05`
 names as unverifiable and `R3.12` requires reporting.
@@ -247,9 +268,10 @@ names as unverifiable and `R3.12` requires reporting.
 **Predict, then look.** `HYPOTHESISE` commits the prediction *before* `SEEK` runs, which is what
 makes a negative result honest rather than post-hoc rationalised.
 
-Termination: the frontier empties, or a full pass yields no accepted finding, or the budget
-exhausts — and exhaustion emits `INSUFFICIENT_EVIDENCE` for open hypotheses rather than
-concluding.
+Termination: the frontier empties, or the budget exhausts — and exhaustion emits
+`INSUFFICIENT_EVIDENCE` for open hypotheses rather than concluding. The patience rule (*six
+consecutive waves with no accepted finding*) applies only when a budget is set: with every record
+in scope, the ranking says where to look first, never where to stop.
 
 ### 3.4 Candidate findings
 
@@ -819,6 +841,28 @@ cause being batch-invariance in inference kernels rather than the API.
   published architecture; no released code
 
 ---
+
+### 11.3 What the builds measured
+
+Kept for the same reason as the drafts. Recall is attack events cited by at least one accepted
+finding, against the 22 annotated events (`tests/fixtures/ground_truth.json`, the only place the
+annotation is read). All builds ran Opus 5. Rows before build 6 are from working notes; their
+artifacts were overwritten, which is itself one of the lessons.
+
+| Build | Change under test | Records examined | Attack events found | What it taught |
+|---|---|---|---|---|
+| 1–2 | first model-backed loop, 45-record budget | 26–45 | 13/22 | a budget smaller than the dataset turns the anchors into a filter |
+| 3 | check 3 grounded in cited *observations* | 45 | 0/22 | grounding is per record: `jdavis` on the same log line is not invented |
+| 4 | record context pushed onto the frontier | 45 | 0/22 | eight consecutive steps on one benign record; leads only |
+| 5 | pid grounding; leads to the front of the frontier | 45 | 10/22 | still budget-bound: two runs reported different halves of one intrusion |
+| 6 | budget = every record; waves of 8 | 242 | 19/22 | recall was never the hard part; ~170 ordinary findings filed under intrusion stages |
+| 7 | linking-only neighbourhood **and** a hyphenated-name regex, together | 150 | 8/22 | two changes in one build; 58 of 60 rejections were English compounds; and the silent drop began |
+| 8 | entity names checked by graph lookup | 149 | 10/22 | 93 records never examined — every miss a drop, none a judgment |
+| 9 | record-level `EXPAND`; coverage stated and verified; check 3 grounds by containment; patience rule only under a budget | 242 | **22/22** | every build-8 miss was a drop, none a judgment; 19 of 242 responses were cut off at max_tokens=2000 (raised to 8000); stage 4 then hit credit exhaustion and the build was made resumable from stage 4 rather than re-spending stage 3 |
+
+Two process rules follow from the table and are now kept: **one change per build**, and **commit
+each verified state before the next change** — build 6 was the best result of the night and was
+never committed on its own.
 
 ## 12. Stress
 

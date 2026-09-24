@@ -59,11 +59,24 @@ class TheAttackFlowExportConforms(unittest.TestCase):
         cls.validator = offline_validator()
 
     def test_every_object_validates_against_the_vendored_schema(self):
+        """The vendored schema describes Attack Flow's own object types. The
+        bundle also carries plain STIX objects -- the creator `identity` --
+        which the official validator checks as STIX, not as Attack Flow; run
+        against this schema they fail for lacking the flow extension, which
+        they must not carry. So flow objects meet the schema and the rest
+        meet the STIX 2.1 shape."""
         failures = []
         for obj in self.bundle["objects"]:
-            errors = list(self.validator.iter_errors(obj))
-            if errors:
-                failures.append(f"{obj.get('type')} {obj.get('id')}: {errors[0].message[:160]}")
+            if obj.get("type", "").startswith("attack-"):
+                errors = list(self.validator.iter_errors(obj))
+                if errors:
+                    failures.append(f"{obj.get('type')} {obj.get('id')}: {errors[0].message[:160]}")
+                continue
+            for key in ("type", "id", "spec_version", "created", "modified"):
+                if key not in obj:
+                    failures.append(f"{obj.get('type')} {obj.get('id')}: missing STIX property {key}")
+            if obj.get("spec_version") != "2.1":
+                failures.append(f"{obj.get('type')} {obj.get('id')}: spec_version is not 2.1")
         self.assertEqual(failures, [], "\n".join(failures))
 
     def test_ids_are_stix_shaped_and_content_derived(self):
