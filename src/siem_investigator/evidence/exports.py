@@ -63,11 +63,19 @@ def attack_flow(findings: list[dict], mappings: list[dict], attack_version: str)
     Timestamps are fixed rather than current: a `created` of "now" would make
     the export differ on every run and break the byte-identical invariant.
     """
-    mapping_by_finding = {mapping["finding"]: mapping for mapping in mappings}
+    mapping_by_finding = {mapping.get("action_id", mapping["finding"]): mapping
+                          for mapping in sorted(mappings,key=lambda m:(m['technique_id'],m['id']))}
+    # A presentation group may contain several mapped actions. Export each one
+    # instead of silently choosing whichever mapping happened to be read last.
+    units = []
+    for finding in findings:
+        for atomic in finding.get('actions') or [finding]:
+            units.append({**finding, **atomic, 'parent_finding':finding['id'],
+                'event_ids': sorted(set(atomic.get('subject_event_ids', finding['event_ids']) + atomic.get('context_event_ids', [])))})
     stamp = "2026-06-10T08:00:00.000Z"
 
     actions: list[dict[str, Any]] = []
-    for finding in sorted(findings, key=lambda row: row["id"]):
+    for finding in sorted(units, key=lambda row: (row.get('first_recorded_time',''),row["id"])):
         mapping = mapping_by_finding.get(finding["id"])
         action: dict[str, Any] = {
             "type": "attack-action",
@@ -82,7 +90,7 @@ def attack_flow(findings: list[dict], mappings: list[dict], attack_version: str)
                 _EVIDENCE_EXTENSION: {
                     "extension_type": "property-extension",
                     "evidence_refs": {
-                        "finding": finding["id"],
+                        "finding": finding["parent_finding"],
                         "observations": finding["cites_observations"],
                         "edges": finding["cites_edges"],
                         "event_ids": finding["event_ids"],

@@ -27,12 +27,17 @@ def timeline(findings: list[dict], observations: list[dict], mappings: list[dict
         cited = [by_id[obs] for obs in finding["cites_observations"] if obs in by_id]
         if not cited:
             continue
-        times = sorted(observation["recorded_time"] for observation in cited)
+        subjects = set(finding.get("subject_event_ids") or finding["event_ids"])
+        times = sorted(observation["recorded_time"] for observation in cited if observation["event_id"] in subjects)
         rows.append(
             {
                 "finding": finding["id"],
                 "stage": finding["stage"],
                 "statement": finding["statement"],
+                "actions": [{**action, 'techniques':[
+                    {'technique_id':m['technique_id'],'technique_name':m['technique_name']}
+                    for m in mapping_by_finding.get(finding['id'],[]) if m.get('action_id')==action['id']]}
+                    for action in finding.get('actions',[])],
                 "support": finding["support"],
                 "first_recorded_time": times[0],
                 "last_recorded_time": times[-1],
@@ -89,7 +94,7 @@ def scope(findings: list[dict], observations: list[dict], entities: list[dict]) 
         # though the finding cited the process, and reading only the exact
         # cited observation would report an empty scope for a real finding.
         cited_records = {
-            by_id[obs]["record"] for obs in finding["cites_observations"] if obs in by_id
+            by_id[obs]["record"] for obs in finding["cites_observations"] if obs in by_id and by_id[obs]["event_id"] in set(finding.get("subject_event_ids") or finding["event_ids"])
         }
         for observation in (o for record in cited_records for o in by_record[record]):
             if observation["entity_type"] is None:
@@ -149,7 +154,7 @@ def scope(findings: list[dict], observations: list[dict], entities: list[dict]) 
     all_hosts = sorted(
         entity["value"] for entity in entities if entity["entity_type"] == "host"
     )
-    confirmed_hosts = sorted(row["value"] for row in rows if row["entity_type"] == "host")
+    confirmed_hosts = sorted(row["value"] for row in rows if row["entity_type"] == "host" and row["confirmed"])
     return {
         "involved": rows,
         "counts": dict(
@@ -177,16 +182,15 @@ def scope(findings: list[dict], observations: list[dict], entities: list[dict]) 
 def privilege_report(findings: list[dict], observations: list[dict], mappings: list[dict]) -> dict[str, Any]:
     """How privilege changed, as a deterministic projection (T24).
 
-    The dataset contains **no exploit-based escalation**. Integrity rises
-    medium -> high -> SYSTEM through stolen credentials and service execution,
-    so the report names those mechanisms and explicitly records that T1068 is
-    not evidenced. A report that inferred an exploit from rising integrity would
-    be closing a gap with inference.
+    Report integrity levels observed on incident subjects. Different integrity
+    levels across hosts do not establish how credentials were acquired or
+    demonstrate an exploit; technique claims must come from accepted mappings.
     """
+    subject_events = {event for finding in findings for event in finding.get("subject_event_ids", finding["event_ids"])}
     levels = [
         observation
         for observation in observations
-        if observation["field"] == "integrity_level"
+        if observation["field"] == "integrity_level" and observation["event_id"] in subject_events
     ]
     by_host: dict[str, list[dict]] = defaultdict(list)
     host_of: dict[str, str] = {}
@@ -275,8 +279,8 @@ def privilege_report(findings: list[dict], observations: list[dict], mappings: l
             "evidenced": False,
             "techniques_deliberately_not_mapped": ["T1068"],
             "_why": (
-                "Integrity rises through stolen credentials and service execution, both of "
-                "which are evidenced. No record shows exploitation of a vulnerability, and "
+                "Different integrity levels do not establish how privileges were obtained. "
+                "No accepted evidence here establishes exploitation of a vulnerability; "
                 "inferring one from rising integrity would close a gap with inference. "
                 "T1068 is present in the catalogue and is deliberately absent from every "
                 "mapping."

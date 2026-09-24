@@ -3,230 +3,94 @@
   "counts": {
     "hosts_with_partial_coverage": 12,
     "structural": 3,
-    "unconfirmed_or_uncoverable_hypotheses": 14
+    "unconfirmed_or_uncoverable_hypotheses": 1
   },
+  "data_quality": [
+    {
+      "event_ids": [
+        "EVT-0029",
+        "EVT-0040",
+        "EVT-0019",
+        "EVT-0030",
+        "EVT-0015",
+        "EVT-0059",
+        "EVT-0038",
+        "EVT-0031",
+        "EVT-0035",
+        "EVT-0004",
+        "EVT-0017",
+        "EVT-0057",
+        "EVT-0032",
+        "EVT-0050",
+        "EVT-0047",
+        "EVT-0041"
+      ],
+      "reason": "event_name/result field conflict (failed_logon events recorded with result success) leaves authentication outcome unresolved; source auth log would need to confirm the true result field."
+    }
+  ],
   "from_hypotheses": [
     {
-      "hypothesis": "hyp_122ba9635467",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "jclark",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_117b4b170db5",
-        "fnd_88c9c2765360"
-      ],
-      "statement": "No auth/user_logon record for jclark was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_1339b53982fc",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "asmith",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_519a6a56c012",
-        "fnd_f740aefbd7f0"
-      ],
-      "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_28725641fd88",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "asmith",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_366d71d6366e",
-        "fnd_44ba5489ee07",
-        "fnd_519a6a56c012"
-      ],
-      "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_29e095648a08",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "jclark",
-        "event_kind": "cloud_storage/file_download",
-        "source_type": "cloud_storage"
-      },
-      "premised_on": [
-        "fnd_43db3187f3d2",
-        "fnd_5b3764688112",
-        "fnd_94af780ea2f5"
-      ],
-      "statement": "No cloud_storage/file_download record for jclark was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_320829b13ccc",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "10.0.1.11",
-        "event_kind": "cloud_storage/file_download",
-        "source_type": "cloud_storage"
-      },
-      "premised_on": [
-        "fnd_163cf30fbff7",
-        "fnd_37e53f778bfe",
-        "fnd_719f6b2c0755",
-        "fnd_973f39af28d3",
-        "fnd_a319efcb4f27",
-        "fnd_cb5b05c3e29d"
-      ],
-      "statement": "No cloud_storage/file_download record for 10.0.1.11 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_44b99799cb2f",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "dtaylor",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_177d18e26a8c",
-        "fnd_c19dc28cb2e0"
-      ],
-      "statement": "No auth/user_logon record for dtaylor was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_46f857382171",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "file-srv-02",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_1d68f6505607",
-        "fnd_4a9753483895",
-        "fnd_55d6db421077",
-        "fnd_fbf49f8ae267"
-      ],
-      "statement": "No auth/user_logon record for file-srv-02 was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_4ca97d5b2824",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "asmith",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_2b0c2d3e5913",
-        "fnd_6ef3401e9634"
-      ],
-      "statement": "No auth/user_logon record for asmith was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_5fb1b927d563",
+      "hypothesis": "hyp_b8c79bb00074",
       "outcome": "not_found",
       "predicted": {
         "entity": "jdavis",
+        "event_constraints": [
+          {
+            "field": "dest_host",
+            "value": "FILE-SRV-02"
+          },
+          {
+            "field": "username",
+            "value": "jdavis"
+          },
+          {
+            "field": "result",
+            "value": "success"
+          },
+          {
+            "field": "logon_type",
+            "value": "network"
+          }
+        ],
         "event_kind": "auth/user_logon",
-        "source_type": "auth"
+        "source_type": "auth",
+        "window_end": "2026-06-10T13:12:04Z",
+        "window_start": "2026-06-10T13:00:00Z"
       },
       "premised_on": [
-        "fnd_551783f69f0e"
+        "fnd_063698e9611c",
+        "fnd_c276151f7ec6"
       ],
-      "statement": "No auth/user_logon record for jdavis was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_6dc2d97dd585",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "wkstn-01",
-        "event_kind": "network/network_connection",
-        "source_type": "network"
-      },
-      "premised_on": [
-        "fnd_d20a12fa39ac",
-        "fnd_fbb4568347c0"
-      ],
-      "statement": "No network/network_connection record for wkstn-01 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_b3eb5083c89a",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "dtaylor",
-        "event_kind": "auth/user_logoff",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_4ea287c8cbf2",
-        "fnd_a294ba52f8c7"
-      ],
-      "statement": "No auth/user_logoff record for dtaylor was found in a source that does cover it.",
-      "status": "unconfirmed"
-    },
-    {
-      "hypothesis": "hyp_e3e0f4893294",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "10.0.5.15",
-        "event_kind": "cloud_storage/file_download",
-        "source_type": "cloud_storage"
-      },
-      "premised_on": [
-        "fnd_298c0cb282b5",
-        "fnd_2b2aab2aa2db",
-        "fnd_75b3aec8d036",
-        "fnd_7ef1c9f590b9",
-        "fnd_d609f0c75036"
-      ],
-      "statement": "No cloud_storage/file_download record for 10.0.5.15 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_eb20b89c8a1a",
-      "outcome": "not_covered",
-      "predicted": {
-        "entity": "10.0.1.17",
-        "event_kind": "cloud_storage/file_upload",
-        "source_type": "cloud_storage"
-      },
-      "premised_on": [
-        "fnd_1c56234bae30",
-        "fnd_c482dd9a536a",
-        "fnd_ca994ab10fe0"
-      ],
-      "statement": "No cloud_storage/file_upload record for 10.0.1.17 was found -- and no source covers it, so its absence says nothing about the estate.",
-      "status": "uncoverable"
-    },
-    {
-      "hypothesis": "hyp_fa3fe67c855b",
-      "outcome": "not_found",
-      "predicted": {
-        "entity": "cjohnson",
-        "event_kind": "auth/user_logon",
-        "source_type": "auth"
-      },
-      "premised_on": [
-        "fnd_1fb96f99c258",
-        "fnd_a8ada9fe1bc3"
-      ],
-      "statement": "No auth/user_logon record for cjohnson was found in a source that does cover it.",
+      "statement": "No auth/user_logon record for jdavis matching [{'field': 'dest_host', 'value': 'FILE-SRV-02'}, {'field': 'username', 'value': 'jdavis'}, {'field': 'result', 'value': 'success'}, {'field': 'logon_type', 'value': 'network'}] was found between 2026-06-10T13:00:00Z and 2026-06-10T13:12:04Z in a source that does cover it.",
       "status": "unconfirmed"
     }
+  ],
+  "invalid_predictions": [],
+  "review_context": [
+    {
+      "event_ids": [
+        "EVT-0227"
+      ],
+      "reason": "Unidentified temporary file created on WKSTN-07 during the PowerShell session; size and location are noted but content and role are unconfirmed."
+    },
+    {
+      "event_ids": [
+        "EVT-0242"
+      ],
+      "reason": "Session closure (logoff) for jdavis on FILE-SRV-02 following the observed activity; represents session termination, not an attack-stage action."
+    },
+    {
+      "event_ids": [
+        "EVT-0223",
+        "EVT-0224",
+        "EVT-0225"
+      ],
+      "reason": "Connection telemetry alone does not establish command-and-control; application or process-level evidence is required."
+    }
+  ],
+  "review_limitations": [
+    "Cloud storage and generic internal network/auth activity for unrelated user accounts and hosts showed no host, account, or artifact linkage to the WKSTN-07/AUTH-SRV-01/FILE-SRV-02 activity chain and could not be tied to the incident.",
+    "Internal network connections lacking source/destination host attribution could not be confirmed as related to or excluded from the incident hosts beyond IP address alone."
   ],
   "structural": [
     {
@@ -239,14 +103,14 @@
     {
       "basis": "source_type_absent(dns)",
       "id": "no_dns_source",
-      "limits": "command-and-control is an address with no domain or resolution chain",
+      "limits": "observed network destinations cannot be linked to DNS queries; their purpose and any command-and-control role remain unconfirmed",
       "statement": "No DNS source is present.",
       "verified": true
     },
     {
       "basis": "all_actions_allowed(network)",
       "id": "no_block_signal",
-      "limits": "there is no block or deny signal to corroborate or contradict any transfer",
+      "limits": "blocked attempts are not represented; allowed records still provide evidence of recorded connections",
       "statement": "Every firewall record is an allow.",
       "verified": true
     }

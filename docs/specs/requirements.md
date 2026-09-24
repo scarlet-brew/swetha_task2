@@ -464,3 +464,19 @@ The role an outside service actually plays is **D-02** in [design.md](design.md)
 - [ ] The assumptions in §5 are acceptable, in particular A-04 and A-05
 - [ ] The acceptance scenarios in §6 are what the system should be judged against
 - [ ] The exclusions in §7 are the right exclusions
+
+
+## Repair acceptance — 2026-09-24
+Raw record coverage is not incident membership. A recorded action or shared entity alone
+must not become an intrusion finding. Candidate interpretation can return no finding.
+Final findings identify subject versus contextual events and are reviewed against source
+actions. Supported behaviour may remain unmapped. Failed review/model calls are partial
+or failed runs, never evidence of absence. Ground-truth labels are evaluation-only.
+
+## Approved action-preserving correlation repair (2026-09-24)
+Supersedes the earlier nine-finding consolidation and one-technique-per-finding restriction. Keep six stages and the current UI. Every input event must have exactly one disposition; incident findings contain explicit actions with primary event IDs. Context and data-quality issues remain visible separately. Findings are presentation groups, actions are mapping units. No expected finding count or annotation is used at runtime. Observed descriptions, chronology and elapsed times are computed from records; model interpretations are separately labelled. Reject unknown IDs, repeated primary events, missing dispositions and mixed distinct commands inside an atomic action. Evaluate complete incident coverage and factual answers, not count alone.
+
+
+## Seek correctness repair
+
+Seek must confirm only when all predicted record fields match on the same event, within a valid timezone-aware window. Local follow-up predictions have a maximum 24-hour search window; wider investigations require separate predictions. Invalid predictions remain unconfirmed with a diagnostic. Authentication predictions for an actor must specify their destination.

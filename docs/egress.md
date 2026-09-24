@@ -109,8 +109,21 @@ Answers an analyst question over the frozen artifacts.
 | observation ids, fields and asserted values | |
 | technique mappings and the local catalogue version | `19.2` |
 | computed coverage gaps | *"no mail-gateway source is present"* |
+| previous rejected answer and citation diagnostics | On bounded repair only: the rejected structured draft and specific failed citation checks |
 
 ---
+
+### 5 · `review_correlation` — stage 3, correlate
+
+Reviews complete source events. Candidate prose is not repeated as evidence; only
+candidate event groups and recorded hypothesis searches accompany the full events.
+The model returns subject/context event IDs, which code resolves to graph observations.
+
+| Category sent | Example |
+|---|---|
+| complete source events with ids, source types, normalized timestamps and field values | Full record fields, with annotation removed and time normalized |
+| candidate event groups (ids only) | Event IDs nominated during initial exploration |
+| hypothesis search results | Predictions, source coverage and observed search outcomes |
 
 ## The request envelope
 
@@ -121,7 +134,7 @@ on it.
 
 | Body field | What it carries | Incident information |
 |---|---|---|
-| `model` | the model id, `claude-opus-5` | no |
+| `model` | the model id, `claude-sonnet-5` | no |
 | `max_tokens` | the response budget | no |
 | `thinking` | `{"type": "adaptive"}` | no |
 | `output_config` | the effort level, and the response contract as JSON schema — field names and their descriptions, derived from `agent/schemas.py` | no |
@@ -143,7 +156,7 @@ Named explicitly, because "we only send what we need" is not a checkable claim.
 
 | Not sent | Why it matters |
 |---|---|
-| **Raw record payloads in bulk** | The prompt carries the observations a step is reasoning over, not the 242-record dataset. Records reach the provider only as the specific cited fields and values. |
+| **Development annotations** | Raw event fields are sent in full to the bounded case review, but annotation fields are stripped before that boundary. |
 | **The `note` field** | Stripped at the parse boundary (T10), so no downstream stage — model or otherwise — can see it. It is the dataset's answer key, and a model that read it would score perfectly while demonstrating nothing. |
 | **`tests/fixtures/ground_truth.json`** | Not reachable from `src/` or `app/` at all; a test enforces that with `git grep`. |
 | **The credential** | Read from `ANTHROPIC_API_KEY` in the environment and stored nowhere in the tree (NFR-10). No key file, no `.streamlit/secrets.toml`. `.env` is gitignored and no module reads it. |
@@ -192,10 +205,9 @@ contract's, carrying no class docstrings.
 A test over a fixture pins today's request. What keeps it true as the prompt
 builders arrive is `contracts.render_payload`, which assembles a user payload
 from `PayloadBlock(category, text)` and raises `UndeclaredEgress` for a category
-the site does not declare. **Every prompt builder goes through it** — the
-stage-3 loop, the stage-4 mapper, the stage-6 answerer — so sending something
-new means declaring a category, and declaring one that is not in the tables
-above fails the test that reads this file.
+the site does not declare. The final correlation review uses this wrapper. Other existing builders assemble
+text directly; the fixture checks their declared envelope and representative payloads,
+not an exhaustive runtime inspection of every prompt.
 
 Stated plainly, because the limit matters: at T06 the envelope and the labelling
 discipline are production code, and the payload blocks in the fixture stand in
@@ -211,3 +223,5 @@ parse. `agent/wire.py`'s `_restore_closed_values` repairs the schema and
 `client._request_kwargs` sends it through `extra_body`. Without that, D-08's
 "structurally unrepresentable" claim is false, and the captured body is where
 that is verified rather than assumed.
+
+Hypothesise also receives source-derived action timestamps and subject event IDs so it can bound follow-up searches.

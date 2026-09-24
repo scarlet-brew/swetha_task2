@@ -15,60 +15,6 @@
         "rank": 1
       },
       {
-        "first_at": "2026-06-10T09:05:40.279231Z",
-        "host": "wkstn-05",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-10T10:57:37.982291Z",
-        "host": "wkstn-08",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-10T12:06:58.828725Z",
-        "host": "wkstn-01",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-10T13:40:10.848419Z",
-        "host": "wkstn-02",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-10T14:01:45.325234Z",
-        "host": "wkstn-03",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-10T19:35:47.005698Z",
-        "host": "wkstn-09",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-11T00:49:30.104519Z",
-        "host": "wkstn-06",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-11T01:41:07.455907Z",
-        "host": "wkstn-10",
-        "level": "medium",
-        "rank": 1
-      },
-      {
-        "first_at": "2026-06-11T14:30:37.545256Z",
-        "host": "wkstn-04",
-        "level": "medium",
-        "rank": 1
-      },
-      {
         "first_at": "2026-06-10T11:23:08Z",
         "host": "auth-srv-01",
         "level": "high",
@@ -83,14 +29,16 @@
     ]
   },
   "exploit_based_escalation": {
-    "_why": "Integrity rises through stolen credentials and service execution, both of which are evidenced. No record shows exploitation of a vulnerability, and inferring one from rising integrity would close a gap with inference. T1068 is present in the catalogue and is deliberately absent from every mapping.",
+    "_why": "Different integrity levels do not establish how privileges were obtained. No accepted evidence here establishes exploitation of a vulnerability; inferring one from rising integrity would close a gap with inference. T1068 is present in the catalogue and is deliberately absent from every mapping.",
     "evidenced": false,
     "techniques_deliberately_not_mapped": [
       "T1068"
     ]
   },
-  "mechanism_claim": "No privilege-acquisition mechanism is evidenced by any accepted mapping. Integrity differs across hosts, but how the account obtained it is not established by these records.",
-  "mechanisms_evidenced": [],
+  "mechanism_claim": "Evidenced by mapped techniques: T1569.002",
+  "mechanisms_evidenced": [
+    "T1569.002"
+  ],
   "per_host": [
     {
       "highest": "high",
@@ -122,90 +70,6 @@
     },
     {
       "highest": "medium",
-      "host": "wkstn-01",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0180",
-          "level": "medium",
-          "observation": "obs_c4464ef3d58d",
-          "rank": 1,
-          "recorded_time": "2026-06-10T12:06:58.828725Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-02",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0187",
-          "level": "medium",
-          "observation": "obs_50895533f5de",
-          "rank": 1,
-          "recorded_time": "2026-06-10T13:40:10.848419Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-03",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0168",
-          "level": "medium",
-          "observation": "obs_5349c84f49e0",
-          "rank": 1,
-          "recorded_time": "2026-06-10T14:01:45.325234Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-04",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0166",
-          "level": "medium",
-          "observation": "obs_e4f460d586af",
-          "rank": 1,
-          "recorded_time": "2026-06-11T14:30:37.545256Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-05",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0150",
-          "level": "medium",
-          "observation": "obs_990ce803097c",
-          "rank": 1,
-          "recorded_time": "2026-06-10T09:05:40.279231Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-06",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0167",
-          "level": "medium",
-          "observation": "obs_3409fa2cae30",
-          "rank": 1,
-          "recorded_time": "2026-06-11T00:49:30.104519Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
       "host": "wkstn-07",
       "levels_observed": [
         {
@@ -214,48 +78,6 @@
           "observation": "obs_2ffe65dccba5",
           "rank": 1,
           "recorded_time": "2026-06-10T08:12:33Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-08",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0152",
-          "level": "medium",
-          "observation": "obs_d835f01234cb",
-          "rank": 1,
-          "recorded_time": "2026-06-10T10:57:37.982291Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-09",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0184",
-          "level": "medium",
-          "observation": "obs_326b3f738097",
-          "rank": 1,
-          "recorded_time": "2026-06-10T19:35:47.005698Z"
-        }
-      ],
-      "rises": []
-    },
-    {
-      "highest": "medium",
-      "host": "wkstn-10",
-      "levels_observed": [
-        {
-          "event_id": "EVT-0174",
-          "level": "medium",
-          "observation": "obs_f6574e040313",
-          "rank": 1,
-          "recorded_time": "2026-06-11T01:41:07.455907Z"
         }
       ],
       "rises": []

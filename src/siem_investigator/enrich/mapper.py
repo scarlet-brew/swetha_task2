@@ -18,6 +18,8 @@ there is legitimately nothing here.*
 from __future__ import annotations
 
 import re
+import math
+from collections import Counter
 from typing import Any
 
 from .. import ids
@@ -48,26 +50,42 @@ def retrieve(finding: dict, observations: list[dict], catalogue: Catalogue) -> l
         haystack |= _terms(str(observation.get("field", "")))
 
     stage = finding["stage"]
+    eligible = [catalogue.techniques[t] for t in catalogue.selectable_ids()
+                if stage in catalogue.techniques[t].tactics]
+    documents = {t.technique_id: _terms(t.description) | _terms(t.name) for t in eligible}
+    frequency = Counter(word for terms in documents.values() for word in terms)
+    average_length = sum(map(len, documents.values())) / max(1, len(documents))
     scored = []
-    for technique_id in catalogue.selectable_ids():
-        technique = catalogue.techniques[technique_id]
+    for technique in eligible:
+        # The validator already requires tactic compatibility. Rank only eligible
+        # techniques so incidental file/host words cannot crowd them out.
+        if stage not in technique.tactics:
+            continue
         name_terms = _terms(technique.name)
-        description_terms = _terms(technique.description[:600])
-        score = 3.0 * len(haystack & name_terms) + 0.5 * len(haystack & description_terms)
-        if stage in technique.tactics:
-            score += 2.0
+        description_terms = _terms(technique.description)
+        # IDF and document-length normalization prevent long generic entries
+        # winning merely because they contain more common incident words.
+        norm = 1 + 1.2 * (0.25 + 0.75 * len(documents[technique.technique_id]) / max(1, average_length))
+        score = sum(math.log(1 + (len(eligible)-frequency[w]+0.5)/(frequency[w]+0.5))
+                    * (3 if w in name_terms else 1) * 2.2 / norm
+                    for w in haystack & (name_terms | description_terms))
         if score > 0:
             scored.append((score, technique))
 
     scored.sort(key=lambda pair: (-pair[0], pair[1].technique_id))
+    selected = scored[:CANDIDATES]
+    parents = {t.technique_id for _,t in selected if not t.is_subtechnique}
+    chosen = {t.technique_id for _,t in selected}
+    selected += [(score,t) for score,t in scored if t.technique_id not in chosen
+                 and t.technique_id.split('.')[0] in parents]
     return [
         {
             "technique_id": technique.technique_id,
             "name": technique.name,
             "tactics": list(technique.tactics),
-            "description": technique.description[:400],
+            "description": technique.description,
         }
-        for _score, technique in scored[:CANDIDATES]
+        for _score, technique in selected[:40]
     ]
 
 
@@ -91,6 +109,8 @@ def validation_failures(
     for observation in observations:
         values.add(str(observation["normalised_value"]).lower())
         values.add(str(observation["raw_value"]).lower())
+    if not selection["quoted_values"]:
+        problems.append("mapping needs at least one nonempty quoted field value")
     for quoted in selection["quoted_values"]:
         needle = quoted.lower().strip()
         # Exact match, or the quote appearing verbatim *inside* a value -- a
@@ -98,7 +118,7 @@ def validation_failures(
         # accepted is the reverse: a stored value containing the quote as a
         # substring, which let `;10.0.2.18` pass against `10.0.2.18` and put
         # three invented semicolons into a committed mapping.
-        if needle not in values and not any(needle in value for value in values):
+        if not needle or (needle not in values and not any(needle in value for value in values)):
             problems.append(
                 f"quoted value {quoted!r} does not appear verbatim in any cited observation"
             )
@@ -109,16 +129,48 @@ def validation_failures(
             f"and the finding is at stage {finding['stage']!r}"
         )
 
+    # These are minimum evidence requirements, not attack detectors. A service
+    # record cannot substantiate deletion of a file or access to an SMB share.
+    kinds = {o.get('event_name') for o in observations}
+    if selection['technique_id'] == 'T1070.004' and kinds == {'service_delete'}:
+        problems.append('Service deletion is not file deletion; no file deletion evidence is cited')
+    if selection['technique_id'] == 'T1070.009' and kinds == {'service_delete'}:
+        problems.append('Clear Persistence requires evidence of previously established persistence; service deletion alone does not establish that prerequisite')
+    if selection['technique_id'] == 'T1021.002' and kinds <= {'service_create'}:
+        problems.append('Service creation alone does not establish SMB/admin-share access')
+
     return problems
 
 
-def map_findings(
+def map_findings(findings, observations, catalogue, **kwargs):
+    """Map each atomic action, then retain the parent finding as the graph target."""
+    units, parents = [], {}
+    for finding in findings:
+        for action in finding.get('actions') or [finding]:
+            units.append(action)
+            parents[action['id']] = finding['id']
+    mappings, unmapped = _map_units(units, observations, catalogue, **kwargs)
+    for row in mappings + unmapped:
+        action_id = row['finding']
+        parent = parents[action_id]
+        if action_id != parent:
+            row['action_id'] = action_id
+            row['finding'] = parent
+            if row.get('layer') == 'mapping':
+                row['id'] = ids.mapping_id(technique_id=row['technique_id'], finding=parent,
+                    cited_observations=row['cites_observations'], quoted_values=row['quoted_values'])
+    return mappings, unmapped
+
+
+def _map_units(
     findings: list[dict],
     observations: list[dict],
     catalogue: Catalogue,
     *,
     client_module=None,
     batch_size: int = 8,
+    repair_budget: int = 1,
+    _repair_diagnostics: dict | None = None,
 ) -> tuple[list[dict], list[dict]]:
     """`(mappings, unmapped)`.
 
@@ -168,14 +220,18 @@ def map_findings(
     # ---- the one parallel step ------------------------------------------
     def select(item):
         finding, cited, candidates = item
-        model_type = schemas.technique_selection_model(
+        model_type = schemas.technique_decision_model(
             tuple(candidate["technique_id"] for candidate in candidates)
         )
         return client_module.call(
             site=contracts.SELECT_TECHNIQUE.name,
             model_type=model_type,
             system=contracts.SELECT_TECHNIQUE.system,
-            user=_render(finding, cited, candidates),
+            user=_render(finding, cited, candidates) + (
+                "\nPrevious selection was rejected: " + "; ".join(_repair_diagnostics.get(finding["id"], []))
+                + "\nCorrect these errors using exact source values, or abstain."
+                if _repair_diagnostics else ""
+            ),
             max_tokens=4000,
         )
 
@@ -206,18 +262,35 @@ def map_findings(
             )
             continue
 
-        selection = {
-            "technique_id": result.parsed.technique_id,
-            "technique_name": result.parsed.technique_name,
-            "quoted_values": list(result.parsed.quoted_values),
-            "cited_observations": [
-                obs for obs in result.parsed.cited_observations if obs in by_id
-            ] or finding["cites_observations"],
-        }
-        problems = validation_failures(selection, finding, cited, catalogue)
+        parsed = result.parsed
+        if hasattr(parsed, "selections"):
+            if not parsed.selections:
+                unmapped.append({"id": ids.node_id("map", {"finding": finding["id"], "outcome": "unsupported"}), "finding": finding["id"], "outcome": "non_mappable", "reason": parsed.reason})
+                continue
+            parsed = parsed.selections[0]
+        selection = {"technique_id": parsed.technique_id, "technique_name": parsed.technique_name,
+                     "quoted_values": list(parsed.quoted_values), "cited_observations": list(parsed.cited_observations)}
+        allowed = {o["id"] for o in cited}
+        selected = [by_id[o] for o in selection["cited_observations"] if o in allowed]
+        problems = validation_failures(selection, finding, selected, catalogue)
+        if not selection["cited_observations"] or not set(selection["cited_observations"]) <= allowed:
+            problems.append("mapping citations must be a nonempty subset of this finding's evidence")
+        subjects = set(finding.get('subject_event_ids', []))
+        if subjects and not any(o['event_id'] in subjects for o in selected):
+            problems.append('Mapping must cite the primary action, not only a supporting action')
         technique = catalogue.technique(selection["technique_id"])
 
         if problems:
+            if repair_budget > 0:
+                repaired, unresolved = map_findings(
+                    [finding], observations, catalogue, client_module=client_module,
+                    repair_budget=0, _repair_diagnostics={finding["id"]: problems},
+                )
+                for row in repaired + unresolved:
+                    row["repair_diagnostics"] = problems
+                mappings.extend(repaired)
+                unmapped.extend(unresolved)
+                continue
             unmapped.append(
                 {
                     "id": ids.node_id(
@@ -270,12 +343,12 @@ def _render(finding: dict, observations: list[dict], candidates: list[dict]) -> 
             f"{observation['field']} = {observation['normalised_value']!r}"
         )
     lines.append("")
-    lines.append("CANDIDATE TECHNIQUES -- choose exactly one")
+    lines.append("CANDIDATE TECHNIQUES -- select zero or one; abstain if unsupported")
     for candidate in candidates:
         lines.append(
             f"  {candidate['technique_id']}  {candidate['name']}  tactics={candidate['tactics']}"
         )
-        lines.append(f"      {candidate['description'][:200]}")
+        lines.append(f"      {candidate['description']}")
     return "\n".join(lines)
 
 

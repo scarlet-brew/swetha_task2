@@ -969,3 +969,55 @@ now rather than expensively later:
 9. Stage 6 and the four UI surfaces
 10. The validation harness: leak independence, accuracy against annotations, projection purity,
     identity stability
+
+
+## Correlation repair — 2026-09-24
+
+The assignment remains the scope. Existing observation/edge storage and six stages remain.
+Structurally valid interpretations are candidates until a case verification pass reviews
+complete source events; the kernel does not establish semantic soundness. INTERPRET may
+decline without choosing an intrusion stage. Subject events are separated from context.
+Neighbourhoods expose complete event fields, normalised UTC times and data-quality conflicts.
+Prior candidate prose is not supplied as established truth to subsequent interpretations.
+A bounded final correlation review can consolidate, remove and recover findings from the
+supplied records, including events previously declined. All final citations and subject IDs
+are revalidated. Failures abort before publishing a new final reconstruction.
+SEEK enforces role and parsed time bounds. Matching evidence is not automatic confirmation
+of an entire interpretation. ATT&CK selection can explicitly abstain and must cite its
+own supporting fields; full candidate definitions are supplied. No label/ID/precision leak
+is used for detection. Accuracy uses subject events, with context reported separately.
+This deliberately avoids a production rule library and preserves the assignment's agentic
+correlation. Verification is a quality check, not a guarantee of semantic correctness.
+
+Model override requested by the user: all backend model calls now use Claude Sonnet 5 (`claude-sonnet-5`), retaining adaptive thinking and structured outputs.
+
+Initial model-backed lead exploration defaults to 32 record anchors (configurable with
+max_steps); this is a call budget, not a finding target or event-membership filter. The
+final review receives all complete source events, including unvisited anchors, and reports
+its own coverage separately. Offline loop tests retain exhaustive traversal. Initial
+interpretation uses low effort and 4000 output tokens; final verification retains medium
+reasoning and 16000 output tokens. This removes redundant per-background-record calls.
+
+Neighbourhood assessments may contain multiple distinct candidates, each individually
+validated. A repair targets one rejected candidate. An explicit valid edge citation
+also references its endpoints; final review expands these observation references and
+records the expansion, without inventing associations or changing the claim.
+
+Technique retrieval filters to the same tactic-compatible catalogue entries required by
+the validator before ranking. This prevents impossible candidates from displacing eligible
+techniques. Final review receives complete raw events plus concise candidate summaries,
+not duplicated candidate observation payloads; uncertain associations stay contextual.
+
+The evidence unit is a complete log record: a final finding referencing an observation
+gets all fields from that explicitly referenced record, with the expansion audited.
+Unknown references are retained for rejection. This is not a search for new supporting
+records. Subject IDs still control scope, support labels and action timing.
+
+## Decision: action-preserving case correlation (2026-09-24, accepted by user)
+Replace overlapping model neighbourhood narratives in the model-backed build with a bounded complete-case review, retaining the relation graph and a post-review hypothesise/seek step. Existing deterministic stub remains for offline tests. The review returns grouped actions, context, unresolved data and unrelated IDs. Code projects each action to exact source facts, computes time bounds, and rejects incomplete partitions. Stable action identity uses primary events and stage, not contextual citations. Enrichment runs per action then attaches mappings to the parent finding. Timeline retains action details and an event ledger; answer context receives the same projections.
+Alternatives: keep 32 overlapping calls (duplicates and cost); merge narratives after generation (loses actions); full graph clustering (shared entities create giant components). Chosen: bounded case interpretation with strict accounting for this small assignment. Tradeoff: not a production-scale partitioning solution; semantic interpretation still needs evaluation. No guaranteed finding count. Prompt-only constraints proved insufficient in the isolated 13-finding experiment.
+
+
+## Seek correctness repair
+
+Add structured field/value constraints to hypotheses; match them conjunctively within each candidate event. Include constraints in hypothesis identity and evidence. Supply premise timestamps to the model. Reject missing auth destinations and malformed, reversed or wider-than-24-hour windows before searching. This limit scopes follow-up searches, not correlation or attack duration.

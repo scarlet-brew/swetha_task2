@@ -228,10 +228,17 @@ def payload_blocks(
             "GAPS\n  no mail-gateway source is present, so a delivery vector cannot be "
             "evidenced\n  no DNS source is present, so an address cannot be resolved to a name",
         ),
+        PayloadBlock("previous rejected answer and citation diagnostics", "REJECTED DRAFT: no draft on initial request; bounded repair includes prior answer and gate failures"),
     )
 
     return {
         contracts.INTERPRET.name: interpret,
+        contracts.REVIEW.name: tuple(
+            PayloadBlock(category, text)
+            for category, text in zip(contracts.REVIEW.egress_categories, (
+                json.dumps([{k: v for k, v in event.items() if k != "note"} for event in (endpoint, auth, network, cloud)]),
+                json.dumps([[endpoint["event_id"]]]), "[]"))
+        ),
         contracts.HYPOTHESISE.name: hypothesise,
         contracts.SELECT_TECHNIQUE.name: select_technique,
         contracts.ANSWER.name: answer,
@@ -247,7 +254,7 @@ def model_type_for(site: Site) -> type[schemas.BaseModel]:
     capture exists to prove.
     """
     if site is contracts.SELECT_TECHNIQUE:
-        return schemas.technique_selection_model(CANDIDATE_TECHNIQUE_IDS)
+        return schemas.technique_decision_model(CANDIDATE_TECHNIQUE_IDS)
     return site.model_type
 
 

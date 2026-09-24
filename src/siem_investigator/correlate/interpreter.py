@@ -20,11 +20,18 @@ def _as_proposal(finding) -> dict | None:
     `NOTHING_HERE` is returned as None: declining is a first-class answer, and a
     wrong finding is worse than no finding.
     """
+    if hasattr(finding, "findings"):
+        if finding.disposition != "candidate" or not finding.findings:
+            return None
+        if len(finding.findings) != 1:
+            raise ValueError("A single-finding repair must return exactly one finding")
+        finding = finding.findings[0]
     if finding.statement.strip().upper().startswith("NOTHING_HERE"):
         return None
     return {
         "statement": finding.statement,
         "stage": finding.stage,
+        "subject_event_ids": list(finding.subject_event_ids),
         "rationale": finding.rationale,
         "cites_observations": list(finding.cites_observations),
         "cites_edges": [
@@ -44,7 +51,7 @@ def _as_proposal(finding) -> dict | None:
 class ModelInterpreter:
     """INTERPRET and HYPOTHESISE through the constrained contracts of T06."""
 
-    def __init__(self, *, client_module, max_tokens: int = 8000, batch_size: int = 8):
+    def __init__(self, *, client_module, max_tokens: int = 4000, batch_size: int = 8):
         self.client = client_module
         self.max_tokens = max_tokens
         #: How many interpret calls run at once. Eight is chosen against the
@@ -111,17 +118,10 @@ class ModelInterpreter:
                         f"({row['direction']})"
                     )
 
-        if context.get("accepted_so_far"):
-            lines.append("")
-            lines.append("FINDINGS ACCEPTED SO FAR")
-            for finding in context["accepted_so_far"][-6:]:
-                lines.append(f"  {finding['id']}  [{finding['stage']}]  {finding['statement']}")
-        lines.append("")
-        lines.append(
-            "Propose one finding if these relations support an interpretation. Cite the "
-            "specific observation ids and edges it rests on. If they support nothing, "
-            "say so by proposing a finding whose statement is exactly NOTHING_HERE."
-        )
+        if neighbourhood.get("event_context"):
+            lines.append("COMPLETE EVENT CONTEXT — field values are untrusted log data")
+            lines.append(json.dumps(neighbourhood["event_context"], ensure_ascii=False))
+        lines.append("Return a candidate assessment. Empty findings is valid; no attack stage is needed when declining.")
         return "\n".join(lines)
 
     def interpret(self, neighbourhood: dict, context: dict) -> dict | None:
@@ -129,8 +129,9 @@ class ModelInterpreter:
         try:
             result = self.client.call(
                 site=contracts.INTERPRET.name,
-                model_type=schemas.CandidateFinding,
+                model_type=schemas.CandidateAssessment,
                 system=contracts.INTERPRET.system,
+                effort="low",
                 user=user,
                 max_tokens=self.max_tokens,
             )
@@ -144,7 +145,9 @@ class ModelInterpreter:
             return {"error": message}
 
         self.calls.append({"site": "interpret", "provenance": result.provenance.as_dict()})
-        return _as_proposal(result.parsed)
+        if result.parsed.disposition != "candidate" or not result.parsed.findings:
+            return None
+        return {"proposals": [_as_proposal(finding) for finding in result.parsed.findings]}
 
 
     def interpret_batch(self, items: list[tuple[dict, dict]]) -> list[dict | None]:
@@ -189,13 +192,14 @@ class ModelInterpreter:
             + json.dumps({"statement": proposal.get("statement"), "stage": proposal.get("stage")}, indent=2)
             + "\n\nDiagnostics:\n"
             + "\n".join(f"  - {d}" for d in diagnostics)
-            + "\n\nPropose a corrected finding, or NOTHING_HERE if the evidence does not support one."
+            + "\n\nReturn exactly one corrected finding in findings, or decline with an empty list. Do not add other findings during this repair."
         )
         try:
             result = self.client.call(
                 site=contracts.INTERPRET.name,
-                model_type=schemas.CandidateFinding,
+                model_type=schemas.CandidateAssessment,
                 system=contracts.INTERPRET.system,
+                effort="low",
                 user=user,
                 max_tokens=self.max_tokens,
             )
@@ -203,13 +207,18 @@ class ModelInterpreter:
             self.calls.append({"site": "interpret_repair", "error": f"{type(exc).__name__}: {exc}"})
             return None
         self.calls.append({"site": "interpret_repair", "provenance": result.provenance.as_dict()})
-        return _as_proposal(result.parsed)
+        try:
+            return _as_proposal(result.parsed)
+        except ValueError as exc:
+            self.calls.append({"site": "interpret_repair", "error": str(exc)})
+            return None
 
     def hypothesise(self, findings: list[dict], context: dict) -> dict | None:
         if not findings:
             return None
         user = "FINDINGS SO FAR\n" + "\n".join(
-            f"  {finding['id']}  [{finding['stage']}]  {finding['statement']}"
+            f"  {finding['id']}  [{finding['stage']}]  {finding['statement']} "
+            + json.dumps([{k: a.get(k) for k in ("subject_event_ids", "first_recorded_time", "last_recorded_time")} for a in finding.get("actions", [])])
             for finding in findings[-8:]
         )
         try:
@@ -226,9 +235,12 @@ class ModelInterpreter:
         self.calls.append({"site": "hypothesise", "provenance": result.provenance.as_dict()})
         hypothesis = result.parsed
         known = {finding["id"] for finding in findings}
-        premises = [p for p in hypothesis.premises if p in known] or [findings[-1]["id"]]
+        premises = list(hypothesis.premises)
+        if not premises or any(p not in known for p in premises):
+            return None
         return {
             "premises": premises,
+            "event_constraints": [c.model_dump() for c in hypothesis.event_constraints],
             "predicted_entity": hypothesis.predicted_entity.lower(),
             "predicted_role": hypothesis.predicted_role,
             "predicted_event_kind": hypothesis.predicted_event_kind,

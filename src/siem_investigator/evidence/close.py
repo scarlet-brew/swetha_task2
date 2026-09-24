@@ -29,6 +29,8 @@ _SINGLE_VALUED = ("result", "integrity_level", "action")
 def label_for(finding: dict, observations: dict[str, dict]) -> tuple[str, list[str]]:
     """`(label, flags)` for one finding, from the evidence structure alone."""
     cited = [observations[obs] for obs in finding["cites_observations"] if obs in observations]
+    subjects = set(finding.get("subject_event_ids") or finding["event_ids"])
+    cited = [o for o in cited if o["event_id"] in subjects]
     sources = {observation["source_type"] for observation in cited}
 
     flags: list[str] = []
@@ -43,7 +45,7 @@ def label_for(finding: dict, observations: dict[str, dict]) -> tuple[str, list[s
     by_field: dict[str, set[Any]] = defaultdict(set)
     for observation in cited:
         if observation["field"] in _SINGLE_VALUED:
-            by_field[observation["field"]].add(observation["normalised_value"])
+            by_field[(observation["record"], observation["field"])].add(observation["normalised_value"])
     conflicted = any(len(values) > 1 for values in by_field.values())
     if conflicted:
         flags.append("conflicted")

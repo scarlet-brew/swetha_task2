@@ -74,14 +74,20 @@ class Artifacts:
 
     def context(self, question: str, *, limit: int = 40) -> str:
         """What stage 6 is allowed to see: the closed graph, nothing computed fresh."""
-        lines = ["QUESTION", f"  {question}", "", "ACCEPTED FINDINGS"]
+        accounts=sorted({r.get('payload',{}).get('username') for r in self.records.values() if r.get('payload',{}).get('username')})
+        lines = ["QUESTION", f"  {question}", f"DATASET: {len(self.records)} records; all observed usernames (including unrelated activity): {accounts}", "", "ACCEPTED FINDINGS"]
         for step in self.timeline["steps"][:limit]:
             techniques = ", ".join(t["technique_id"] for t in step["techniques"]) or "unmapped"
             lines.append(
                 f"  {step['finding']}  [{step['stage']}]  support={step['support']['label']}  "
                 f"techniques={techniques}"
             )
-            lines.append(f"      {step['statement']}")
+            lines.append(f"      OBSERVED: {step['statement']}")
+            for action in step.get("actions", []):
+                lines.append(f"      ACTION {action['id']}: {action['statement']}")
+                lines.append(f"      INTERPRETATION (qualified): {action['interpretation']}")
+                lines.append(f"      LIMITATIONS: {action['limitations']}")
+                lines.append(f"      COMPUTED TIMES: {action['first_recorded_time']} to {action['last_recorded_time']}; span_seconds={action['duration_seconds']}")
             lines.append(
                 f"      events={','.join(step['event_ids'][:8])}  sources={','.join(step['source_types'])}"
             )
@@ -105,7 +111,11 @@ class Artifacts:
                 lines.append(f"        {fields}")
 
         lines.append("")
-        lines.append("SCOPE OF COMPROMISE")
+        lines.append("INVESTIGATED EVENT LEDGER (times and gaps computed from source)")
+        for event in self.timeline.get("events", []):
+            if event["disposition"] in ("finding", "context"):
+                lines.append(f"  {event}")
+        lines.append("SCOPE OF OBSERVED INCIDENT ACTIVITY")
         for row in self.scope["involved"][:40]:
             lines.append(
                 f"  {row['entity_type']}:{row['value']}  findings={row['finding_count']}  "
@@ -115,9 +125,18 @@ class Artifacts:
         lines.append("")
         lines.append("GAPS -- what the sources cannot settle")
         for gap in self.gaps.get("structural", []):
-            lines.append(f"  {gap['statement']}  limits: {gap['limits']}")
+            if gap.get('verified'):
+                lines.append(f"  VERIFIED GAP {gap['id']}: {gap['statement']}  limits: {gap['limits']}")
         for gap in self.gaps.get("from_hypotheses", [])[:10]:
             lines.append(f"  [{gap['outcome']}] {gap['statement']}")
+
+        for limitation in self.gaps.get("review_limitations", []):
+            lines.append(f"  Review limitation: {limitation}")
+        for context in self.gaps.get("review_context", []):
+            lines.append(f"  Context only ({', '.join(context['event_ids'])}): {context['reason']}")
+            for observation in self.observations.values():
+                if observation["event_id"] in context["event_ids"]:
+                    lines.append(f"    {observation['id']} {observation['event_id']} {observation['recorded_time']} {observation['field']}={observation['raw_value']!r}")
 
         if self.privilege:
             lines.append("")

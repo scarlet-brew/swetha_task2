@@ -68,7 +68,7 @@ TechniqueId = Literal["T1059.001", "T1078", "T1569.002"]
 #: reaches for, so exactly the right thing to prove unrepresentable.
 OUT_OF_ENUM = "T1068"
 
-MODEL_ID = "claude-opus-5"
+MODEL_ID = "claude-sonnet-5"
 
 #: What the SDK pins as `anthropic-version` on every request. The answer record
 #: carries it as the provider version: "which version of the provider's API

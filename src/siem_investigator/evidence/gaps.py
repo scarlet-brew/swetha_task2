@@ -27,13 +27,13 @@ STRUCTURAL_GAPS = (
     {
         "id": "no_dns_source",
         "statement": "No DNS source is present.",
-        "limits": "command-and-control is an address with no domain or resolution chain",
+        "limits": "observed network destinations cannot be linked to DNS queries; their purpose and any command-and-control role remain unconfirmed",
         "check": ("source_type_absent", "dns"),
     },
     {
         "id": "no_block_signal",
         "statement": "Every firewall record is an allow.",
-        "limits": "there is no block or deny signal to corroborate or contradict any transfer",
+        "limits": "blocked attempts are not represented; allowed records still provide evidence of recorded connections",
         "check": ("all_actions_allowed", "network"),
     },
 )
@@ -87,12 +87,17 @@ def gaps(
             "outcome": hypothesis["outcome"],
             "predicted": {
                 "entity": hypothesis.get("predicted_entity"),
+                "event_constraints": hypothesis.get("event_constraints", []),
+                "window_start": hypothesis.get("window_start"),
+                "window_end": hypothesis.get("window_end"),
                 "event_kind": hypothesis.get("predicted_event_kind"),
                 "source_type": hypothesis.get("predicted_source_type"),
             },
             "statement": (
                 f"No {hypothesis.get('predicted_event_kind')} record for "
-                f"{hypothesis.get('predicted_entity')} was found"
+                f"{hypothesis.get('predicted_entity')} matching "
+                f"{hypothesis.get('event_constraints', [])} was found between "
+                f"{hypothesis.get('window_start')} and {hypothesis.get('window_end')}"
                 + (
                     " -- and no source covers it, so its absence says nothing about the estate."
                     if hypothesis["outcome"] == "not_covered"
@@ -102,7 +107,7 @@ def gaps(
             "premised_on": hypothesis["premises"],
         }
         for hypothesis in hypotheses
-        if hypothesis["status"] in ("unconfirmed", "uncoverable")
+        if hypothesis["status"] in ("unconfirmed", "uncoverable") and not hypothesis.get("validation_error")
     ]
 
     host_coverage = [
@@ -116,6 +121,8 @@ def gaps(
     ]
 
     return {
+        "invalid_predictions": [{"hypothesis": h["id"], "diagnostic": h["validation_error"]}
+                                for h in hypotheses if h.get("validation_error")],
         "structural": structural,
         "from_hypotheses": from_hypotheses,
         "uneven_host_coverage": host_coverage,

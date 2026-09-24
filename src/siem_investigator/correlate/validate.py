@@ -136,6 +136,12 @@ def validate(
     for obs in missing:
         diagnostics.append(f"check 1: cited observation {obs} does not exist")
 
+    subjects = set(proposal.get("subject_event_ids") or [])
+    cited_events = {index.by_id[o]["event_id"] for o in cited_observations if o in index.by_id}
+    checks["subject_events_are_cited"] = subjects <= cited_events
+    if not checks["subject_events_are_cited"]:
+        diagnostics.append("subject events must be demonstrated by cited observations")
+
     # ---- check 2: every cited edge re-evaluates to true -------------------
     edge_ok = True
     for edge in cited_edges:

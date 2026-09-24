@@ -6,29 +6,29 @@
     "data/derived/02_events.jsonl": 212687,
     "data/derived/02_parse_report.json": 2863,
     "data/derived/02_resolution.jsonl": 12130,
-    "data/derived/03_correlate_report.json": 3033,
-    "data/derived/03_edges.jsonl": 598891,
-    "data/derived/03_findings.jsonl": 471618,
-    "data/derived/03_hypotheses.jsonl": 44778,
+    "data/derived/03_correlate_report.json": 76501,
+    "data/derived/03_edges.jsonl": 339467,
+    "data/derived/03_findings.jsonl": 28892,
+    "data/derived/03_hypotheses.jsonl": 1169,
     "data/derived/03_observations.jsonl": 774558,
-    "data/derived/03_rejections.jsonl": 66848,
-    "data/derived/03_trajectory.jsonl": 82645,
-    "data/derived/04_enrich_report.json": 1224,
-    "data/derived/04_mappings.jsonl": 91634,
-    "data/derived/04_unmapped.jsonl": 36797,
-    "data/derived/05_attack_flow.json": 445413,
-    "data/derived/05_gaps.json": 9865,
-    "data/derived/05_navigator_layer.json": 5089,
-    "data/derived/05_privilege.json": 6677,
-    "data/derived/05_scope.json": 163671,
-    "data/derived/05_synthesise_report.json": 1000,
-    "data/derived/05_timeline.json": 430160
+    "data/derived/03_rejections.jsonl": 0,
+    "data/derived/03_trajectory.jsonl": 244,
+    "data/derived/04_enrich_report.json": 691,
+    "data/derived/04_mappings.jsonl": 5388,
+    "data/derived/04_unmapped.jsonl": 5020,
+    "data/derived/05_attack_flow.json": 24940,
+    "data/derived/05_gaps.json": 6198,
+    "data/derived/05_navigator_layer.json": 1393,
+    "data/derived/05_privilege.json": 2358,
+    "data/derived/05_scope.json": 8190,
+    "data/derived/05_synthesise_report.json": 992,
+    "data/derived/05_timeline.json": 104743
   },
   "attack_version": "19.2",
-  "contract_set_hash": "d34281130544ff53fcc09ea8ec73cbac53c9a3c8b2ac77482e69cb4aaff7f2e5",
-  "elapsed_seconds": 193.08,
+  "contract_set_hash": "a4c9faabc78a3fc9050bc4156dd7fe035c09007db569a15e826b0d41d766990c",
+  "elapsed_seconds": 21.92,
   "interpreter": "model-backed",
-  "resumed_from_stage": 4,
+  "resumed_from_stage": 5,
   "software_version": "0.1.0",
   "stage_verification": {
     "01_ingest": {
@@ -54,12 +54,12 @@
       "every_finding_cites_an_observation": true,
       "every_record_examined": true,
       "every_rejection_carries_a_diagnostic": true,
-      "no_model_call_failed": false
+      "no_model_call_failed": true
     },
     "04_enrich": {
       "every_id_name_pair_is_consistent": true,
       "every_mapping_id_is_in_the_catalogue": true,
-      "no_model_call_failed": false,
+      "no_model_call_failed": true,
       "non_mappable_is_distinct_from_rejected": true,
       "t1068_not_mapped": true
     },
@@ -71,5 +71,5 @@
       "invariant_3_acyclicity": true
     }
   },
-  "validator_version": "1"
+  "validator_version": "2"
 }

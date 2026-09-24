@@ -1071,3 +1071,23 @@ Ordered by how much they would cost to discover late.
     are recorded in design.md by T39 rather than taken silently. The **dark palette** is *not*
     dropped — it moved into T07, since §9.1 says dark mode is selected with its own steps rather than
     an automatic flip, and no candidate plan built it.
+
+
+## Bounded correlation repair — 2026-09-24
+- [ ] Complete event context and explicit interpretation abstention.
+- [ ] Revalidate/consolidate final findings inside correlation; retain subject/context IDs.
+- [ ] Correct SEEK role/time handling and precise process/session associations.
+- [ ] Allow technique abstention and validate exactly selected evidence.
+- [ ] Rebuild in isolation, inspect claims, test regressions and assignment questions.
+
+## Action-preserving repair tasks (2026-09-24)
+- [ ] Introduce grouped action contract, exact event partition validation and source-derived facts/times.
+- [ ] Integrate case correlation and retain post-review hypothesis/seek.
+- [ ] Enrich each atomic action, retain parent finding references and abstention.
+- [ ] Expose actions, context and calculated chronology to timeline and chatbot.
+- [ ] Run regression suite, live build, repeat correlation and assignment answer checks; document limits.
+
+
+## Seek correctness repair
+
+Implement hypothesis constraints and timestamp context; validate and match in Seek; test wrong destination, cross-event matches, boundaries and invalid windows; regenerate saved hypothesis and downstream projections; keep UI running.

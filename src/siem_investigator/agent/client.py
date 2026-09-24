@@ -31,15 +31,15 @@ from pydantic import BaseModel
 from .. import __version__, ids
 from .wire import schema_defects, wire_schema
 
-#: Design SS10.1's model. Opus 5, with adaptive thinking.
-MODEL_ID = "claude-opus-5"
+#: Design SS10.1's model. Sonnet 5, with adaptive thinking.
+MODEL_ID = "claude-sonnet-5"
 
 #: The wire API version the SDK pins. Recorded on every answer record (R10.3),
 #: because "which model" is not the same question as "which API".
 PROVIDER_API_VERSION = "2023-06-01"
 
 #: Adaptive, never a token budget: `budget_tokens` is rejected outright by
-#: Opus 5.
+#: Sonnet 5.
 THINKING: dict[str, str] = {"type": "adaptive"}
 
 #: The credential is read from the environment and from nowhere else (NFR-10).

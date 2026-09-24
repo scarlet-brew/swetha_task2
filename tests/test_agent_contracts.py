@@ -391,6 +391,8 @@ class TheContractsParseWhatTheyPromise(unittest.TestCase):
                 "rationale": "The parent field of one names the process of the other.",
             },
         ),
+        "CandidateAssessment": (schemas.CandidateAssessment, {"disposition":"not_linked", "reason":"No supported incident behaviour", "findings":[]}),
+        "CaseReview": (schemas.CaseReview, {"findings":[], "limitations":[]}),
         "Hypothesis": (
             schemas.Hypothesis,
             {
@@ -510,8 +512,10 @@ class TheClosedFieldsReachTheWire(unittest.TestCase):
             closed,
             {
                 "stage",
+                "disposition",
                 "relation",
                 "predicted_role",
+                "field",  # Same-record constraints use the source field vocabulary.
                 "technique_id",
                 "kind",
                 # Closed at P0. With these two open, 18 of 24 hypotheses

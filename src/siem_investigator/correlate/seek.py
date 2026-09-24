@@ -15,6 +15,7 @@ closed, and the window and source are enforced here.
 from __future__ import annotations
 
 from .. import ids
+from datetime import datetime, timedelta
 
 
 def _seek(hypothesis: dict, *, ledger: Ledger, index, entities: list[dict], step: int) -> None:
@@ -27,6 +28,7 @@ def _seek(hypothesis: dict, *, ledger: Ledger, index, entities: list[dict], step
     prediction = {
         key: hypothesis[key]
         for key in (
+            "event_constraints",
             "predicted_entity",
             "predicted_role",
             "predicted_event_kind",
@@ -56,19 +58,52 @@ def _seek(hypothesis: dict, *, ledger: Ledger, index, entities: list[dict], step
     # hypothesis, which made it unfalsifiable: it could not fail for the reason
     # it was written.
     start, end = prediction.get("window_start"), prediction.get("window_end")
+    def instant(value):
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    constraints = prediction.get("event_constraints", [])
+    diagnostic = None
+    try:
+        first, last = instant(start), instant(end)
+        if first.utcoffset() is None or last.utcoffset() is None:
+            raise ValueError("Search window must include timezones")
+        if last < first or last - first > timedelta(hours=24):
+            raise ValueError("Search window must be ordered and no wider than 24 hours")
+        if wanted_source == "auth" and prediction.get("predicted_role") == "actor":
+            if not any(c.get("field") == "dest_host" and c.get("value") for c in constraints):
+                raise ValueError("Actor authentication prediction requires dest_host")
+        if any(not c.get("field") or not c.get("value") for c in constraints):
+            raise ValueError("Record constraints must have nonempty fields and values")
+    except (ValueError, TypeError, AttributeError) as exc:
+        diagnostic = str(exc)
+    by_event = {}
+    for observation in index.observations:
+        by_event.setdefault(observation["event_id"], []).append(observation)
+    def constrained_rows(event_id):
+        rows = by_event[event_id]
+        return [next((o for o in rows if o.get("field") == c["field"]
+                      and str(o.get("normalised_value", "")).casefold() == str(c["value"]).casefold()), None)
+                for c in constraints]
     matches = [
+
         observation
         for observation in index.observations
-        if str(observation["normalised_value"]).lower() == entity_value
+        if not diagnostic
+        and str(observation["normalised_value"]).lower() == entity_value
+        and observation.get("role") == prediction.get("predicted_role")
         and observation["kind"] == wanted_kind
         and observation["source_type"] == wanted_source
-        and (not start or observation["recorded_time"] >= start)
-        and (not end or observation["recorded_time"] <= end)
+        and all(constrained_rows(observation["event_id"]))
+        and (not start or instant(observation["recorded_time"]) >= instant(start))
+        and (not end or instant(observation["recorded_time"]) <= instant(end))
     ]
 
     if matches:
         status, outcome = "confirmed", "found"
-        evidence = sorted({observation["id"] for observation in matches})[:5]
+        evidence = sorted({o["id"] for match in matches[:5]
+                           for o in [match, *constrained_rows(match["event_id"])]})
+    elif diagnostic:
+        status, outcome = "unconfirmed", "not_found"
+        evidence = []
     elif not covered:
         status, outcome = "uncoverable", "not_covered"
         evidence = []
@@ -83,6 +118,7 @@ def _seek(hypothesis: dict, *, ledger: Ledger, index, entities: list[dict], step
             "premises": sorted(set(hypothesis["premises"])),
             **prediction,
             "rationale": hypothesis.get("rationale", ""),
+            **({"validation_error": diagnostic} if diagnostic else {}),
             "status": status,
             "outcome": outcome,
             "evidence": evidence,

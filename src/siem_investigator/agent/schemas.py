@@ -1,30 +1,4 @@
-"""The contracts for the three model sites (T06).
-
-Every model here is **strict**: `extra="forbid"` becomes
-`additionalProperties: false` at every object level, and every closed field is a
-`Literal` so a value outside it is unrepresentable rather than merely
-detectable. That ordering is D-08's whole posture -- constrain, then validate --
-and `wire.wire_schema` is what makes it survive to the wire, because the SDK's
-own transform drops `enum` (see `wire._restore_closed_values`).
-
-**No field anywhere carries a probability, a percentage or a confidence value.**
-R3.4 forbids them, and the way that requirement normally rots is someone adding
-a harmless-looking `confidence: float` two months later. There is no field to
-put one in, `wire.schema_defects` scans the emitted schema for the shape of one,
-and a test runs that scan over `ALL_CONTRACT_MODELS` -- the nested models
-included, since those reach the wire too and are the easier ones to miss.
-
-Two things are deliberately *not* in these models:
-
-* **Node ids for the thing being created.** A finding's id is a hash of its
-  structural identity (SS8.2), computed by `ids.finding_id` after the model
-  returns. Letting the model propose an id would let it propose two different
-  findings with one id, or collide with an existing node.
-* **Support labels.** Corroborated / Single-sourced / Absence-based /
-  Conflicted are *computed* at close from the count of distinct source types
-  across a finding's supporting observations (T25). A model-asserted support
-  label would be an opinion wearing the clothes of a measurement.
-"""
+"""Strict structured model contracts; observations remain the evidence authority."""
 
 from __future__ import annotations
 
@@ -62,23 +36,7 @@ RelationName = Literal[
 #: renames a tactic fails here rather than silently narrowing the vocabulary.
 #:
 #: Note `stealth` rather than `defense-evasion`: v19.2 renamed TA0005.
-IntrusionStage = Literal[
-    "collection",
-    "command-and-control",
-    "credential-access",
-    "defense-impairment",
-    "discovery",
-    "execution",
-    "exfiltration",
-    "impact",
-    "initial-access",
-    "lateral-movement",
-    "persistence",
-    "privilege-escalation",
-    "reconnaissance",
-    "resource-development",
-    "stealth",
-]
+from .stages import IntrusionStage
 
 
 #: The 14 logical event kinds the dataset contains, and its 4 source types.
@@ -124,19 +82,7 @@ _STRICT = ConfigDict(extra="forbid")
 
 
 class CitedEdge(BaseModel):
-    """One factual edge a finding rests on.
-
-    An **object**, not a tuple. A 2-tuple would emit `prefixItems`, which is
-    poorly supported and would make the ordering positional and easy to
-    silently reverse. Naming the endpoints makes direction explicit, which
-    matters because several relations are directional -- `process_parent` names
-    parent then child, `temporal_within` earlier then later -- and reversing
-    them states something different.
-
-    No parameters field. A reported delta-t is derivable from the endpoints, so
-    including it would add nothing and churn the edge id if the time base
-    shifted (SS8.2).
-    """
+    """A factual edge with named, ordered endpoints; parameters are derived."""
 
     model_config = _STRICT
 
@@ -168,6 +114,7 @@ class CandidateFinding(BaseModel):
         )
     )
     stage: IntrusionStage = Field(description="Which intrusion stage this finding belongs to.")
+    subject_event_ids: list[str] = Field(default_factory=list, description="Only event IDs demonstrating the stated action, excluding contextual events. Required for model-backed final findings.")
     cites_observations: list[str] = Field(
         min_length=1,
         description=(
@@ -188,6 +135,31 @@ class CandidateFinding(BaseModel):
     )
 
 
+class CandidateAssessment(BaseModel):
+    model_config = _STRICT
+    disposition: Literal["candidate", "unresolved", "not_linked"]
+    reason: str = Field(description="Why this evidence warrants incident investigation, or why it does not. A shared entity alone is insufficient.")
+    findings: list[CandidateFinding] = Field(default_factory=list, description="Zero findings is valid. Only candidate disposition may contain findings. Each finding describes one distinct behaviour, not one per record.")
+
+
+class ReviewedFinding(BaseModel):
+    model_config = _STRICT
+    statement: str
+    stage: IntrusionStage
+    subject_event_ids: list[str] = Field(min_length=1, description="Events demonstrating this single incident behaviour.")
+    context_event_ids: list[str] = Field(default_factory=list, description="Other source events needed for comparison, sequence or limitations; not additional attack actions.")
+    rationale: str
+
+
+from .case_schema import CaseReview, CaseAction, ActionGroup, EventDisposition
+
+
+class EventConstraint(BaseModel):
+    model_config = _STRICT
+    field: Literal["dest_host", "source_host", "hostname", "src_host", "dst_host", "username", "result", "logon_type", "src_ip", "dst_ip", "source_ip", "dest_ip", "dst_port", "protocol", "action", "process_name", "parent_process", "file_path", "file_name", "service_name", "bucket"] = Field(description="Exact source field name. Authentication destination is dest_host; origin is source_host.")
+    value: str = Field(description="Required source field value; compared case-insensitively.")
+
+
 class Hypothesis(BaseModel):
     """What should exist if the findings so far are right -- committed *before* looking.
 
@@ -206,6 +178,7 @@ class Hypothesis(BaseModel):
     premises: list[str] = Field(
         min_length=1, description="Finding ids this hypothesis is premised on."
     )
+    event_constraints: list[EventConstraint] = Field(default_factory=list, description="All required fields on the SAME predicted record. Include destination for actor auth predictions and every condition stated in the rationale.")
     predicted_entity: str = Field(
         description="The entity that should appear -- an account, host, address, process or file."
     )
@@ -346,6 +319,8 @@ class Answer(BaseModel):
 #: sites. `contracts.CONTRACT_SET_HASH` is computed over these plus the prompts.
 CONTRACT_MODELS: tuple[type[BaseModel], ...] = (
     CandidateFinding,
+    CandidateAssessment,
+    CaseReview,
     Hypothesis,
     TechniqueSelection,
     Answer,
@@ -356,8 +331,11 @@ CONTRACT_MODELS: tuple[type[BaseModel], ...] = (
 #: belief field added to a *nested* model reaches the wire just as surely and is
 #: the easier one to miss on review.
 ALL_CONTRACT_MODELS: tuple[type[BaseModel], ...] = (
+    EventConstraint, CaseAction, ActionGroup, EventDisposition, ReviewedFinding,
     CitedEdge,
     CandidateFinding,
+    CandidateAssessment,
+    CaseReview,
     Hypothesis,
     TechniqueSelection,
     AnswerClaim,
@@ -396,3 +374,13 @@ def technique_selection_model(candidate_ids: tuple[str, ...]) -> type[TechniqueS
     # module's commentary has no business being sent to the provider.
     ConstrainedTechniqueSelection.__doc__ = None
     return ConstrainedTechniqueSelection
+
+
+def technique_decision_model(candidate_ids: tuple[str, ...]) -> type[BaseModel]:
+    selection = technique_selection_model(candidate_ids)
+    class TechniqueDecision(BaseModel):
+        model_config = _STRICT
+        selections: list[selection] = Field(default_factory=list, max_length=1, description="Empty when no candidate's defining behaviour is demonstrated. Never choose the closest merely to fill this list.")
+        reason: str = Field(description="Explain the defining behaviour or the reason for abstaining.")
+    TechniqueDecision.__doc__ = None
+    return TechniqueDecision

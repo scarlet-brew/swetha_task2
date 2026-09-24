@@ -204,16 +204,15 @@ def run(
                 ledger.trajectory.append(record)
                 continue
 
-            accepted = _try_accept(
-                proposal,
-                index=index,
-                ledger=ledger,
-                back_prompts=back_prompts,
-                interpreter=interpreter,
-                neighbourhood=neighbourhood,
-                context=context,
-                step=steps,
-            )
+            candidates = proposal.get("proposals", [proposal])
+            outcomes = [
+                _try_accept(candidate, index=index, ledger=ledger,
+                            back_prompts=back_prompts, interpreter=interpreter,
+                            neighbourhood=neighbourhood, context=context, step=steps)
+                for candidate in candidates if candidate is not None
+            ]
+            accepted = any(outcomes)
+            record["candidate_outcomes"] = outcomes
             record["outcome"] = "accepted" if accepted else "rejected"
             ledger.trajectory.append(record)
 
@@ -230,6 +229,9 @@ def run(
                     if row["id"] not in visited
                 ]
                 frontier[:0] = follow
+
+        if batched is not None:
+            print(f"    correlate {steps}/{total_records} records; {len(ledger.findings)} provisional findings; {failed_calls} failed calls", flush=True)
 
         # ---- one hypothesis per wave --------------------------------------
         #
@@ -351,6 +353,7 @@ def _accept(proposal: dict, *, index, ledger: Ledger, step: int) -> None:
             "cites_findings": sorted(set(proposal.get("cites_findings") or [])),
             "source_types": sorted({observation["source_type"] for observation in cited}),
             "event_ids": sorted({observation["event_id"] for observation in cited}),
+            "subject_event_ids": sorted(set(proposal.get("subject_event_ids") or [o["event_id"] for o in cited])),
             "proposed_at_step": step,
         }
     )

@@ -17,6 +17,7 @@ the failing check reported, rather than shown without it.
 from __future__ import annotations
 
 import re
+import json
 from typing import Any
 
 from .. import ids, jsonl, paths
@@ -119,7 +120,10 @@ def gate(answer: dict, artifacts: Artifacts) -> tuple[bool, list[str]]:
             + list(claim.get("cites_observations") or [])
             + list(claim.get("cites_mappings") or [])
         )
-        if not cited:
+        basis = str(claim.get('applies_because') or '').split(':',1)[0].strip()
+        verified_gap = claim.get('kind') == 'absence' and any(
+            g.get('id') == basis and g.get('verified') for g in getattr(artifacts,'gaps',{}).get('structural',[]))
+        if not cited and not verified_gap:
             failures.append(f"claim {index}: cites nothing; an uncited claim is a bug (R2.2)")
 
         for node_id in cited:
@@ -177,13 +181,13 @@ def to_payload(question: str, answer: dict, artifacts: Artifacts, provenance: di
                     }
                 )
             elif layer == "finding":
-                first = next(
-                    (
+                first = min(
+                    [
                         artifacts.observations[obs]
                         for obs in node["cites_observations"]
                         if obs in artifacts.observations
-                    ),
-                    None,
+                        and artifacts.observations[obs]['event_id'] in set(node.get('subject_event_ids') or node['event_ids'])
+                    ], key=lambda o:o['recorded_time'], default=None,
                 )
                 citations.append(
                     {
@@ -219,8 +223,8 @@ def to_payload(question: str, answer: dict, artifacts: Artifacts, provenance: di
                 "kind": claim["kind"],
                 "support": support,
                 "citations": citations,
-                **({"basis": {"name": claim["basis"], "requires": "records not being present",
-                              "applies_because": claim["basis"]}} if claim.get("basis") else {}),
+                **({"basis": {"name": claim.get('applies_because',claim.get('basis')), "requires": "verified coverage gap",
+                              "applies_because": claim.get('applies_because',claim.get('basis'))}} if claim.get("basis") or claim.get('applies_because') else {}),
             }
         )
 
@@ -308,6 +312,9 @@ def ask(question: str, *, artifacts: Artifacts | None = None) -> dict[str, Any]:
             context
             + "\n\nYour previous answer was REJECTED by the citation gate:\n"
             + "\n".join(f"  - {failure}" for failure in failures)
+            + contracts.render_payload(contracts.ANSWER, [contracts.PayloadBlock(
+                'previous rejected answer and citation diagnostics',
+                '\nREJECTED DRAFT (untrusted, correct rather than assume true):\n'+json.dumps(answer))])
             + "\n\nFix exactly those problems and answer again. A claim you cannot cite "
             "should be moved into `gaps` or dropped, not left uncited."
         )

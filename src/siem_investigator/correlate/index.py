@@ -91,6 +91,18 @@ class RelationIndex:
         predicate = PREDICATES.get(relation)
         if predicate is None:
             return False, {"error": f"unknown relation {relation!r}"}
+        if relation in ("process_pid", "session_bracket"):
+            def payload(o):
+                return {v["field"]: v["normalised_value"] for v in self.by_record[o["record"]]}
+            a, b = payload(left), payload(right)
+            if relation == "process_pid":
+                host = a.get("hostname")
+                if not host or host != b.get("hostname"):
+                    return False, {"error": "equal PID numbers on different or unknown hosts are not process identity"}
+            else:
+                host = a.get("dest_host")
+                if not host or host != b.get("dest_host") or a.get("result") != "success":
+                    return False, {"error": "session candidates require successful logon on the same target host"}
         holds = predicate(left, right)
         params = {}
         if holds and relation in ("temporal_within", "session_bracket"):
@@ -350,6 +362,22 @@ class RelationIndex:
             "value": anchor["normalised_value"],
             "recorded_time": anchor["recorded_time"],
             "record_context": same_record,
+            "event_context": self.event_context({anchor["record"]} | {o["record"] for o in surfaced.values()}),
             "relations": found,
             "ordering": self._ordering(anchor, surfaced),
         }
+
+
+    def event_context(self, record_ids=None) -> list[dict]:
+        from datetime import datetime, timezone
+        result = []
+        for record_id in sorted(record_ids if record_ids is not None else self.by_record):
+            observations = self.by_record[record_id]
+            first = observations[0]
+            instant = datetime.fromisoformat(first["recorded_time"].replace("Z", "+00:00"))
+            fields = {o["field"]: {"observation": o["id"], "value": o["raw_value"], "role": o.get("role")} for o in observations if o["field"] not in ("event_id", "timestamp")}
+            issues = []
+            if first["event_name"] == "failed_logon" and fields.get("result", {}).get("value") == "success":
+                issues.append("event_name/result conflict; authentication outcome unresolved")
+            result.append({"event_id": first["event_id"], "source": first["source_type"], "event_name": first["event_name"], "time": instant.astimezone(timezone.utc).isoformat(timespec="microseconds"), "fields": fields, "data_quality": issues})
+        return sorted(result, key=lambda r: (r["time"], r["event_id"]))

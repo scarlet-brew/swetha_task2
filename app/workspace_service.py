@@ -73,7 +73,7 @@ class Workspace:
                 stages.append(dict(title=title, name=name, mode=mode, state='Outputs available' if artifacts else 'Not built', artifacts=artifacts, report=reports[i], checks=next((v for k, v in manifest.get('stage_verification', {}).items() if k.startswith(prefix)), {})))
             if before != self.fingerprint():
                 raise SnapshotChanged('The investigation changed while loading.')
-            self.data = dict(revision=revision, incident=ingest.get('incident_ref', 'Incident investigation'), organisation='Meridian Health Partners', records=records, timeline=a.timeline.get('steps', []), scope=a.scope, gaps=a.gaps, privilege=a.privilege, stages=stages, manifest=manifest, issues=issues, chat_ready=bool(a.available and client.credential_present() and not issues), credential_present=client.credential_present(), window=ingest.get('collection_window', {}))
+            self.data = dict(revision=revision, incident=ingest.get('incident_ref', 'Incident investigation'), organisation='Meridian Health Partners', records=records, timeline=a.timeline.get('steps', []), event_ledger=a.timeline.get('events', []), scope=a.scope, gaps=a.gaps, privilege=a.privilege, stages=stages, manifest=manifest, issues=issues, chat_ready=bool(a.available and client.credential_present() and not issues), credential_present=client.credential_present(), window=ingest.get('collection_window', {}))
             self.artifacts, self.signature = a, before
             self.data['graph'] = graph
             return self.data

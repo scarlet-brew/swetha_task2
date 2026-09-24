@@ -1,0 +1,1740 @@
+[
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0221",
+    "finding": "fnd_977620c2003d",
+    "observation": "WKSTN-07: WINWORD.EXE started cmd.exe; command: cmd.exe /c powershell.exe -nop -w hidden -enc JABjAGwAaQBlAG4AdA...",
+    "previous_investigated_event": null,
+    "recorded_time": "2026-06-10T08:12:33.000000+00:00",
+    "seconds_since_previous_investigated_event": null
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0222",
+    "finding": "fnd_977620c2003d",
+    "observation": "WKSTN-07: cmd.exe started powershell.exe; command: powershell.exe -nop -w hidden -enc JABjAGwAaQBlAG4AdA...",
+    "previous_investigated_event": "EVT-0221",
+    "recorded_time": "2026-06-10T08:12:35.000000+00:00",
+    "seconds_since_previous_investigated_event": 2.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0209",
+    "finding": null,
+    "observation": "file_download: username=dtaylor; source_ip=10.0.2.17; bucket=corp-documents; file_name=Team_OKRs_2026.xlsx; file_size_bytes=906815; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-10T08:50:44.249433+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0125",
+    "finding": null,
+    "observation": "10.0.1.12: recorded TCP connection to 10.0.2.28:25; action allowed",
+    "recorded_time": "2026-06-10T08:58:58.486989+00:00"
+  },
+  {
+    "disposition": "context",
+    "event_id": "EVT-0223",
+    "finding": null,
+    "observation": "10.0.2.47: recorded TCP connection to 185.220.101.45:443; action allowed",
+    "previous_investigated_event": "EVT-0222",
+    "recorded_time": "2026-06-10T09:03:17.000000+00:00",
+    "seconds_since_previous_investigated_event": 3042.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0150",
+    "finding": null,
+    "observation": "WKSTN-05: teams.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-10T09:05:40.279231+00:00"
+  },
+  {
+    "disposition": "context",
+    "event_id": "EVT-0224",
+    "finding": null,
+    "observation": "10.0.2.47: recorded TCP connection to 185.220.101.45:443; action allowed",
+    "previous_investigated_event": "EVT-0223",
+    "recorded_time": "2026-06-10T09:18:44.000000+00:00",
+    "seconds_since_previous_investigated_event": 927.0
+  },
+  {
+    "disposition": "context",
+    "event_id": "EVT-0225",
+    "finding": null,
+    "observation": "10.0.2.47: recorded TCP connection to 185.220.101.45:443; action allowed",
+    "previous_investigated_event": "EVT-0224",
+    "recorded_time": "2026-06-10T09:34:21.000000+00:00",
+    "seconds_since_previous_investigated_event": 937.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0206",
+    "finding": null,
+    "observation": "file_download: username=ewhite; source_ip=10.0.4.12; bucket=corp-documents; file_name=Team_OKRs_2026.xlsx; file_size_bytes=4115874; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-10T09:46:29.618328+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0216",
+    "finding": null,
+    "observation": "file_share: username=glee; source_ip=10.0.4.22; bucket=corp-documents; file_name=Q2_Budget_Draft.xlsx; file_size_bytes=2543635; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-10T09:51:41.372814+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0226",
+    "finding": "fnd_3b761f4176e1",
+    "observation": "WKSTN-07: powershell.exe (PID 5104) accessed lsass.exe with recorded rights 0x1410",
+    "previous_investigated_event": "EVT-0225",
+    "recorded_time": "2026-06-10T10:07:51.000000+00:00",
+    "seconds_since_previous_investigated_event": 2010.0
+  },
+  {
+    "disposition": "context",
+    "event_id": "EVT-0227",
+    "finding": null,
+    "observation": "WKSTN-07: created C:\\Users\\jdavis\\AppData\\Local\\Temp\\~df4a12.tmp (14823322 bytes)",
+    "previous_investigated_event": "EVT-0226",
+    "recorded_time": "2026-06-10T10:08:03.000000+00:00",
+    "seconds_since_previous_investigated_event": 12.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0130",
+    "finding": null,
+    "observation": "10.0.1.26: recorded UDP connection to 10.0.1.18:22; action allowed",
+    "recorded_time": "2026-06-10T10:21:25.734447+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0024",
+    "finding": null,
+    "observation": "user logoff: ewhite from WKSTN-06 to AUTH-SRV-01; type network; result failure",
+    "recorded_time": "2026-06-10T10:42:27.919718+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0152",
+    "finding": null,
+    "observation": "WKSTN-08: teams.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-10T10:57:37.982291+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0123",
+    "finding": null,
+    "observation": "10.0.4.15: recorded UDP connection to 10.0.3.11:443; action allowed",
+    "recorded_time": "2026-06-10T11:11:11.437561+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0228",
+    "finding": "fnd_063698e9611c",
+    "observation": "user logon: jdavis from WKSTN-07 to AUTH-SRV-01; type network; result success",
+    "previous_investigated_event": "EVT-0227",
+    "recorded_time": "2026-06-10T11:22:14.000000+00:00",
+    "seconds_since_previous_investigated_event": 4451.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0095",
+    "finding": null,
+    "observation": "10.0.3.22: recorded TCP connection to 10.0.2.17:22; action allowed",
+    "recorded_time": "2026-06-10T11:22:19.206032+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0229",
+    "finding": "fnd_85c9b403e6f9",
+    "observation": "AUTH-SRV-01: cmd.exe started net.exe; command: net group \"Domain Admins\" /domain",
+    "previous_investigated_event": "EVT-0228",
+    "recorded_time": "2026-06-10T11:23:08.000000+00:00",
+    "seconds_since_previous_investigated_event": 54.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0230",
+    "finding": "fnd_85c9b403e6f9",
+    "observation": "AUTH-SRV-01: cmd.exe started net.exe; command: net user /domain",
+    "previous_investigated_event": "EVT-0229",
+    "recorded_time": "2026-06-10T11:28:42.000000+00:00",
+    "seconds_since_previous_investigated_event": 334.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0110",
+    "finding": null,
+    "observation": "10.0.1.13: recorded TCP connection to 10.0.5.19:53; action allowed",
+    "recorded_time": "2026-06-10T11:33:38.176114+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0180",
+    "finding": null,
+    "observation": "WKSTN-01: outlook.exe started outlook.exe; command: not recorded",
+    "recorded_time": "2026-06-10T12:06:58.828725+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0210",
+    "finding": null,
+    "observation": "unspecified host: uploaded Q2_Budget_Draft.xlsx (3279866 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-10T12:09:59.368729+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0199",
+    "finding": null,
+    "observation": "file_view: username=asmith; source_ip=10.0.5.18; bucket=corp-documents; file_name=Client_Proposal_Acme.docx; file_size_bytes=412030; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-10T12:18:41.520558+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0215",
+    "finding": null,
+    "observation": "unspecified host: uploaded Meeting_Notes_Jun10.docx (11680 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-10T12:29:17.435280+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0175",
+    "finding": null,
+    "observation": "WKSTN-08: explorer.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-10T12:37:08.758133+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0231",
+    "finding": "fnd_c276151f7ec6",
+    "observation": "10.0.1.10: recorded TCP connection to 10.0.1.22:445; action allowed",
+    "previous_investigated_event": "EVT-0230",
+    "recorded_time": "2026-06-10T13:11:33.000000+00:00",
+    "seconds_since_previous_investigated_event": 6171.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0232",
+    "finding": "fnd_c276151f7ec6",
+    "observation": "FILE-SRV-02: created service PSEXESVC; path C:\\Windows\\PSEXESVC.exe",
+    "previous_investigated_event": "EVT-0231",
+    "recorded_time": "2026-06-10T13:12:04.000000+00:00",
+    "seconds_since_previous_investigated_event": 31.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0233",
+    "finding": "fnd_27558f192321",
+    "observation": "FILE-SRV-02: PSEXESVC.exe started cmd.exe; command: cmd.exe",
+    "previous_investigated_event": "EVT-0232",
+    "recorded_time": "2026-06-10T13:12:07.000000+00:00",
+    "seconds_since_previous_investigated_event": 3.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0187",
+    "finding": null,
+    "observation": "WKSTN-02: explorer.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-10T13:40:10.848419+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0168",
+    "finding": null,
+    "observation": "WKSTN-03: teams.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-10T14:01:45.325234+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0234",
+    "finding": "fnd_744b1a823def",
+    "observation": "FILE-SRV-02: cmd.exe started net.exe; command: net share",
+    "previous_investigated_event": "EVT-0233",
+    "recorded_time": "2026-06-10T14:05:22.000000+00:00",
+    "seconds_since_previous_investigated_event": 3195.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0235",
+    "finding": "fnd_744b1a823def",
+    "observation": "FILE-SRV-02: cmd.exe started cmd.exe; command: dir /s /b \\\\FILE-SRV-02\\finance-data",
+    "previous_investigated_event": "EVT-0234",
+    "recorded_time": "2026-06-10T14:07:55.000000+00:00",
+    "seconds_since_previous_investigated_event": 153.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0009",
+    "finding": null,
+    "observation": "user logoff: hwalker from WKSTN-09 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-10T14:40:12.102241+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0089",
+    "finding": null,
+    "observation": "10.0.1.13: recorded UDP connection to 10.0.5.29:443; action allowed",
+    "recorded_time": "2026-06-10T15:34:04.605935+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0140",
+    "finding": null,
+    "observation": "10.0.4.21: recorded TCP connection to 10.0.4.13:443; action allowed",
+    "recorded_time": "2026-06-10T15:39:12.340248+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0029",
+    "finding": null,
+    "observation": "failed logon: fmartinez from WKSTN-02 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-10T15:42:39.986198+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0040",
+    "finding": null,
+    "observation": "failed logon: iharris from WKSTN-04 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-10T15:45:17.487358+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0071",
+    "finding": null,
+    "observation": "10.0.4.12: recorded UDP connection to 10.0.4.15:443; action allowed",
+    "recorded_time": "2026-06-10T16:00:22.055696+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0236",
+    "finding": "fnd_471cfebb5da6",
+    "observation": "FILE-SRV-02: cmd.exe started 7z.exe; command: 7z.exe a -r C:\\Temp\\backup_archive.zip \\\\FILE-SRV-02\\finance-data\\2026\\*",
+    "previous_investigated_event": "EVT-0235",
+    "recorded_time": "2026-06-10T16:34:12.000000+00:00",
+    "seconds_since_previous_investigated_event": 8777.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0237",
+    "finding": "fnd_471cfebb5da6",
+    "observation": "FILE-SRV-02: created C:\\Temp\\backup_archive.zip (2473829122 bytes)",
+    "previous_investigated_event": "EVT-0236",
+    "recorded_time": "2026-06-10T16:51:03.000000+00:00",
+    "seconds_since_previous_investigated_event": 1011.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0076",
+    "finding": null,
+    "observation": "10.0.4.24: recorded UDP connection to 10.0.1.17:53; action allowed",
+    "recorded_time": "2026-06-10T17:00:41.935055+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0238",
+    "finding": "fnd_7ef0f3ff3192",
+    "observation": "FILE-SRV-02: uploaded backup_archive.zip (2473829122 bytes) to bucket ext-drop-xf9q2; owner EXTERNAL; action allowed",
+    "previous_investigated_event": "EVT-0237",
+    "recorded_time": "2026-06-10T18:18:44.000000+00:00",
+    "seconds_since_previous_investigated_event": 5261.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0159",
+    "finding": null,
+    "observation": "WKSTN-01: explorer.exe started teams.exe; command: not recorded",
+    "recorded_time": "2026-06-10T18:19:08.876335+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0183",
+    "finding": null,
+    "observation": "WKSTN-03: teams.exe started outlook.exe; command: not recorded",
+    "recorded_time": "2026-06-10T18:51:47.084315+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0088",
+    "finding": null,
+    "observation": "10.0.2.25: recorded UDP connection to 10.0.4.23:443; action allowed",
+    "recorded_time": "2026-06-10T19:03:40.932454+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0094",
+    "finding": null,
+    "observation": "10.0.5.23: recorded TCP connection to 10.0.4.20:53; action allowed",
+    "recorded_time": "2026-06-10T19:10:05.788416+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0072",
+    "finding": null,
+    "observation": "10.0.1.27: recorded UDP connection to 10.0.2.22:80; action allowed",
+    "recorded_time": "2026-06-10T19:14:27.673088+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0132",
+    "finding": null,
+    "observation": "10.0.3.16: recorded TCP connection to 10.0.1.17:443; action allowed",
+    "recorded_time": "2026-06-10T19:20:59.796200+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0184",
+    "finding": null,
+    "observation": "WKSTN-09: teams.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-10T19:35:47.005698+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0084",
+    "finding": null,
+    "observation": "10.0.5.12: recorded TCP connection to 10.0.4.22:25; action allowed",
+    "recorded_time": "2026-06-10T19:41:12.690494+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0006",
+    "finding": null,
+    "observation": "user logoff: asmith from WKSTN-02 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-10T19:51:26.563646+00:00"
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0239",
+    "finding": "fnd_a75e5f21668d",
+    "observation": "FILE-SRV-02: deleted C:\\Temp\\backup_archive.zip",
+    "previous_investigated_event": "EVT-0238",
+    "recorded_time": "2026-06-10T20:03:17.000000+00:00",
+    "seconds_since_previous_investigated_event": 6273.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0240",
+    "finding": "fnd_a75e5f21668d",
+    "observation": "FILE-SRV-02: deleted C:\\Temp\\7z.exe",
+    "previous_investigated_event": "EVT-0239",
+    "recorded_time": "2026-06-10T20:04:02.000000+00:00",
+    "seconds_since_previous_investigated_event": 45.0
+  },
+  {
+    "disposition": "finding",
+    "event_id": "EVT-0241",
+    "finding": "fnd_a75e5f21668d",
+    "observation": "FILE-SRV-02: deleted service PSEXESVC",
+    "previous_investigated_event": "EVT-0240",
+    "recorded_time": "2026-06-10T20:05:38.000000+00:00",
+    "seconds_since_previous_investigated_event": 96.0
+  },
+  {
+    "disposition": "context",
+    "event_id": "EVT-0242",
+    "finding": null,
+    "observation": "user logoff: jdavis from FILE-SRV-02 to AUTH-SRV-01; type network; result success",
+    "previous_investigated_event": "EVT-0241",
+    "recorded_time": "2026-06-10T20:08:11.000000+00:00",
+    "seconds_since_previous_investigated_event": 153.0
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0139",
+    "finding": null,
+    "observation": "10.0.4.18: recorded TCP connection to 10.0.1.28:80; action allowed",
+    "recorded_time": "2026-06-10T20:27:01.216356+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0194",
+    "finding": null,
+    "observation": "file_view: username=fmartinez; source_ip=10.0.3.21; bucket=corp-documents; file_name=Product_Roadmap_v3.pptx; file_size_bytes=3492045; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-10T20:42:23.024628+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0096",
+    "finding": null,
+    "observation": "10.0.4.29: recorded TCP connection to 10.0.4.21:80; action allowed",
+    "recorded_time": "2026-06-10T20:46:42.214912+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0052",
+    "finding": null,
+    "observation": "user logon: dtaylor from WKSTN-10 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-10T20:49:34.566610+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0042",
+    "finding": null,
+    "observation": "user logon: glee from WKSTN-08 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-10T21:25:00.921148+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0131",
+    "finding": null,
+    "observation": "10.0.5.15: recorded UDP connection to 10.0.1.26:53; action allowed",
+    "recorded_time": "2026-06-10T21:27:34.395616+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0142",
+    "finding": null,
+    "observation": "WKSTN-05: outlook.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-10T21:41:40.136056+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0149",
+    "finding": null,
+    "observation": "WKSTN-02: outlook.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-10T22:43:26.429914+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0019",
+    "finding": null,
+    "observation": "failed logon: hwalker from WKSTN-10 to AUTH-SRV-01; type remote_interactive; result success",
+    "recorded_time": "2026-06-10T22:59:02.525182+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0014",
+    "finding": null,
+    "observation": "user logoff: glee from WKSTN-08 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-10T23:00:48.297157+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0020",
+    "finding": null,
+    "observation": "user logon: fmartinez from WKSTN-02 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-10T23:30:40.097804+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0204",
+    "finding": null,
+    "observation": "file_download: username=dtaylor; source_ip=10.0.4.11; bucket=corp-documents; file_name=Team_OKRs_2026.xlsx; file_size_bytes=4448950; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-10T23:51:56.666230+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0051",
+    "finding": null,
+    "observation": "user logon: hwalker from WKSTN-08 to AUTH-SRV-01; type network; result failure",
+    "recorded_time": "2026-06-10T23:54:23.601947+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0028",
+    "finding": null,
+    "observation": "user logoff: dtaylor from WKSTN-10 to AUTH-SRV-01; type network; result failure",
+    "recorded_time": "2026-06-11T00:19:26.577031+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0167",
+    "finding": null,
+    "observation": "WKSTN-06: outlook.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-11T00:49:30.104519+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0054",
+    "finding": null,
+    "observation": "user logon: glee from WKSTN-03 to AUTH-SRV-02; type remote_interactive; result failure",
+    "recorded_time": "2026-06-11T01:19:38.981577+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0174",
+    "finding": null,
+    "observation": "WKSTN-10: teams.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-11T01:41:07.455907+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0011",
+    "finding": null,
+    "observation": "user logoff: asmith from WKSTN-05 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-11T03:01:40.094053+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0067",
+    "finding": null,
+    "observation": "10.0.4.12: recorded UDP connection to 10.0.1.25:443; action allowed",
+    "recorded_time": "2026-06-11T03:18:15.219184+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0005",
+    "finding": null,
+    "observation": "user logon: dtaylor from WKSTN-04 to AUTH-SRV-02; type interactive; result success",
+    "recorded_time": "2026-06-11T03:21:03.937588+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0100",
+    "finding": null,
+    "observation": "10.0.1.17: recorded UDP connection to 10.0.2.16:443; action allowed",
+    "recorded_time": "2026-06-11T03:59:42.264363+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0191",
+    "finding": null,
+    "observation": "file_share: username=fmartinez; source_ip=10.0.2.24; bucket=corp-documents; file_name=Product_Roadmap_v3.pptx; file_size_bytes=4095450; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T04:22:17.617130+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0112",
+    "finding": null,
+    "observation": "10.0.1.12: recorded UDP connection to 10.0.3.10:80; action allowed",
+    "recorded_time": "2026-06-11T04:44:54.143200+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0170",
+    "finding": null,
+    "observation": "WKSTN-09: teams.exe started outlook.exe; command: not recorded",
+    "recorded_time": "2026-06-11T05:09:06.671408+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0030",
+    "finding": null,
+    "observation": "failed logon: hwalker from WKSTN-01 to AUTH-SRV-01; type remote_interactive; result success",
+    "recorded_time": "2026-06-11T05:25:54.996133+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0208",
+    "finding": null,
+    "observation": "unspecified host: uploaded Meeting_Notes_Jun10.docx (3556749 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-11T05:53:30.217271+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0091",
+    "finding": null,
+    "observation": "10.0.1.11: recorded TCP connection to 10.0.2.10:443; action allowed",
+    "recorded_time": "2026-06-11T06:43:39.266514+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0181",
+    "finding": null,
+    "observation": "WKSTN-09: explorer.exe started teams.exe; command: not recorded",
+    "recorded_time": "2026-06-11T06:50:13.194708+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0143",
+    "finding": null,
+    "observation": "WKSTN-10: explorer.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-11T06:56:50.158387+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0080",
+    "finding": null,
+    "observation": "10.0.1.12: recorded TCP connection to 10.0.4.14:443; action allowed",
+    "recorded_time": "2026-06-11T07:06:05.683843+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0178",
+    "finding": null,
+    "observation": "WKSTN-09: explorer.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-11T07:28:39.978902+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0015",
+    "finding": null,
+    "observation": "failed logon: fmartinez from WKSTN-06 to AUTH-SRV-02; type network; result success",
+    "recorded_time": "2026-06-11T07:40:22.208790+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0124",
+    "finding": null,
+    "observation": "10.0.1.17: recorded UDP connection to 10.0.2.17:443; action allowed",
+    "recorded_time": "2026-06-11T08:08:55.989392+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0079",
+    "finding": null,
+    "observation": "10.0.4.25: recorded UDP connection to 10.0.5.20:443; action allowed",
+    "recorded_time": "2026-06-11T08:09:03.901158+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0070",
+    "finding": null,
+    "observation": "10.0.5.25: recorded UDP connection to 10.0.4.13:53; action allowed",
+    "recorded_time": "2026-06-11T09:31:48.790384+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0066",
+    "finding": null,
+    "observation": "10.0.4.14: recorded UDP connection to 10.0.5.26:25; action allowed",
+    "recorded_time": "2026-06-11T11:08:13.385686+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0198",
+    "finding": null,
+    "observation": "unspecified host: uploaded Product_Roadmap_v3.pptx (333932 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-11T11:16:12.352464+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0126",
+    "finding": null,
+    "observation": "10.0.4.20: recorded TCP connection to 8.8.8.8:443; action allowed",
+    "recorded_time": "2026-06-11T11:16:40.019911+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0179",
+    "finding": null,
+    "observation": "WKSTN-06: explorer.exe started teams.exe; command: not recorded",
+    "recorded_time": "2026-06-11T11:44:31.430862+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0044",
+    "finding": null,
+    "observation": "user logoff: jclark from WKSTN-05 to AUTH-SRV-01; type remote_interactive; result failure",
+    "recorded_time": "2026-06-11T11:46:02.176941+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0026",
+    "finding": null,
+    "observation": "user logoff: jclark from WKSTN-01 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-11T11:50:35.135756+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0059",
+    "finding": null,
+    "observation": "failed logon: dtaylor from WKSTN-06 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-11T12:01:42.212359+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0171",
+    "finding": null,
+    "observation": "WKSTN-01: outlook.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-11T12:29:43.990005+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0128",
+    "finding": null,
+    "observation": "10.0.3.21: recorded UDP connection to 10.0.3.18:53; action allowed",
+    "recorded_time": "2026-06-11T12:31:15.304298+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0202",
+    "finding": null,
+    "observation": "file_share: username=cjohnson; source_ip=10.0.5.22; bucket=corp-documents; file_name=Client_Proposal_Acme.docx; file_size_bytes=198441; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T12:46:27.752751+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0189",
+    "finding": null,
+    "observation": "WKSTN-10: explorer.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-11T13:18:47.088963+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0203",
+    "finding": null,
+    "observation": "file_share: username=asmith; source_ip=10.0.4.10; bucket=corp-documents; file_name=Product_Roadmap_v3.pptx; file_size_bytes=2407399; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T13:56:04.379651+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0144",
+    "finding": null,
+    "observation": "WKSTN-01: outlook.exe started explorer.exe; command: not recorded",
+    "recorded_time": "2026-06-11T14:27:41.334185+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0166",
+    "finding": null,
+    "observation": "WKSTN-04: teams.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-11T14:30:37.545256+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0099",
+    "finding": null,
+    "observation": "10.0.1.13: recorded UDP connection to 10.0.4.12:22; action allowed",
+    "recorded_time": "2026-06-11T14:41:08.113530+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0137",
+    "finding": null,
+    "observation": "10.0.1.20: recorded TCP connection to 10.0.3.27:53; action allowed",
+    "recorded_time": "2026-06-11T14:45:34.167799+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0127",
+    "finding": null,
+    "observation": "10.0.5.29: recorded TCP connection to 10.0.1.26:443; action allowed",
+    "recorded_time": "2026-06-11T15:04:19.669750+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0220",
+    "finding": null,
+    "observation": "file_share: username=iharris; source_ip=10.0.2.19; bucket=corp-documents; file_name=Client_Proposal_Acme.docx; file_size_bytes=3614950; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T15:09:41.137709+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0108",
+    "finding": null,
+    "observation": "10.0.4.12: recorded TCP connection to 10.0.5.16:443; action allowed",
+    "recorded_time": "2026-06-11T15:28:19.958592+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0146",
+    "finding": null,
+    "observation": "WKSTN-08: outlook.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-11T15:35:55.236814+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0010",
+    "finding": null,
+    "observation": "user logon: hwalker from WKSTN-10 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-11T15:39:41.579066+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0063",
+    "finding": null,
+    "observation": "10.0.2.25: recorded TCP connection to 10.0.4.14:443; action allowed",
+    "recorded_time": "2026-06-11T16:01:55.100127+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0173",
+    "finding": null,
+    "observation": "WKSTN-04: teams.exe started teams.exe; command: not recorded",
+    "recorded_time": "2026-06-11T16:31:53.576072+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0147",
+    "finding": null,
+    "observation": "WKSTN-09: outlook.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-11T16:38:31.959259+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0050",
+    "finding": null,
+    "observation": "failed logon: iharris from WKSTN-09 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-11T16:50:58.471757+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0118",
+    "finding": null,
+    "observation": "10.0.1.17: recorded TCP connection to 10.0.3.11:443; action allowed",
+    "recorded_time": "2026-06-11T16:54:50.880622+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0158",
+    "finding": null,
+    "observation": "WKSTN-04: explorer.exe started outlook.exe; command: not recorded",
+    "recorded_time": "2026-06-11T17:07:26.334963+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0043",
+    "finding": null,
+    "observation": "user logoff: hwalker from WKSTN-03 to AUTH-SRV-02; type network; result success",
+    "recorded_time": "2026-06-11T17:12:47.357821+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0148",
+    "finding": null,
+    "observation": "WKSTN-03: teams.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-11T17:28:12.381788+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0217",
+    "finding": null,
+    "observation": "file_share: username=glee; source_ip=10.0.3.18; bucket=corp-documents; file_name=Q2_Budget_Draft.xlsx; file_size_bytes=637246; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T18:06:53.786605+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0157",
+    "finding": null,
+    "observation": "WKSTN-06: teams.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-11T18:10:19.904909+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0164",
+    "finding": null,
+    "observation": "WKSTN-06: explorer.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-11T18:39:09.582038+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0058",
+    "finding": null,
+    "observation": "user logon: jclark from WKSTN-06 to AUTH-SRV-02; type network; result failure",
+    "recorded_time": "2026-06-11T19:26:53.798600+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0177",
+    "finding": null,
+    "observation": "WKSTN-06: teams.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-11T19:33:50.203756+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0047",
+    "finding": null,
+    "observation": "failed logon: asmith from WKSTN-02 to AUTH-SRV-01; type remote_interactive; result success",
+    "recorded_time": "2026-06-11T19:35:25.309741+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0049",
+    "finding": null,
+    "observation": "user logon: asmith from WKSTN-01 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-11T19:46:43.199688+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0129",
+    "finding": null,
+    "observation": "10.0.1.19: recorded TCP connection to 10.0.2.29:443; action allowed",
+    "recorded_time": "2026-06-11T19:57:16.622968+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0197",
+    "finding": null,
+    "observation": "file_download: username=hwalker; source_ip=10.0.1.27; bucket=corp-documents; file_name=Meeting_Notes_Jun10.docx; file_size_bytes=3443163; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T20:13:59.578650+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0093",
+    "finding": null,
+    "observation": "10.0.5.17: recorded TCP connection to 10.0.1.18:80; action allowed",
+    "recorded_time": "2026-06-11T20:36:15.876223+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0154",
+    "finding": null,
+    "observation": "WKSTN-08: teams.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-11T20:48:14.324572+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0098",
+    "finding": null,
+    "observation": "10.0.4.11: recorded TCP connection to 10.0.2.10:80; action allowed",
+    "recorded_time": "2026-06-11T20:51:38.739876+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0021",
+    "finding": null,
+    "observation": "user logoff: jclark from WKSTN-06 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-11T21:01:27.094565+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0134",
+    "finding": null,
+    "observation": "10.0.2.12: recorded UDP connection to 10.0.2.21:443; action allowed",
+    "recorded_time": "2026-06-11T21:15:40.924019+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0041",
+    "finding": null,
+    "observation": "failed logon: glee from WKSTN-09 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-11T21:18:42.135724+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0218",
+    "finding": null,
+    "observation": "file_download: username=cjohnson; source_ip=10.0.3.22; bucket=corp-documents; file_name=Client_Proposal_Acme.docx; file_size_bytes=237843; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-11T21:23:11.638878+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0117",
+    "finding": null,
+    "observation": "10.0.1.23: recorded UDP connection to 10.0.1.18:80; action allowed",
+    "recorded_time": "2026-06-11T21:27:27.580114+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0003",
+    "finding": null,
+    "observation": "user logoff: bwilliams from WKSTN-01 to AUTH-SRV-02; type network; result success",
+    "recorded_time": "2026-06-11T21:44:08.561917+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0182",
+    "finding": null,
+    "observation": "WKSTN-06: outlook.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-11T21:49:25.220591+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0156",
+    "finding": null,
+    "observation": "WKSTN-02: explorer.exe started excel.exe; command: not recorded",
+    "recorded_time": "2026-06-11T22:30:09.186275+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0075",
+    "finding": null,
+    "observation": "10.0.1.23: recorded UDP connection to 151.101.65.140:443; action allowed",
+    "recorded_time": "2026-06-11T23:15:10.853857+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0163",
+    "finding": null,
+    "observation": "WKSTN-05: explorer.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-11T23:36:10.574094+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0065",
+    "finding": null,
+    "observation": "10.0.1.16: recorded UDP connection to 10.0.2.24:25; action allowed",
+    "recorded_time": "2026-06-11T23:37:02.311519+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0169",
+    "finding": null,
+    "observation": "WKSTN-10: explorer.exe started outlook.exe; command: not recorded",
+    "recorded_time": "2026-06-11T23:56:24.035700+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0102",
+    "finding": null,
+    "observation": "10.0.1.24: recorded TCP connection to 10.0.3.10:25; action allowed",
+    "recorded_time": "2026-06-11T23:58:24.349240+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0056",
+    "finding": null,
+    "observation": "user logoff: dtaylor from WKSTN-06 to AUTH-SRV-02; type interactive; result success",
+    "recorded_time": "2026-06-12T00:08:42.310238+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0219",
+    "finding": null,
+    "observation": "file_share: username=hwalker; source_ip=10.0.3.23; bucket=corp-documents; file_name=Team_OKRs_2026.xlsx; file_size_bytes=4686737; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T00:13:31.309003+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0136",
+    "finding": null,
+    "observation": "10.0.1.25: recorded UDP connection to 10.0.3.13:25; action allowed",
+    "recorded_time": "2026-06-12T00:36:20.944073+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0145",
+    "finding": null,
+    "observation": "WKSTN-10: outlook.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-12T00:44:33.219009+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0205",
+    "finding": null,
+    "observation": "file_view: username=ewhite; source_ip=10.0.5.14; bucket=corp-documents; file_name=Q2_Budget_Draft.xlsx; file_size_bytes=667047; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T00:48:18.537661+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0034",
+    "finding": null,
+    "observation": "user logoff: asmith from WKSTN-08 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T00:56:43.536471+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0113",
+    "finding": null,
+    "observation": "10.0.3.25: recorded UDP connection to 10.0.1.22:22; action allowed",
+    "recorded_time": "2026-06-12T00:57:06.986281+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0101",
+    "finding": null,
+    "observation": "10.0.2.18: recorded TCP connection to 10.0.2.27:443; action allowed",
+    "recorded_time": "2026-06-12T01:12:07.786552+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0025",
+    "finding": null,
+    "observation": "user logoff: hwalker from WKSTN-03 to AUTH-SRV-01; type network; result failure",
+    "recorded_time": "2026-06-12T01:40:25.507119+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0053",
+    "finding": null,
+    "observation": "user logoff: ewhite from WKSTN-03 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T02:38:33.566378+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0097",
+    "finding": null,
+    "observation": "10.0.4.11: recorded TCP connection to 10.0.5.16:25; action allowed",
+    "recorded_time": "2026-06-12T02:45:14.828451+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0002",
+    "finding": null,
+    "observation": "user logoff: cjohnson from WKSTN-03 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-12T02:59:42.234241+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0074",
+    "finding": null,
+    "observation": "10.0.4.24: recorded UDP connection to 10.0.3.11:443; action allowed",
+    "recorded_time": "2026-06-12T03:11:52.825935+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0176",
+    "finding": null,
+    "observation": "WKSTN-03: outlook.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-12T03:15:28.402358+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0104",
+    "finding": null,
+    "observation": "10.0.4.21: recorded UDP connection to 10.0.4.14:443; action allowed",
+    "recorded_time": "2026-06-12T03:16:40.664293+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0081",
+    "finding": null,
+    "observation": "10.0.5.15: recorded UDP connection to 10.0.5.22:80; action allowed",
+    "recorded_time": "2026-06-12T03:40:17.529020+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0135",
+    "finding": null,
+    "observation": "10.0.3.20: recorded TCP connection to 10.0.4.17:80; action allowed",
+    "recorded_time": "2026-06-12T04:00:39.646550+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0200",
+    "finding": null,
+    "observation": "unspecified host: uploaded Product_Roadmap_v3.pptx (29871 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-12T04:20:27.971638+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0068",
+    "finding": null,
+    "observation": "10.0.5.12: recorded TCP connection to 10.0.5.13:80; action allowed",
+    "recorded_time": "2026-06-12T04:40:04.900779+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0115",
+    "finding": null,
+    "observation": "10.0.3.10: recorded TCP connection to 10.0.4.18:443; action allowed",
+    "recorded_time": "2026-06-12T05:12:48.010418+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0062",
+    "finding": null,
+    "observation": "10.0.5.26: recorded TCP connection to 10.0.2.20:53; action allowed",
+    "recorded_time": "2026-06-12T06:00:13.395631+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0055",
+    "finding": null,
+    "observation": "user logoff: iharris from WKSTN-05 to AUTH-SRV-01; type remote_interactive; result success",
+    "recorded_time": "2026-06-12T06:15:52.098136+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0012",
+    "finding": null,
+    "observation": "user logon: iharris from WKSTN-01 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T06:32:59.499554+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0114",
+    "finding": null,
+    "observation": "10.0.3.29: recorded UDP connection to 10.0.2.29:443; action allowed",
+    "recorded_time": "2026-06-12T07:55:54.736700+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0077",
+    "finding": null,
+    "observation": "10.0.5.19: recorded UDP connection to 10.0.1.28:22; action allowed",
+    "recorded_time": "2026-06-12T08:06:15.898200+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0185",
+    "finding": null,
+    "observation": "WKSTN-04: explorer.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-12T08:16:33.013731+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0186",
+    "finding": null,
+    "observation": "WKSTN-06: outlook.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-12T08:52:01.323938+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0092",
+    "finding": null,
+    "observation": "10.0.3.12: recorded UDP connection to 10.0.4.23:443; action allowed",
+    "recorded_time": "2026-06-12T09:04:10.147368+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0192",
+    "finding": null,
+    "observation": "file_view: username=dtaylor; source_ip=10.0.1.16; bucket=corp-documents; file_name=HR_Policy_Update.pdf; file_size_bytes=4744362; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T09:04:13.235052+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0046",
+    "finding": null,
+    "observation": "user logoff: jclark from WKSTN-08 to AUTH-SRV-02; type interactive; result success",
+    "recorded_time": "2026-06-12T09:07:30.394151+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0001",
+    "finding": null,
+    "observation": "user logon: jclark from WKSTN-05 to AUTH-SRV-02; type network; result success",
+    "recorded_time": "2026-06-12T09:13:31.478890+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0105",
+    "finding": null,
+    "observation": "10.0.5.21: recorded UDP connection to 13.107.42.14:25; action allowed",
+    "recorded_time": "2026-06-12T09:37:39.772267+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0039",
+    "finding": null,
+    "observation": "user logoff: hwalker from WKSTN-01 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-12T10:09:41.598420+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0038",
+    "finding": null,
+    "observation": "failed logon: dtaylor from WKSTN-03 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T10:30:21.031344+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0107",
+    "finding": null,
+    "observation": "10.0.4.16: recorded UDP connection to 10.0.3.14:443; action allowed",
+    "recorded_time": "2026-06-12T10:30:57.120501+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0008",
+    "finding": null,
+    "observation": "user logon: hwalker from WKSTN-04 to AUTH-SRV-02; type interactive; result success",
+    "recorded_time": "2026-06-12T10:38:43.187238+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0031",
+    "finding": null,
+    "observation": "failed logon: ewhite from WKSTN-09 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T11:17:50.636387+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0061",
+    "finding": null,
+    "observation": "10.0.3.11: recorded TCP connection to 10.0.2.19:53; action allowed",
+    "recorded_time": "2026-06-12T11:39:04.098916+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0121",
+    "finding": null,
+    "observation": "10.0.4.15: recorded TCP connection to 10.0.1.16:25; action allowed",
+    "recorded_time": "2026-06-12T12:02:46.441429+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0083",
+    "finding": null,
+    "observation": "10.0.2.18: recorded UDP connection to 10.0.5.16:22; action allowed",
+    "recorded_time": "2026-06-12T12:16:29.046088+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0027",
+    "finding": null,
+    "observation": "failed logon: hwalker from WKSTN-01 to AUTH-SRV-01; type network; result failure",
+    "recorded_time": "2026-06-12T12:28:41.358556+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0165",
+    "finding": null,
+    "observation": "WKSTN-09: explorer.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-12T12:40:49.190476+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0214",
+    "finding": null,
+    "observation": "file_download: username=iharris; source_ip=10.0.2.20; bucket=corp-documents; file_name=Client_Proposal_Acme.docx; file_size_bytes=2903121; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T12:42:20.105292+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0037",
+    "finding": null,
+    "observation": "failed logon: asmith from WKSTN-09 to AUTH-SRV-02; type interactive; result failure",
+    "recorded_time": "2026-06-12T13:01:06.466588+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0023",
+    "finding": null,
+    "observation": "user logoff: fmartinez from WKSTN-10 to AUTH-SRV-02; type network; result success",
+    "recorded_time": "2026-06-12T13:29:54.225130+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0195",
+    "finding": null,
+    "observation": "file_download: username=cjohnson; source_ip=10.0.5.11; bucket=corp-documents; file_name=Q2_Budget_Draft.xlsx; file_size_bytes=4646083; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T14:04:23.602351+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0201",
+    "finding": null,
+    "observation": "file_share: username=fmartinez; source_ip=10.0.1.21; bucket=corp-documents; file_name=HR_Policy_Update.pdf; file_size_bytes=1835748; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T14:11:08.681998+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0035",
+    "finding": null,
+    "observation": "failed logon: jclark from WKSTN-06 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-12T14:48:37.755262+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0153",
+    "finding": null,
+    "observation": "WKSTN-02: explorer.exe started outlook.exe; command: not recorded",
+    "recorded_time": "2026-06-12T15:10:02.539810+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0161",
+    "finding": null,
+    "observation": "WKSTN-04: outlook.exe started explorer.exe; command: not recorded",
+    "recorded_time": "2026-06-12T15:30:45.933847+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0213",
+    "finding": null,
+    "observation": "file_share: username=bwilliams; source_ip=10.0.2.11; bucket=corp-documents; file_name=HR_Policy_Update.pdf; file_size_bytes=1630409; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T15:48:17.786338+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0151",
+    "finding": null,
+    "observation": "WKSTN-08: outlook.exe started explorer.exe; command: not recorded",
+    "recorded_time": "2026-06-12T16:48:39.361865+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0036",
+    "finding": null,
+    "observation": "failed logon: bwilliams from WKSTN-09 to AUTH-SRV-01; type remote_interactive; result failure",
+    "recorded_time": "2026-06-12T17:03:53.157508+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0188",
+    "finding": null,
+    "observation": "WKSTN-10: outlook.exe started slack.exe; command: not recorded",
+    "recorded_time": "2026-06-12T17:10:30.174600+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0045",
+    "finding": null,
+    "observation": "user logon: bwilliams from WKSTN-02 to AUTH-SRV-01; type remote_interactive; result failure",
+    "recorded_time": "2026-06-12T17:30:15.202796+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0004",
+    "finding": null,
+    "observation": "failed logon: dtaylor from WKSTN-03 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T17:54:45.864623+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0090",
+    "finding": null,
+    "observation": "10.0.4.11: recorded TCP connection to 10.0.4.18:22; action allowed",
+    "recorded_time": "2026-06-12T18:01:04.842883+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0160",
+    "finding": null,
+    "observation": "WKSTN-02: teams.exe started word.exe; command: not recorded",
+    "recorded_time": "2026-06-12T18:08:37.149034+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0073",
+    "finding": null,
+    "observation": "10.0.1.13: recorded UDP connection to 10.0.4.24:53; action allowed",
+    "recorded_time": "2026-06-12T18:10:52.596043+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0133",
+    "finding": null,
+    "observation": "10.0.4.26: recorded UDP connection to 10.0.4.20:443; action allowed",
+    "recorded_time": "2026-06-12T18:53:52.382561+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0082",
+    "finding": null,
+    "observation": "10.0.4.26: recorded UDP connection to 10.0.5.22:443; action allowed",
+    "recorded_time": "2026-06-12T18:55:43.289178+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0048",
+    "finding": null,
+    "observation": "user logon: ewhite from WKSTN-10 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-12T18:59:04.644060+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0016",
+    "finding": null,
+    "observation": "user logon: ewhite from WKSTN-10 to AUTH-SRV-02; type interactive; result failure",
+    "recorded_time": "2026-06-12T20:02:27.306774+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0060",
+    "finding": null,
+    "observation": "user logoff: fmartinez from WKSTN-02 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-12T20:35:47.779696+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0172",
+    "finding": null,
+    "observation": "WKSTN-02: explorer.exe started excel.exe; command: not recorded",
+    "recorded_time": "2026-06-12T21:00:27.515647+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0116",
+    "finding": null,
+    "observation": "10.0.3.22: recorded TCP connection to 10.0.3.18:25; action allowed",
+    "recorded_time": "2026-06-12T21:43:29.098438+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0196",
+    "finding": null,
+    "observation": "file_view: username=fmartinez; source_ip=10.0.3.14; bucket=corp-documents; file_name=Q2_Budget_Draft.xlsx; file_size_bytes=1109467; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-12T22:00:13.327519+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0122",
+    "finding": null,
+    "observation": "10.0.5.13: recorded UDP connection to 10.0.2.12:53; action allowed",
+    "recorded_time": "2026-06-12T22:21:21.756883+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0017",
+    "finding": null,
+    "observation": "failed logon: bwilliams from WKSTN-04 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-12T22:25:32.646863+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0155",
+    "finding": null,
+    "observation": "WKSTN-01: teams.exe started excel.exe; command: not recorded",
+    "recorded_time": "2026-06-12T22:39:14.761511+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0106",
+    "finding": null,
+    "observation": "10.0.3.15: recorded UDP connection to 10.0.3.27:443; action allowed",
+    "recorded_time": "2026-06-12T22:45:45.706980+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0207",
+    "finding": null,
+    "observation": "unspecified host: uploaded Client_Proposal_Acme.docx (4246678 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-12T22:59:45.883199+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0086",
+    "finding": null,
+    "observation": "10.0.3.10: recorded TCP connection to 10.0.1.29:443; action allowed",
+    "recorded_time": "2026-06-12T23:13:04.715288+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0111",
+    "finding": null,
+    "observation": "10.0.1.16: recorded UDP connection to 10.0.4.26:443; action allowed",
+    "recorded_time": "2026-06-12T23:22:21.189980+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0064",
+    "finding": null,
+    "observation": "10.0.2.24: recorded UDP connection to 10.0.1.26:80; action allowed",
+    "recorded_time": "2026-06-12T23:58:44.972517+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0119",
+    "finding": null,
+    "observation": "10.0.3.29: recorded UDP connection to 10.0.5.18:22; action allowed",
+    "recorded_time": "2026-06-13T00:04:04.195656+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0018",
+    "finding": null,
+    "observation": "failed logon: fmartinez from WKSTN-01 to AUTH-SRV-01; type interactive; result failure",
+    "recorded_time": "2026-06-13T00:47:41.254884+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0087",
+    "finding": null,
+    "observation": "10.0.4.20: recorded TCP connection to 10.0.3.29:443; action allowed",
+    "recorded_time": "2026-06-13T02:11:29.423126+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0069",
+    "finding": null,
+    "observation": "10.0.2.15: recorded TCP connection to 10.0.2.26:22; action allowed",
+    "recorded_time": "2026-06-13T02:16:28.485202+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0057",
+    "finding": null,
+    "observation": "failed logon: glee from WKSTN-06 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-13T02:22:03.427384+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0211",
+    "finding": null,
+    "observation": "unspecified host: uploaded Product_Roadmap_v3.pptx (2605871 bytes) to bucket corp-documents; owner None; action allowed",
+    "recorded_time": "2026-06-13T02:42:29.565021+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0120",
+    "finding": null,
+    "observation": "10.0.2.22: recorded UDP connection to 10.0.1.11:25; action allowed",
+    "recorded_time": "2026-06-13T02:45:58.680196+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0033",
+    "finding": null,
+    "observation": "user logoff: cjohnson from WKSTN-05 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-13T02:58:23.165329+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0141",
+    "finding": null,
+    "observation": "WKSTN-08: explorer.exe started notepad.exe; command: not recorded",
+    "recorded_time": "2026-06-13T03:04:15.015833+00:00"
+  },
+  {
+    "disposition": "unresolved",
+    "event_id": "EVT-0032",
+    "finding": null,
+    "observation": "failed logon: dtaylor from WKSTN-06 to AUTH-SRV-02; type remote_interactive; result success",
+    "recorded_time": "2026-06-13T03:34:49.698945+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0190",
+    "finding": null,
+    "observation": "WKSTN-01: outlook.exe started chrome.exe; command: not recorded",
+    "recorded_time": "2026-06-13T04:07:27.113794+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0162",
+    "finding": null,
+    "observation": "WKSTN-01: outlook.exe started explorer.exe; command: not recorded",
+    "recorded_time": "2026-06-13T04:08:50.678413+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0109",
+    "finding": null,
+    "observation": "10.0.5.15: recorded UDP connection to 10.0.3.14:443; action allowed",
+    "recorded_time": "2026-06-13T04:21:51.608932+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0212",
+    "finding": null,
+    "observation": "file_download: username=jclark; source_ip=10.0.3.23; bucket=corp-documents; file_name=Meeting_Notes_Jun10.docx; file_size_bytes=2148713; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-13T04:51:58.957297+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0138",
+    "finding": null,
+    "observation": "10.0.1.27: recorded UDP connection to 10.0.2.14:443; action allowed",
+    "recorded_time": "2026-06-13T05:07:38.576349+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0193",
+    "finding": null,
+    "observation": "file_view: username=dtaylor; source_ip=10.0.1.12; bucket=corp-documents; file_name=Meeting_Notes_Jun10.docx; file_size_bytes=3549898; action=allowed; user_agent=OneDriveSyncClient/22.201",
+    "recorded_time": "2026-06-13T05:39:45.933394+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0013",
+    "finding": null,
+    "observation": "user logon: ewhite from WKSTN-01 to AUTH-SRV-01; type interactive; result success",
+    "recorded_time": "2026-06-13T05:44:47.093107+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0022",
+    "finding": null,
+    "observation": "user logon: cjohnson from WKSTN-08 to AUTH-SRV-01; type network; result success",
+    "recorded_time": "2026-06-13T06:28:21.009868+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0103",
+    "finding": null,
+    "observation": "10.0.1.17: recorded TCP connection to 10.0.5.10:22; action allowed",
+    "recorded_time": "2026-06-13T06:54:52.808353+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0007",
+    "finding": null,
+    "observation": "user logon: bwilliams from WKSTN-02 to AUTH-SRV-02; type interactive; result failure",
+    "recorded_time": "2026-06-13T07:19:39.837409+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0085",
+    "finding": null,
+    "observation": "10.0.3.27: recorded TCP connection to 10.0.4.23:22; action allowed",
+    "recorded_time": "2026-06-13T07:24:21.751627+00:00"
+  },
+  {
+    "disposition": "unrelated",
+    "event_id": "EVT-0078",
+    "finding": null,
+    "observation": "10.0.5.27: recorded TCP connection to 151.101.65.140:22; action allowed",
+    "recorded_time": "2026-06-13T07:41:34.251699+00:00"
+  }
+]

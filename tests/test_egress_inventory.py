@@ -271,13 +271,13 @@ class TheCapturedRequestBody(unittest.TestCase):
         self.assertEqual(client.request_defects(body), [])
         sent = body["output_config"]["format"]["schema"]
         self.assertEqual(
-            sent["properties"]["technique_id"]["enum"],
+            sent["$defs"][sent["properties"]["selections"]["items"]["$ref"].rsplit("/", 1)[-1]]["properties"]["technique_id"]["enum"],
             list(regen_egress_fixture.CANDIDATE_TECHNIQUE_IDS),
         )
 
     def test_the_stage_enum_survives_to_the_wire_for_interpret(self):
         sent = self._body(contracts.INTERPRET)["output_config"]["format"]["schema"]
-        self.assertIn("enum", sent["properties"]["stage"])
+        self.assertIn("enum", sent["$defs"]["CandidateFinding"]["properties"]["stage"])
 
     def test_the_body_carries_no_raw_note_field(self):
         """The dataset's answer key is stripped at the parse boundary, so no

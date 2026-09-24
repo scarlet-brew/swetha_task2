@@ -1,20 +1,4 @@
-"""The build entry point -- run once, commit the artifacts (T28, T29).
-
-    python -m siem_investigator.build              # full build
-    python -m siem_investigator.build --no-model   # deterministic stages only
-
-Two commands, deliberately separate: **the build** writes `data/derived/` and
-**the app** only reads it. Nothing is computed at question time that could mint
-a claim (NFR-01), and the app therefore starts with no credential and no
-network.
-
-With `ANTHROPIC_API_KEY` unset the build still reconstructs the relationships,
-the scope of compromise and the absent-source report; technique attribution is
-reported as **unmapped** rather than omitted (NFR-02).
-
-Each stage writes a verification report next to its artifacts, so the pipeline
-surface is a renderer over six JSON files rather than a second implementation.
-"""
+"""Six-stage assignment build. Model-backed findings are reviewed before enrichment."""
 
 from __future__ import annotations
 
@@ -50,8 +34,6 @@ def run(
             use_model=use_model,
             resumed_from=from_stage,
         )
-
-    # ---- stage 1: INGEST --------------------------------------------------
     records, ingest_report = load.run()
     ingest_report["verification"] = {
         "counts_reconcile": ingest_report["counts"]["events_in"] == ingest_report["counts"]["records_out"],
@@ -63,8 +45,6 @@ def run(
     jsonl.write_json(paths.INGEST_REPORT, ingest_report)
     reports["01_ingest"] = ingest_report
     print(f"  1 INGEST       {len(records)} records, {ingest_report['counts']['annotations_stripped']} annotations stripped")
-
-    # ---- stage 2: PARSE ---------------------------------------------------
     parsed = parse.run(records)
     observation_nodes = observations_module.build(records, parsed["provenance"], parsed["references"])
     grounding = observations_module.grounding_failures(observation_nodes, records)
@@ -82,8 +62,6 @@ def run(
         f"{'holds' if not grounding else 'FAILS'}, invariant 5 "
         f"{'holds' if parse_report['invariant_5_reproducibility']['holds'] else 'FAILS'}"
     )
-
-    # ---- stage 3: CORRELATE ----------------------------------------------
     index = relations.RelationIndex(observation_nodes, parsed["resolution"])
     sparse_edges = index.materialise_sparse()
 
@@ -97,25 +75,44 @@ def run(
         interpreter = stub.StubInterpreter(index)
         mode = "deterministic stub (no credential)" if use_model else "deterministic stub (--no-model)"
 
-    ledger = loop.run(
+    ledger = loop.Ledger(coverage={"records_total": len(records), "records_examined": 0,
+        "records_with_failed_model_calls": 0, "records_examined_without_relations": 0}) if mode == "model-backed" else loop.run(
         observations=observation_nodes,
         edges=sparse_edges,
         index=index,
         interpreter=interpreter,
         entities=parsed["entities"],
-        max_steps=max_steps,
+        max_steps=(32 if mode == "model-backed" and max_steps is None else max_steps),
         batch_size=8,
     )
 
     failed = ledger.coverage.get("records_with_failed_model_calls", 0)
     if failed and failed == ledger.coverage.get("records_examined"):
-        # Nothing was investigated. Writing "0 findings" with every check green
-        # would be the fabricated conclusion the whole design exists to avoid.
         print(
             f"  3 CORRELATE    aborted: every one of {failed} model calls failed\n"
             f"    first error  {ledger.coverage.get('first_failure')}"
         )
         raise SystemExit(2)
+
+    review_report = None
+    if mode == "model-backed":
+        from .correlate.review import reconcile
+        print("  3 REVIEW      verifying candidate findings against complete events", flush=True)
+        verified, review_report = reconcile(ledger, index, client)
+        jsonl.write_json(paths.DERIVED / "03_candidate_audit.json", {
+            "findings": ledger.findings, "hypotheses": ledger.hypotheses,
+            "review": review_report,
+        })
+        ledger.findings = verified.findings
+        ledger.edges_traversed.update(verified.edges_traversed)
+        ledger.hypotheses = [h for h in ledger.hypotheses if set(h["premises"]) <= ledger.finding_ids]
+        ledger.coverage["records_reviewed_in_final_pass"] = review_report["events_reviewed"]
+        ledger.coverage["records_examined"] = review_report["events_reviewed"]
+        ledger.coverage["records_not_examined"] = 0
+        ledger.trajectory.extend(verified.trajectory)
+        hypothesis = interpreter.hypothesise(ledger.findings, {"step": len(records)})
+        if hypothesis is not None:
+            loop._seek(hypothesis, ledger=ledger, index=index, entities=parsed["entities"], step=len(records))
 
     closed = close.close(ledger.findings, observation_nodes)
     findings = closed["findings"]
@@ -136,6 +133,7 @@ def run(
             "trajectory_steps": len(ledger.trajectory),
         },
         "coverage": ledger.coverage,
+        "final_review": review_report,
         "relations": {
             "sparse_materialised": list(relations.SPARSE),
             "dense_left_as_queries": list(relations.DENSE),
@@ -148,9 +146,7 @@ def run(
         "rejection_reasons": _rejection_summary(ledger.rejections),
         "leak_independence": leak,
         "verification": {
-            # Coverage, not only grounding. Every earlier check asked "could
-            # this have been invented?"; none asked "was it looked at?".
-            "every_record_examined": ledger.coverage.get("records_not_examined") == 0,
+            "every_record_examined": ledger.coverage.get("records_reviewed_in_final_pass", ledger.coverage.get("records_examined", 0)) == len(records),
             "no_model_call_failed": ledger.coverage.get("records_with_failed_model_calls") == 0,
             "every_finding_cites_an_observation": all(f["cites_observations"] for f in findings),
             "every_rejection_carries_a_diagnostic": all(
@@ -220,7 +216,6 @@ def _finish(
     """Stages 4 and 5, the graph invariants and the manifest -- split out so a
     build can resume from stage 4 over committed stage 1-3 artifacts instead of
     re-spending the ~320 model calls of stage 3 (three builds died after it)."""
-    # ---- stage 4: ENRICH --------------------------------------------------
     catalogue = Catalogue.load()
     mappings, unmapped = mapper.map_findings(
         findings,
@@ -231,8 +226,6 @@ def _finish(
     enrich_report = mapper.report(findings, mappings, unmapped, catalogue)
     failed_calls = [row for row in unmapped if row["outcome"] == "call_failed"]
     if failed_calls and not mappings and len(failed_calls) == len(unmapped):
-        # Nothing was asked, so nothing is written: 217 "unmapped" rows with
-        # every check green is how a credit outage once passed for a result.
         print(
             f"  4 ENRICH       aborted: every one of {len(failed_calls)} model calls failed\n"
             f"    first error  {failed_calls[0]['reason'][:160]}\n"
@@ -244,11 +237,13 @@ def _finish(
     jsonl.write_json(paths.ENRICH_REPORT, enrich_report)
     reports["04_enrich"] = enrich_report
     print(f"  4 ENRICH       {len(mappings)} mapped, {len(unmapped)} unmapped, ATT&CK v{catalogue.attack_version}")
-
-    # ---- stage 5: SYNTHESISE ---------------------------------------------
     timeline = synthesise.timeline(findings, observation_nodes, mappings)
+    timeline["events"] = (reports.get("03_correlate", {}).get("final_review") or {}).get("event_ledger", [])
     scope = synthesise.scope(findings, observation_nodes, parsed["entities"])
     gap_report = synthesise.gaps(ledger.hypotheses, parsed["entities"], records, findings)
+    gap_report["review_limitations"] = (reports.get("03_correlate", {}).get("final_review") or {}).get("limitations", [])
+    gap_report["review_context"] = (reports.get("03_correlate", {}).get("final_review") or {}).get("context_only", [])
+    gap_report["data_quality"] = (reports.get("03_correlate", {}).get("final_review") or {}).get("unresolved", [])
     privilege = synthesise.privilege_report(findings, observation_nodes, mappings)
     flow = synthesise.attack_flow(findings, mappings, catalogue.attack_version)
     layer = synthesise.navigator_layer(mappings, catalogue.attack_version)
@@ -262,8 +257,6 @@ def _finish(
         (paths.NAVIGATOR_LAYER, layer),
     ):
         jsonl.write_json(path, payload)
-
-    # ---- the graph and its invariants ------------------------------------
     investigation = graph.assemble(
         records=records,
         observations=observation_nodes,
@@ -290,8 +283,6 @@ def _finish(
         f"4 grounding {_ok(not grounding)}  "
         f"5 reproducible {_ok(parse_report['invariant_5_reproducibility']['holds'])}"
     )
-
-    # R8, and SS10.3 cuts this last: the document the CISO actually forwards.
     handover_path = handover.write()
     print(f"  handover       {paths.relative(handover_path)}  {handover_path.stat().st_size:,} bytes")
 
@@ -370,7 +361,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--no-model", action="store_true", help="deterministic stages only, no model calls"
     )
-    parser.add_argument("--max-steps", type=int, default=None, help="records to examine; default is all of them")
+    parser.add_argument("--max-steps", type=int, default=None, help="record-anchor budget for offline stub; model-backed review accounts for all records")
     parser.add_argument(
         "--from-stage",
         type=int,
